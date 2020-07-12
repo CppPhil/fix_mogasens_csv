@@ -3,17 +3,4 @@
 Extract features.
 
 ----------------------------------------------------------------------------
-Dependencies:
- Git
- Python
-  pip install numpy --user
-  python -m pip install -U matplotlib --user
-  pip install pandas --user
- CMake
-
-###
-Write README
-
-Test the stuff in Windows VM
- & Ubuntu VM
 
