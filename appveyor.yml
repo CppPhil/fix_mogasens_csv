@@ -16,9 +16,11 @@ clone_script:
       && git submodule update --init --recursive
 
 install:
-  - cmd: C:\Python34\Scripts\pip.exe install numpy
-  - cmd: C:\Python34\Scripts\pip.exe install matplotlib
-  - cmd: C:\Python34\Scripts\pip.exe install pandas
+  - cmd: C:\Python38-x64\Scripts\pip.exe install numpy
+  - cmd: C:\Python38-x64\Scripts\pip.exe install matplotlib
+  - cmd: C:\Python38-x64\Scripts\pip.exe install pandas
+  - cmd: dir C:\Python38-x64 # TODO
+  - cmd: dir C:\Python38-x64\Scripts # TODO
 
 before_build:
   - cmd: set PATH=%PATH:C:\Program Files\Git\usr\bin;=% 
