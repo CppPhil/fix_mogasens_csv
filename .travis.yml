@@ -1,4 +1,4 @@
-sudo: false
+sudo: true
 dist: trusty
 language: cpp
 
@@ -71,10 +71,15 @@ before_install:
   - pip3 install pandas
 
 install:
-  - wget --no-check-certificate --quiet https://github.com/Kitware/CMake/releases/download/v3.18.0-rc4/cmake-3.18.0-rc4-Linux-x86_64.tar.gz
-  - tar xzf cmake-3.18.0-rc4-Linux-x86_64.tar.gz
-  - mv cmake-3.18.0-rc4-Linux-x86_64 cmake
-  - export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+  - sudo apt remove --purge --auto-remove cmake
+  - version=3.17
+  - build=3
+  - wget https://cmake.org/files/v$version/cmake-$version.$build.tar.gz
+  - tar -xzvf cmake-$version.$build.tar.gz
+  - cd cmake-$version.$build/
+  - ./bootstrap
+  - make -j$(nproc)
+  - sudo make install
 
 script:
   - /usr/bin/$(printenv COMPILER) --version

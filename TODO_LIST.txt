@@ -1,6 +1,5 @@
 Add CI
  Appveyor uses Python 2 rather than Python 3 ...
- Appveyor doesn't clone recursively.
 
 ----------------------------------------------------------------------------
 
