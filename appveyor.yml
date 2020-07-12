@@ -19,7 +19,7 @@ install:
   - cmd: pip install pandas --user
 
 before_build:
-  - set PATH=%PATH:C:\Program Files (x86)\Git\bin;=% # ??? TODO: HERE ??????
+  - cmd: set PATH=%PATH:C:\Program Files\Git\usr\bin;=% 
 
 build_script:
   - cmd: echo "Debug"
