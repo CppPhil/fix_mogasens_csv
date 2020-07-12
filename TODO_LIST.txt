@@ -1,8 +1,3 @@
-Add CI
- Appveyor uses Python 2 rather than Python 3 ...
-
- https://askubuntu.com/a/865294
-
 ----------------------------------------------------------------------------
 
 Extract features.
