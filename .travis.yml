@@ -66,7 +66,6 @@ before_install:
     cmake --version
 
 script:
-  - /usr/bin/$(printenv COMPILER) --version
   # Debug
   - echo "Debug"
   - ./build.sh --build_type=Debug
