@@ -80,6 +80,7 @@ install:
   - ./bootstrap
   - make -j$(nproc)
   - sudo make install
+  - cd ..
 
 script:
   - /usr/bin/$(printenv COMPILER) --version
