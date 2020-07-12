@@ -1,0 +1,25 @@
+matrix:
+  fast_finish: false
+  
+environment:
+  matrix:
+    - gen: "MinGW"
+    - gen: "MSVC"
+
+install:
+  - pip install numpy --user
+  - python -m pip install -U matplotlib --user
+  - pip install pandas --user
+
+build_script:
+  - echo "Debug"
+  - build.bat --build_type=Debug --compiler=%gen%
+  - test.bat --build_type=Debug
+  - fix_csvs.bat --build_type=Debug --compiler=%gen%
+  - generate_images.bat
+  - echo "Release"
+  - build.bat --build_type=Release --compiler=%gen%
+  - test.bat --build_type=Release
+  - fix_csvs.bat --build_type=Release --compiler=%gen%
+  - generate_images.bat
+
