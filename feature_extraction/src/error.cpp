@@ -13,7 +13,7 @@
 
 namespace fe {
 namespace {
-constexpr pl::string_view kind_to_string(Error::Kind kind)
+inline pl::string_view kind_to_string(Error::Kind kind)
 {
   switch (kind) {
 #define FE_ERROR_KIND_X(kind) \
