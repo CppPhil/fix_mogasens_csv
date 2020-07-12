@@ -69,7 +69,7 @@ before_install:
   - pip3 install matplotlib
   - pip3 install pandas
   - set -e
-  - CMAKE_VERSION=3.16.2
+  - CMAKE_VERSION=3.18.0
   - |
     if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
       CMAKE_URL="https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz"
