@@ -1,6 +1,8 @@
+image: Visual Studio 2019
+
 matrix:
   fast_finish: false
-  
+
 environment:
   matrix:
     - gen: "MinGW"
