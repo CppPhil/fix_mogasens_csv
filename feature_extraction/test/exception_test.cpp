@@ -14,9 +14,6 @@ TEST(exception, shouldWork)
   EXPECT_EQ("function", ex1.function());
   EXPECT_EQ("function", ex2.function());
 
-  EXPECT_EQ(25, ex1.line());
-  EXPECT_EQ(25, ex2.line());
-
   using namespace std::string_literals;
   EXPECT_EQ("error message"s, ex1.what());
   EXPECT_EQ("error message"s, ex2.what());

@@ -39,7 +39,6 @@ TEST(readCsvFile, shouldNotReadNonexistantCsvFile)
   EXPECT_EQ(fe::Error::Filesystem, error.kind());
   EXPECT_TRUE(pl::string_view{error.file()}.ends_with("read_csv_file.cpp"));
   EXPECT_TRUE(strContains(error.function(), "readCsvFile"));
-  EXPECT_EQ(71, error.line());
   EXPECT_EQ(
     "Cannot open file feature_extraction/test/resources/garbage.csv",
     error.message());

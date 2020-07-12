@@ -31,7 +31,6 @@ TEST(error, shouldReturnValues)
   EXPECT_EQ(fe::Error::Filesystem, error.kind());
   EXPECT_EQ("test_file.cpp", error.file());
   EXPECT_EQ("bad_function", error.function());
-  EXPECT_EQ(48, error.line());
   EXPECT_EQ("Couldn't initialize the flux capacitor.", error.message());
 }
 
@@ -45,7 +44,6 @@ TEST(error, shouldThrowExceptionWhenRaiseIsCalled)
   catch (const fe::Exception& ex) {
     EXPECT_EQ("test_file.cpp", ex.file());
     EXPECT_EQ("bad_function", ex.function());
-    EXPECT_EQ(48, ex.line());
     using namespace std::string_literals;
     EXPECT_EQ("Couldn't initialize the flux capacitor."s, ex.what());
   }
@@ -68,6 +66,5 @@ TEST(error, shouldCreateExpectedWithUnexpected)
 
   EXPECT_TRUE(pl::string_view{error.file()}.ends_with("error_test.cpp"));
   EXPECT_NE(nullptr, std::strstr(error.function().c_str(), "testFunction"));
-  EXPECT_EQ(57, error.line());
   EXPECT_EQ("Computer says no!", error.message());
 }
