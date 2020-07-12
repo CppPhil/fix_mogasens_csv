@@ -1,0 +1,97 @@
+require 'rbconfig'
+require 'etc'
+
+def os
+  @os ||= begin
+    host_os = RbConfig::CONFIG['host_os']
+    case host_os
+    when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
+      :windows
+    when /darwin|mac os/
+      :macosx
+    when /linux/
+      :linux
+    when /solaris|bsd/
+      :unix
+    else
+      return :unknown
+    end
+  end
+end
+
+def dev_null
+  if os == :linux
+    '/dev/null'
+  elsif os == :windows
+    'NUL'
+  else
+    STDERR.puts('Unsupported operating system, exiting.')
+    exit(1)
+  end
+end
+
+working_directory = Dir.pwd
+plotter = "#{working_directory}/mogasens_plotter/main.py"
+
+def python_interpreter
+  if os == :linux
+    'python3'
+  elsif os == :windows
+    'python.exe'
+  else
+    STDERR.puts('Unsupported operating system, exiting.')
+    exit(1)
+  end
+end
+
+Dir.chdir('resources')
+
+csv_files = Dir['./**/*.csv'].select do |file|
+  file.end_with?('_out.csv')
+end
+
+sensors = [
+  769, # right arm
+  770, # belly
+  771, # chest
+  772  # left arm
+]
+
+imus = %w[accelerometer gyroscope]
+
+proc_count = Etc.nprocessors
+total_file_count = csv_files.size * sensors.size * imus.size
+counter = 1
+threads = []
+
+puts("Generating images with #{proc_count} threads.")
+
+csv_files.each do |csv_file|
+  sensors.each do |sensor|
+    imus.each do |imu|
+      puts("file #{counter}/#{total_file_count}")
+
+      threads << Thread.new do
+        unless system("#{python_interpreter} #{plotter} #{csv_file} #{sensor} "\
+                      "#{imu} > #{dev_null}")
+          STDERR.puts("\"#{python_interpreter} #{plotter} #{csv_file}"\
+                      " #{sensor} #{imu}\" failed, exiting.")
+          exit(1)
+        end
+      end
+
+      if (counter % proc_count).zero?
+        threads.each(&:join)
+        threads.clear
+      end
+
+      counter += 1
+    end
+  end
+end
+
+threads.each(&:join)
+
+puts('Done.')
+
+exit(0)

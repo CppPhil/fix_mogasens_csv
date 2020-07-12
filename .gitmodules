@@ -1,0 +1,27 @@
+[submodule "external/fmtlib"]
+	path = external/fmtlib
+	url = https://github.com/fmtlib/fmt.git
+[submodule "external/philslib"]
+	path = external/philslib
+	url = https://github.com/CppPhil/philslib.git
+[submodule "external/googletest"]
+	path = external/googletest
+	url = https://github.com/google/googletest.git
+[submodule "external/expected"]
+	path = external/expected
+	url = https://github.com/TartanLlama/expected.git
+[submodule "external/optional"]
+	path = external/optional
+	url = https://github.com/TartanLlama/optional
+[submodule "external/scnlib"]
+	path = external/scnlib
+	url = https://github.com/eliaskosunen/scnlib.git
+[submodule "external/csv-parser"]
+	path = external/csv-parser
+	url = https://github.com/CppPhil/csv-parser.git
+[submodule "external/tl"]
+	path = external/tl
+	url = https://github.com/CppPhil/tl.git
+[submodule "external/goto-ruby"]
+	path = external/goto-ruby
+	url = https://github.com/CppPhil/goto-ruby.git
