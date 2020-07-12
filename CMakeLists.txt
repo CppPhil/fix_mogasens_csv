@@ -28,7 +28,7 @@ else()
 
   string(APPEND CMAKE_CXX_FLAGS_DEBUG " -g -O0 -DDEBUG_MODE")
   string(APPEND CMAKE_CXX_FLAGS_RELEASE
-         " -g -O3 -march=native -funroll-loops -DNDEBUG -DRELEASE_MODE")
+         " -g -O3 -funroll-loops -DNDEBUG -DRELEASE_MODE")
 endif()
 
 set(CMAKE_CXX_STANDARD 17)
