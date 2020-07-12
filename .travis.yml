@@ -65,6 +65,7 @@ matrix:
           sources: *apt_sources
 
 before_install:
+  - pyenv shell 3.6.3
   - pip3 install numpy
   - pip3 install matplotlib
   - pip3 install pandas

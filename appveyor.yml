@@ -14,22 +14,22 @@ clone_script:
       && git submodule update --init --recursive
 
 install:
-  - pip install numpy --user
-  - python -m pip install -U matplotlib --user
-  - pip install pandas --user
+  - cmd: pip install numpy --user
+  - cmd: python -m pip install -U matplotlib --user
+  - cmd: pip install pandas --user
 
 before_build:
-  - set PATH=%PATH:C:\Program Files (x86)\Git\bin;=%
+  - set PATH=%PATH:C:\Program Files (x86)\Git\bin;=% # ??? TODO: HERE ??????
 
 build_script:
-  - echo "Debug"
-  - build.bat --build_type=Debug --compiler=%gen%
-  - test.bat --build_type=Debug
-  - fix_csvs.bat --build_type=Debug --compiler=%gen%
-  - generate_images.bat
-  - echo "Release"
-  - build.bat --build_type=Release --compiler=%gen%
-  - test.bat --build_type=Release
-  - fix_csvs.bat --build_type=Release --compiler=%gen%
-  - generate_images.bat
+  - cmd: echo "Debug"
+  - cmd: build.bat --build_type=Debug --compiler=%gen%
+  - cmd: test.bat --build_type=Debug
+  - cmd: fix_csvs.bat --build_type=Debug --compiler=%gen%
+  - cmd: generate_images.bat
+  - cmd: echo "Release"
+  - cmd: build.bat --build_type=Release --compiler=%gen%
+  - cmd: test.bat --build_type=Release
+  - cmd: fix_csvs.bat --build_type=Release --compiler=%gen%
+  - cmd: generate_images.bat
 
