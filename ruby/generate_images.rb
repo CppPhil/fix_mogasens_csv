@@ -50,6 +50,13 @@ csv_files = Dir['./**/*.csv'].select do |file|
   file.end_with?('_out.csv')
 end
 
+other_csv_files = Dir['./**/*.csv'].reject { |file| file.end_with?('_out.csv') }
+
+if csv_files.size != other_csv_files.size
+  STDERR.puts('Unexpected amount of _out.csv files, exiting.')
+  exit(1)
+end
+
 sensors = [
   769, # right arm
   770, # belly
