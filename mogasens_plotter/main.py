@@ -34,12 +34,13 @@ def sensor_to_string(sensor_id):
         return f"bogus sensor, id: {sensor_id}"
 
 
+# noinspection SpellCheckingInspection
 def ticks(values, step):
     # + 1 because np.arange works with half open ranges, but we want a closed range.
     return np.arange(min(values), max(values) + 1, step)
 
 
-def plot(imu, dataframe):
+def plot(the_imu, data_frame):
     first_color = 'blue'
     second_color = 'red'
     third_color = 'green'
@@ -48,37 +49,38 @@ def plot(imu, dataframe):
     second_label = 'y'
     third_label = 'z'
 
-    linewidth = 0.6
+    line_width = 0.6
 
-    plot_channel = lambda channel, color, label: plt.plot('time',
-                                                          channel,
-                                                          data=dataframe,
-                                                          color=color,
-                                                          label=label,
-                                                          linewidth=linewidth)
+    def plot_channel(channel, color, label):
+        plt.plot('time',
+                 channel,
+                 data=data_frame,
+                 color=color,
+                 label=label,
+                 linewidth=line_width)
 
-    if imu == 'accelerometer':
+    if the_imu == 'accelerometer':
         plot_channel('channel1', first_color, first_label)
         plot_channel('channel2', second_color, second_label)
         plot_channel('channel3', third_color, third_label)
-    elif imu == 'gyroscope':
+    elif the_imu == 'gyroscope':
         plot_channel('channel4', first_color, first_label)
         plot_channel('channel5', second_color, second_label)
         plot_channel('channel6', third_color, third_label)
     else:
         print(
-            f"imu was \"{imu}\" which is neither \"accelerometer\" nor \"gyroscope\", exiting.",
+            f"imu was \"{the_imu}\" which is neither \"accelerometer\" nor \"gyroscope\", exiting.",
             file=sys.stderr)
         sys.exit()
 
 
-def imu_unit(imu):
-    if imu == 'accelerometer':
+def imu_unit(the_imu):
+    if the_imu == 'accelerometer':
         return 'g'
-    elif imu == 'gyroscope':
+    elif the_imu == 'gyroscope':
         return 'deg/s'
     else:
-        return f"invalid imu: \"{imu}\"!"
+        return f"invalid imu: \"{the_imu}\"!"
 
 
 if __name__ == "__main__":
