@@ -220,10 +220,8 @@ if __name__ == "__main__":
         plt.title(title)
         plt.ylabel(imu_unit(imu))
         plt.xlabel('time (in seconds)')
-        plt.xticks(ticks(
-            values=time_data[i],
-            step=5))  # Steps of 5 seconds. # TODO: Maybe remove this line or
-        # TODO: PERHAPS Make it so that it's every 1 second
+        plt.xticks(ticks(values=time_data[i],
+                         step=1))  # Steps of single seconds.
         plt.grid()
         plt.savefig(png_file, bbox_inches='tight')
         plt.close()
