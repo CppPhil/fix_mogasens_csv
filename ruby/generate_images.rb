@@ -67,7 +67,7 @@ sensors = [
 imus = %w[accelerometer gyroscope]
 
 proc_count = Etc.nprocessors
-total_file_count = csv_files.size * sensors.size * imus.size
+total_count = csv_files.size * sensors.size * imus.size
 counter = 1
 threads = []
 
@@ -76,7 +76,7 @@ puts("Generating images with #{proc_count} threads.")
 csv_files.each do |csv_file|
   sensors.each do |sensor|
     imus.each do |imu|
-      puts("file #{counter}/#{total_file_count}")
+      puts("file #{counter}/#{total_count}")
 
       threads << Thread.new do
         unless system("#{python_interpreter} #{plotter} #{csv_file} #{sensor} "\
