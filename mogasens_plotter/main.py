@@ -177,6 +177,7 @@ if __name__ == "__main__":
         " ", "_")
     png_file = f"{title}.png"
 
+    plt.rc('figure', figsize=(6, 6))
     plot(imu, df)
     plt.legend(loc='upper right')
 
