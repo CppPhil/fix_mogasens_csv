@@ -76,8 +76,6 @@ puts("Generating images with #{proc_count} threads.")
 csv_files.each do |csv_file|
   sensors.each do |sensor|
     imus.each do |imu|
-      puts("file #{counter}/#{total_count}")
-
       threads << Thread.new do
         unless system("#{python_interpreter} #{plotter} #{csv_file} #{sensor} "\
                       "#{imu} > #{dev_null}")
@@ -92,12 +90,16 @@ csv_files.each do |csv_file|
         threads.clear
       end
 
+      printf("%.2f%%\r", counter.to_f / total_count.to_f * 100.0)
+      $stdout.flush
       counter += 1
     end
   end
 end
 
 threads.each(&:join)
+puts('100.00%')
+$stdout.flush
 
 puts('Done.')
 
