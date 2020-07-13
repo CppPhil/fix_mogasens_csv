@@ -185,7 +185,6 @@ if __name__ == "__main__":
     plt.xlabel('time (in seconds)')
     plt.xticks(ticks(values=time_data, step=5))  # Steps of 5 seconds.
     plt.grid()
-    plt.xscale(2)
     plt.savefig(png_file, bbox_inches='tight')
 
     print(f"Wrote \"{png_file}\".")
