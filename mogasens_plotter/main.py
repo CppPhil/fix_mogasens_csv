@@ -213,6 +213,7 @@ if __name__ == "__main__":
         plt.title(title)
         plt.ylabel(imu_unit(imu))
         plt.xlabel('time (in seconds)')
+        plt.gca().xaxis.set_major_locator(plt.MultipleLocator(1))
         plt.grid()
         plt.savefig(png_file, bbox_inches='tight')
         plt.close()

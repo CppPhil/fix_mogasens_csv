@@ -1,3 +1,5 @@
+Make the Ruby generate_images script look nicer.
+
 numpy is not required anymore.
  -> Remove from CI
  -> Remove from manual
