@@ -151,43 +151,77 @@ if __name__ == "__main__":
     channel5_data = []
     channel6_data = []
 
+    time_accumulator = []
+    channel1_accumulator = []
+    channel2_accumulator = []
+    channel3_accumulator = []
+    channel4_accumulator = []
+    channel5_accumulator = []
+    channel6_accumulator = []
+
+    time_threshold_offset = 10.0
+    time_threshold = 10.0
+
+    def append_accumulator(data, accumulator):
+        data.append(accumulator.copy())
+        accumulator.clear()
+
+    def append_accumulators():
+        append_accumulator(time_data, time_accumulator)
+        append_accumulator(channel1_data, channel1_accumulator)
+        append_accumulator(channel2_data, channel2_accumulator)
+        append_accumulator(channel3_data, channel3_accumulator)
+        append_accumulator(channel4_data, channel4_accumulator)
+        append_accumulator(channel5_data, channel5_accumulator)
+        append_accumulator(channel6_data, channel6_accumulator)
+
     for i in range(len(time)):
         current_sensor_id = extract_id[i]
 
         if current_sensor_id == desired_sensor:
-            time_data.append(time[i])
-            channel1_data.append(accelerometer_x[i])
-            channel2_data.append(accelerometer_y[i])
-            channel3_data.append(accelerometer_z[i])
-            channel4_data.append(gyroscope_x[i])
-            channel5_data.append(gyroscope_y[i])
-            channel6_data.append(gyroscope_z[i])
+            time_accumulator.append(time[i])
+            channel1_accumulator.append(accelerometer_x[i])
+            channel2_accumulator.append(accelerometer_y[i])
+            channel3_accumulator.append(accelerometer_z[i])
+            channel4_accumulator.append(gyroscope_x[i])
+            channel5_accumulator.append(gyroscope_y[i])
+            channel6_accumulator.append(gyroscope_z[i])
 
-    df = pd.DataFrame({
-        'time': time_data,
-        'channel1': channel1_data,
-        'channel2': channel2_data,
-        'channel3': channel3_data,
-        'channel4': channel4_data,
-        'channel5': channel5_data,
-        'channel6': channel6_data
-    })
+        current_time = time[i]
 
-    title = f"{csv_file_path}_{sensor_to_string(desired_sensor)}_{imu}".replace(
-        " ", "_")
-    png_file = f"{title}.png"
+        if current_time >= time_threshold:
+            append_accumulators()
+            time_threshold += time_threshold_offset
 
-    x_size = 11
-    y_size = 6
-    plt.rc('figure', figsize=(x_size, y_size))
-    plot(imu, df)
-    plt.legend(loc='upper right')
+    if len(time_accumulator) != 0:
+        append_accumulators()
 
-    plt.title(title)
-    plt.ylabel(imu_unit(imu))
-    plt.xlabel('time (in seconds)')
-    plt.xticks(ticks(values=time_data, step=5))  # Steps of 5 seconds.
-    plt.grid()
-    plt.savefig(png_file, bbox_inches='tight')
+    for i in range(len(time_data)):
+        df = pd.DataFrame({
+            'time': time_data[i],
+            'channel1': channel1_data[i],
+            'channel2': channel2_data[i],
+            'channel3': channel3_data[i],
+            'channel4': channel4_data[i],
+            'channel5': channel5_data[i],
+            'channel6': channel6_data[i]
+        })
 
-    print(f"Wrote \"{png_file}\".")
+        title = f"{csv_file_path}_{sensor_to_string(desired_sensor)}_{imu}_{i}".replace(
+            " ", "_")
+        png_file = f"{title}.png"
+
+        x_size = 11
+        y_size = 6
+        plt.rc('figure', figsize=(x_size, y_size))
+        plot(imu, df)
+        plt.legend(loc='upper right')
+
+        plt.title(title)
+        plt.ylabel(imu_unit(imu))
+        plt.xlabel('time (in seconds)')
+        plt.xticks(ticks(values=time_data, step=5))  # Steps of 5 seconds.
+        plt.grid()
+        plt.savefig(png_file, bbox_inches='tight')
+
+        print(f"Wrote \"{png_file}\".")
