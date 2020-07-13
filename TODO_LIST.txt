@@ -1,3 +1,7 @@
+numpy is not required anymore.
+ -> Remove from CI
+ -> Remove from manual
+
 ----------------------------------------------------------------------------
 
 Extract features.

@@ -11,7 +11,6 @@ import argparse
 import csv
 import sys
 
-import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -32,12 +31,6 @@ def sensor_to_string(sensor_id):
         return "chest sensor"
     else:
         return f"bogus sensor, id: {sensor_id}"
-
-
-# noinspection SpellCheckingInspection
-def ticks(values, step):
-    # + 1 because np.arange works with half open ranges, but we want a closed range.
-    return np.arange(min(values), max(values) + 1, step)
 
 
 def plot(the_imu, data_frame):
@@ -220,8 +213,6 @@ if __name__ == "__main__":
         plt.title(title)
         plt.ylabel(imu_unit(imu))
         plt.xlabel('time (in seconds)')
-        plt.xticks(ticks(values=time_data[i],
-                         step=1))  # Steps of single seconds.
         plt.grid()
         plt.savefig(png_file, bbox_inches='tight')
         plt.close()
