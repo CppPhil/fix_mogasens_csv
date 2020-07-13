@@ -207,7 +207,7 @@ if __name__ == "__main__":
             'channel6': channel6_data[i]
         })
 
-        title = f"{csv_file_path}_{sensor_to_string(desired_sensor)}_{imu}_{i}".replace(
+        title = f"{csv_file_path}_{sensor_to_string(desired_sensor)}_{imu}_{i + 1}".replace(
             " ", "_")
         png_file = f"{title}.png"
 
@@ -220,8 +220,12 @@ if __name__ == "__main__":
         plt.title(title)
         plt.ylabel(imu_unit(imu))
         plt.xlabel('time (in seconds)')
-        plt.xticks(ticks(values=time_data, step=5))  # Steps of 5 seconds.
+        plt.xticks(ticks(
+            values=time_data[i],
+            step=5))  # Steps of 5 seconds. # TODO: Maybe remove this line or
+        # TODO: PERHAPS Make it so that it's every 1 second
         plt.grid()
         plt.savefig(png_file, bbox_inches='tight')
+        plt.close()
 
         print(f"Wrote \"{png_file}\".")
