@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/c,c++,cmake,linux,windows,vim,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=c,c++,cmake,linux,windows,vim,visualstudiocode
 
@@ -205,4 +204,8 @@ ruby/.idea
 
 # MinGW distribution
 mingw_dist
+
+# PyCharm generated files
+mogasens_plotter/.idea
+mogasens_plotter/venv
 

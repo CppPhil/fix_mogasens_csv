@@ -57,7 +57,7 @@ format_python() {
     return
   fi
 
-  yapf -i --style='{based_on_style: google, indent_width: 2}' $python_src_file
+  yapf -i --style='{based_on_style: pep8, indent_width: 4}' $python_src_file
 }
 
 run_rubocop() {
