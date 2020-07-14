@@ -7,7 +7,7 @@
 
 TEST(readCsvFile, shouldReadCsvFile)
 {
-  constexpr char csvFilePath[] = "feature_extraction/test/resources/test.csv";
+  constexpr char csvFilePath[] = "csv_lib/test/resources/test.csv";
   const fe::Expected<std::vector<std::vector<std::string>>> result{
     fe::readCsvFile(csvFilePath)};
 
@@ -30,7 +30,7 @@ bool strContains(pl::string_view haystack, pl::string_view needle)
 TEST(readCsvFile, shouldNotReadNonexistantCsvFile)
 {
   const fe::Expected<std::vector<std::vector<std::string>>> result{
-    fe::readCsvFile("feature_extraction/test/resources/garbage.csv")};
+    fe::readCsvFile("csv_lib/test/resources/garbage.csv")};
 
   ASSERT_FALSE(result.has_value());
 
@@ -40,6 +40,6 @@ TEST(readCsvFile, shouldNotReadNonexistantCsvFile)
   EXPECT_TRUE(pl::string_view{error.file()}.ends_with("read_csv_file.cpp"));
   EXPECT_TRUE(strContains(error.function(), "readCsvFile"));
   EXPECT_EQ(
-    "Cannot open file feature_extraction/test/resources/garbage.csv",
+    "Cannot open file csv_lib/test/resources/garbage.csv",
     error.message());
 }

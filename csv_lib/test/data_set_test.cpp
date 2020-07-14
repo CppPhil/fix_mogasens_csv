@@ -9,7 +9,7 @@ namespace {
 fe::Expected<std::vector<std::vector<std::string>>> read()
 {
   constexpr char csvFilePath[]
-    = "feature_extraction/test/resources/data_set.csv";
+    = "csv_lib/test/resources/data_set.csv";
   return fe::readCsvFile(csvFilePath);
 }
 } // namespace
