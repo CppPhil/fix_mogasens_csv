@@ -1,12 +1,9 @@
 # OBJECT LIBRARY
 set(LIB_NAME feature_extraction_lib)
 
-set(LIB_HEADERS
-    include/f.hpp)
+set(LIB_HEADERS include/f.hpp)
 
-set(LIB_SOURCES
-    src/f.cpp
-    src/main.cpp)
+set(LIB_SOURCES src/f.cpp src/main.cpp)
 
 add_library(${LIB_NAME} OBJECT ${LIB_HEADERS} ${LIB_SOURCES})
 

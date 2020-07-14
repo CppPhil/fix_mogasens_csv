@@ -2,8 +2,4 @@
 
 #include "f.hpp"
 
-TEST(f, shouldWork)
-{
-  EXPECT_EQ(42, f());
-}
-
+TEST(f, shouldWork) { EXPECT_EQ(42, f()); }

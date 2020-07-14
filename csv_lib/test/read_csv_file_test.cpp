@@ -40,6 +40,5 @@ TEST(readCsvFile, shouldNotReadNonexistantCsvFile)
   EXPECT_TRUE(pl::string_view{error.file()}.ends_with("read_csv_file.cpp"));
   EXPECT_TRUE(strContains(error.function(), "readCsvFile"));
   EXPECT_EQ(
-    "Cannot open file csv_lib/test/resources/garbage.csv",
-    error.message());
+    "Cannot open file csv_lib/test/resources/garbage.csv", error.message());
 }

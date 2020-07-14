@@ -2,8 +2,8 @@
 
 #include "f.hpp"
 
-int main() 
-{ 
+int main()
+{
   std::cout << "f: " << f() << '\n';
-  std::cout << "Hello C++\n"; 
+  std::cout << "Hello C++\n";
 }

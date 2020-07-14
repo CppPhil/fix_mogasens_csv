@@ -10,8 +10,7 @@ set(LIB_HEADERS
     include/exception.hpp
     include/read_csv_file.hpp
     include/sensor.hpp
-    include/to_string.hpp
-)
+    include/to_string.hpp)
 
 set(LIB_SOURCES
     src/channel.cpp
@@ -20,8 +19,7 @@ set(LIB_SOURCES
     src/error.cpp
     src/expection.cpp
     src/read_csv_file.cpp
-    src/sensor.cpp
-)
+    src/sensor.cpp)
 
 add_library(${LIB_NAME} OBJECT ${LIB_HEADERS} ${LIB_SOURCES})
 
@@ -29,14 +27,11 @@ target_link_libraries(${LIB_NAME} PUBLIC Threads::Threads fmt::fmt)
 
 target_include_directories(
   ${LIB_NAME}
-  PUBLIC
-  ${mogasens_csv_SOURCE_DIR}/csv_lib/include
-  ${mogasens_csv_SOURCE_DIR}/external/philslib/include
-  ${mogasens_csv_SOURCE_DIR}/external/csv-parser/single_include
-  ${mogasens_csv_SOURCE_DIR}/external/tl/include
-  ${mogasens_csv_SOURCE_DIR}/external/expected/include
-  ${mogasens_csv_SOURCE_DIR}/external/optional/include
-)
+  PUBLIC ${mogasens_csv_SOURCE_DIR}/csv_lib/include
+         ${mogasens_csv_SOURCE_DIR}/external/philslib/include
+         ${mogasens_csv_SOURCE_DIR}/external/csv-parser/single_include
+         ${mogasens_csv_SOURCE_DIR}/external/tl/include
+         ${mogasens_csv_SOURCE_DIR}/external/expected/include
+         ${mogasens_csv_SOURCE_DIR}/external/optional/include)
 
 add_subdirectory(test)
-

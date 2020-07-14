@@ -8,8 +8,7 @@
 namespace {
 cl::Expected<std::vector<std::vector<std::string>>> read()
 {
-  constexpr char csvFilePath[]
-    = "csv_lib/test/resources/data_set.csv";
+  constexpr char csvFilePath[] = "csv_lib/test/resources/data_set.csv";
   return cl::readCsvFile(csvFilePath);
 }
 } // namespace
