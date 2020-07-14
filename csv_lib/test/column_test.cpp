@@ -26,7 +26,7 @@ TEST(column, shouldHaveCorrectColumnType)
                cl::column_type<cl::Column::HardwareTimestamp>,
                std::uint64_t>));
   EXPECT_TRUE(
-    (std::is_same_v<cl::column_type<cl::Column::ExtractId>, std::uint64_t>));
+    (std::is_same_v<cl::column_type<cl::Column::ExtractId>, cl::Sensor>));
   EXPECT_TRUE(
     (std::is_same_v<cl::column_type<cl::Column::Trigger>, std::uint64_t>));
   EXPECT_TRUE(

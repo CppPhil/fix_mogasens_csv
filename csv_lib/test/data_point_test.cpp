@@ -16,7 +16,7 @@ TEST(DataPoint, shouldPrintCorrectly)
   std::ostringstream oss{};
   oss << dp;
   EXPECT_EQ(
-    R"(DataPoint{"time": 0.01, "sensor": "Chest", "channel": "AccelerometerX", "value": 50.01})",
+    R"(DataPoint{"fileName": "file.csv", time": 0.01, "sensor": "Chest", "channel": "AccelerometerX", "value": 50.01})",
     oss.str());
 }
 

@@ -12,6 +12,7 @@
 #include <pl/assert.hpp>
 
 #include "data_set.hpp"
+#include "sensor.hpp"
 
 namespace cl {
 namespace {
@@ -21,12 +22,13 @@ inline To convert(const std::string& inputString)
   if constexpr (std::is_same_v<To, long double>) {
     return std::stold(inputString); // may throw
   }
-  else if constexpr (std::is_same_v<To, std::uint64_t>) {
+  else if constexpr (
+    std::is_same_v<To, std::uint64_t> || std::is_same_v<To, Sensor>) {
     constexpr int decimalBase{10};
-    return std::stoull( // may throw
+    return To{std::stoull( // may throw
       /* str */ inputString,
       /* pos */ nullptr,
-      /* base*/ decimalBase);
+      /* base*/ decimalBase)};
   }
   else {
     assert(false && "data_set.cpp convert: unreachable branch reached!");
