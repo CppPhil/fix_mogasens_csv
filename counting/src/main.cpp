@@ -54,15 +54,14 @@ int main(int argc, char* argv[])
 
   const cl::DataSet& dataSet{expectedDataSet.value()};
 
-  constexpr long double            threshold{1.99L};
+  constexpr long double            accelerometerThreshold{1.99L};
+  constexpr long double            gyroscopeThreshold{1999.99L};
   const std::vector<cl::DataPoint> aboveThresholdDataPoints{
-    ctg::aboveThreshold(dataSet, threshold)};
+    ctg::aboveThreshold(dataSet, accelerometerThreshold, gyroscopeThreshold)};
 
   fmt::print(
-    "{} data points above {} / below {} were found.\n",
-    aboveThresholdDataPoints.size(),
-    threshold,
-    -threshold);
+    "{} data points above / below threshold were found.\n",
+    aboveThresholdDataPoints.size());
 
   for (const cl::DataPoint& dataPoint : aboveThresholdDataPoints) {
     fmt::print("{}\n", dataPoint);

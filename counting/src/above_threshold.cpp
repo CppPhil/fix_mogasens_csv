@@ -1,5 +1,11 @@
+#include <cinttypes>
+
 #include <array>
 #include <utility>
+
+#include <tl/casts.hpp>
+
+#include <pl/numeric.hpp>
 
 #include "above_threshold.hpp"
 
@@ -21,15 +27,21 @@ constexpr std::array<ChannelTableEntry, channelCount> channelTable{
    {&cl::DataSet::gyroscopeX, cl::Channel::GyroscopeX},
    {&cl::DataSet::gyroscopeY, cl::Channel::GyroscopeY},
    {&cl::DataSet::gyroscopeZ, cl::Channel::GyroscopeZ}}};
+
+bool isAccelerometer(cl::Channel channel)
+{
+  return pl::is_between(tl::underlying_cast(channel), UINT64_C(1), UINT64_C(3));
+}
 } // namespace
 
 std::vector<cl::DataPoint> aboveThreshold(
   const cl::DataSet& dataSet,
-  long double        threshold)
+  long double        accelerometerThreshold,
+  long double        gyroscopeThreshold)
 {
   std::vector<cl::DataPoint> result{};
 
-  const auto isAboveThreshold = [threshold](long double value) {
+  const auto isAboveThreshold = [](long double threshold, long double value) {
     return std::make_pair((value > threshold) || (value < -threshold), value);
   };
 
@@ -38,8 +50,10 @@ std::vector<cl::DataPoint> aboveThreshold(
     const cl::Sensor currentSensor{dataSet.extractId(i)};
 
     for (const auto [channelAccessor, currentChannel] : channelTable) {
-      if (const auto [isAbove, channelValue]
-          = isAboveThreshold((dataSet.*channelAccessor)(i));
+      if (const auto [isAbove, channelValue] = isAboveThreshold(
+            (isAccelerometer(currentChannel)) ? accelerometerThreshold
+                                              : gyroscopeThreshold,
+            (dataSet.*channelAccessor)(i));
           isAbove) {
         result.emplace_back(
           dataSet.fileName(),
