@@ -33,6 +33,7 @@ cd $DIR
 ./fix_compile_commands.py
 clang_tidy "$DIR/feature_extraction"
 clang_tidy "$DIR/fix_csv"
+clang_tidy "$DIR/csv_lib"
 run_rubocop "$DIR/ruby"
 
 cd $PREV_DIR

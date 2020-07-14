@@ -70,6 +70,7 @@ format_cmake $DIR/CMakeLists.txt
 # Format the source files.
 format "$DIR/fix_csv"
 format "$DIR/feature_extraction"
+format "$DIR/csv_lib"
 
 cd $PREV_DIR
 
