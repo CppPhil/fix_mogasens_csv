@@ -1,4 +1,4 @@
-# OBJECT LIBRARY
+# STATIC LIBRARY
 set(LIB_NAME csv_lib)
 
 set(LIB_HEADERS
@@ -21,7 +21,7 @@ set(LIB_SOURCES
     src/read_csv_file.cpp
     src/sensor.cpp)
 
-add_library(${LIB_NAME} OBJECT ${LIB_HEADERS} ${LIB_SOURCES})
+add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 
 target_link_libraries(${LIB_NAME} PUBLIC Threads::Threads fmt::fmt)
 

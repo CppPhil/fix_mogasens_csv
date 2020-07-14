@@ -1,11 +1,11 @@
-# OBJECT LIBRARY
+# STATIC LIBRARY
 set(LIB_NAME counting_lib)
 
 set(LIB_HEADERS include/above_threshold.hpp)
 
 set(LIB_SOURCES src/above_threshold.cpp)
 
-add_library(${LIB_NAME} OBJECT ${LIB_HEADERS} ${LIB_SOURCES})
+add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 
 target_link_libraries(${LIB_NAME} PUBLIC Threads::Threads csv_lib)
 
