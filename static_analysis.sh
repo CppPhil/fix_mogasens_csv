@@ -30,6 +30,8 @@ run_rubocop() {
 
 cd $DIR
 
+# TODO: Delete all JSON objects from the JSON array in compile_commands.json that have external as part of their file
+
 clang_tidy "$DIR/feature_extraction"
 clang_tidy "$DIR/fix_csv"
 run_rubocop "$DIR/ruby"
