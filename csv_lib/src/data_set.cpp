@@ -37,6 +37,7 @@ inline To convert(const std::string& inputString)
 } // namespace
 
 [[nodiscard]] Expected<DataSet> DataSet::create(
+  std::string                                  fileName,
   const std::vector<std::vector<std::string>>& matrix)
 {
   if (matrix.empty()) {
@@ -132,6 +133,7 @@ inline To convert(const std::string& inputString)
   }
 
   return DataSet{
+    std::move(fileName),
     std::move(time),
     std::move(hardwareTimestamp),
     std::move(extractId),
@@ -160,6 +162,8 @@ DataSet::size_type DataSet::rowCount() const noexcept
 
   return m_time.size();
 }
+
+const std::string& DataSet::fileName() const noexcept { return m_fileName; }
 
 column_type<Column::Time> DataSet::time(size_type index) const
 {
@@ -236,6 +240,7 @@ column_type<Column::GyroscopeZ> DataSet::gyroscopeZ(size_type index) const
 }
 
 DataSet::DataSet(
+  std::string&&                                         fileName,
   std::vector<column_type<Column::Time>>&&              time,
   std::vector<column_type<Column::HardwareTimestamp>>&& hardwareTimestamp,
   std::vector<column_type<Column::ExtractId>>&&         extractId,
@@ -246,7 +251,8 @@ DataSet::DataSet(
   std::vector<column_type<Column::GyroscopeX>>&&        gyroscopeX,
   std::vector<column_type<Column::GyroscopeY>>&&        gyroscopeY,
   std::vector<column_type<Column::GyroscopeZ>>&&        gyroscopeZ) noexcept
-  : m_time{std::move(time)}
+  : m_fileName{std::move(fileName)}
+  , m_time{std::move(time)}
   , m_hardwareTimestamp{std::move(hardwareTimestamp)}
   , m_extractId{std::move(extractId)}
   , m_trigger{std::move(trigger)}

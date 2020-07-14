@@ -1,4 +1,5 @@
 #include <ostream>
+#include <utility>
 
 #include <fmt/format.h>
 #include <fmt/ostream.h>
@@ -17,13 +18,20 @@ std::ostream& operator<<(std::ostream& os, const DataPoint& dataPoint)
 }
 
 DataPoint::DataPoint(
+  std::string fileName,
   long double time,
   Sensor      sensor,
   Channel     channel,
   long double value) noexcept
-  : m_time{time}, m_sensor{sensor}, m_channel{channel}, m_value{value}
+  : m_fileName{std::move(fileName)}
+  , m_time{time}
+  , m_sensor{sensor}
+  , m_channel{channel}
+  , m_value{value}
 {
 }
+
+const std::string& DataPoint::fileName() const noexcept { return m_fileName; }
 
 long double DataPoint::time() const noexcept { return m_time; }
 

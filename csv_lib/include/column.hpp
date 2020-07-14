@@ -3,6 +3,8 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "sensor.hpp"
+
 namespace cl {
 enum class Column : std::size_t {
   Time,
@@ -30,7 +32,7 @@ struct col_traits;
 
 CL_SPECIALIZE_COL_TRAITS(Column::Time, long double);
 CL_SPECIALIZE_COL_TRAITS(Column::HardwareTimestamp, std::uint64_t);
-CL_SPECIALIZE_COL_TRAITS(Column::ExtractId, std::uint64_t);
+CL_SPECIALIZE_COL_TRAITS(Column::ExtractId, Sensor);
 CL_SPECIALIZE_COL_TRAITS(Column::Trigger, std::uint64_t);
 CL_SPECIALIZE_COL_TRAITS(Column::AccelerometerX, long double);
 CL_SPECIALIZE_COL_TRAITS(Column::AccelerometerY, long double);

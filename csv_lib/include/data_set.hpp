@@ -14,9 +14,12 @@ public:
   using size_type = std::size_t;
 
   [[nodiscard]] static Expected<DataSet> create(
+    std::string                                  fileName,
     const std::vector<std::vector<std::string>>& matrix);
 
   size_type rowCount() const noexcept;
+
+  const std::string& fileName() const noexcept;
 
   column_type<Column::Time> time(size_type index) const;
 
@@ -41,6 +44,7 @@ public:
 
 private:
   explicit DataSet(
+    std::string&&                                         fileName,
     std::vector<column_type<Column::Time>>&&              time,
     std::vector<column_type<Column::HardwareTimestamp>>&& hardwareTimestamp,
     std::vector<column_type<Column::ExtractId>>&&         extractId,
@@ -52,6 +56,7 @@ private:
     std::vector<column_type<Column::GyroscopeY>>&&        gyroscopeY,
     std::vector<column_type<Column::GyroscopeZ>>&&        gyroscopeZ) noexcept;
 
+  std::string                                         m_fileName;
   std::vector<column_type<Column::Time>>              m_time;
   std::vector<column_type<Column::HardwareTimestamp>> m_hardwareTimestamp;
   std::vector<column_type<Column::ExtractId>>         m_extractId;
