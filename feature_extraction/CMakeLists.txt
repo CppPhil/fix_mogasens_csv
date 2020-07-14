@@ -2,24 +2,11 @@
 set(LIB_NAME feature_extraction_lib)
 
 set(LIB_HEADERS
-    include/error.hpp
-    include/exception.hpp
-    include/column.hpp
-    include/channel.hpp
-    include/sensor.hpp
-    include/data_point.hpp
-    include/to_string.hpp
-    include/read_csv_file.hpp
-    include/data_set.hpp)
+    include/f.hpp)
 
 set(LIB_SOURCES
-    src/error.cpp
-    src/exception.cpp
-    src/data_point.cpp
-    src/channel.cpp
-    src/sensor.cpp
-    src/read_csv_file.cpp
-    src/data_set.cpp)
+    src/f.cpp
+    src/main.cpp)
 
 add_library(${LIB_NAME} OBJECT ${LIB_HEADERS} ${LIB_SOURCES})
 

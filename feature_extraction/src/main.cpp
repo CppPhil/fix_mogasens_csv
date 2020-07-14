@@ -1,3 +1,9 @@
 #include <iostream>
 
-int main() { std::cout << "Hello C++\n"; }
+#include "f.hpp"
+
+int main() 
+{ 
+  std::cout << "f: " << f() << '\n';
+  std::cout << "Hello C++\n"; 
+}
