@@ -10,6 +10,7 @@ TEST(to_string, test)
 {
   const cl::Channel   channel{cl::Channel::GyroscopeY};
   const cl::DataPoint dataPoint{
+    /* fileName */ "test.csv",
     /* time */ 50.5,
     /* sensor */ cl::Sensor::LeftArm,
     /* channel */ cl::Channel::AccelerometerZ,
@@ -24,7 +25,7 @@ TEST(to_string, test)
 
   EXPECT_EQ("GyroscopeY", cl::to_string(channel));
   EXPECT_EQ(
-    R"(DataPoint{"time": 50.5, "sensor": "LeftArm", "channel": "AccelerometerZ", "value": 25.1123})",
+    R"(DataPoint{"fileName": "test.csv", time": 50.5, "sensor": "LeftArm", "channel": "AccelerometerZ", "value": 25.1123})",
     cl::to_string(dataPoint));
   EXPECT_EQ(
     R"(Error{"kind": "Filesystem", "file": "test_file.cpp", "function": "a_function", "line": 5, "message": "Error message."})",

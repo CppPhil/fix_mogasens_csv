@@ -10,7 +10,8 @@ namespace cl {
 std::ostream& operator<<(std::ostream& os, const DataPoint& dataPoint)
 {
   return os << fmt::format(
-           R"(DataPoint{{"time": {}, "sensor": "{}", "channel": "{}", "value": {}}})",
+           R"(DataPoint{{"fileName": "{}", time": {}, "sensor": "{}", "channel": "{}", "value": {}}})",
+           dataPoint.fileName(),
            dataPoint.time(),
            dataPoint.sensor(),
            dataPoint.channel(),

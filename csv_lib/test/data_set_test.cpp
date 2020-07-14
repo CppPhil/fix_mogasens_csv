@@ -6,9 +6,10 @@
 #include "read_csv_file.hpp"
 
 namespace {
+constexpr char csvFilePath[] = "csv_lib/test/resources/data_set.csv";
+
 cl::Expected<std::vector<std::vector<std::string>>> read()
 {
-  constexpr char csvFilePath[] = "csv_lib/test/resources/data_set.csv";
   return cl::readCsvFile(csvFilePath);
 }
 } // namespace
@@ -22,12 +23,13 @@ TEST(DataSet, shouldBeAbleToCreateFromValidData)
   const std::vector<std::vector<std::string>>& dataRead{expected.value()};
 
   const cl::Expected<cl::DataSet> dataSetExpected{
-    cl::DataSet::create(dataRead)};
+    cl::DataSet::create(csvFilePath, dataRead)};
 
   ASSERT_TRUE(dataSetExpected.has_value());
 
   const cl::DataSet& dataSet{dataSetExpected.value()};
 
+  EXPECT_EQ(csvFilePath, dataSet.fileName());
   EXPECT_EQ(2, dataSet.rowCount());
 
 #ifndef EXPECT_LONG_DOUBLE_EQ
@@ -37,7 +39,7 @@ TEST(DataSet, shouldBeAbleToCreateFromValidData)
 
   EXPECT_LONG_DOUBLE_EQ(0.0, dataSet.time(0));
   EXPECT_EQ(64403, dataSet.hardwareTimestamp(0));
-  EXPECT_EQ(769, dataSet.extractId(0));
+  EXPECT_EQ(cl::Sensor::LeftArm, dataSet.extractId(0));
   EXPECT_LONG_DOUBLE_EQ(0.0, dataSet.trigger(0));
   EXPECT_LONG_DOUBLE_EQ(-0.898560, dataSet.accelerometerX(0));
   EXPECT_LONG_DOUBLE_EQ(0.389221, dataSet.accelerometerY(0));
@@ -48,7 +50,7 @@ TEST(DataSet, shouldBeAbleToCreateFromValidData)
 
   EXPECT_LONG_DOUBLE_EQ(0.001, dataSet.time(1));
   EXPECT_EQ(64403, dataSet.hardwareTimestamp(1));
-  EXPECT_EQ(770, dataSet.extractId(1));
+  EXPECT_EQ(cl::Sensor::Belly, dataSet.extractId(1));
   EXPECT_LONG_DOUBLE_EQ(0.0, dataSet.trigger(1));
   EXPECT_LONG_DOUBLE_EQ(-0.436462, dataSet.accelerometerX(1));
   EXPECT_LONG_DOUBLE_EQ(-0.008423, dataSet.accelerometerY(1));
@@ -60,7 +62,7 @@ TEST(DataSet, shouldBeAbleToCreateFromValidData)
 
 TEST(DataSet, shouldNotBeAbleToCreateFromEmtyMatrix)
 {
-  const cl::Expected<cl::DataSet> dataSet{cl::DataSet::create({})};
+  const cl::Expected<cl::DataSet> dataSet{cl::DataSet::create("file.csv", {})};
 
   ASSERT_FALSE(dataSet.has_value());
 
@@ -85,7 +87,8 @@ TEST(DataSet, shouldNotBeAbleToCreateFromJaggedMatrix)
      "100.0"},
     {"0.20"}};
 
-  const cl::Expected<cl::DataSet> dataSet{cl::DataSet::create(data)};
+  const cl::Expected<cl::DataSet> dataSet{
+    cl::DataSet::create("test.csv", data)};
 
   ASSERT_FALSE(dataSet.has_value());
 
@@ -111,7 +114,8 @@ TEST(DataSet, shouldNotBeAbleToCreateFromInvalidData)
      "100.0",
      "100.2"}};
 
-  const cl::Expected<cl::DataSet> dataSet{cl::DataSet::create(data)};
+  const cl::Expected<cl::DataSet> dataSet{
+    cl::DataSet::create("test.csv", data)};
 
   ASSERT_FALSE(dataSet.has_value());
 

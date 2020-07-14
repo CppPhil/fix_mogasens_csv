@@ -5,6 +5,7 @@
 #include "data_point.hpp"
 
 const cl::DataPoint dp{
+  /* fileName */ "file.csv",
   /* time */ 0.01,
   /* sensor */ cl::Sensor::Chest,
   /* channel */ cl::Channel::AccelerometerX,
@@ -21,6 +22,7 @@ TEST(DataPoint, shouldPrintCorrectly)
 
 TEST(DataPoint, shouldGetValuesCorrectly)
 {
+  EXPECT_EQ("file.csv", dp.fileName());
   EXPECT_EQ(0.01, dp.time());
   EXPECT_EQ(cl::Sensor::Chest, dp.sensor());
   EXPECT_EQ(cl::Channel::AccelerometerX, dp.channel());
