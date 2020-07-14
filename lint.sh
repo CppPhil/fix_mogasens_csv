@@ -1,5 +1,12 @@
 #!/bin/bash
 
+catch_errors() {
+  printf "\nlint.sh failed!\n" >&2
+  exit 1
+}
+
+trap catch_errors ERR;
+
 # Directory containing this bash script.
 readonly DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
