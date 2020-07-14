@@ -17,7 +17,7 @@ set(LIB_SOURCES
     src/data_point.cpp
     src/data_set.cpp
     src/error.cpp
-    src/expection.cpp
+    src/exception.cpp
     src/read_csv_file.cpp
     src/sensor.cpp)
 
