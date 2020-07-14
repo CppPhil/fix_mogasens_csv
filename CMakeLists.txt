@@ -41,5 +41,6 @@ add_subdirectory(external/fmtlib)
 add_subdirectory(external/googletest)
 add_subdirectory(external/scnlib)
 
+add_subdirectory(csv_lib)
 add_subdirectory(fix_csv)
 add_subdirectory(feature_extraction)
