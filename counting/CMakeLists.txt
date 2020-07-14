@@ -1,5 +1,5 @@
 # OBJECT LIBRARY
-set(LIB_NAME feature_extraction_lib)
+set(LIB_NAME counting_lib)
 
 set(LIB_HEADERS include/f.hpp)
 
@@ -7,15 +7,15 @@ set(LIB_SOURCES src/f.cpp)
 
 add_library(${LIB_NAME} OBJECT ${LIB_HEADERS} ${LIB_SOURCES})
 
-target_link_libraries(${LIB_NAME} PUBLIC Threads::Threads scn::scn
+target_link_libraries(${LIB_NAME} PUBLIC Threads::Threads 
                                          csv_lib)
 
 target_include_directories(
   ${LIB_NAME}
-  PUBLIC ${mogasens_csv_SOURCE_DIR}/feature_extraction/include)
+  PUBLIC ${mogasens_csv_SOURCE_DIR}/counting/include)
 
 # APPLICATION
-set(APP_NAME feature_extraction_app)
+set(APP_NAME counting_app)
 
 add_executable(${APP_NAME} src/main.cpp)
 

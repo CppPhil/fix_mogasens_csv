@@ -41,6 +41,7 @@ cd $DIR
 clang_tidy "$DIR/feature_extraction"
 clang_tidy "$DIR/fix_csv"
 clang_tidy "$DIR/csv_lib"
+clang_tidy "$DIR/counting"
 run_rubocop "$DIR/ruby"
 
 cd $PREV_DIR

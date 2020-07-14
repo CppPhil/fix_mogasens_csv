@@ -71,6 +71,7 @@ format_cmake $DIR/CMakeLists.txt
 format "$DIR/fix_csv"
 format "$DIR/feature_extraction"
 format "$DIR/csv_lib"
+format "$DIR/counting"
 
 cd $PREV_DIR
 
