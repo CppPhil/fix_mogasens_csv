@@ -1,5 +1,5 @@
-#ifndef INCG_FE_ERROR_HPP
-#define INCG_FE_ERROR_HPP
+#ifndef INCG_CL_ERROR_HPP
+#define INCG_CL_ERROR_HPP
 #include <cstddef>
 
 #include <iosfwd>
@@ -9,18 +9,18 @@
 
 #include <pl/current_function.hpp>
 
-#define FE_ERROR_KIND         \
-  FE_ERROR_KIND_X(Filesystem) \
-  FE_ERROR_KIND_X(InvalidArgument)
+#define CL_ERROR_KIND         \
+  CL_ERROR_KIND_X(Filesystem) \
+  CL_ERROR_KIND_X(InvalidArgument)
 
-namespace fe {
+namespace cl {
 class [[nodiscard]] Error
 {
 public:
   enum Kind {
-#define FE_ERROR_KIND_X(kind) kind,
-    FE_ERROR_KIND
-#undef FE_ERROR_KIND_X
+#define CL_ERROR_KIND_X(kind) kind,
+    CL_ERROR_KIND
+#undef CL_ERROR_KIND_X
   };
 
   friend std::ostream& operator<<(std::ostream& os, const Error& error);
@@ -54,9 +54,9 @@ private:
 
 template<typename Ty>
 using Expected = tl::expected<Ty, Error>;
-} // namespace fe
+} // namespace cl
 
-#define FE_UNEXPECTED(kind, message) \
+#define CL_UNEXPECTED(kind, message) \
   ::tl::make_unexpected(             \
-    ::fe::Error{kind, __FILE__, PL_CURRENT_FUNCTION, __LINE__, message})
-#endif // INCG_FE_ERROR_HPP
+    ::cl::Error{kind, __FILE__, PL_CURRENT_FUNCTION, __LINE__, message})
+#endif // INCG_CL_ERROR_HPP

@@ -1,5 +1,5 @@
-#ifndef INCG_FE_DATA_SET_HPP
-#define INCG_FE_DATA_SET_HPP
+#ifndef INCG_CL_DATA_SET_HPP
+#define INCG_CL_DATA_SET_HPP
 #include <cstddef>
 
 #include <string>
@@ -8,7 +8,7 @@
 #include "column.hpp"
 #include "error.hpp"
 
-namespace fe {
+namespace cl {
 class DataSet {
 public:
   using size_type = std::size_t;
@@ -63,5 +63,5 @@ private:
   std::vector<column_type<Column::GyroscopeY>>        m_gyroscopeY;
   std::vector<column_type<Column::GyroscopeZ>>        m_gyroscopeZ;
 };
-} // namespace fe
-#endif // INCG_FE_DATA_SET_HPP
+} // namespace cl
+#endif // INCG_CL_DATA_SET_HPP

@@ -13,7 +13,7 @@
 
 #include "data_set.hpp"
 
-namespace fe {
+namespace cl {
 namespace {
 template<typename To>
 inline To convert(const std::string& inputString)
@@ -40,14 +40,14 @@ inline To convert(const std::string& inputString)
   const std::vector<std::vector<std::string>>& matrix)
 {
   if (matrix.empty()) {
-    return FE_UNEXPECTED(Error::InvalidArgument, "The matrix is empty.");
+    return CL_UNEXPECTED(Error::InvalidArgument, "The matrix is empty.");
   }
 
   static constexpr std::size_t expectedRowLength{10};
   if (pl::algo::any_of(matrix, [](const std::vector<std::string>& row) {
         return row.size() != expectedRowLength;
       })) {
-    return FE_UNEXPECTED(
+    return CL_UNEXPECTED(
       Error::InvalidArgument,
       fmt::format(
         "One or more rows in the matrix don't have a length of {}.",
@@ -115,14 +115,14 @@ inline To convert(const std::string& inputString)
         }
       }
       catch (const std::invalid_argument& ex) {
-        return FE_UNEXPECTED(
+        return CL_UNEXPECTED(
           Error::InvalidArgument,
           fmt::format(
             "Conversion failure (std::invalid_argument caught): \"{}\"",
             ex.what()));
       }
       catch (const std::out_of_range& ex) {
-        return FE_UNEXPECTED(
+        return CL_UNEXPECTED(
           Error::InvalidArgument,
           fmt::format(
             "Conversion failure (std::out_of_range caught): \"{}\"",
@@ -258,4 +258,4 @@ DataSet::DataSet(
   , m_gyroscopeZ{std::move(gyroscopeZ)}
 {
 }
-} // namespace fe
+} // namespace cl

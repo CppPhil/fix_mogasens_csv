@@ -5,7 +5,7 @@
 
 #include "data_point.hpp"
 
-namespace fe {
+namespace cl {
 std::ostream& operator<<(std::ostream& os, const DataPoint& dataPoint)
 {
   return os << fmt::format(
@@ -32,4 +32,4 @@ Sensor DataPoint::sensor() const noexcept { return m_sensor; }
 Channel DataPoint::channel() const noexcept { return m_channel; }
 
 long double DataPoint::value() const noexcept { return m_value; }
-} // namespace fe
+} // namespace cl

@@ -11,15 +11,15 @@
 #include "error.hpp"
 #include "exception.hpp"
 
-namespace fe {
+namespace cl {
 namespace {
 inline pl::string_view kind_to_string(Error::Kind kind)
 {
   switch (kind) {
-#define FE_ERROR_KIND_X(kind) \
+#define CL_ERROR_KIND_X(kind) \
   case Error::kind: return #kind;
-    FE_ERROR_KIND
-#undef FE_ERROR_KIND_X
+    CL_ERROR_KIND
+#undef CL_ERROR_KIND_X
   }
 
   assert(false && "Unhandled enumerator in error.cpp:kind_to_string, this should never happen!");
@@ -70,4 +70,4 @@ const std::string& Error::message() const noexcept { return m_message; }
     /* line */ line(),
     /* message */ message()};
 }
-} // namespace fe
+} // namespace cl

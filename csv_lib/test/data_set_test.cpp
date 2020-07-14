@@ -6,28 +6,28 @@
 #include "read_csv_file.hpp"
 
 namespace {
-fe::Expected<std::vector<std::vector<std::string>>> read()
+cl::Expected<std::vector<std::vector<std::string>>> read()
 {
   constexpr char csvFilePath[]
     = "csv_lib/test/resources/data_set.csv";
-  return fe::readCsvFile(csvFilePath);
+  return cl::readCsvFile(csvFilePath);
 }
 } // namespace
 
 TEST(DataSet, shouldBeAbleToCreateFromValidData)
 {
-  const fe::Expected<std::vector<std::vector<std::string>>> expected{read()};
+  const cl::Expected<std::vector<std::vector<std::string>>> expected{read()};
 
   ASSERT_TRUE(expected.has_value());
 
   const std::vector<std::vector<std::string>>& dataRead{expected.value()};
 
-  const fe::Expected<fe::DataSet> dataSetExpected{
-    fe::DataSet::create(dataRead)};
+  const cl::Expected<cl::DataSet> dataSetExpected{
+    cl::DataSet::create(dataRead)};
 
   ASSERT_TRUE(dataSetExpected.has_value());
 
-  const fe::DataSet& dataSet{dataSetExpected.value()};
+  const cl::DataSet& dataSet{dataSetExpected.value()};
 
   EXPECT_EQ(2, dataSet.rowCount());
 
@@ -61,13 +61,13 @@ TEST(DataSet, shouldBeAbleToCreateFromValidData)
 
 TEST(DataSet, shouldNotBeAbleToCreateFromEmtyMatrix)
 {
-  const fe::Expected<fe::DataSet> dataSet{fe::DataSet::create({})};
+  const cl::Expected<cl::DataSet> dataSet{cl::DataSet::create({})};
 
   ASSERT_FALSE(dataSet.has_value());
 
-  const fe::Error& error{dataSet.error()};
+  const cl::Error& error{dataSet.error()};
 
-  EXPECT_EQ(fe::Error::InvalidArgument, error.kind());
+  EXPECT_EQ(cl::Error::InvalidArgument, error.kind());
   EXPECT_EQ("The matrix is empty.", error.message());
 }
 
@@ -86,13 +86,13 @@ TEST(DataSet, shouldNotBeAbleToCreateFromJaggedMatrix)
      "100.0"},
     {"0.20"}};
 
-  const fe::Expected<fe::DataSet> dataSet{fe::DataSet::create(data)};
+  const cl::Expected<cl::DataSet> dataSet{cl::DataSet::create(data)};
 
   ASSERT_FALSE(dataSet.has_value());
 
-  const fe::Error& error{dataSet.error()};
+  const cl::Error& error{dataSet.error()};
 
-  EXPECT_EQ(fe::Error::InvalidArgument, error.kind());
+  EXPECT_EQ(cl::Error::InvalidArgument, error.kind());
   EXPECT_EQ(
     "One or more rows in the matrix don't have a length of 10.",
     error.message());
@@ -112,13 +112,13 @@ TEST(DataSet, shouldNotBeAbleToCreateFromInvalidData)
      "100.0",
      "100.2"}};
 
-  const fe::Expected<fe::DataSet> dataSet{fe::DataSet::create(data)};
+  const cl::Expected<cl::DataSet> dataSet{cl::DataSet::create(data)};
 
   ASSERT_FALSE(dataSet.has_value());
 
-  const fe::Error& error{dataSet.error()};
+  const cl::Error& error{dataSet.error()};
 
-  EXPECT_EQ(fe::Error::InvalidArgument, error.kind());
+  EXPECT_EQ(cl::Error::InvalidArgument, error.kind());
   EXPECT_TRUE(pl::string_view{error.message()}.starts_with(
     "Conversion failure (std::invalid_argument caught):"));
 }

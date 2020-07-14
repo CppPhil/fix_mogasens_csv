@@ -1,11 +1,11 @@
-#ifndef INCG_FE_EXCEPTION_HPP
-#define INCG_FE_EXCEPTION_HPP
+#ifndef INCG_CL_EXCEPTION_HPP
+#define INCG_CL_EXCEPTION_HPP
 #include <cstddef>
 
 #include <stdexcept>
 #include <string>
 
-namespace fe {
+namespace cl {
 class Exception : public std::runtime_error {
 public:
   using base_type = std::runtime_error;
@@ -33,5 +33,5 @@ private:
   std::string m_function;
   std::size_t m_line;
 };
-} // namespace fe
-#endif // INCG_FE_EXCEPTION_HPP
+} // namespace cl
+#endif // INCG_CL_EXCEPTION_HPP

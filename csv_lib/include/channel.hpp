@@ -1,24 +1,24 @@
-#ifndef INCG_FE_CHANNEL_HPP
-#define INCG_FE_CHANNEL_HPP
+#ifndef INCG_CL_CHANNEL_HPP
+#define INCG_CL_CHANNEL_HPP
 #include <cstdint>
 
 #include <iosfwd>
 
-#define FE_CHANNEL                \
-  FE_CHANNEL_X(AccelerometerX, 1) \
-  FE_CHANNEL_X(AccelerometerY, 2) \
-  FE_CHANNEL_X(AccelerometerZ, 3) \
-  FE_CHANNEL_X(GyroscopeX, 4)     \
-  FE_CHANNEL_X(GyroscopeY, 5)     \
-  FE_CHANNEL_X(GyroscopeZ, 6)
+#define CL_CHANNEL                \
+  CL_CHANNEL_X(AccelerometerX, 1) \
+  CL_CHANNEL_X(AccelerometerY, 2) \
+  CL_CHANNEL_X(AccelerometerZ, 3) \
+  CL_CHANNEL_X(GyroscopeX, 4)     \
+  CL_CHANNEL_X(GyroscopeY, 5)     \
+  CL_CHANNEL_X(GyroscopeZ, 6)
 
-namespace fe {
+namespace cl {
 enum class Channel : std::uint64_t {
-#define FE_CHANNEL_X(enumerator, value) enumerator = value,
-  FE_CHANNEL
-#undef FE_CHANNEL_X
+#define CL_CHANNEL_X(enumerator, value) enumerator = value,
+  CL_CHANNEL
+#undef CL_CHANNEL_X
 };
 
 std::ostream& operator<<(std::ostream& os, Channel channel);
-} // namespace fe
-#endif // INCG_FE_CHANNEL_HPP
+} // namespace cl
+#endif // INCG_CL_CHANNEL_HPP

@@ -4,10 +4,10 @@
 
 #include "data_point.hpp"
 
-const fe::DataPoint dp{
+const cl::DataPoint dp{
   /* time */ 0.01,
-  /* sensor */ fe::Sensor::Chest,
-  /* channel */ fe::Channel::AccelerometerX,
+  /* sensor */ cl::Sensor::Chest,
+  /* channel */ cl::Channel::AccelerometerX,
   /* value */ 50.01};
 
 TEST(DataPoint, shouldPrintCorrectly)
@@ -22,7 +22,7 @@ TEST(DataPoint, shouldPrintCorrectly)
 TEST(DataPoint, shouldGetValuesCorrectly)
 {
   EXPECT_EQ(0.01, dp.time());
-  EXPECT_EQ(fe::Sensor::Chest, dp.sensor());
-  EXPECT_EQ(fe::Channel::AccelerometerX, dp.channel());
+  EXPECT_EQ(cl::Sensor::Chest, dp.sensor());
+  EXPECT_EQ(cl::Channel::AccelerometerX, dp.channel());
   EXPECT_EQ(50.01, dp.value());
 }

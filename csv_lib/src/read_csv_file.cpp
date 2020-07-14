@@ -9,7 +9,7 @@
 
 #include "read_csv_file.hpp"
 
-namespace fe {
+namespace cl {
 [[nodiscard]] Expected<std::vector<std::vector<std::string>>> readCsvFile(
   pl::string_view csvFilePath) noexcept
 {
@@ -30,13 +30,13 @@ namespace fe {
       csvReader.begin(), csvReader.end());
 
     if (data.empty()) {
-      return FE_UNEXPECTED(
+      return CL_UNEXPECTED(
         Error::InvalidArgument,
         fmt::format("No CSV data was read from file: \"{}\".", csvFilePath));
     }
 
     if (data.front().size() != zeroethRowExpectedLength) {
-      return FE_UNEXPECTED(
+      return CL_UNEXPECTED(
         Error::InvalidArgument,
         fmt::format(
           "First row of data from file \"{}\" was of length {} but length {} "
@@ -52,7 +52,7 @@ namespace fe {
           [](const std::vector<std::string>& row) {
             return row.size() != otherRowsExpectedLength;
           })) {
-      return FE_UNEXPECTED(
+      return CL_UNEXPECTED(
         Error::InvalidArgument,
         fmt::format(
           "One of the rows after the first row of data from file \"{}\" wasn't "
@@ -68,7 +68,7 @@ namespace fe {
     return data;
   }
   catch (const std::runtime_error& exception) {
-    return FE_UNEXPECTED(Error::Filesystem, exception.what());
+    return CL_UNEXPECTED(Error::Filesystem, exception.what());
   }
 }
-} // namespace fe
+} // namespace cl

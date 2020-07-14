@@ -1,11 +1,11 @@
-#ifndef INCG_FE_DATA_POINT_HPP
-#define INCG_FE_DATA_POINT_HPP
+#ifndef INCG_CL_DATA_POINT_HPP
+#define INCG_CL_DATA_POINT_HPP
 #include <iosfwd>
 
 #include "channel.hpp"
 #include "sensor.hpp"
 
-namespace fe {
+namespace cl {
 class DataPoint {
 public:
   friend std::ostream& operator<<(std::ostream& os, const DataPoint& dataPoint);
@@ -30,5 +30,5 @@ private:
   Channel     m_channel;
   long double m_value;
 };
-} // namespace fe
-#endif // INCG_FE_DATA_POINT_HPP
+} // namespace cl
+#endif // INCG_CL_DATA_POINT_HPP

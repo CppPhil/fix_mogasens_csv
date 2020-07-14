@@ -4,9 +4,9 @@
 
 TEST(exception, shouldWork)
 {
-  const fe::Exception ex1{
+  const cl::Exception ex1{
     "file.cpp", "function", 25, std::string{"error message"}};
-  const fe::Exception ex2{"file.cpp", "function", 25, "error message"};
+  const cl::Exception ex2{"file.cpp", "function", 25, "error message"};
 
   EXPECT_EQ("file.cpp", ex1.file());
   EXPECT_EQ("file.cpp", ex2.file());

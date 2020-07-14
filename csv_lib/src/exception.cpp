@@ -2,7 +2,7 @@
 
 #include "exception.hpp"
 
-namespace fe {
+namespace cl {
 Exception::Exception(
   std::string        file,
   std::string        function,
@@ -32,4 +32,4 @@ const std::string& Exception::file() const noexcept { return m_file; }
 const std::string& Exception::function() const noexcept { return m_function; }
 
 std::size_t Exception::line() const noexcept { return m_line; }
-} // namespace fe
+} // namespace cl

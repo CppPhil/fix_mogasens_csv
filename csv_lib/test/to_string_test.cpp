@@ -8,26 +8,26 @@
 
 TEST(to_string, test)
 {
-  const fe::Channel   channel{fe::Channel::GyroscopeY};
-  const fe::DataPoint dataPoint{
+  const cl::Channel   channel{cl::Channel::GyroscopeY};
+  const cl::DataPoint dataPoint{
     /* time */ 50.5,
-    /* sensor */ fe::Sensor::LeftArm,
-    /* channel */ fe::Channel::AccelerometerZ,
+    /* sensor */ cl::Sensor::LeftArm,
+    /* channel */ cl::Channel::AccelerometerZ,
     /* value */ 25.1123};
-  const fe::Error error{
-    /* kind */ fe::Error::Filesystem,
+  const cl::Error error{
+    /* kind */ cl::Error::Filesystem,
     /* file */ "test_file.cpp",
     /* function */ "a_function",
     /* line */ 5,
     /* message */ "Error message."};
-  const fe::Sensor sensor{fe::Sensor::RightArm};
+  const cl::Sensor sensor{cl::Sensor::RightArm};
 
-  EXPECT_EQ("GyroscopeY", fe::to_string(channel));
+  EXPECT_EQ("GyroscopeY", cl::to_string(channel));
   EXPECT_EQ(
     R"(DataPoint{"time": 50.5, "sensor": "LeftArm", "channel": "AccelerometerZ", "value": 25.1123})",
-    fe::to_string(dataPoint));
+    cl::to_string(dataPoint));
   EXPECT_EQ(
     R"(Error{"kind": "Filesystem", "file": "test_file.cpp", "function": "a_function", "line": 5, "message": "Error message."})",
-    fe::to_string(error));
-  EXPECT_EQ("RightArm", fe::to_string(sensor));
+    cl::to_string(error));
+  EXPECT_EQ("RightArm", cl::to_string(sensor));
 }

@@ -1,9 +1,9 @@
-#ifndef INCG_FE_TO_STRING_HPP
-#define INCG_FE_TO_STRING_HPP
+#ifndef INCG_CL_TO_STRING_HPP
+#define INCG_CL_TO_STRING_HPP
 #include <sstream>
 #include <string>
 
-namespace fe {
+namespace cl {
 template<typename Ty>
 inline auto to_string(const Ty& ty)
 {
@@ -11,5 +11,5 @@ inline auto to_string(const Ty& ty)
   oss << ty;
   return oss.str();
 }
-} // namespace fe
-#endif // INCG_FE_TO_STRING_HPP
+} // namespace cl
+#endif // INCG_CL_TO_STRING_HPP
