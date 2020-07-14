@@ -1,9 +1,9 @@
 # OBJECT LIBRARY
 set(LIB_NAME counting_lib)
 
-set(LIB_HEADERS include/f.hpp)
+set(LIB_HEADERS include/above_threshold.hpp)
 
-set(LIB_SOURCES src/f.cpp)
+set(LIB_SOURCES src/above_threshold.cpp)
 
 add_library(${LIB_NAME} OBJECT ${LIB_HEADERS} ${LIB_SOURCES})
 

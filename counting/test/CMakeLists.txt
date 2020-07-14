@@ -2,7 +2,7 @@ include(GoogleTest)
 
 set(TEST_NAME counting_test)
 
-set(TEST_SOURCES f_test.cpp main.cpp)
+set(TEST_SOURCES main.cpp)
 
 add_executable(${TEST_NAME} ${TEST_SOURCES})
 
