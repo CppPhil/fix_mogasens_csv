@@ -44,7 +44,7 @@ inline To convert(const std::string& inputString)
   }
 
   static constexpr std::size_t expectedRowLength{10};
-  if (pl::algo::any_of(matrix, [&matrix](const std::vector<std::string>& row) {
+  if (pl::algo::any_of(matrix, [](const std::vector<std::string>& row) {
         return row.size() != expectedRowLength;
       })) {
     return FE_UNEXPECTED(
