@@ -1,0 +1,7 @@
+---
+Checks:          '-boost-*,-bugprone-*,-cert-err58-cpp,-cert-err61-cpp,-clang-analyzer-*,-cppcoreguidelines-*,-misc-*,-modernize-*,-performance-*,-portability-*,readability-*'
+CheckOptions:    
+  - key:             misc-dangling-handle.HandleClasses
+    value:           'std::basic_string_view;std::experimental::basic_string_view;pl::basic_string_view'
+...
+

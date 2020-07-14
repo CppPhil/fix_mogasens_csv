@@ -65,7 +65,7 @@ fi
 
 cd build
 
-cmake -DCMAKE_BUILD_TYPE=$build_type -G "Unix Makefiles" ..
+cmake -DCMAKE_BUILD_TYPE=$build_type -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -G "Unix Makefiles" ..
 
 if [ "$verbose" = "true" ]; then
   cmake --build . -- -j$(nproc) VERBOSE=1

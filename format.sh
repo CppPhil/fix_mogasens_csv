@@ -60,23 +60,7 @@ format_python() {
   yapf -i --style='{based_on_style: pep8, indent_width: 4}' $python_src_file
 }
 
-run_rubocop() {
-  ruby_dir="$1"
-
-  if [ "$(which rubocop)" == "" ]; then
-    printf "rubocop was not found, skipping.\n" >&2
-    return
-  fi
-
-  echo "Running rubocop"
-  cd "$ruby_dir" && rubocop -a
-  cd "$DIR"
-  printf "Finished running rubocop.\n\n"
-}
-
 cd $DIR
-
-run_rubocop "$DIR/ruby"
 
 format_python $DIR/mogasens_plotter/main.py
 
