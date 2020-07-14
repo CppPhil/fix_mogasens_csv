@@ -7,7 +7,8 @@ set(LIB_SOURCES src/f.cpp)
 
 add_library(${LIB_NAME} OBJECT ${LIB_HEADERS} ${LIB_SOURCES})
 
-target_link_libraries(${LIB_NAME} PUBLIC Threads::Threads fmt::fmt scn::scn)
+target_link_libraries(${LIB_NAME} PUBLIC Threads::Threads fmt::fmt scn::scn
+                                         csv_lib)
 
 target_include_directories(
   ${LIB_NAME}
