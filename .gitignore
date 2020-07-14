@@ -206,6 +206,6 @@ ruby/.idea
 mingw_dist
 
 # PyCharm generated files
-mogasens_plotter/.idea
-mogasens_plotter/venv
+python/mogasens_plotter/.idea
+python/mogasens_plotter/venv
 

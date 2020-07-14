@@ -1,5 +1,3 @@
-Move python files into some subdirectory.
-
 ----------------------------------------------------------------------------
 
 Extract features.

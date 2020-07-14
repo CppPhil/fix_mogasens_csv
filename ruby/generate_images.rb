@@ -31,7 +31,7 @@ def dev_null
 end
 
 working_directory = Dir.pwd
-plotter = "#{working_directory}/mogasens_plotter/main.py"
+plotter = "#{working_directory}/python/mogasens_plotter/main.py"
 
 def python_interpreter
   if os == :linux

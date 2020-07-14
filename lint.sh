@@ -18,7 +18,7 @@ clang_tidy() {
     return
   fi
   
-  ./run-clang-tidy.py -p build -j $(nproc) -format -quiet
+  ./python/run-clang-tidy.py -p build -j $(nproc) -format -quiet
 }
 
 run_rubocop() {
@@ -37,7 +37,7 @@ run_rubocop() {
 
 cd $DIR
 
-./fix_compile_commands.py
+./python/fix_compile_commands.py
 clang_tidy "$DIR/feature_extraction"
 clang_tidy "$DIR/fix_csv"
 clang_tidy "$DIR/csv_lib"
