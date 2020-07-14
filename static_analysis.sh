@@ -11,7 +11,7 @@ clang_tidy() {
     return
   fi
   
-  ./run-clang-tidy.py -p build -j $(nproc) -format
+  ./run-clang-tidy.py -p build -j $(nproc) -format -quiet
 }
 
 run_rubocop() {
