@@ -26,7 +26,7 @@ OptionParser.new do |opt|
   end
   opt.on_tail('-h', '--help', 'Show this message') do
     STDERR.puts opt.to_s.gsub('build_windows', 'build.bat')
-    exit(1)
+    exit(0)
   end
 end.parse!
 

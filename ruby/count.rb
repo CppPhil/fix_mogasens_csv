@@ -54,14 +54,14 @@ compiler = MINGW_COMPILER if compiler.nil?
 
 RESOURCES_DIR = 'resources'.freeze
 
-def fix_csv_app(build_type, compiler)
+def counting_app(build_type, compiler)
   if os == :linux
-    './build/fix_csv/fix_mogasens_csv_app'
+    './build/counting/counting_app'
   elsif os == :windows
     if compiler == MINGW_COMPILER
-      'build/fix_csv/fix_mogasens_csv_app.exe'
+      'build/counting/counting_app.exe'
     elsif compiler == MSVC_COMPILER
-      "build/fix_csv/#{build_type}/fix_mogasens_csv_app.exe"
+      "build/counting/#{build_type}/counting_app.exe"
     else
       STDERR.puts("Unsupported compiler: \"#{compiler}\", exiting.")
       exit(1)
@@ -72,16 +72,15 @@ def fix_csv_app(build_type, compiler)
   end
 end
 
-csv_files = Dir["#{RESOURCES_DIR}/**/*.csv"].reject do |file|
+csv_files = Dir["#{RESOURCES_DIR}/**/*.csv"].select do |file|
   file.end_with?('_out.csv')
 end
-csv_files.each do |file|
-  puts("Processing #{file}.")
-  unless system("#{fix_csv_app(build_type, compiler)} \"#{file}\"")
-    STDERR.puts('Failure running fix_mogasens_csv_app, exiting.')
-    exit(1)
-  end
-  puts('')
+
+csv_files.map! { |file| "\"#{file}\"" }
+
+unless system("#{counting_app(build_type, compiler)} #{csv_files.join(' ')}")
+  STDERR.puts('Failure running counting_app, exiting.')
+  exit(1)
 end
 
 exit(0)
