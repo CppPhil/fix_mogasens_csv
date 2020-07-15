@@ -1,5 +1,6 @@
 require 'optparse'
 require 'etc'
+require_relative 'modules/util'
 
 MINGW_COMPILER = 'MinGW'.freeze
 MSVC_COMPILER = 'MSVC'.freeze
@@ -30,17 +31,7 @@ OptionParser.new do |opt|
   end
 end.parse!
 
-build_type = options[:build_type]
-DEBUG_BUILD_TYPE = 'Debug'.freeze
-RELEASE_BUILD_TYPE = 'Release'.freeze
-build_type = RELEASE_BUILD_TYPE if build_type.nil?
-
-if build_type != DEBUG_BUILD_TYPE && build_type != RELEASE_BUILD_TYPE
-  STDERR.puts("Invalid build type \"#{build_type}\"! "\
-              "Allowable values are \"#{DEBUG_BUILD_TYPE}\" "\
-              "and \"#{RELEASE_BUILD_TYPE}\".")
-  exit(1)
-end
+build_type = Util.build_type(options)
 
 compiler = options[:compiler]
 compiler = MINGW_COMPILER if compiler.nil?
@@ -79,8 +70,6 @@ Dir.chdir(BUILD_DIRECTORY)
 
 LOAD_DISTRO_PATHS = "cd ..\\#{MINGW_DIR}\\MinGW && set_distro_paths.bat && "\
                     'cd ..\\..\\build'.freeze
-
-cmake_command = nil
 
 if compiler == MINGW_COMPILER
   cmake_command = "#{LOAD_DISTRO_PATHS} && "\

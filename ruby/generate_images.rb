@@ -1,28 +1,11 @@
 require 'rbconfig'
 require 'etc'
-
-def os
-  @os ||= begin
-    host_os = RbConfig::CONFIG['host_os']
-    case host_os
-    when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
-      :windows
-    when /darwin|mac os/
-      :macosx
-    when /linux/
-      :linux
-    when /solaris|bsd/
-      :unix
-    else
-      return :unknown
-    end
-  end
-end
+require_relative 'modules/system'
 
 def dev_null
-  if os == :linux
+  if System.os == :linux
     '/dev/null'
-  elsif os == :windows
+  elsif System.os == :windows
     'NUL'
   else
     STDERR.puts('Unsupported operating system, exiting.')
@@ -34,9 +17,9 @@ working_directory = Dir.pwd
 plotter = "#{working_directory}/python/mogasens_plotter/main.py"
 
 def python_interpreter
-  if os == :linux
+  if System.os == :linux
     'python3'
-  elsif os == :windows
+  elsif System.os == :windows
     'python.exe'
   else
     STDERR.puts('Unsupported operating system, exiting.')

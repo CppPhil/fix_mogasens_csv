@@ -1,23 +1,7 @@
 require 'optparse'
 require 'rbconfig'
-
-def os
-  @os ||= begin
-    host_os = RbConfig::CONFIG['host_os']
-    case host_os
-    when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
-      :windows
-    when /darwin|mac os/
-      :macosx
-    when /linux/
-      :linux
-    when /solaris|bsd/
-      :unix
-    else
-      return :unknown
-    end
-  end
-end
+require_relative 'modules/system'
+require_relative 'modules/util'
 
 MINGW_COMPILER = 'MinGW'.freeze
 MSVC_COMPILER = 'MSVC'.freeze
@@ -37,17 +21,7 @@ OptionParser.new do |opt|
   end
 end.parse!
 
-build_type = options[:build_type]
-DEBUG_BUILD_TYPE = 'Debug'.freeze
-RELEASE_BUILD_TYPE = 'Release'.freeze
-build_type = RELEASE_BUILD_TYPE if build_type.nil?
-
-if build_type != DEBUG_BUILD_TYPE && build_type != RELEASE_BUILD_TYPE
-  STDERR.puts("Invalid build type \"#{build_type}\"! "\
-              "Allowable values are \"#{DEBUG_BUILD_TYPE}\" "\
-              "and \"#{RELEASE_BUILD_TYPE}\".")
-  exit(1)
-end
+build_type = Util.build_type(options)
 
 compiler = options[:compiler]
 compiler = MINGW_COMPILER if compiler.nil?
@@ -55,9 +29,9 @@ compiler = MINGW_COMPILER if compiler.nil?
 RESOURCES_DIR = 'resources'.freeze
 
 def fix_csv_app(build_type, compiler)
-  if os == :linux
+  if System.os == :linux
     './build/fix_csv/fix_mogasens_csv_app'
-  elsif os == :windows
+  elsif System.os == :windows
     if compiler == MINGW_COMPILER
       'build/fix_csv/fix_mogasens_csv_app.exe'
     elsif compiler == MSVC_COMPILER

@@ -1,4 +1,5 @@
 require 'optparse'
+require_relative 'modules/util'
 
 options = {}
 
@@ -12,17 +13,7 @@ OptionParser.new do |opt|
   end
 end.parse!
 
-build_type = options[:build_type]
-DEBUG_BUILD_TYPE = 'Debug'.freeze
-RELEASE_BUILD_TYPE = 'Release'.freeze
-build_type = RELEASE_BUILD_TYPE if build_type.nil?
-
-if build_type != DEBUG_BUILD_TYPE && build_type != RELEASE_BUILD_TYPE
-  STDERR.puts("Invalid build type \"#{build_type}\"! "\
-              "Allowable values are \"#{DEBUG_BUILD_TYPE}\" "\
-              "and \"#{RELEASE_BUILD_TYPE}\".")
-  exit(1)
-end
+build_type = Util.build_type(options)
 
 Dir.chdir('build')
 
