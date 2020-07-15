@@ -8,6 +8,20 @@
 #include "data_set.hpp"
 #include "read_csv_file.hpp"
 
+// TODO: Put this in its own file.
+namespace ctg
+{
+namespace 
+{
+long double percentageOf(std::size_t amount, std::size_t totalCount) noexcept
+{
+  return static_cast<long double>(amount)
+    / static_cast<long double>(totalCount) 
+    * 100.0L;
+}
+} // namespace
+} // namespace ctg
+
 int main(int argc, char* argv[])
 {
   constexpr int minimumArgumentCount{2};
@@ -51,8 +65,6 @@ int main(int argc, char* argv[])
       return EXIT_FAILURE;
     }
 
-    fmt::print("{}: processing file \"{}\"\n", argv[0], filePath);
-
     const cl::DataSet& dataSet{expectedDataSet.value()};
 
     constexpr long double            accelerometerThreshold{1.99L};
@@ -61,8 +73,12 @@ int main(int argc, char* argv[])
       ctg::aboveThreshold(dataSet, accelerometerThreshold, gyroscopeThreshold)};
 
     fmt::print(
-      "{} data points above / below threshold were found.\n",
-      aboveThresholdDataPoints.size());
+      "\"{}\": {} of {} data points ({}%) are above / below the threshold.\n",
+      filePath, 
+      aboveThresholdDataPoints.size(),
+      dataSet.rowCount(),
+      ctg::percentageOf(aboveThresholdDataPoints.size(), dataSet.rowCount())
+    );
 
     for (const cl::DataPoint& dataPoint : aboveThresholdDataPoints) {
       fmt::print("{}\n", dataPoint);
