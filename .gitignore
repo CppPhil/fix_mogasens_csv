@@ -185,8 +185,9 @@ resources/Mike/2020-07-02_14.14.32_out.csv
 resources/Mike/2020-07-02_14.20.28_out.csv
 resources/Mike/2020-07-02_14.38.40_out.csv
 
-# log file
+# log files
 log.txt
+above_threshold_log.txt
 
 # automatically generated PNG images
 resources/Felix/*.png
