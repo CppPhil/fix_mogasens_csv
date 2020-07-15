@@ -18,15 +18,11 @@ struct ChannelTableEntry {
   cl::Channel                  channel;
 };
 
-constexpr std::size_t channelCount{cl::channelCount};
-
-constexpr std::array<ChannelTableEntry, channelCount> channelTable{
-  {{&cl::DataSet::accelerometerX, cl::Channel::AccelerometerX},
-   {&cl::DataSet::accelerometerY, cl::Channel::AccelerometerY},
-   {&cl::DataSet::accelerometerZ, cl::Channel::AccelerometerZ},
-   {&cl::DataSet::gyroscopeX, cl::Channel::GyroscopeX},
-   {&cl::DataSet::gyroscopeY, cl::Channel::GyroscopeY},
-   {&cl::DataSet::gyroscopeZ, cl::Channel::GyroscopeZ}}};
+constexpr std::array<ChannelTableEntry, cl::channelCount> channelTable{{
+#define CL_CHANNEL_X(enm, v, accessor) {accessor, cl::Channel::enm},
+  CL_CHANNEL
+#undef CL_CHANNEL_X
+}};
 } // namespace
 
 std::vector<cl::DataPoint> aboveThreshold(
