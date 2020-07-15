@@ -1,5 +1,5 @@
 module System
-  def os
+  def self.os
     @os ||= begin
               host_os = RbConfig::CONFIG['host_os']
               case host_os

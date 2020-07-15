@@ -6,9 +6,8 @@ require_relative 'modules/command_line'
 MINGW_COMPILER = 'MinGW'.freeze
 MSVC_COMPILER = 'MSVC'.freeze
 
-options = CommandLine.parse([CommandLine.BUILD_TYPE_OPTION, \
-                             CommandLine.COMPILER_OPTION, \
-                             CommandLine.HELP_OPTION])
+options = CommandLine.parse([CommandLine.build_type_option, \
+                             CommandLine.compiler_option])
 
 build_type = Util.build_type(options)
 

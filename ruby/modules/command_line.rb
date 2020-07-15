@@ -1,15 +1,19 @@
 require 'optparse'
 
 module CommandLine
-  BUILD_TYPE_OPTION = 'build_type'.freeze
-  COMPILER_OPTION = 'compiler'.freeze
-  HELP_OPTION = 'help'.freeze
+  def self.build_type_option
+    'build_type'.freeze
+  end
 
-  def parse(opts)
+  def self.compiler_option
+    'compiler'.freeze
+  end
+
+  def self.parse(opts)
     options = {}
 
     OptionParser.new do |opt|
-      if opts.include?(BUILD_TYPE_OPTION)
+      if opts.include?(build_type_option)
         opt.on('--build_type=BUILD_TYPE', 'Debug | Release') do |o|
           options[:build_type] = o
         end
@@ -19,17 +23,15 @@ module CommandLine
       msvc_compiler = 'MSVC'.freeze
       compilers = "#{mingw_compiler} | #{msvc_compiler}".freeze
 
-      if opts.include?(COMPILER_OPTION)
+      if opts.include?(compiler_option)
         opt.on('--compiler=COMPILER', compilers) do |o|
           options[:compiler] = o
         end
       end
 
-      if opts.include?(HELP_OPTION)
-        opt.on_tail('-h', '--help', 'Show this message') do
-          STDERR.puts opt
-          exit(0)
-        end
+      opt.on_tail('-h', '--help', 'Show this message') do
+        STDERR.puts opt
+        exit(0)
       end
     end.parse!
 

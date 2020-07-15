@@ -1,8 +1,7 @@
 require_relative 'modules/command_line'
 require_relative 'modules/util'
 
-options = CommandLine.parse([CommandLine.BUILD_TYPE_OPTION, \
-                             CommandLine.HELP_OPTION])
+options = CommandLine.parse([CommandLine.build_type_option])
 
 build_type = Util.build_type(options)
 

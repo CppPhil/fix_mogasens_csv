@@ -1,5 +1,5 @@
 module Util
-  def build_type(options)
+  def self.build_type(options)
     result = options[:build_type]
     debug_build_type = 'Debug'.freeze
     release_build_type = 'Release'.freeze
