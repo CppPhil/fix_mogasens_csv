@@ -1,4 +1,3 @@
-Write entire output to file and don't spam the console.
 Test the stuff.
 Namespace the include paths.
 

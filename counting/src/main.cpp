@@ -1,6 +1,8 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include <fstream>
+
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
@@ -21,6 +23,15 @@ int main(int argc, char* argv[])
       argv[0],
       argc,
       minimumArgumentCount);
+    return EXIT_FAILURE;
+  }
+
+  const pl::string_view logFilePath{"above_threshold_log.txt"};
+  std::ofstream         ofs{
+    logFilePath.c_str(), std::ios_base::out | std::ios_base::trunc};
+
+  if (!ofs) {
+    fmt::print(stderr, "Couldn't open log file: \"{}\"\n.", logFilePath);
     return EXIT_FAILURE;
   }
 
@@ -52,6 +63,8 @@ int main(int argc, char* argv[])
       return EXIT_FAILURE;
     }
 
+    fmt::print(ofs, "File: \"{}\"\n", filePath);
+
     const cl::DataSet& dataSet{expectedDataSet.value()};
 
     constexpr long double            accelerometerThreshold{1.99L};
@@ -67,8 +80,10 @@ int main(int argc, char* argv[])
       ctg::percentageOf(aboveThresholdDataPoints.size(), dataSet.rowCount()));
 
     for (const cl::DataPoint& dataPoint : aboveThresholdDataPoints) {
-      fmt::print("{}\n", dataPoint);
+      fmt::print(ofs, "{}\n", dataPoint);
     }
+
+    fmt::print(ofs, "\n");
   }
 
   return EXIT_SUCCESS;
