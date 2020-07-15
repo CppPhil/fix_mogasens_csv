@@ -2,6 +2,9 @@ Signifikanz
  -> Durchschnitt anhand von Absolutwerten berechnen.
  -> Add that to CI
 
+ Try to debug the above average thing.
+
+
 Daten davon auswerten.
 
 -------------------------------------------------------------------------
