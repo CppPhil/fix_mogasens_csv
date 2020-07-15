@@ -27,12 +27,6 @@ constexpr std::array<ChannelTableEntry, channelCount> channelTable{
    {&cl::DataSet::gyroscopeX, cl::Channel::GyroscopeX},
    {&cl::DataSet::gyroscopeY, cl::Channel::GyroscopeY},
    {&cl::DataSet::gyroscopeZ, cl::Channel::GyroscopeZ}}};
-
-// TODO: Put this to Channel
-bool isAccelerometer(cl::Channel channel)
-{
-  return pl::is_between(tl::underlying_cast(channel), UINT64_C(1), UINT64_C(3));
-}
 } // namespace
 
 std::vector<cl::DataPoint> aboveThreshold(
@@ -52,8 +46,8 @@ std::vector<cl::DataPoint> aboveThreshold(
 
     for (const auto [channelAccessor, currentChannel] : channelTable) {
       if (const auto [isAbove, channelValue] = isAboveThreshold(
-            (isAccelerometer(currentChannel)) ? accelerometerThreshold
-                                              : gyroscopeThreshold,
+            (cl::isAccelerometer(currentChannel)) ? accelerometerThreshold
+                                                  : gyroscopeThreshold,
             (dataSet.*channelAccessor)(i));
           isAbove) {
         result.emplace_back(

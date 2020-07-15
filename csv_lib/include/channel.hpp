@@ -20,5 +20,9 @@ enum class Channel : std::uint64_t {
 };
 
 std::ostream& operator<<(std::ostream& os, Channel channel);
+
+bool isAccelerometer(Channel channel);
+
+bool isGyroscope(Channel channel);
 } // namespace cl
 #endif // INCG_CL_CHANNEL_HPP
