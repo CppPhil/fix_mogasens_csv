@@ -102,10 +102,6 @@ int main(int argc, char* argv[])
         fmt::print(
           "{}: channel {} is not relevant.\n", dataSet.fileName(), channel);
       }
-      else {
-        fmt::print(
-          "{}: channel {} is relevant.\n", dataSet.fileName(), channel);
-      }
     }
   }
 
