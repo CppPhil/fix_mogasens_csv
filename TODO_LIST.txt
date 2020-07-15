@@ -1,10 +1,11 @@
-Take all the files as command line parameters.
 Print statistics n / m data points affected.
 Write entire output to file and don't spam the console.
 Test the stuff.
 Namespace the include paths.
 
 Put duplicate Ruby code into its own Ruby module.
+
+Try to disable Rubocop line count warnings.
 
 Signifikanz
  -> Add that to CI
