@@ -29,9 +29,11 @@ build_script:
   - cmd: test.bat --build_type=Debug
   - cmd: fix_csvs.bat --build_type=Debug --compiler=%gen%
   - cmd: generate_images.bat
+  - cmd: count.bat --build_type=Debug --compiler=%gen%
   - cmd: echo "Release"
   - cmd: build.bat --build_type=Release --compiler=%gen%
   - cmd: test.bat --build_type=Release
   - cmd: fix_csvs.bat --build_type=Release --compiler=%gen%
   - cmd: generate_images.bat
+  - cmd: count.bat --build_type=Release --compiler=%gen%
 
