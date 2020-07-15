@@ -1,4 +1,5 @@
 #include <cassert>
+#include <cmath>
 #include <cstdint>
 
 #include <stdexcept>
@@ -241,6 +242,24 @@ column_type<Column::GyroscopeZ> DataSet::gyroscopeZ(size_type index) const
   return m_gyroscopeZ[index];
 }
 
+long double DataSet::accelerometerAverage() const
+{
+  static constexpr std::array<ChannelAccessor, 3> accelerometerAccessors{
+    {&DataSet::accelerometerX,
+     &DataSet::accelerometerY,
+     &DataSet::accelerometerZ}};
+
+  return average(accelerometerAccessors);
+}
+
+long double DataSet::gyroscopeAverage() const
+{
+  static constexpr std::array<ChannelAccessor, 3> gyroscopeAccessors{
+    {&DataSet::gyroscopeX, &DataSet::gyroscopeY, &DataSet::gyroscopeZ}};
+
+  return average(gyroscopeAccessors);
+}
+
 DataSet::DataSet(
   std::string&&                                         fileName,
   std::vector<column_type<Column::Time>>&&              time,
@@ -265,5 +284,20 @@ DataSet::DataSet(
   , m_gyroscopeY{std::move(gyroscopeY)}
   , m_gyroscopeZ{std::move(gyroscopeZ)}
 {
+}
+
+long double DataSet::average(
+  const std::array<ChannelAccessor, 3>& accessors) const
+{
+  const size_type dataPointCount{accessors.size() * rowCount()};
+  long double     accumulator{0.0L};
+
+  for (size_type i{0}; i < rowCount(); ++i) {
+    for (ChannelAccessor channelAccessor : accessors) {
+      accumulator += std::abs((this->*channelAccessor)(i));
+    }
+  }
+
+  return accumulator / static_cast<long double>(dataPointCount);
 }
 } // namespace cl

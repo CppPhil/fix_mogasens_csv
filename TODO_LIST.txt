@@ -1,4 +1,5 @@
 Signifikanz
+ -> Durchschnitt anhand von Absolutwerten berechnen.
  -> Add that to CI
 
 Daten davon auswerten.

@@ -14,8 +14,8 @@ namespace {
 using size_type = cl::DataSet::size_type;
 
 struct ChannelTableEntry {
-  long double (cl::DataSet::*channelAccessor)(size_type) const;
-  cl::Channel channel;
+  cl::DataSet::ChannelAccessor channelAccessor;
+  cl::Channel                  channel;
 };
 
 constexpr std::size_t channelCount{cl::channelCount};

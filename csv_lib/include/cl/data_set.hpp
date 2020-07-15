@@ -2,6 +2,7 @@
 #define INCG_CL_DATA_SET_HPP
 #include <cstddef>
 
+#include <array>
 #include <string>
 #include <vector>
 
@@ -11,7 +12,8 @@
 namespace cl {
 class DataSet {
 public:
-  using size_type = std::size_t;
+  using size_type       = std::size_t;
+  using ChannelAccessor = long double (DataSet::*)(size_type) const;
 
   [[nodiscard]] static Expected<DataSet> create(
     std::string                                  fileName,
@@ -42,6 +44,10 @@ public:
 
   column_type<Column::GyroscopeZ> gyroscopeZ(size_type index) const;
 
+  long double accelerometerAverage() const;
+
+  long double gyroscopeAverage() const;
+
 private:
   explicit DataSet(
     std::string&&                                         fileName,
@@ -55,6 +61,8 @@ private:
     std::vector<column_type<Column::GyroscopeX>>&&        gyroscopeX,
     std::vector<column_type<Column::GyroscopeY>>&&        gyroscopeY,
     std::vector<column_type<Column::GyroscopeZ>>&&        gyroscopeZ) noexcept;
+
+  long double average(const std::array<ChannelAccessor, 3>& accessors) const;
 
   std::string                                         m_fileName;
   std::vector<column_type<Column::Time>>              m_time;

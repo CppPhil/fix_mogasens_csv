@@ -37,6 +37,9 @@ TEST(DataSet, shouldBeAbleToCreateFromValidData)
   EXPECT_DOUBLE_EQ(static_cast<double>(a), static_cast<double>(b))
 #endif
 
+  EXPECT_LONG_DOUBLE_EQ(0.47111L, dataSet.accelerometerAverage());
+  EXPECT_LONG_DOUBLE_EQ(9.95934966666666666741L, dataSet.gyroscopeAverage());
+
   EXPECT_LONG_DOUBLE_EQ(0.0, dataSet.time(0));
   EXPECT_EQ(64403, dataSet.hardwareTimestamp(0));
   EXPECT_EQ(cl::Sensor::LeftArm, dataSet.extractId(0));
