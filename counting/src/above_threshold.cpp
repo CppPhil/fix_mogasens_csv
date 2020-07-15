@@ -18,7 +18,7 @@ struct ChannelTableEntry {
   cl::Channel channel;
 };
 
-constexpr std::size_t channelCount{6};
+constexpr std::size_t channelCount{cl::channelCount};
 
 constexpr std::array<ChannelTableEntry, channelCount> channelTable{
   {{&cl::DataSet::accelerometerX, cl::Channel::AccelerometerX},

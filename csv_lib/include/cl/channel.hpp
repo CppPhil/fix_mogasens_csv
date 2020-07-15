@@ -1,5 +1,6 @@
 #ifndef INCG_CL_CHANNEL_HPP
 #define INCG_CL_CHANNEL_HPP
+#include <cstddef>
 #include <cstdint>
 
 #include <iosfwd>
@@ -16,6 +17,12 @@ namespace cl {
 enum class Channel : std::uint64_t {
 #define CL_CHANNEL_X(enumerator, value) enumerator = value,
   CL_CHANNEL
+#undef CL_CHANNEL_X
+};
+
+inline constexpr std::size_t channelCount{0
+#define CL_CHANNEL_X(enumerator, value) +1
+                                          CL_CHANNEL
 #undef CL_CHANNEL_X
 };
 

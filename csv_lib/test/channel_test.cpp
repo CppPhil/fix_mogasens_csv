@@ -4,6 +4,8 @@
 
 #include "channel.hpp"
 
+TEST(channel, shouldHaveCorrectCount) { EXPECT_EQ(6U, cl::channelCount); }
+
 TEST(channel, shouldHaveCorrectValues)
 {
   EXPECT_EQ(1, static_cast<std::uint64_t>(cl::Channel::AccelerometerX));
