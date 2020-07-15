@@ -5,10 +5,6 @@
 #include "data_set.hpp"
 #include "read_csv_file.hpp"
 
-// TODO: DEBUG
-#include <iostream>
-// TODO: DEBUG
-
 namespace {
 constexpr char csvFilePath[] = "csv_lib/test/resources/data_set.csv";
 
@@ -40,10 +36,6 @@ TEST(DataSet, shouldBeAbleToCreateFromValidData)
 #define EXPECT_LONG_DOUBLE_EQ(a, b) \
   EXPECT_DOUBLE_EQ(static_cast<double>(a), static_cast<double>(b))
 #endif
-
-  // TODO: DEBUG
-  std::cerr << "ABOUT TO DO IT > >A :<><:>>>>>\n";
-  // TODO: DEBUG
 
   EXPECT_LONG_DOUBLE_EQ(
     0.47111L, dataSet.accelerometerAverage(cl::Sensor::LeftArm));

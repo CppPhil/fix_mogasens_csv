@@ -15,10 +15,6 @@
 #include "data_set.hpp"
 #include "sensor.hpp"
 
-// TODO: DEBUG
-#include <iostream>
-// TODO: DEBUG
-
 namespace cl {
 namespace {
 template<typename To>
@@ -317,11 +313,6 @@ long double DataSet::average(
       }
     }
   }
-
-  // TODO: DEBUG
-  std::cerr << "accu: " << accumulator << "dataPointCount: " << dataPointCount
-            << '\n';
-  // TODO: DEBUG
 
   return accumulator / static_cast<long double>(dataPointCount);
 }
