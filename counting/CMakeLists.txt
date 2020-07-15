@@ -1,9 +1,10 @@
 # STATIC LIBRARY
 set(LIB_NAME counting_lib)
 
-set(LIB_HEADERS include/above_threshold.hpp include/percentage_of.hpp)
+set(LIB_HEADERS include/above_threshold.hpp include/percentage_of.hpp
+                include/is_relevant.hpp)
 
-set(LIB_SOURCES src/above_threshold.cpp)
+set(LIB_SOURCES src/above_threshold.cpp src/is_relevant.cpp)
 
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 

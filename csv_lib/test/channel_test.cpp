@@ -31,3 +31,22 @@ TEST(channel, shouldPrintCorrectly)
   EXPECT_EQ("GyroscopeY", s(cl::Channel::GyroscopeY));
   EXPECT_EQ("GyroscopeZ", s(cl::Channel::GyroscopeZ));
 }
+
+TEST(channel, shouldMapToCorrectDataSetAccessors)
+{
+  EXPECT_EQ(
+    &cl::DataSet::accelerometerX,
+    cl::dataSetAccessor(cl::Channel::AccelerometerX));
+  EXPECT_EQ(
+    &cl::DataSet::accelerometerY,
+    cl::dataSetAccessor(cl::Channel::AccelerometerY));
+  EXPECT_EQ(
+    &cl::DataSet::accelerometerZ,
+    cl::dataSetAccessor(cl::Channel::AccelerometerZ));
+  EXPECT_EQ(
+    &cl::DataSet::gyroscopeX, cl::dataSetAccessor(cl::Channel::GyroscopeX));
+  EXPECT_EQ(
+    &cl::DataSet::gyroscopeY, cl::dataSetAccessor(cl::Channel::GyroscopeY));
+  EXPECT_EQ(
+    &cl::DataSet::gyroscopeZ, cl::dataSetAccessor(cl::Channel::GyroscopeZ));
+}
