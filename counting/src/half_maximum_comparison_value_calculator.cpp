@@ -12,11 +12,14 @@ long double halfMaximumComparisonValueCalculator(
   cl::Channel        channel,
   const cl::DataSet& dataSet)
 {
+  constexpr long double halve{2.0L};
+
   if (cl::isAccelerometer(channel)) {
-    return dataSet.accelerometerMaximum(sensor) / 2.0L;
+    return dataSet.accelerometerMaximum(sensor) / halve;
   }
-  else if (cl::isGyroscope(channel)) {
-    return dataSet.gyroscopeMaximum(sensor) / 2.0L;
+
+  if (cl::isGyroscope(channel)) {
+    return dataSet.gyroscopeMaximum(sensor) / halve;
   }
 
   fmt::print(stderr, "channel was neither accelerometer nor gyroscope!\n");

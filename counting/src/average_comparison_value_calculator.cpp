@@ -15,9 +15,8 @@ long double averageComparisonValueCalculator(
   if (cl::isAccelerometer(channel)) {
     return dataSet.accelerometerAverage(sensor);
   }
-  else if (cl::isGyroscope(channel)) {
-    return dataSet.gyroscopeAverage(sensor);
-  }
+
+  if (cl::isGyroscope(channel)) { return dataSet.gyroscopeAverage(sensor); }
 
   fmt::print(stderr, "channel was neither accelerometer nor gyroscope!\n");
   assert(false && "channel was neither accelerometer nor gyroscope!");
