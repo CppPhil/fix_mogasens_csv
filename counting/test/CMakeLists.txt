@@ -2,7 +2,7 @@ include(GoogleTest)
 
 set(TEST_NAME counting_test)
 
-set(TEST_SOURCES main.cpp)
+set(TEST_SOURCES above_threshold_test.cpp main.cpp percentage_of_test.cpp)
 
 add_executable(${TEST_NAME} ${TEST_SOURCES})
 

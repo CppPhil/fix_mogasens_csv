@@ -1,4 +1,3 @@
-Test the stuff.
 Namespace the include paths.
 
 Put duplicate Ruby code into its own Ruby module.

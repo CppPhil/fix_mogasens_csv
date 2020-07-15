@@ -28,6 +28,7 @@ constexpr std::array<ChannelTableEntry, channelCount> channelTable{
    {&cl::DataSet::gyroscopeY, cl::Channel::GyroscopeY},
    {&cl::DataSet::gyroscopeZ, cl::Channel::GyroscopeZ}}};
 
+// TODO: Put this to Channel
 bool isAccelerometer(cl::Channel channel)
 {
   return pl::is_between(tl::underlying_cast(channel), UINT64_C(1), UINT64_C(3));
