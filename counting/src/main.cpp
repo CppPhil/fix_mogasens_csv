@@ -6,11 +6,12 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
+#include <pl/string_view.hpp>
+
 #include "cl/data_set.hpp"
 #include "cl/read_csv_file.hpp"
 
-#include "above_threshold.hpp"
-#include "percentage_of.hpp"
+#include "run_above_threshold.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -27,12 +28,14 @@ int main(int argc, char* argv[])
     return EXIT_FAILURE;
   }
 
-  const pl::string_view logFilePath{"above_threshold_log.txt"};
-  std::ofstream         ofs{
-    logFilePath.c_str(), std::ios_base::out | std::ios_base::trunc};
+  const pl::string_view aboveThresholdLogFilePath{"above_threshold_log.txt"};
+  std::ofstream         aboveThresholdLogOuputFileStream{
+    aboveThresholdLogFilePath.c_str(),
+    std::ios_base::out | std::ios_base::trunc};
 
-  if (!ofs) {
-    fmt::print(stderr, "Couldn't open log file: \"{}\"\n.", logFilePath);
+  if (!aboveThresholdLogOuputFileStream) {
+    fmt::print(
+      stderr, "Couldn't open log file: \"{}\"\n.", aboveThresholdLogFilePath);
     return EXIT_FAILURE;
   }
 
@@ -64,29 +67,9 @@ int main(int argc, char* argv[])
       return EXIT_FAILURE;
     }
 
-    fmt::print(ofs, "File: \"{}\"\n", filePath);
-
     const cl::DataSet& dataSet{expectedDataSet.value()};
 
-    constexpr long double            accelerometerThreshold{1.99L};
-    constexpr long double            gyroscopeThreshold{1999.99L};
-    const std::vector<cl::DataPoint> aboveThresholdDataPoints{
-      ctg::aboveThreshold(dataSet, accelerometerThreshold, gyroscopeThreshold)};
-
-    constexpr std::size_t channelCount{cl::channelCount};
-    const std::size_t     dataPointCount{channelCount * dataSet.rowCount()};
-    fmt::print(
-      "\"{}\": {} of {} data points ({}%) are above / below the threshold.\n",
-      filePath,
-      aboveThresholdDataPoints.size(),
-      dataPointCount,
-      ctg::percentageOf(aboveThresholdDataPoints.size(), dataPointCount));
-
-    for (const cl::DataPoint& dataPoint : aboveThresholdDataPoints) {
-      fmt::print(ofs, "{}\n", dataPoint);
-    }
-
-    fmt::print(ofs, "\n");
+    ctg::runAboveThreshold(aboveThresholdLogOuputFileStream, dataSet);
   }
 
   return EXIT_SUCCESS;
