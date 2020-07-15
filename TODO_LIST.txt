@@ -1,10 +1,5 @@
 Signifikanz
- Make it so that it is per sensor based.
-
- Try to debug the above average thing.
-
-
-Daten davon auswerten.
+ -> Daten davon auswerten.
 
 -------------------------------------------------------------------------
 

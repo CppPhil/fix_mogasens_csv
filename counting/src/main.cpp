@@ -94,7 +94,7 @@ int main(int argc, char* argv[])
               &ctg::averageComparisonValueCalculator)) {
           fmt::print(
             averageRelevanceOutputBuffer,
-            "{}: sensor: {} channel: {} is not relevant.\n",
+            "{}: sensor: {}, channel: {} is not relevant.\n",
             dataSet.fileName(),
             sensor,
             channel);
@@ -111,7 +111,7 @@ int main(int argc, char* argv[])
               &ctg::halfMaximumComparisonValueCalculator)) {
           fmt::print(
             halfMaximumRelevanceOutputBuffer,
-            "{}: sensor: {} channel: {} isn't relevant.\n",
+            "{}: sensor: {}, channel: {} isn't relevant.\n",
             dataSet.fileName(),
             sensor,
             channel);
