@@ -73,12 +73,14 @@ int main(int argc, char* argv[])
     const std::vector<cl::DataPoint> aboveThresholdDataPoints{
       ctg::aboveThreshold(dataSet, accelerometerThreshold, gyroscopeThreshold)};
 
+    constexpr std::size_t channelCount{6};
+    const std::size_t     dataPointCount{channelCount * dataSet.rowCount()};
     fmt::print(
       "\"{}\": {} of {} data points ({}%) are above / below the threshold.\n",
       filePath,
       aboveThresholdDataPoints.size(),
-      dataSet.rowCount(),
-      ctg::percentageOf(aboveThresholdDataPoints.size(), dataSet.rowCount()));
+      dataPointCount,
+      ctg::percentageOf(aboveThresholdDataPoints.size(), dataPointCount));
 
     for (const cl::DataPoint& dataPoint : aboveThresholdDataPoints) {
       fmt::print(ofs, "{}\n", dataPoint);
