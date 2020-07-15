@@ -1,17 +1,8 @@
-require 'optparse'
+require_relative 'modules/command_line'
 require_relative 'modules/util'
 
-options = {}
-
-OptionParser.new do |opt|
-  opt.on('--build_type=BUILD_TYPE', 'Debug | Release') do |o|
-    options[:build_type] = o
-  end
-  opt.on_tail('-h', '--help', 'Show this message') do
-    STDERR.puts opt
-    exit(0)
-  end
-end.parse!
+options = CommandLine.parse([CommandLine.BUILD_TYPE_OPTION, \
+                             CommandLine.HELP_OPTION])
 
 build_type = Util.build_type(options)
 

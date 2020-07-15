@@ -1,6 +1,6 @@
-require 'optparse'
 require 'etc'
 require_relative 'modules/util'
+require_relative 'modules/command_line'
 
 MINGW_COMPILER = 'MinGW'.freeze
 MSVC_COMPILER = 'MSVC'.freeze
@@ -16,20 +16,9 @@ def cmake_generator(compiler)
   end
 end
 
-options = {}
-
-OptionParser.new do |opt|
-  opt.on('--build_type=BUILD_TYPE', 'Debug | Release') do |o|
-    options[:build_type] = o
-  end
-  opt.on('--compiler=COMPILER', "#{MINGW_COMPILER} | #{MSVC_COMPILER}") do |o|
-    options[:compiler] = o
-  end
-  opt.on_tail('-h', '--help', 'Show this message') do
-    STDERR.puts opt.to_s.gsub('build_windows', 'build.bat')
-    exit(0)
-  end
-end.parse!
+options = CommandLine.parse([CommandLine.BUILD_TYPE_OPTION, \
+                             CommandLine.COMPILER_OPTION, \
+                             CommandLine.HELP_OPTION])
 
 build_type = Util.build_type(options)
 
