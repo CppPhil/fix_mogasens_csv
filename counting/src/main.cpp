@@ -4,6 +4,7 @@
 
 #include <array>
 #include <fstream>
+#include <sstream>
 
 #include <fmt/format.h>
 #include <fmt/ostream.h>
@@ -15,6 +16,7 @@
 #include "cl/read_csv_file.hpp"
 
 #include "average_comparison_value_calculator.hpp"
+#include "half_maximum_comparison_value_calculator.hpp"
 #include "is_relevant.hpp"
 #include "run_above_threshold.hpp"
 
@@ -43,6 +45,12 @@ int main(int argc, char* argv[])
       stderr, "Couldn't open log file: \"{}\"\n.", aboveThresholdLogFilePath);
     return EXIT_FAILURE;
   }
+
+  std::ostringstream averageRelevanceOutputBuffer{};
+  std::ostringstream halfMaximumRelevanceOutputBuffer{};
+
+  fmt::print(averageRelevanceOutputBuffer, "irrelevance (average)\n");
+  fmt::print(halfMaximumRelevanceOutputBuffer, "irrelevance (half maximum)\n");
 
   for (int i{1}; i < argc; ++i) {
     const pl::string_view                                     filePath{argv[i]};
@@ -82,34 +90,33 @@ int main(int argc, char* argv[])
 #undef CL_CHANNEL_X
     }};
 
-    /* TODO: Oberhalb der Haelfte. */
     for (cl::Channel channel : channels) {
       if (!ctg::isRelevant(
             channel, dataSet, &ctg::averageComparisonValueCalculator)) {
         fmt::print(
-          "{}: channel {} is not relevant.\n", dataSet.fileName(), channel);
+          averageRelevanceOutputBuffer,
+          "{}: channel {} is not relevant.\n",
+          dataSet.fileName(),
+          channel);
       }
     }
 
     for (cl::Channel channel : channels) {
       if (!ctg::isRelevant(
-            channel,
-            dataSet,
-            [](cl::Channel channel, const cl::DataSet& dataSet) {
-              if (cl::isAccelerometer(channel)) {
-                return dataSet.accelerometerMaximum() / 2.0L;
-              }
-              else if (cl::isGyroscope(channel)) {
-                return dataSet.gyroscopeMaximum() / 2.0L;
-              }
-              // TODO: HANDLE ERROR
-              return 0.0L;
-            })) {
+            channel, dataSet, &ctg::halfMaximumComparisonValueCalculator)) {
         fmt::print(
-          "{}: channel {} isn't relevant.\n", dataSet.fileName(), channel);
+          halfMaximumRelevanceOutputBuffer,
+          "{}: channel {} isn't relevant.\n",
+          dataSet.fileName(),
+          channel);
       }
     }
   }
+
+  fmt::print(
+    "\n{}\n{}",
+    averageRelevanceOutputBuffer.str(),
+    halfMaximumRelevanceOutputBuffer.str());
 
   return EXIT_SUCCESS;
 }
