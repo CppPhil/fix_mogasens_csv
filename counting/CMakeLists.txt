@@ -11,7 +11,7 @@ set(LIB_HEADERS
 
 set(LIB_SOURCES
     src/above_threshold.cpp src/average_comparison_value_calculator.cpp
-    src/half_maximum_comparison_value_calculator.cpp src/main.cpp
+    src/half_maximum_comparison_value_calculator.cpp
     src/run_above_threshold.cpp)
 
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
