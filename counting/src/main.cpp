@@ -6,18 +6,8 @@
 
 #include "above_threshold.hpp"
 #include "data_set.hpp"
+#include "percentage_of.hpp"
 #include "read_csv_file.hpp"
-
-// TODO: Put this in its own file.
-namespace ctg {
-namespace {
-long double percentageOf(std::size_t amount, std::size_t totalCount) noexcept
-{
-  return static_cast<long double>(amount) / static_cast<long double>(totalCount)
-         * 100.0L;
-}
-} // namespace
-} // namespace ctg
 
 int main(int argc, char* argv[])
 {
