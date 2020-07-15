@@ -242,22 +242,34 @@ column_type<Column::GyroscopeZ> DataSet::gyroscopeZ(size_type index) const
   return m_gyroscopeZ[index];
 }
 
+namespace {
+constexpr std::array<DataSet::ChannelAccessor, 3> accelerometerAccessors{
+  {&DataSet::accelerometerX,
+   &DataSet::accelerometerY,
+   &DataSet::accelerometerZ}};
+
+constexpr std::array<DataSet::ChannelAccessor, 3> gyroscopeAccessors{
+  {&DataSet::gyroscopeX, &DataSet::gyroscopeY, &DataSet::gyroscopeZ}};
+} // namespace
+
 long double DataSet::accelerometerAverage() const
 {
-  static constexpr std::array<ChannelAccessor, 3> accelerometerAccessors{
-    {&DataSet::accelerometerX,
-     &DataSet::accelerometerY,
-     &DataSet::accelerometerZ}};
-
   return average(accelerometerAccessors);
 }
 
 long double DataSet::gyroscopeAverage() const
 {
-  static constexpr std::array<ChannelAccessor, 3> gyroscopeAccessors{
-    {&DataSet::gyroscopeX, &DataSet::gyroscopeY, &DataSet::gyroscopeZ}};
-
   return average(gyroscopeAccessors);
+}
+
+long double DataSet::accelerometerMaximum() const
+{
+  return maximum(accelerometerAccessors);
+}
+
+long double DataSet::gyroscopeMaximum() const
+{
+  return maximum(gyroscopeAccessors);
 }
 
 DataSet::DataSet(
@@ -299,5 +311,19 @@ long double DataSet::average(
   }
 
   return accumulator / static_cast<long double>(dataPointCount);
+}
+
+long double DataSet::maximum(
+  const std::array<ChannelAccessor, 3>& accessors) const
+{
+  long double result{0.0L};
+
+  for (size_type i{0}; i < rowCount(); ++i) {
+    for (ChannelAccessor channelAccessor : accessors) {
+      result = std::max(result, std::abs((this->*channelAccessor)(i)));
+    }
+  }
+
+  return result;
 }
 } // namespace cl

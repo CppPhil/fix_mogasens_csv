@@ -14,6 +14,7 @@
 #include "cl/data_set.hpp"
 #include "cl/read_csv_file.hpp"
 
+#include "average_comparison_value_calculator.hpp"
 #include "is_relevant.hpp"
 #include "run_above_threshold.hpp"
 
@@ -81,26 +82,31 @@ int main(int argc, char* argv[])
 #undef CL_CHANNEL_X
     }};
 
+    /* TODO: Oberhalb der Haelfte. */
+    for (cl::Channel channel : channels) {
+      if (!ctg::isRelevant(
+            channel, dataSet, &ctg::averageComparisonValueCalculator)) {
+        fmt::print(
+          "{}: channel {} is not relevant.\n", dataSet.fileName(), channel);
+      }
+    }
+
     for (cl::Channel channel : channels) {
       if (!ctg::isRelevant(
             channel,
             dataSet,
             [](cl::Channel channel, const cl::DataSet& dataSet) {
               if (cl::isAccelerometer(channel)) {
-                return dataSet.accelerometerAverage();
+                return dataSet.accelerometerMaximum() / 2.0L;
               }
               else if (cl::isGyroscope(channel)) {
-                return dataSet.gyroscopeAverage();
+                return dataSet.gyroscopeMaximum() / 2.0L;
               }
-
-              fmt::print(
-                stderr, "channel was neither accelerometer nor gyroscope!\n");
-              assert(
-                false && "channel was neither accelerometer nor gyroscope!");
+              // TODO: HANDLE ERROR
               return 0.0L;
             })) {
         fmt::print(
-          "{}: channel {} is not relevant.\n", dataSet.fileName(), channel);
+          "{}: channel {} isn't relevant.\n", dataSet.fileName(), channel);
       }
     }
   }

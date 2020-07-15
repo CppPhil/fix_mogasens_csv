@@ -48,6 +48,10 @@ public:
 
   long double gyroscopeAverage() const;
 
+  long double accelerometerMaximum() const;
+
+  long double gyroscopeMaximum() const;
+
 private:
   explicit DataSet(
     std::string&&                                         fileName,
@@ -63,6 +67,8 @@ private:
     std::vector<column_type<Column::GyroscopeZ>>&&        gyroscopeZ) noexcept;
 
   long double average(const std::array<ChannelAccessor, 3>& accessors) const;
+
+  long double maximum(const std::array<ChannelAccessor, 3>& accessors) const;
 
   std::string                                         m_fileName;
   std::vector<column_type<Column::Time>>              m_time;
