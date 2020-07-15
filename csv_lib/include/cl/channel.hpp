@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 
+#include <array>
 #include <iosfwd>
 
 #include "data_set.hpp"
@@ -27,6 +28,12 @@ inline constexpr std::size_t channelCount{0
                                           CL_CHANNEL
 #undef CL_CHANNEL_X
 };
+
+inline constexpr std::array<Channel, channelCount> channels{{
+#define CL_CHANNEL_X(enm, v, a) ::cl::Channel::enm,
+  CL_CHANNEL
+#undef CL_CHANNEL_X
+}};
 
 template<Channel Chan>
 struct data_set_accessor;

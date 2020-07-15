@@ -8,14 +8,15 @@
 
 namespace ctg {
 long double halfMaximumComparisonValueCalculator(
+  cl::Sensor         sensor,
   cl::Channel        channel,
   const cl::DataSet& dataSet)
 {
   if (cl::isAccelerometer(channel)) {
-    return dataSet.accelerometerMaximum() / 2.0L;
+    return dataSet.accelerometerMaximum(sensor) / 2.0L;
   }
   else if (cl::isGyroscope(channel)) {
-    return dataSet.gyroscopeMaximum() / 2.0L;
+    return dataSet.gyroscopeMaximum(sensor) / 2.0L;
   }
 
   fmt::print(stderr, "channel was neither accelerometer nor gyroscope!\n");

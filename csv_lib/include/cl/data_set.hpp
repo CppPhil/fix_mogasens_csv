@@ -8,6 +8,7 @@
 
 #include "column.hpp"
 #include "error.hpp"
+#include "sensor.hpp"
 
 namespace cl {
 class DataSet {
@@ -44,13 +45,13 @@ public:
 
   column_type<Column::GyroscopeZ> gyroscopeZ(size_type index) const;
 
-  long double accelerometerAverage() const;
+  long double accelerometerAverage(Sensor sensor) const;
 
-  long double gyroscopeAverage() const;
+  long double gyroscopeAverage(Sensor sensor) const;
 
-  long double accelerometerMaximum() const;
+  long double accelerometerMaximum(Sensor sensor) const;
 
-  long double gyroscopeMaximum() const;
+  long double gyroscopeMaximum(Sensor sensor) const;
 
 private:
   explicit DataSet(
@@ -66,9 +67,13 @@ private:
     std::vector<column_type<Column::GyroscopeY>>&&        gyroscopeY,
     std::vector<column_type<Column::GyroscopeZ>>&&        gyroscopeZ) noexcept;
 
-  long double average(const std::array<ChannelAccessor, 3>& accessors) const;
+  long double average(
+    const std::array<ChannelAccessor, 3>& accessors,
+    Sensor                                sensor) const;
 
-  long double maximum(const std::array<ChannelAccessor, 3>& accessors) const;
+  long double maximum(
+    const std::array<ChannelAccessor, 3>& accessors,
+    Sensor                                sensor) const;
 
   std::string                                         m_fileName;
   std::vector<column_type<Column::Time>>              m_time;

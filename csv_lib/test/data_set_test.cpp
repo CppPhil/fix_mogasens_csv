@@ -5,6 +5,10 @@
 #include "data_set.hpp"
 #include "read_csv_file.hpp"
 
+// TODO: DEBUG
+#include <iostream>
+// TODO: DEBUG
+
 namespace {
 constexpr char csvFilePath[] = "csv_lib/test/resources/data_set.csv";
 
@@ -37,8 +41,14 @@ TEST(DataSet, shouldBeAbleToCreateFromValidData)
   EXPECT_DOUBLE_EQ(static_cast<double>(a), static_cast<double>(b))
 #endif
 
-  EXPECT_LONG_DOUBLE_EQ(0.47111L, dataSet.accelerometerAverage());
-  EXPECT_LONG_DOUBLE_EQ(9.95934966666666666741L, dataSet.gyroscopeAverage());
+  // TODO: DEBUG
+  std::cerr << "ABOUT TO DO IT > >A :<><:>>>>>\n";
+  // TODO: DEBUG
+
+  EXPECT_LONG_DOUBLE_EQ(
+    0.47111L, dataSet.accelerometerAverage(cl::Sensor::LeftArm));
+  EXPECT_LONG_DOUBLE_EQ(
+    9.95934966666666666741L, dataSet.gyroscopeAverage(cl::Sensor::LeftArm));
 
   EXPECT_LONG_DOUBLE_EQ(0.0, dataSet.time(0));
   EXPECT_EQ(64403, dataSet.hardwareTimestamp(0));
@@ -53,7 +63,7 @@ TEST(DataSet, shouldBeAbleToCreateFromValidData)
 
   EXPECT_LONG_DOUBLE_EQ(0.001, dataSet.time(1));
   EXPECT_EQ(64403, dataSet.hardwareTimestamp(1));
-  EXPECT_EQ(cl::Sensor::Belly, dataSet.extractId(1));
+  EXPECT_EQ(cl::Sensor::LeftArm, dataSet.extractId(1));
   EXPECT_LONG_DOUBLE_EQ(0.0, dataSet.trigger(1));
   EXPECT_LONG_DOUBLE_EQ(-0.436462, dataSet.accelerometerX(1));
   EXPECT_LONG_DOUBLE_EQ(-0.008423, dataSet.accelerometerY(1));

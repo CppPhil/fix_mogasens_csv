@@ -14,6 +14,7 @@
 #include "cl/channel.hpp"
 #include "cl/data_set.hpp"
 #include "cl/read_csv_file.hpp"
+#include "cl/sensor.hpp"
 
 #include "average_comparison_value_calculator.hpp"
 #include "half_maximum_comparison_value_calculator.hpp"
@@ -84,31 +85,37 @@ int main(int argc, char* argv[])
 
     ctg::runAboveThreshold(aboveThresholdLogOuputFileStream, dataSet);
 
-    constexpr std::array<cl::Channel, cl::channelCount> channels{{
-#define CL_CHANNEL_X(enm, v, a) ::cl::Channel::enm,
-      CL_CHANNEL
-#undef CL_CHANNEL_X
-    }};
-
-    for (cl::Channel channel : channels) {
-      if (!ctg::isRelevant(
-            channel, dataSet, &ctg::averageComparisonValueCalculator)) {
-        fmt::print(
-          averageRelevanceOutputBuffer,
-          "{}: channel {} is not relevant.\n",
-          dataSet.fileName(),
-          channel);
+    for (cl::Sensor sensor : cl::sensors) {
+      for (cl::Channel channel : cl::channels) {
+        if (!ctg::isRelevant(
+              sensor,
+              channel,
+              dataSet,
+              &ctg::averageComparisonValueCalculator)) {
+          fmt::print(
+            averageRelevanceOutputBuffer,
+            "{}: sensor: {} channel: {} is not relevant.\n",
+            dataSet.fileName(),
+            sensor,
+            channel);
+        }
       }
     }
 
-    for (cl::Channel channel : channels) {
-      if (!ctg::isRelevant(
-            channel, dataSet, &ctg::halfMaximumComparisonValueCalculator)) {
-        fmt::print(
-          halfMaximumRelevanceOutputBuffer,
-          "{}: channel {} isn't relevant.\n",
-          dataSet.fileName(),
-          channel);
+    for (cl::Sensor sensor : cl::sensors) {
+      for (cl::Channel channel : cl::channels) {
+        if (!ctg::isRelevant(
+              sensor,
+              channel,
+              dataSet,
+              &ctg::halfMaximumComparisonValueCalculator)) {
+          fmt::print(
+            halfMaximumRelevanceOutputBuffer,
+            "{}: sensor: {} channel: {} isn't relevant.\n",
+            dataSet.fileName(),
+            sensor,
+            channel);
+        }
       }
     }
   }

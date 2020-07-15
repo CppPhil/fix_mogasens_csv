@@ -15,6 +15,10 @@
 #include "data_set.hpp"
 #include "sensor.hpp"
 
+// TODO: DEBUG
+#include <iostream>
+// TODO: DEBUG
+
 namespace cl {
 namespace {
 template<typename To>
@@ -252,24 +256,24 @@ constexpr std::array<DataSet::ChannelAccessor, 3> gyroscopeAccessors{
   {&DataSet::gyroscopeX, &DataSet::gyroscopeY, &DataSet::gyroscopeZ}};
 } // namespace
 
-long double DataSet::accelerometerAverage() const
+long double DataSet::accelerometerAverage(Sensor sensor) const
 {
-  return average(accelerometerAccessors);
+  return average(accelerometerAccessors, sensor);
 }
 
-long double DataSet::gyroscopeAverage() const
+long double DataSet::gyroscopeAverage(Sensor sensor) const
 {
-  return average(gyroscopeAccessors);
+  return average(gyroscopeAccessors, sensor);
 }
 
-long double DataSet::accelerometerMaximum() const
+long double DataSet::accelerometerMaximum(Sensor sensor) const
 {
-  return maximum(accelerometerAccessors);
+  return maximum(accelerometerAccessors, sensor);
 }
 
-long double DataSet::gyroscopeMaximum() const
+long double DataSet::gyroscopeMaximum(Sensor sensor) const
 {
-  return maximum(gyroscopeAccessors);
+  return maximum(gyroscopeAccessors, sensor);
 }
 
 DataSet::DataSet(
@@ -299,28 +303,40 @@ DataSet::DataSet(
 }
 
 long double DataSet::average(
-  const std::array<ChannelAccessor, 3>& accessors) const
+  const std::array<ChannelAccessor, 3>& accessors,
+  Sensor                                sensor) const
 {
-  const size_type dataPointCount{accessors.size() * rowCount()};
-  long double     accumulator{0.0L};
+  size_type   dataPointCount{0};
+  long double accumulator{0.0L};
 
   for (size_type i{0}; i < rowCount(); ++i) {
-    for (ChannelAccessor channelAccessor : accessors) {
-      accumulator += std::abs((this->*channelAccessor)(i));
+    if (extractId(i) == sensor) {
+      for (ChannelAccessor channelAccessor : accessors) {
+        ++dataPointCount;
+        accumulator += std::abs((this->*channelAccessor)(i));
+      }
     }
   }
+
+  // TODO: DEBUG
+  std::cerr << "accu: " << accumulator << "dataPointCount: " << dataPointCount
+            << '\n';
+  // TODO: DEBUG
 
   return accumulator / static_cast<long double>(dataPointCount);
 }
 
 long double DataSet::maximum(
-  const std::array<ChannelAccessor, 3>& accessors) const
+  const std::array<ChannelAccessor, 3>& accessors,
+  Sensor                                sensor) const
 {
   long double result{0.0L};
 
   for (size_type i{0}; i < rowCount(); ++i) {
-    for (ChannelAccessor channelAccessor : accessors) {
-      result = std::max(result, std::abs((this->*channelAccessor)(i)));
+    if (extractId(i) == sensor) {
+      for (ChannelAccessor channelAccessor : accessors) {
+        result = std::max(result, std::abs((this->*channelAccessor)(i)));
+      }
     }
   }
 
