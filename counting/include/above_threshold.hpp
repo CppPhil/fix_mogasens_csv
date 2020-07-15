@@ -2,8 +2,8 @@
 #define INCG_CTG_ABOVE_THRESHOLD_HPP
 #include <vector>
 
-#include "data_point.hpp"
-#include "data_set.hpp"
+#include "cl/data_point.hpp"
+#include "cl/data_set.hpp"
 
 namespace ctg {
 std::vector<cl::DataPoint> aboveThreshold(

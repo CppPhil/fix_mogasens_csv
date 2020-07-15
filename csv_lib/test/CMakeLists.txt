@@ -16,6 +16,9 @@ set(TEST_SOURCES
 
 add_executable(${TEST_NAME} ${TEST_SOURCES})
 
+target_include_directories(
+  ${TEST_NAME} PRIVATE ${mogasens_csv_SOURCE_DIR}/csv_lib/include/cl)
+
 target_link_libraries(${TEST_NAME} PRIVATE csv_lib gtest_main)
 
 gtest_discover_tests(${TEST_NAME} WORKING_DIRECTORY ${mogasens_csv_SOURCE_DIR})

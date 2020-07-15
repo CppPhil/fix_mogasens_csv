@@ -6,10 +6,11 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
+#include "cl/data_set.hpp"
+#include "cl/read_csv_file.hpp"
+
 #include "above_threshold.hpp"
-#include "data_set.hpp"
 #include "percentage_of.hpp"
-#include "read_csv_file.hpp"
 
 int main(int argc, char* argv[])
 {
