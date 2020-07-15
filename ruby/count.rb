@@ -76,6 +76,11 @@ csv_files = Dir["#{RESOURCES_DIR}/**/*.csv"].select do |file|
   file.end_with?('_out.csv')
 end
 
+if csv_files.empty?
+  STDERR.puts('No _out.csv files were found, exiting.')
+  exit(1)
+end
+
 csv_files.map! { |file| "\"#{file}\"" }
 
 unless system("#{counting_app(build_type, compiler)} #{csv_files.join(' ')}")
