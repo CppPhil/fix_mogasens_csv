@@ -26,7 +26,7 @@ void runAboveThreshold(
   const std::size_t dataPointCount{cl::channelCount * dataSet.rowCount()};
 
   fmt::print(
-    "\"{}\": {} of {} data points ({}%) are above / below the threshold.\n",
+    "{}: {} of {} data points ({}%) are above / below the threshold.\n",
     dataSet.fileName(),
     aboveThresholdDataPoints.size(),
     dataPointCount,
