@@ -9,15 +9,12 @@
 #include "read_csv_file.hpp"
 
 // TODO: Put this in its own file.
-namespace ctg
-{
-namespace 
-{
+namespace ctg {
+namespace {
 long double percentageOf(std::size_t amount, std::size_t totalCount) noexcept
 {
-  return static_cast<long double>(amount)
-    / static_cast<long double>(totalCount) 
-    * 100.0L;
+  return static_cast<long double>(amount) / static_cast<long double>(totalCount)
+         * 100.0L;
 }
 } // namespace
 } // namespace ctg
@@ -74,11 +71,10 @@ int main(int argc, char* argv[])
 
     fmt::print(
       "\"{}\": {} of {} data points ({}%) are above / below the threshold.\n",
-      filePath, 
+      filePath,
       aboveThresholdDataPoints.size(),
       dataSet.rowCount(),
-      ctg::percentageOf(aboveThresholdDataPoints.size(), dataSet.rowCount())
-    );
+      ctg::percentageOf(aboveThresholdDataPoints.size(), dataSet.rowCount()));
 
     for (const cl::DataPoint& dataPoint : aboveThresholdDataPoints) {
       fmt::print("{}\n", dataPoint);
