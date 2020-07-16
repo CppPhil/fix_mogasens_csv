@@ -1,6 +1,3 @@
-Signifikanz
- -> Daten davon auswerten.
-
 -------------------------------------------------------------------------
 
 Extract features.
