@@ -21,9 +21,7 @@ void adjustHardwareTimestamp(
       cellValue += *overflowCount * UINT16_MAX + *overflowCount;
     }
 
-    if (oldCellValue >= overflowThreshold) {
-      ++(*overflowCount);
-    }
+    if (oldCellValue >= overflowThreshold) { ++(*overflowCount); }
 
     fmt::format_int formatter{cellValue};
     cellContent->assign(formatter.data(), formatter.size());

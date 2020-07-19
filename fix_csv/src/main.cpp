@@ -111,7 +111,7 @@ int main(int argc, char* argv[])
               fmc::adjustHardwareTimestamp(
                 &currentField, overflowThreshold, &overflowCount);
               lastHardwareTimestampBeforeChange = beforeChange;
-              lastHardwareTimestampWritten = currentField;
+              lastHardwareTimestampWritten      = currentField;
             }
           }
           else if (pl::is_between(

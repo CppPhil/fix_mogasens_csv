@@ -134,7 +134,7 @@ TEST(adjustHardwareTimestamp, shouldWork)
   std::uint64_t           overflowCount{UINT64_C(0)};
   std::uint16_t           sixteenBit{UINT16_C(0)};
   constexpr auto          increment{4};
-  constexpr std::uint64_t max{UINT64_C(134217728)};
+  constexpr std::uint64_t max{UINT64_C(1048560)};
 
   for (std::uint64_t i{UINT64_C(0)}; i < max; i += increment) {
     fmt::format_int expected{i};
@@ -146,5 +146,5 @@ TEST(adjustHardwareTimestamp, shouldWork)
     sixteenBit += increment;
   }
 
-  ASSERT_EQ(2048, overflowCount);
+  ASSERT_EQ(15, overflowCount);
 }
