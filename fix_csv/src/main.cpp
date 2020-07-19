@@ -100,21 +100,20 @@ int main(int argc, char* argv[])
         for (std::string& currentField : currentRow) {
           if (columnCount == fmc::hardwareTimestampColumn) {
             constexpr std::uint64_t overflowThreshold{65532U};
+            const std::string       beforeChange{currentField};
+            static std::string      lastHardwareTimestampBeforeChange{};
+            static std::string      lastHardwareTimestampWritten{};
 
-            static std::string lastHardwareTimestamp{};
-
-            const std::uint64_t previousOverflowCount{overflowCount};
-
-            fmc::adjustHardwareTimestamp(
-              &currentField, overflowThreshold, &overflowCount);
-
-            // If we're still on the same timestamp -> Don't change the overflow
-            // count.
-            if (lastHardwareTimestamp == currentField) {
-              overflowCount = previousOverflowCount;
+            if (lastHardwareTimestampBeforeChange == beforeChange) {
+              currentField = lastHardwareTimestampWritten;
             }
-
-            lastHardwareTimestamp = currentField;
+            else {
+              fmc::adjustHardwareTimestamp(
+                &currentField, overflowThreshold, &overflowCount);
+              lastHardwareTimestampBeforeChange = beforeChange;
+              fmt::print(stderr, "set last hw ts to: {}\n", beforeChange);
+              lastHardwareTimestampWritten = currentField;
+            }
           }
           else if (pl::is_between(
                      columnCount,
