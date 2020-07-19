@@ -19,27 +19,14 @@ void adjustHardwareTimestamp(
 
     if (*overflowCount > 0U) {
       cellValue += *overflowCount * UINT16_MAX + *overflowCount;
-      fmt::print(
-        stderr,
-        "of count was greater than 0 ({}), cellValue is now: {}\n",
-        *overflowCount,
-        cellValue);
     }
 
     if (oldCellValue >= overflowThreshold) {
       ++(*overflowCount);
-
-      fmt::print(
-        stderr,
-        "oldCellValue {} is greater than {}, of count is now {}\n",
-        oldCellValue,
-        overflowThreshold,
-        *overflowCount);
     }
 
     fmt::format_int formatter{cellValue};
     cellContent->assign(formatter.data(), formatter.size());
-    fmt::print(stderr, "Set cellContent to: \"{}\"\n", *cellContent);
   }
   catch (const std::invalid_argument& ex) {
     fmt::print(

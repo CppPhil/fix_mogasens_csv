@@ -111,7 +111,6 @@ int main(int argc, char* argv[])
               fmc::adjustHardwareTimestamp(
                 &currentField, overflowThreshold, &overflowCount);
               lastHardwareTimestampBeforeChange = beforeChange;
-              fmt::print(stderr, "set last hw ts to: {}\n", beforeChange);
               lastHardwareTimestampWritten = currentField;
             }
           }
