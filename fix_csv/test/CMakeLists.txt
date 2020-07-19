@@ -2,7 +2,8 @@ include(GoogleTest)
 
 set(TEST_NAME fmc_test)
 
-set(TEST_SOURCES main.cpp remove_zeros_from_field_test.cpp)
+set(TEST_SOURCES main.cpp remove_zeros_from_field_test.cpp
+                 adjust_hardware_timestamp_test.cpp)
 
 add_executable(${TEST_NAME} ${TEST_SOURCES})
 

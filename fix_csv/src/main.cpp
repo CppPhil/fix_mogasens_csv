@@ -1,4 +1,5 @@
 #include <cstddef>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 
@@ -16,6 +17,7 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
+#include "adjust_hardware_timestamp.hpp"
 #include "columns.hpp"
 #include "delete_non_bosch_sensors.hpp"
 #include "remove_zeros_from_field.hpp"
@@ -76,7 +78,8 @@ int main(int argc, char* argv[])
     csvWriter << csvReader.get_col_names();
 
     {
-      std::size_t rowCount{2};
+      std::size_t   rowCount{2};
+      std::uint64_t overflowCount{0};
 
       for (std::vector<std::string>& currentRow : data) {
         std::size_t columnCount{1};
@@ -95,10 +98,28 @@ int main(int argc, char* argv[])
         }
 
         for (std::string& currentField : currentRow) {
-          if (pl::is_between(
-                columnCount,
-                fmc::accelerometerXColumn,
-                fmc::gyroscopeZColumn)) {
+          if (columnCount == fmc::hardwareTimestampColumn) {
+            constexpr std::uint64_t overflowThreshold{65532U};
+
+            static std::string lastHardwareTimestamp{};
+
+            const std::uint64_t previousOverflowCount{overflowCount};
+
+            fmc::adjustHardwareTimestamp(
+              &currentField, overflowThreshold, &overflowCount);
+
+            // If we're still on the same timestamp -> Don't change the overflow
+            // count.
+            if (lastHardwareTimestamp == currentField) {
+              overflowCount = previousOverflowCount;
+            }
+
+            lastHardwareTimestamp = currentField;
+          }
+          else if (pl::is_between(
+                     columnCount,
+                     fmc::accelerometerXColumn,
+                     fmc::gyroscopeZColumn)) {
             fmc::removeZerosFromField(&currentField);
 
             const auto printError

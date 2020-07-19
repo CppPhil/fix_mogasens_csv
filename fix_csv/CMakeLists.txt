@@ -1,11 +1,13 @@
 # STATIC LIBRARY
 set(LIB_NAME fix_mogasens_csv_lib)
 
-set(LIB_HEADERS include/remove_zeros_from_field.hpp include/columns.hpp
-                include/delete_non_bosch_sensors.hpp)
+set(LIB_HEADERS
+    include/remove_zeros_from_field.hpp include/columns.hpp
+    include/delete_non_bosch_sensors.hpp include/adjust_hardware_timestamp.hpp)
 
-set(LIB_SOURCES src/remove_zeros_from_field.cpp
-                src/delete_non_bosch_sensors.cpp)
+set(LIB_SOURCES
+    src/remove_zeros_from_field.cpp src/delete_non_bosch_sensors.cpp
+    src/adjust_hardware_timestamp.cpp)
 
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 
