@@ -9,6 +9,7 @@ set(LIB_HEADERS
     include/cl/error.hpp
     include/cl/exception.hpp
     include/cl/read_csv_file.hpp
+    include/cl/s2n.hpp
     include/cl/sensor.hpp
     include/cl/to_string.hpp)
 

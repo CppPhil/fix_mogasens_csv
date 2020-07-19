@@ -9,9 +9,10 @@
 
 #include <pl/current_function.hpp>
 
-#define CL_ERROR_KIND         \
-  CL_ERROR_KIND_X(Filesystem) \
-  CL_ERROR_KIND_X(InvalidArgument)
+#define CL_ERROR_KIND              \
+  CL_ERROR_KIND_X(Filesystem)      \
+  CL_ERROR_KIND_X(InvalidArgument) \
+  CL_ERROR_KIND_X(OutOfRange)
 
 namespace cl {
 class [[nodiscard]] Error

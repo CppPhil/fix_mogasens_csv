@@ -12,7 +12,8 @@ set(TEST_SOURCES
     sensor_test.cpp
     to_string_test.cpp
     read_csv_file_test.cpp
-    data_set_test.cpp)
+    data_set_test.cpp
+    s2n_test.cpp)
 
 add_executable(${TEST_NAME} ${TEST_SOURCES})
 
