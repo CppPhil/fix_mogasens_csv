@@ -16,16 +16,13 @@ inline auto to_string(const Ty& ty)
   using Type = pl::meta::remove_cvref_t<Ty>;
 
   if constexpr (
-    std::is_same_v<Type, int>
-    || std::is_same_v<Type, long>
-    || std::is_same_v<Type, long long>
-    || std::is_same_v<Type, unsigned>
-    || std::is_same_v<Type, unsigned long>
-    || std::is_same_v<Type, unsigned long long>
-    ) {
-    fmt::format_int formatter{};
+    std::is_same_v<
+      Type,
+      int> || std::is_same_v<Type, long> || std::is_same_v<Type, long long> || std::is_same_v<Type, unsigned> || std::is_same_v<Type, unsigned long> || std::is_same_v<Type, unsigned long long>) {
+    fmt::format_int formatter{ty};
     return formatter.str();
-  } else {
+  }
+  else {
     std::ostringstream oss{};
     oss << ty;
     return oss.str();
