@@ -5,6 +5,9 @@
 
 #include <pl/current_function.hpp>
 
+#include "cl/s2n.hpp"
+#include "cl/to_string.hpp"
+
 #include "adjust_hardware_timestamp.hpp"
 
 namespace fmc {
@@ -13,32 +16,28 @@ void adjustHardwareTimestamp(
   std::uint64_t  overflowThreshold,
   std::uint64_t* overflowCount)
 {
-  try {
-    auto       cellValue{std::stoull(*cellContent)};
-    const auto oldCellValue{cellValue};
+  const auto cellValueExpected{cl::s2n<unsigned long long>(*cellContent)};
 
-    if (*overflowCount > 0U) {
-      cellValue += *overflowCount * UINT16_MAX + *overflowCount;
-    }
-
-    if (oldCellValue >= overflowThreshold) { ++(*overflowCount); }
-
-    fmt::format_int formatter{cellValue};
-    cellContent->assign(formatter.data(), formatter.size());
-  }
-  catch (const std::invalid_argument& ex) {
+  if (!cellValueExpected.has_value()) {
     fmt::print(
       stderr,
-      "{}: stoull failed (invalid_argument): \"{}\"\n",
+      "{}: s2n failed: \"{}\"\n",
       PL_CURRENT_FUNCTION,
-      ex.what());
+      cellValueExpected.error());
+
+    return;
   }
-  catch (const std::out_of_range& ex) {
-    fmt::print(
-      stderr,
-      "{}: stoull failed (out_of_range): \"{}\"\n",
-      PL_CURRENT_FUNCTION,
-      ex.what());
+
+  auto cellValue{cellValueExpected.value()};
+
+  const auto oldCellValue{cellValue};
+
+  if (*overflowCount > 0U) {
+    cellValue += *overflowCount * UINT16_MAX + *overflowCount;
   }
+
+  if (oldCellValue >= overflowThreshold) { ++(*overflowCount); }
+
+  *cellContent = cl::to_string(cellValue);
 }
 } // namespace fmc

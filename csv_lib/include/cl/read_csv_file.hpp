@@ -9,6 +9,7 @@
 
 namespace cl {
 [[nodiscard]] Expected<std::vector<std::vector<std::string>>> readCsvFile(
-  pl::string_view csvFilePath) noexcept;
+  pl::string_view           csvFilePath,
+  std::vector<std::string>* columnNames = nullptr) noexcept;
 } // namespace cl
 #endif // INCG_CL_READ_CSV_FILE_HPP

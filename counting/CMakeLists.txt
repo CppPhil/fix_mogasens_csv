@@ -16,7 +16,7 @@ set(LIB_SOURCES
 
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 
-target_link_libraries(${LIB_NAME} PUBLIC Threads::Threads csv_lib)
+target_link_libraries(${LIB_NAME} PUBLIC csv_lib)
 
 target_include_directories(${LIB_NAME}
                            PUBLIC ${mogasens_csv_SOURCE_DIR}/counting/include)

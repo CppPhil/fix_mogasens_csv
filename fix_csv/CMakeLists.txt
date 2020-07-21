@@ -11,13 +11,10 @@ set(LIB_SOURCES
 
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 
-target_link_libraries(${LIB_NAME} PUBLIC Threads::Threads fmt::fmt)
+target_link_libraries(${LIB_NAME} PUBLIC csv_lib)
 
-target_include_directories(
-  ${LIB_NAME}
-  PUBLIC ${mogasens_csv_SOURCE_DIR}/external/philslib/include
-         ${mogasens_csv_SOURCE_DIR}/external/csv-parser/single_include
-         ${mogasens_csv_SOURCE_DIR}/fix_csv/include)
+target_include_directories(${LIB_NAME}
+                           PUBLIC ${mogasens_csv_SOURCE_DIR}/fix_csv/include)
 
 # APPLICATION
 set(APP_NAME fix_mogasens_csv_app)

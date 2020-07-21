@@ -12,7 +12,7 @@
 
 namespace cl {
 template<typename Ty>
-inline auto to_string(const Ty& ty)
+inline std::string to_string(const Ty& ty)
 {
   using Type = pl::meta::remove_cvref_t<Ty>;
 

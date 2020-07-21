@@ -11,7 +11,8 @@
 
 namespace cl {
 [[nodiscard]] Expected<std::vector<std::vector<std::string>>> readCsvFile(
-  pl::string_view csvFilePath) noexcept
+  pl::string_view           csvFilePath,
+  std::vector<std::string>* columnNames) noexcept
 {
   static constexpr std::size_t zeroethRowExpectedLength{11};
   static constexpr std::size_t otherRowsExpectedLength{10};
@@ -64,6 +65,8 @@ namespace cl {
     // Remove the sampling rate entry from the first row of data.
     // This makes all the rows be uniform in length (10 columns).
     data.front().pop_back();
+
+    if (columnNames != nullptr) { *columnNames = csvReader.get_col_names(); }
 
     return data;
   }

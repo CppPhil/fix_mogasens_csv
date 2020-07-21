@@ -1,24 +1,42 @@
-#include <cstddef>
+#include <tl/casts.hpp>
 
 #include <pl/algo/erase.hpp>
+#include <pl/string_view.hpp>
+#include <pl/stringify.hpp>
 
-#include "columns.hpp"
+#include "cl/column.hpp"
+#include "cl/sensor.hpp"
+
 #include "delete_non_bosch_sensors.hpp"
 
 namespace fmc {
+namespace {
+constexpr pl::string_view extractIdString(cl::Sensor sensor) noexcept
+{
+  using namespace pl::string_view_literals;
+
+  switch (sensor) {
+#define CL_SENSOR_X(enm, value) \
+  case cl::Sensor::enm: return PL_STRINGIFY(value);
+    CL_SENSOR
+#undef CL_SENSOR_X
+  }
+}
+} // namespace
+
 void deleteNonBoschSensors(std::vector<std::vector<std::string>>* data)
 {
-  static constexpr std::size_t zeroBaseOffset{1};
-
   pl::algo::erase_if(*data, [](const std::vector<std::string>& row) {
-    const std::size_t index{extractIdColumn - zeroBaseOffset};
+    constexpr std::size_t index{cl::column_index<cl::Column::ExtractId>};
 
     if (row.size() <= index) { return false; }
 
     const std::string& extractId{row[index]};
 
-    return (extractId != "769") && (extractId != "770") && (extractId != "771")
-           && (extractId != "772");
+    return (extractId != extractIdString(cl::Sensor::LeftArm))
+           && (extractId != extractIdString(cl::Sensor::Belly))
+           && (extractId != extractIdString(cl::Sensor::RightArm))
+           && (extractId != extractIdString(cl::Sensor::Chest));
   });
 }
 } // namespace fmc

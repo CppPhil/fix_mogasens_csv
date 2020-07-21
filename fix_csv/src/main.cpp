@@ -1,21 +1,19 @@
-#include <cstddef>
-#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 
 #include <fstream>
-#include <iterator>
-#include <string>
-#include <vector>
 
 #include <pl/algo/clamp.hpp>
 #include <pl/numeric.hpp>
 #include <pl/string_view.hpp>
 
-#include <csv.hpp>
-
 #include <fmt/format.h>
 #include <fmt/ostream.h>
+
+#include <csv.hpp>
+
+#include "cl/read_csv_file.hpp"
+#include "cl/to_string.hpp"
 
 #include "adjust_hardware_timestamp.hpp"
 #include "columns.hpp"
@@ -46,205 +44,193 @@ int main(int argc, char* argv[])
     return EXIT_FAILURE;
   }
 
-  try {
-    csv::CSVReader csvReader{
-      csv::string_view{csvPath.c_str(), csvPath.size()},
-      csv::CSVFormat{}
-        .delimiter(',')
-        .quote('"')
-        .header_row(0)
-        .detect_bom(true)
-        .variable_columns(csv::VariableColumnPolicy::KEEP)};
-    std::vector<std::vector<std::string>> data(
-      csvReader.begin(), csvReader.end());
-    const std::string outputFilePath{[csvPath] {
-      std::string buffer(
-        csvPath.c_str(), csvPath.size() - csvFileExtension.size());
-      buffer += "_out";
-      buffer.append(csvFileExtension.begin(), csvFileExtension.end());
-      return buffer;
-    }()};
-    std::ofstream     outputFileStream{
-      outputFilePath, std::ios_base::out | std::ios_base::trunc};
+  std::vector<std::string>                            columnNames{};
+  cl::Expected<std::vector<std::vector<std::string>>> expectedData{
+    cl::readCsvFile(csvPath, &columnNames)};
 
-    if (!outputFileStream) {
-      fmt::print(stderr, "Couldn't open \"{}\" for writing!\n", outputFilePath);
-      return EXIT_FAILURE;
-    }
+  if (!expectedData.has_value()) {
+    fmt::print(
+      stderr, "Couldn't read \"{}\": \"{}\"\n", csvPath, expectedData.error());
+    return EXIT_FAILURE;
+  }
 
-    fmc::deleteNonBoschSensors(&data);
+  std::vector<std::vector<std::string>> data{std::move(expectedData).value()};
+  const std::string                     outputFilePath{[csvPath] {
+    std::string buffer(
+      csvPath.c_str(), csvPath.size() - csvFileExtension.size());
+    buffer += "_out";
+    buffer.append(csvFileExtension.begin(), csvFileExtension.end());
+    return buffer;
+  }()};
+  std::ofstream                         outputFileStream{
+    outputFilePath, std::ios_base::out | std::ios_base::trunc};
 
-    auto csvWriter = csv::make_csv_writer(outputFileStream);
-    csvWriter << csvReader.get_col_names();
+  if (!outputFileStream) {
+    fmt::print(stderr, "Couldn't open \"{}\" for writing!\n", outputFilePath);
+    return EXIT_FAILURE;
+  }
 
-    {
-      std::size_t   rowCount{2};
-      std::uint64_t overflowCount{0};
+  fmc::deleteNonBoschSensors(&data);
 
-      for (std::vector<std::string>& currentRow : data) {
-        std::size_t columnCount{1};
+  auto csvWriter = csv::make_csv_writer(outputFileStream);
+  csvWriter << columnNames;
 
-        constexpr std::size_t startRowExpectedSize{11};
-        const std::size_t     expectedRowSize{
-          (rowCount == 2) ? (startRowExpectedSize) : (10)};
+  {
+    std::size_t   rowCount{2};
+    std::uint64_t overflowCount{0};
 
-        if (currentRow.size() != expectedRowSize) {
-          fmt::print(
-            stderr,
-            "Row {} was of size {}, but size {} was expected!\n",
-            rowCount,
-            currentRow.size(),
-            expectedRowSize);
-        }
+    for (std::vector<std::string>& currentRow : data) {
+      std::size_t columnCount{1};
 
-        for (std::string& currentField : currentRow) {
-          if (columnCount == fmc::hardwareTimestampColumn) {
-            constexpr std::uint64_t overflowThreshold{65532U};
-            const std::string       beforeChange{currentField};
-            static std::string      lastHardwareTimestampBeforeChange{};
-            static std::string      lastHardwareTimestampWritten{};
+      constexpr std::size_t startRowExpectedSize{11};
+      const std::size_t     expectedRowSize{
+        (rowCount == 2) ? (startRowExpectedSize) : (10)};
 
-            if (lastHardwareTimestampBeforeChange == beforeChange) {
-              currentField = lastHardwareTimestampWritten;
-            }
-            else {
-              fmc::adjustHardwareTimestamp(
-                &currentField, overflowThreshold, &overflowCount);
-              lastHardwareTimestampBeforeChange = beforeChange;
-              lastHardwareTimestampWritten      = currentField;
-            }
+      if (currentRow.size() != expectedRowSize) {
+        fmt::print(
+          stderr,
+          "Row {} was of size {}, but size {} was expected!\n",
+          rowCount,
+          currentRow.size(),
+          expectedRowSize);
+      }
+
+      for (std::string& currentField : currentRow) {
+        if (columnCount == fmc::hardwareTimestampColumn) {
+          constexpr std::uint64_t overflowThreshold{65532U};
+          const std::string       beforeChange{currentField};
+          static std::string      lastHardwareTimestampBeforeChange{};
+          static std::string      lastHardwareTimestampWritten{};
+
+          if (lastHardwareTimestampBeforeChange == beforeChange) {
+            currentField = lastHardwareTimestampWritten;
           }
-          else if (pl::is_between(
-                     columnCount,
-                     fmc::accelerometerXColumn,
-                     fmc::gyroscopeZColumn)) {
-            fmc::removeZerosFromField(&currentField);
+          else {
+            fmc::adjustHardwareTimestamp(
+              &currentField, overflowThreshold, &overflowCount);
+            lastHardwareTimestampBeforeChange = beforeChange;
+            lastHardwareTimestampWritten      = currentField;
+          }
+        }
+        else if (pl::is_between(
+                   columnCount,
+                   fmc::accelerometerXColumn,
+                   fmc::gyroscopeZColumn)) {
+          fmc::removeZerosFromField(&currentField);
 
-            const auto printError
-              = [columnCount, rowCount](const char* errorMessage) {
-                  fmt::print(
-                    stderr,
-                    "Could not parse value at column {}, row {} as an integer: "
-                    "\"{}\"\n",
-                    columnCount,
-                    rowCount,
-                    errorMessage);
-                };
-
-            try {
-              long long asInteger{std::stoll(currentField)};
-
-              if (!pl::is_between(
-                    asInteger,
-                    static_cast<long long>(INT16_MIN),
-                    static_cast<long long>(INT16_MAX))) {
+          const auto printError
+            = [columnCount, rowCount](const char* errorMessage) {
                 fmt::print(
                   stderr,
-                  "Channel value {} at column {}, row {} was not within {} to "
-                  "{}, "
-                  "clamping value!\n",
-                  asInteger,
+                  "Could not parse value at column {}, row {} as an integer: "
+                  "\"{}\"\n",
                   columnCount,
                   rowCount,
-                  INT16_MIN,
-                  INT16_MAX);
+                  errorMessage);
+              };
 
-                asInteger = pl::algo::clamp(
+          try {
+            long long asInteger{std::stoll(currentField)};
+
+            if (!pl::is_between(
                   asInteger,
                   static_cast<long long>(INT16_MIN),
-                  static_cast<long long>(INT16_MAX));
-              }
+                  static_cast<long long>(INT16_MAX))) {
+              fmt::print(
+                stderr,
+                "Channel value {} at column {}, row {} was not within {} to "
+                "{}, "
+                "clamping value!\n",
+                asInteger,
+                columnCount,
+                rowCount,
+                INT16_MIN,
+                INT16_MAX);
 
-              long double asFloat{static_cast<long double>(asInteger)};
+              asInteger = pl::algo::clamp(
+                asInteger,
+                static_cast<long long>(INT16_MIN),
+                static_cast<long long>(INT16_MAX));
+            }
 
-              if (pl::is_between(
-                    columnCount,
-                    fmc::accelerometerXColumn,
-                    fmc::accelerometerZColumn)) {
-                constexpr long double accelerometerSensitivity{16384.0L};
-                asFloat /= accelerometerSensitivity;
-                constexpr long double accelerometerRangeLowerBound{-2.0L};
-                constexpr long double accelerometerRangeUpperBound{2.0L};
+            long double asFloat{static_cast<long double>(asInteger)};
 
-                if (!pl::is_between(
-                      asFloat,
-                      accelerometerRangeLowerBound,
-                      accelerometerRangeUpperBound)) {
-                  fmt::print(
-                    stderr,
-                    "Accelerometer value {} at column {}, row {} was not "
-                    "within {} to {}, clamping value!\n",
+            if (pl::is_between(
+                  columnCount,
+                  fmc::accelerometerXColumn,
+                  fmc::accelerometerZColumn)) {
+              constexpr long double accelerometerSensitivity{16384.0L};
+              asFloat /= accelerometerSensitivity;
+              constexpr long double accelerometerRangeLowerBound{-2.0L};
+              constexpr long double accelerometerRangeUpperBound{2.0L};
+
+              if (!pl::is_between(
                     asFloat,
-                    columnCount,
-                    rowCount,
                     accelerometerRangeLowerBound,
-                    accelerometerRangeUpperBound);
-                  asFloat = pl::algo::clamp(
-                    asFloat,
-                    accelerometerRangeLowerBound,
-                    accelerometerRangeUpperBound);
-                }
+                    accelerometerRangeUpperBound)) {
+                fmt::print(
+                  stderr,
+                  "Accelerometer value {} at column {}, row {} was not "
+                  "within {} to {}, clamping value!\n",
+                  asFloat,
+                  columnCount,
+                  rowCount,
+                  accelerometerRangeLowerBound,
+                  accelerometerRangeUpperBound);
+                asFloat = pl::algo::clamp(
+                  asFloat,
+                  accelerometerRangeLowerBound,
+                  accelerometerRangeUpperBound);
               }
-              else if (pl::is_between(
-                         columnCount,
-                         fmc::gyroscopeXColumn,
-                         fmc::gyroscopeZColumn)) {
-                constexpr long double gyroscopeDivisor{16.4L};
-                asFloat /= gyroscopeDivisor;
-                constexpr long double gyroscopeRangeLowerBound{-2000.0L};
-                constexpr long double gyroscopeRangeUpperBound{2000.0L};
+            }
+            else if (pl::is_between(
+                       columnCount,
+                       fmc::gyroscopeXColumn,
+                       fmc::gyroscopeZColumn)) {
+              constexpr long double gyroscopeDivisor{16.4L};
+              asFloat /= gyroscopeDivisor;
+              constexpr long double gyroscopeRangeLowerBound{-2000.0L};
+              constexpr long double gyroscopeRangeUpperBound{2000.0L};
 
-                if (!pl::is_between(
-                      asFloat,
-                      gyroscopeRangeLowerBound,
-                      gyroscopeRangeUpperBound)) {
-                  fmt::print(
-                    stderr,
-                    "Gyroscope value {} at column {}, row {} was not "
-                    "within {} to {}, clamping value!\n",
-                    asFloat,
-                    columnCount,
-                    rowCount,
-                    gyroscopeRangeLowerBound,
-                    gyroscopeRangeUpperBound);
-                  asFloat = pl::algo::clamp(
+              if (!pl::is_between(
                     asFloat,
                     gyroscopeRangeLowerBound,
-                    gyroscopeRangeUpperBound);
-                }
+                    gyroscopeRangeUpperBound)) {
+                fmt::print(
+                  stderr,
+                  "Gyroscope value {} at column {}, row {} was not "
+                  "within {} to {}, clamping value!\n",
+                  asFloat,
+                  columnCount,
+                  rowCount,
+                  gyroscopeRangeLowerBound,
+                  gyroscopeRangeUpperBound);
+                asFloat = pl::algo::clamp(
+                  asFloat, gyroscopeRangeLowerBound, gyroscopeRangeUpperBound);
               }
+            }
 
-              currentField = std::to_string(asFloat);
-            }
-            catch (const std::invalid_argument& exception) {
-              printError(exception.what());
-              return EXIT_FAILURE;
-            }
-            catch (const std::out_of_range& exception) {
-              printError(exception.what());
-              return EXIT_FAILURE;
-            }
+            currentField = std::to_string(asFloat);
           }
-
-          ++columnCount;
+          catch (const std::invalid_argument& exception) {
+            printError(exception.what());
+            return EXIT_FAILURE;
+          }
+          catch (const std::out_of_range& exception) {
+            printError(exception.what());
+            return EXIT_FAILURE;
+          }
         }
 
-        csvWriter << currentRow;
-        ++rowCount;
+        ++columnCount;
       }
-    }
 
-    fmt::print("Successfully wrote data to \"{}\".\n", outputFilePath);
-  }
-  catch (const std::runtime_error& exception) {
-    const pl::string_view errorMessage{exception.what()};
-
-    if (errorMessage.starts_with("Cannot open file")) {
-      fmt::print(
-        stderr, "Couldn't open CSV file given: \"{}\"!\n", errorMessage);
-      return EXIT_FAILURE;
+      csvWriter << currentRow;
+      ++rowCount;
     }
   }
+
+  fmt::print("Successfully wrote data to \"{}\".\n", outputFilePath);
 
   return EXIT_SUCCESS;
 }

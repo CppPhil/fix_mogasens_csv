@@ -70,4 +70,9 @@ const std::string& Error::message() const noexcept { return m_message; }
     /* line */ line(),
     /* message */ message()};
 }
+
+[[nodiscard]] std::string Error::to_string() const
+{
+  return ::cl::to_string(*this);
+}
 } // namespace cl

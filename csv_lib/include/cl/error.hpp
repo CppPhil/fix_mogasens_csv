@@ -9,6 +9,8 @@
 
 #include <pl/current_function.hpp>
 
+#include "to_string.hpp"
+
 #define CL_ERROR_KIND              \
   CL_ERROR_KIND_X(Filesystem)      \
   CL_ERROR_KIND_X(InvalidArgument) \
@@ -44,6 +46,8 @@ public:
   const std::string& message() const noexcept;
 
   [[noreturn]] void raise() const;
+
+  [[nodiscard]] std::string to_string() const;
 
 private:
   Kind        m_kind;
