@@ -1,3 +1,5 @@
+#include <climits>
+#include <cstdint>
 #include <cstdio>
 
 #include <fmt/format.h>
@@ -33,7 +35,8 @@ void adjustHardwareTimestamp(
   const auto oldCellValue{cellValue};
 
   if (*overflowCount > 0U) {
-    cellValue += *overflowCount * UINT16_MAX + *overflowCount;
+    cellValue
+      += *overflowCount * (2ULL << ((sizeof(std::uint16_t) * CHAR_BIT) - 1));
   }
 
   if (oldCellValue >= overflowThreshold) { ++(*overflowCount); }
