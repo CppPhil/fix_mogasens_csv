@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
 
   std::vector<std::string>                            columnNames{};
   cl::Expected<std::vector<std::vector<std::string>>> expectedData{
-    cl::readCsvFile(csvPath, &columnNames, cl::Validation::None)};
+    cl::readCsvFile(csvPath, &columnNames, cl::CsvFileKind::Raw)};
 
   if (!expectedData.has_value()) {
     fmt::print(

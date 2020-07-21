@@ -1,7 +1,7 @@
 #!/bin/bash
 
 catch_errors() {
-  printf "\nfix_csvs.sh failed!\n" >&2
+  printf "\ntest.sh failed!\n" >&2
   exit 1
 }
 
