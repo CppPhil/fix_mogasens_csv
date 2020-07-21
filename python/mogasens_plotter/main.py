@@ -76,7 +76,7 @@ def imu_unit(the_imu):
         return f"invalid imu: \"{the_imu}\"!"
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description='Plot MoGaSens CSV file.')
     parser.add_argument('csv_file_path',
                         type=str,
@@ -219,3 +219,7 @@ if __name__ == "__main__":
         plt.close()
 
         print(f"Wrote \"{png_file}\".")
+
+
+if __name__ == "__main__":
+    main()
