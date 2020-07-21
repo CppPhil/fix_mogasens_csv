@@ -15,6 +15,42 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
+def hardware_timestamp_string():
+    return 'hardware_timestamp'
+
+
+def channel1_string():
+    return 'channel1'
+
+
+def channel2_string():
+    return 'channel2'
+
+
+def channel3_string():
+    return 'channel3'
+
+
+def channel4_string():
+    return 'channel4'
+
+
+def channel5_string():
+    return 'channel5'
+
+
+def channel6_string():
+    return 'channel6'
+
+
+def accelerometer_string():
+    return 'accelerometer'
+
+
+def gyroscope_string():
+    return 'gyroscope'
+
+
 def sensor_to_string(sensor_id):
     left_arm_sensor_id = 769
     belly_sensor_id = 770
@@ -45,32 +81,33 @@ def plot(the_imu, data_frame):
     line_width = 0.6
 
     def plot_channel(channel, color, label):
-        plt.plot('time',
+        plt.plot(hardware_timestamp_string(),
                  channel,
                  data=data_frame,
                  color=color,
                  label=label,
                  linewidth=line_width)
 
-    if the_imu == 'accelerometer':
-        plot_channel('channel1', first_color, first_label)
-        plot_channel('channel2', second_color, second_label)
-        plot_channel('channel3', third_color, third_label)
-    elif the_imu == 'gyroscope':
-        plot_channel('channel4', first_color, first_label)
-        plot_channel('channel5', second_color, second_label)
-        plot_channel('channel6', third_color, third_label)
+    if the_imu == accelerometer_string():
+        plot_channel(channel1_string(), first_color, first_label)
+        plot_channel(channel2_string(), second_color, second_label)
+        plot_channel(channel3_string(), third_color, third_label)
+    elif the_imu == gyroscope_string():
+        plot_channel(channel4_string(), first_color, first_label)
+        plot_channel(channel5_string(), second_color, second_label)
+        plot_channel(channel6_string(), third_color, third_label)
     else:
         print(
-            f"imu was \"{the_imu}\" which is neither \"accelerometer\" nor \"gyroscope\", exiting.",
+            f'imu was "{the_imu}" which is neither "#{accelerometer_string()}" nor "#{gyroscope_string()}", '
+            f'exiting.',
             file=sys.stderr)
         sys.exit()
 
 
 def imu_unit(the_imu):
-    if the_imu == 'accelerometer':
+    if the_imu == accelerometer_string():
         return 'g'
-    elif the_imu == 'gyroscope':
+    elif the_imu == gyroscope_string():
         return 'deg/s'
     else:
         return f"invalid imu: \"{the_imu}\"!"
@@ -102,9 +139,9 @@ def main():
         sys.exit()
 
     time_column_index = 0
-    # We don't care about the hardware timestamp.
+    hardware_timestamp_index = 1
     extract_id_column_index = 2
-    # We don't care about the trigger (it's always 0).
+    trigger_index = 3
     accelerometer_x_column_index = 4
     accelerometer_y_column_index = 5
     accelerometer_z_column_index = 6
@@ -113,7 +150,9 @@ def main():
     gyroscope_z_column_index = 9
 
     time = []
+    hardware_timestamp = []
     extract_id = []
+    trigger = []
     accelerometer_x = []
     accelerometer_y = []
     accelerometer_z = []
@@ -128,7 +167,9 @@ def main():
                 continue
 
             time.append(float(row[time_column_index]))
+            hardware_timestamp.append(int(row[hardware_timestamp_index]))
             extract_id.append(int(row[extract_id_column_index]))
+            trigger.append(float(row[trigger_index]))
             accelerometer_x.append(float(row[accelerometer_x_column_index]))
             accelerometer_y.append(float(row[accelerometer_y_column_index]))
             accelerometer_z.append(float(row[accelerometer_z_column_index]))
@@ -136,7 +177,7 @@ def main():
             gyroscope_y.append(float(row[gyroscope_y_column_index]))
             gyroscope_z.append(float(row[gyroscope_z_column_index]))
 
-    time_data = []
+    hardware_timestamp_data = []
     channel1_data = []
     channel2_data = []
     channel3_data = []
@@ -144,7 +185,7 @@ def main():
     channel5_data = []
     channel6_data = []
 
-    time_accumulator = []
+    hardware_timestamp_accumulator = []
     channel1_accumulator = []
     channel2_accumulator = []
     channel3_accumulator = []
@@ -152,15 +193,16 @@ def main():
     channel5_accumulator = []
     channel6_accumulator = []
 
-    time_threshold_offset = 10.0
-    time_threshold = 10.0
+    hardware_timestamp_threshold_offset = 10000
+    hardware_timestamp_threshold = hardware_timestamp[0] + hardware_timestamp_threshold_offset
 
     def append_accumulator(data, accumulator):
         data.append(accumulator.copy())
         accumulator.clear()
 
     def append_accumulators():
-        append_accumulator(time_data, time_accumulator)
+        append_accumulator(hardware_timestamp_data,
+                           hardware_timestamp_accumulator)
         append_accumulator(channel1_data, channel1_accumulator)
         append_accumulator(channel2_data, channel2_accumulator)
         append_accumulator(channel3_data, channel3_accumulator)
@@ -172,7 +214,7 @@ def main():
         current_sensor_id = extract_id[i]
 
         if current_sensor_id == desired_sensor:
-            time_accumulator.append(time[i])
+            hardware_timestamp_accumulator.append(hardware_timestamp[i])
             channel1_accumulator.append(accelerometer_x[i])
             channel2_accumulator.append(accelerometer_y[i])
             channel3_accumulator.append(accelerometer_z[i])
@@ -180,24 +222,31 @@ def main():
             channel5_accumulator.append(gyroscope_y[i])
             channel6_accumulator.append(gyroscope_z[i])
 
-        current_time = time[i]
+        current_hardware_timestamp = hardware_timestamp[i]
 
-        if current_time >= time_threshold:
+        if current_hardware_timestamp >= hardware_timestamp_threshold:
             append_accumulators()
-            time_threshold += time_threshold_offset
+            hardware_timestamp_threshold += hardware_timestamp_threshold_offset
 
-    if len(time_accumulator) != 0:
+    if len(hardware_timestamp_accumulator) != 0:
         append_accumulators()
 
-    for i in range(len(time_data)):
+    for i in range(len(hardware_timestamp_data)):
         df = pd.DataFrame({
-            'time': time_data[i],
-            'channel1': channel1_data[i],
-            'channel2': channel2_data[i],
-            'channel3': channel3_data[i],
-            'channel4': channel4_data[i],
-            'channel5': channel5_data[i],
-            'channel6': channel6_data[i]
+            hardware_timestamp_string():
+            hardware_timestamp_data[i],
+            channel1_string():
+            channel1_data[i],
+            channel2_string():
+            channel2_data[i],
+            channel3_string():
+            channel3_data[i],
+            channel4_string():
+            channel4_data[i],
+            channel5_string():
+            channel5_data[i],
+            channel6_string():
+            channel6_data[i]
         })
 
         title = f"{csv_file_path}_{sensor_to_string(desired_sensor)}_{imu}_{i + 1}".replace(
@@ -212,8 +261,8 @@ def main():
 
         plt.title(title)
         plt.ylabel(imu_unit(imu))
-        plt.xlabel('time (in seconds)')
-        plt.gca().xaxis.set_major_locator(plt.MultipleLocator(1))
+        plt.xlabel(f'{hardware_timestamp_string()} (in milliseconds)')
+        plt.gca().xaxis.set_major_locator(plt.MultipleLocator(1000))
         plt.grid()
         plt.savefig(png_file, bbox_inches='tight')
         plt.close()
