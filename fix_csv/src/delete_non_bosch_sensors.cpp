@@ -6,6 +6,7 @@
 
 #include "cl/column.hpp"
 #include "cl/sensor.hpp"
+#include "cl/unreachable.hpp"
 
 #include "delete_non_bosch_sensors.hpp"
 
@@ -21,6 +22,8 @@ constexpr pl::string_view extractIdString(cl::Sensor sensor) noexcept
     CL_SENSOR
 #undef CL_SENSOR_X
   }
+
+  CL_UNREACHABLE();
 }
 } // namespace
 
