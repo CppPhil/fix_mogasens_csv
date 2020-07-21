@@ -194,7 +194,8 @@ def main():
     channel6_accumulator = []
 
     hardware_timestamp_threshold_offset = 10000  # 10 seconds
-    hardware_timestamp_threshold = hardware_timestamp[0] + hardware_timestamp_threshold_offset
+    hardware_timestamp_threshold = hardware_timestamp[
+        0] + hardware_timestamp_threshold_offset
 
     def append_accumulator(data, accumulator):
         data.append(accumulator.copy())
@@ -262,7 +263,8 @@ def main():
         plt.title(title)
         plt.ylabel(imu_unit(imu))
         plt.xlabel(f'{hardware_timestamp_string()} (in milliseconds)')
-        plt.gca().xaxis.set_major_locator(plt.MultipleLocator(1000))  # A second
+        plt.gca().xaxis.set_major_locator(
+            plt.MultipleLocator(1000))  # A second
         plt.grid()
         plt.savefig(png_file, bbox_inches='tight')
         plt.close()
