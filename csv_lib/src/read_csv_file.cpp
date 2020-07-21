@@ -31,7 +31,7 @@ namespace {
   const std::vector<std::vector<std::string>>& data,
   CsvFileKind                                  csvFileKind)
 {
-  constexpr std::size_t otherRowsExpectedLength{10};
+  static constexpr std::size_t otherRowsExpectedLength{10};
 
   switch (csvFileKind) {
   case CsvFileKind::Raw: return true;
