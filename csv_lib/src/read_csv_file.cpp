@@ -12,7 +12,8 @@
 namespace cl {
 [[nodiscard]] Expected<std::vector<std::vector<std::string>>> readCsvFile(
   pl::string_view           csvFilePath,
-  std::vector<std::string>* columnNames) noexcept
+  std::vector<std::string>* columnNames,
+  Validation                validation) noexcept
 {
   static constexpr std::size_t zeroethRowExpectedLength{11};
   static constexpr std::size_t otherRowsExpectedLength{10};
@@ -36,30 +37,33 @@ namespace cl {
         fmt::format("No CSV data was read from file: \"{}\".", csvFilePath));
     }
 
-    if (data.front().size() != zeroethRowExpectedLength) {
-      return CL_UNEXPECTED(
-        Error::InvalidArgument,
-        fmt::format(
-          "First row of data from file \"{}\" was of length {} but length {} "
-          "was expected.",
-          csvFilePath,
-          data.front().size(),
-          zeroethRowExpectedLength));
-    }
+    if (validation == Validation::Strict) {
+      if (data.front().size() != zeroethRowExpectedLength) {
+        return CL_UNEXPECTED(
+          Error::InvalidArgument,
+          fmt::format(
+            "First row of data from file \"{}\" was of length {} but length {} "
+            "was expected.",
+            csvFilePath,
+            data.front().size(),
+            zeroethRowExpectedLength));
+      }
 
-    if (std::any_of(
-          data.begin() + 1,
-          data.end(),
-          [](const std::vector<std::string>& row) {
-            return row.size() != otherRowsExpectedLength;
-          })) {
-      return CL_UNEXPECTED(
-        Error::InvalidArgument,
-        fmt::format(
-          "One of the rows after the first row of data from file \"{}\" wasn't "
-          "of length {}.",
-          csvFilePath,
-          otherRowsExpectedLength));
+      if (std::any_of(
+            data.begin() + 1,
+            data.end(),
+            [](const std::vector<std::string>& row) {
+              return row.size() != otherRowsExpectedLength;
+            })) {
+        return CL_UNEXPECTED(
+          Error::InvalidArgument,
+          fmt::format(
+            "One of the rows after the first row of data from file \"{}\" "
+            "wasn't "
+            "of length {}.",
+            csvFilePath,
+            otherRowsExpectedLength));
+      }
     }
 
     // Remove the sampling rate entry from the first row of data.

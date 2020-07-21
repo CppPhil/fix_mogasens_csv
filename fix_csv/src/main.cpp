@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
 
   std::vector<std::string>                            columnNames{};
   cl::Expected<std::vector<std::vector<std::string>>> expectedData{
-    cl::readCsvFile(csvPath, &columnNames)};
+    cl::readCsvFile(csvPath, &columnNames, cl::Validation::None)};
 
   if (!expectedData.has_value()) {
     fmt::print(
@@ -82,9 +82,7 @@ int main(int argc, char* argv[])
     for (std::vector<std::string>& currentRow : data) {
       std::size_t columnCount{1};
 
-      constexpr std::size_t startRowExpectedSize{11};
-      const std::size_t     expectedRowSize{
-        (rowCount == 2) ? (startRowExpectedSize) : (10)};
+      constexpr std::size_t expectedRowSize{10};
 
       if (currentRow.size() != expectedRowSize) {
         fmt::print(
