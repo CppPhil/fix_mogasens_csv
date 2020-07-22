@@ -16,7 +16,7 @@ import pandas as pd
 
 from moving_average_filter import moving_average_filter
 from this_sensor import this_sensor
-from constants import hardware_timestamp_string, channel1_string, channel2_string, channel3_string, channel4_string, channel5_string, channel6_string, accelerometer_string, gyroscope_string
+from constants import *
 from sensor_to_string import sensor_to_string
 from imu_unit import imu_unit
 
@@ -92,17 +92,6 @@ def main():
           file=sys.stderr)
     sys.exit()
 
-  time_column_index = 0
-  hardware_timestamp_index = 1
-  extract_id_column_index = 2
-  trigger_index = 3
-  accelerometer_x_column_index = 4
-  accelerometer_y_column_index = 5
-  accelerometer_z_column_index = 6
-  gyroscope_x_column_index = 7
-  gyroscope_y_column_index = 8
-  gyroscope_z_column_index = 9
-
   time = []
   hardware_timestamp = []
   extract_id = []
@@ -120,16 +109,16 @@ def main():
       if row_count == 0:  # Skip the header row
         continue
 
-      time.append(float(row[time_column_index]))
-      hardware_timestamp.append(int(row[hardware_timestamp_index]))
-      extract_id.append(int(row[extract_id_column_index]))
-      trigger.append(float(row[trigger_index]))
-      accelerometer_x.append(float(row[accelerometer_x_column_index]))
-      accelerometer_y.append(float(row[accelerometer_y_column_index]))
-      accelerometer_z.append(float(row[accelerometer_z_column_index]))
-      gyroscope_x.append(float(row[gyroscope_x_column_index]))
-      gyroscope_y.append(float(row[gyroscope_y_column_index]))
-      gyroscope_z.append(float(row[gyroscope_z_column_index]))
+      time.append(float(row[time_column_index()]))
+      hardware_timestamp.append(int(row[hardware_timestamp_index()]))
+      extract_id.append(int(row[extract_id_column_index()]))
+      trigger.append(float(row[trigger_index()]))
+      accelerometer_x.append(float(row[accelerometer_x_column_index()]))
+      accelerometer_y.append(float(row[accelerometer_y_column_index()]))
+      accelerometer_z.append(float(row[accelerometer_z_column_index()]))
+      gyroscope_x.append(float(row[gyroscope_x_column_index()]))
+      gyroscope_y.append(float(row[gyroscope_y_column_index()]))
+      gyroscope_z.append(float(row[gyroscope_z_column_index()]))
 
   this_sensor_time, this_sensor_hardware_timestamp, this_sensor_extract_id, this_sensor_trigger, this_sensor_accelerometer_x, this_sensor_accelerometer_y, this_sensor_accelerometer_z, this_sensor_gyroscope_x, this_sensor_gyroscope_y, this_sensor_gyroscope_z = this_sensor(
       desired_sensor, time, hardware_timestamp, extract_id, trigger,
