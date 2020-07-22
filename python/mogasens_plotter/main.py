@@ -18,7 +18,6 @@ from data_set import DataSet
 from imu_unit import imu_unit
 from moving_average_filter import moving_average_filter
 from sensor_to_string import sensor_to_string
-from this_sensor import this_sensor
 
 
 def plot(the_imu, data_frame):
@@ -54,6 +53,12 @@ def plot(the_imu, data_frame):
         f'exiting.',
         file=sys.stderr)
     sys.exit()
+
+
+def select_filter(use_moving_average_filter):
+  if use_moving_average_filter:
+    return moving_average_filter
+  return lambda sample_count, data: data
 
 
 def main():
@@ -92,30 +97,15 @@ def main():
           file=sys.stderr)
     sys.exit()
 
-  data_set = DataSet(csv_file_path)
-
-  this_sensor_time, this_sensor_hardware_timestamp, this_sensor_extract_id, this_sensor_trigger, this_sensor_accelerometer_x, this_sensor_accelerometer_y, this_sensor_accelerometer_z, this_sensor_gyroscope_x, this_sensor_gyroscope_y, this_sensor_gyroscope_z = this_sensor(
-      desired_sensor, data_set.time, data_set.hardware_timestamp,
-      data_set.extract_id, data_set.trigger, data_set.accelerometer_x,
-      data_set.accelerometer_y, data_set.accelerometer_z, data_set.gyroscope_x,
-      data_set.gyroscope_y, data_set.gyroscope_z)
+  data_set = DataSet\
+      .from_file(csv_file_path)\
+      .filter_by_sensor(desired_sensor)\
+      .apply_filter(lambda data: select_filter(use_moving_average_filter)(moving_average_filter_sample_count, data))
 
   filter_kind = "no_filter"
 
   if use_moving_average_filter:
     filter_kind = f"avg_filter_{moving_average_filter_sample_count}"
-    this_sensor_accelerometer_x = moving_average_filter(
-        moving_average_filter_sample_count, this_sensor_accelerometer_x)
-    this_sensor_accelerometer_y = moving_average_filter(
-        moving_average_filter_sample_count, this_sensor_accelerometer_y)
-    this_sensor_accelerometer_z = moving_average_filter(
-        moving_average_filter_sample_count, this_sensor_accelerometer_z)
-    this_sensor_gyroscope_x = moving_average_filter(
-        moving_average_filter_sample_count, this_sensor_gyroscope_x)
-    this_sensor_gyroscope_y = moving_average_filter(
-        moving_average_filter_sample_count, this_sensor_gyroscope_y)
-    this_sensor_gyroscope_z = moving_average_filter(
-        moving_average_filter_sample_count, this_sensor_gyroscope_z)
 
   hardware_timestamp_data = []
   channel1_data = []
@@ -134,7 +124,7 @@ def main():
   channel6_accumulator = []
 
   hardware_timestamp_threshold_offset = 10000  # 10 seconds
-  hardware_timestamp_threshold = this_sensor_hardware_timestamp[
+  hardware_timestamp_threshold = data_set.hardware_timestamp[
       0] + hardware_timestamp_threshold_offset
 
   def append_accumulator(data, accumulator):
@@ -150,16 +140,16 @@ def main():
     append_accumulator(channel5_data, channel5_accumulator)
     append_accumulator(channel6_data, channel6_accumulator)
 
-  for i in range(len(this_sensor_time)):
-    hardware_timestamp_accumulator.append(this_sensor_hardware_timestamp[i])
-    channel1_accumulator.append(this_sensor_accelerometer_x[i])
-    channel2_accumulator.append(this_sensor_accelerometer_y[i])
-    channel3_accumulator.append(this_sensor_accelerometer_z[i])
-    channel4_accumulator.append(this_sensor_gyroscope_x[i])
-    channel5_accumulator.append(this_sensor_gyroscope_y[i])
-    channel6_accumulator.append(this_sensor_gyroscope_z[i])
+  for i in range(data_set.size()):
+    hardware_timestamp_accumulator.append(data_set.hardware_timestamp[i])
+    channel1_accumulator.append(data_set.accelerometer_x[i])
+    channel2_accumulator.append(data_set.accelerometer_y[i])
+    channel3_accumulator.append(data_set.accelerometer_z[i])
+    channel4_accumulator.append(data_set.gyroscope_x[i])
+    channel5_accumulator.append(data_set.gyroscope_y[i])
+    channel6_accumulator.append(data_set.gyroscope_z[i])
 
-    current_hardware_timestamp = this_sensor_hardware_timestamp[i]
+    current_hardware_timestamp = data_set.hardware_timestamp[i]
 
     if current_hardware_timestamp >= hardware_timestamp_threshold:
       append_accumulators()
