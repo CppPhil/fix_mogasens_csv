@@ -97,8 +97,8 @@ def main():
           file=sys.stderr)
     sys.exit()
 
-  data_set = DataSet\
-      .from_file(csv_file_path)\
+  entire_data_set = DataSet.from_file(csv_file_path)
+  data_set = entire_data_set\
       .filter_by_sensor(desired_sensor)\
       .apply_filter(lambda data: select_filter(use_moving_average_filter)(moving_average_filter_sample_count, data))
 

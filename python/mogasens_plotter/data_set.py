@@ -78,3 +78,22 @@ class DataSet:
     self.gyroscope_y = func(self.gyroscope_y)
     self.gyroscope_z = func(self.gyroscope_z)
     return self
+
+  def write_to_file(self, file_path):
+    with open(file_path, 'w', newline='') as csv_file:
+      writer = csv.writer(csv_file,
+                          delimiter=',',
+                          quotechar='"',
+                          quoting=csv.QUOTE_MINIMAL)
+      writer.writerow([
+          'Time (s)', 'HWTimestamp (ms)', 'ExtractID', 'Trigger', 'Channel 1',
+          'Channel 2', 'Channel 3', 'Channel 4', 'Channel 5', 'Channel 6'
+      ])
+
+      for i in range(self.size()):
+        writer.writerow([
+            self.time[i], self.hardware_timestamp[i], self.extract_id[i],
+            self.trigger[i], self.accelerometer_x[i], self.accelerometer_y[i],
+            self.accelerometer_z[i], self.gyroscope_x[i], self.gyroscope_y[i],
+            self.gyroscope_z[i]
+        ])
