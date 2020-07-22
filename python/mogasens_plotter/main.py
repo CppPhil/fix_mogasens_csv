@@ -194,7 +194,6 @@ def main():
     filter_kind = "no_filter"
 
     if use_moving_average_filter:
-        print("Using a moving average filter")
         filter_kind = f"avg_filter_{moving_average_filter_sample_count}"
         moving_average_filter(moving_average_filter_sample_count,
                               accelerometer_x)
