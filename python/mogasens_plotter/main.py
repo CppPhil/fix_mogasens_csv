@@ -8,17 +8,17 @@
 # 772 = chest
 
 import argparse
-import csv
 import sys
 
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from moving_average_filter import moving_average_filter
-from this_sensor import this_sensor
 from constants import *
-from sensor_to_string import sensor_to_string
+from data_set import DataSet
 from imu_unit import imu_unit
+from moving_average_filter import moving_average_filter
+from sensor_to_string import sensor_to_string
+from this_sensor import this_sensor
 
 
 def plot(the_imu, data_frame):
@@ -92,38 +92,13 @@ def main():
           file=sys.stderr)
     sys.exit()
 
-  time = []
-  hardware_timestamp = []
-  extract_id = []
-  trigger = []
-  accelerometer_x = []
-  accelerometer_y = []
-  accelerometer_z = []
-  gyroscope_x = []
-  gyroscope_y = []
-  gyroscope_z = []
-
-  with open(csv_file_path, 'r') as csv_file:
-    plots = csv.reader(csv_file, delimiter=',')
-    for row_count, row in enumerate(plots):
-      if row_count == 0:  # Skip the header row
-        continue
-
-      time.append(float(row[time_column_index()]))
-      hardware_timestamp.append(int(row[hardware_timestamp_index()]))
-      extract_id.append(int(row[extract_id_column_index()]))
-      trigger.append(float(row[trigger_index()]))
-      accelerometer_x.append(float(row[accelerometer_x_column_index()]))
-      accelerometer_y.append(float(row[accelerometer_y_column_index()]))
-      accelerometer_z.append(float(row[accelerometer_z_column_index()]))
-      gyroscope_x.append(float(row[gyroscope_x_column_index()]))
-      gyroscope_y.append(float(row[gyroscope_y_column_index()]))
-      gyroscope_z.append(float(row[gyroscope_z_column_index()]))
+  data_set = DataSet(csv_file_path)
 
   this_sensor_time, this_sensor_hardware_timestamp, this_sensor_extract_id, this_sensor_trigger, this_sensor_accelerometer_x, this_sensor_accelerometer_y, this_sensor_accelerometer_z, this_sensor_gyroscope_x, this_sensor_gyroscope_y, this_sensor_gyroscope_z = this_sensor(
-      desired_sensor, time, hardware_timestamp, extract_id, trigger,
-      accelerometer_x, accelerometer_y, accelerometer_z, gyroscope_x,
-      gyroscope_y, gyroscope_z)
+      desired_sensor, data_set.time, data_set.hardware_timestamp,
+      data_set.extract_id, data_set.trigger, data_set.accelerometer_x,
+      data_set.accelerometer_y, data_set.accelerometer_z, data_set.gyroscope_x,
+      data_set.gyroscope_y, data_set.gyroscope_z)
 
   filter_kind = "no_filter"
 
@@ -159,7 +134,7 @@ def main():
   channel6_accumulator = []
 
   hardware_timestamp_threshold_offset = 10000  # 10 seconds
-  hardware_timestamp_threshold = hardware_timestamp[
+  hardware_timestamp_threshold = this_sensor_hardware_timestamp[
       0] + hardware_timestamp_threshold_offset
 
   def append_accumulator(data, accumulator):
