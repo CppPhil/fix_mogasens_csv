@@ -57,14 +57,15 @@ format_python() {
     return
   fi
 
-  yapf -i --style='{based_on_style: pep8, indent_width: 4}' $python_src_file
+  yapf -i --style='{based_on_style: pep8, indent_width: 2}' $python_src_file
 }
 
 cd $DIR
 
-format_python $DIR/python/mogasens_plotter/main.py
-format_python $DIR/python/mogasens_plotter/moving_average_filter.py
-format_python $DIR/python/mogasens_plotter/this_sensor.py
+python_files=$(find "$DIR/python/mogasens_plotter" -name '*py')
+for python_file in "${python_files[@]}"; do
+  format_python "$python_file"
+done
 format_python $DIR/python/fix_compile_commands.py
 
 format_cmake $DIR/CMakeLists.txt
