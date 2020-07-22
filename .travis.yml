@@ -79,6 +79,6 @@ script:
   - ./build.sh --build_type=Release
   - ./test.sh --build_type=Release
   - ./fix_csvs.sh --build_type=Release
-  - ./count.sh --build_type=Release
   - ./generate_images.sh
+  - ./count.sh --build_type=Release
 

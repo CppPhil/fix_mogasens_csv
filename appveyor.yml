@@ -20,7 +20,7 @@ install:
   - cmd: C:\Python38-x64\Scripts\pip.exe install pandas
 
 before_build:
-  - cmd: set PATH=%PATH:C:\Program Files\Git\usr\bin;=% 
+  - cmd: set PATH=%PATH:C:\Program Files\Git\usr\bin;=% # Remove Git sh.exe from PATH so that CMake will generate MinGW Makefiles.
   - cmd: set PATH=C:\Python38-x64;%PATH%
 
 build_script:
