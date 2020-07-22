@@ -78,9 +78,6 @@ total_count = csv_files.size * sensors.size * imus.size
 counter = 1
 threads = []
 
-puts("moving_average_filter_option: #{moving_average_filter_option}")
-puts("filter_sample_count_option: #{filter_sample_count_option}")
-
 puts("Generating images with #{proc_count} threads.")
 
 csv_files.each do |csv_file|
