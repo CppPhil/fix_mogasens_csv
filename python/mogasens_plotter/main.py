@@ -16,60 +16,9 @@ import pandas as pd
 
 from moving_average_filter import moving_average_filter
 from this_sensor import this_sensor
-
-
-def hardware_timestamp_string():
-  return 'hardware_timestamp'
-
-
-def channel1_string():
-  return 'channel1'
-
-
-def channel2_string():
-  return 'channel2'
-
-
-def channel3_string():
-  return 'channel3'
-
-
-def channel4_string():
-  return 'channel4'
-
-
-def channel5_string():
-  return 'channel5'
-
-
-def channel6_string():
-  return 'channel6'
-
-
-def accelerometer_string():
-  return 'accelerometer'
-
-
-def gyroscope_string():
-  return 'gyroscope'
-
-
-def sensor_to_string(sensor_id):
-  left_arm_sensor_id = 769
-  belly_sensor_id = 770
-  right_arm_sensor_id = 771
-  chest_sensor_id = 772
-
-  if sensor_id == left_arm_sensor_id:
-    return "left arm sensor"
-  elif sensor_id == belly_sensor_id:
-    return "belly sensor"
-  elif sensor_id == right_arm_sensor_id:
-    return "right arm sensor"
-  elif sensor_id == chest_sensor_id:
-    return "chest sensor"
-  else:
-    return f"bogus sensor, id: {sensor_id}"
+from constants import hardware_timestamp_string, channel1_string, channel2_string, channel3_string, channel4_string, channel5_string, channel6_string, accelerometer_string, gyroscope_string
+from sensor_to_string import sensor_to_string
+from imu_unit import imu_unit
 
 
 def plot(the_imu, data_frame):
@@ -105,15 +54,6 @@ def plot(the_imu, data_frame):
         f'exiting.',
         file=sys.stderr)
     sys.exit()
-
-
-def imu_unit(the_imu):
-  if the_imu == accelerometer_string():
-    return 'g'
-  elif the_imu == gyroscope_string():
-    return 'deg/s'
-  else:
-    return f"invalid imu: \"{the_imu}\"!"
 
 
 def main():
