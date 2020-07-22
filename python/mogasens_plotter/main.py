@@ -14,6 +14,8 @@ import sys
 import matplotlib.pyplot as plt
 import pandas as pd
 
+from moving_average_filter import moving_average_filter
+
 
 def hardware_timestamp_string():
     return 'hardware_timestamp'
@@ -126,12 +128,17 @@ def main():
         type=str,
         help='The Inertial Measurement Unit to use (accelerometer / gyroscope).'
     )
+    moving_average_filter_sample_count = 25
+    parser.add_argument('--moving_average_filter', dest='moving_average_filter', action='store_true')
+    parser.add_argument('--no-moving_average_filter', dest='moving_average_filter', action='store_false')
+    parser.set_defaults(moving_average_filter=False)
 
     args = parser.parse_args()
 
     csv_file_path = args.csv_file_path
     desired_sensor = args.sensor
     imu = args.imu
+    use_moving_average_filter = args.moving_average_filter
 
     if sensor_to_string(desired_sensor).startswith('bogus sensor'):
         print(f"{desired_sensor} is not a valid sensor ID, exiting.",
@@ -176,6 +183,18 @@ def main():
             gyroscope_x.append(float(row[gyroscope_x_column_index]))
             gyroscope_y.append(float(row[gyroscope_y_column_index]))
             gyroscope_z.append(float(row[gyroscope_z_column_index]))
+
+    if use_moving_average_filter:
+        print("Using a moving average filter")
+        moving_average_filter(moving_average_filter_sample_count,
+                              accelerometer_x)
+        moving_average_filter(moving_average_filter_sample_count,
+                              accelerometer_y)
+        moving_average_filter(moving_average_filter_sample_count,
+                              accelerometer_z)
+        moving_average_filter(moving_average_filter_sample_count, gyroscope_x)
+        moving_average_filter(moving_average_filter_sample_count, gyroscope_y)
+        moving_average_filter(moving_average_filter_sample_count, gyroscope_z)
 
     hardware_timestamp_data = []
     channel1_data = []

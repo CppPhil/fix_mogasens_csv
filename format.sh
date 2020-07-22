@@ -63,6 +63,7 @@ format_python() {
 cd $DIR
 
 format_python $DIR/python/mogasens_plotter/main.py
+format_python $DIR/python/mogasens_plotter/moving_average_filter.py
 format_python $DIR/python/fix_compile_commands.py
 
 format_cmake $DIR/CMakeLists.txt
