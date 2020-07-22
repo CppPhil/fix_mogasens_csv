@@ -193,8 +193,9 @@ def main():
             gyroscope_z.append(float(row[gyroscope_z_column_index]))
 
     this_sensor_time, this_sensor_hardware_timestamp, this_sensor_extract_id, this_sensor_trigger, this_sensor_accelerometer_x, this_sensor_accelerometer_y, this_sensor_accelerometer_z, this_sensor_gyroscope_x, this_sensor_gyroscope_y, this_sensor_gyroscope_z = this_sensor(
-        desired_sensor, time, hardware_timestamp, extract_id, trigger, accelerometer_x, accelerometer_y,
-        accelerometer_z, gyroscope_x, gyroscope_y, gyroscope_z)
+        desired_sensor, time, hardware_timestamp, extract_id, trigger,
+        accelerometer_x, accelerometer_y, accelerometer_z, gyroscope_x,
+        gyroscope_y, gyroscope_z)
 
     filter_kind = "no_filter"
 
@@ -206,12 +207,12 @@ def main():
             moving_average_filter_sample_count, this_sensor_accelerometer_y)
         this_sensor_accelerometer_z = moving_average_filter(
             moving_average_filter_sample_count, this_sensor_accelerometer_z)
-        this_sensor_gyroscope_x = moving_average_filter(moving_average_filter_sample_count,
-                                                        this_sensor_gyroscope_x)
-        this_sensor_gyroscope_y = moving_average_filter(moving_average_filter_sample_count,
-                                                        this_sensor_gyroscope_y)
-        this_sensor_gyroscope_z = moving_average_filter(moving_average_filter_sample_count,
-                                                        this_sensor_gyroscope_z)
+        this_sensor_gyroscope_x = moving_average_filter(
+            moving_average_filter_sample_count, this_sensor_gyroscope_x)
+        this_sensor_gyroscope_y = moving_average_filter(
+            moving_average_filter_sample_count, this_sensor_gyroscope_y)
+        this_sensor_gyroscope_z = moving_average_filter(
+            moving_average_filter_sample_count, this_sensor_gyroscope_z)
 
     hardware_timestamp_data = []
     channel1_data = []
@@ -231,7 +232,7 @@ def main():
 
     hardware_timestamp_threshold_offset = 10000  # 10 seconds
     hardware_timestamp_threshold = hardware_timestamp[
-                                       0] + hardware_timestamp_threshold_offset
+        0] + hardware_timestamp_threshold_offset
 
     def append_accumulator(data, accumulator):
         data.append(accumulator.copy())
@@ -248,7 +249,8 @@ def main():
         append_accumulator(channel6_data, channel6_accumulator)
 
     for i in range(len(this_sensor_time)):
-        hardware_timestamp_accumulator.append(this_sensor_hardware_timestamp[i])
+        hardware_timestamp_accumulator.append(
+            this_sensor_hardware_timestamp[i])
         channel1_accumulator.append(this_sensor_accelerometer_x[i])
         channel2_accumulator.append(this_sensor_accelerometer_y[i])
         channel3_accumulator.append(this_sensor_accelerometer_z[i])
@@ -268,19 +270,19 @@ def main():
     for i in range(len(hardware_timestamp_data)):
         df = pd.DataFrame({
             hardware_timestamp_string():
-                hardware_timestamp_data[i],
+            hardware_timestamp_data[i],
             channel1_string():
-                channel1_data[i],
+            channel1_data[i],
             channel2_string():
-                channel2_data[i],
+            channel2_data[i],
             channel3_string():
-                channel3_data[i],
+            channel3_data[i],
             channel4_string():
-                channel4_data[i],
+            channel4_data[i],
             channel5_string():
-                channel5_data[i],
+            channel5_data[i],
             channel6_string():
-                channel6_data[i]
+            channel6_data[i]
         })
 
         title = f"{csv_file_path}_{filter_kind}_{sensor_to_string(desired_sensor)}_{imu}_{i + 1}".replace(

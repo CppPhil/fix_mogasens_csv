@@ -2,8 +2,9 @@
 # -*- coding: utf8 -*-
 
 
-def this_sensor(desired_sensor, time, hardware_timestamp, extract_id, trigger, accelerometer_x, accelerometer_y,
-                accelerometer_z, gyroscope_x, gyroscope_y, gyroscope_z):
+def this_sensor(desired_sensor, time, hardware_timestamp, extract_id, trigger,
+                accelerometer_x, accelerometer_y, accelerometer_z, gyroscope_x,
+                gyroscope_y, gyroscope_z):
     this_sensor_time = []
     this_sensor_hardware_timestamp = []
     this_sensor_extract_id = []
