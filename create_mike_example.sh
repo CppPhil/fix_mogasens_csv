@@ -18,29 +18,25 @@ cd "$DIR"
 
 readonly PLOTTER="./python/mogasens_plotter/main.py"
 readonly FILE="./resources/Mike/2020-07-02_14.07.33_out.csv"
-readonly BELLY_SENSOR=770
 readonly IMU=accelerometer
 
-# Generate the example image with no filter.
-$PLOTTER --no-moving_average_filter $FILE $BELLY_SENSOR $IMU 0
-
-moving_average_filter_sample_counts=(
-  25
-  50
-  100
-  250
-  500
+sensors=(
+  769
+  770
+  771
+  772
 )
 
-# Generate the example image with the filters applied.
-for moving_average_filter_sample_count in "${moving_average_filter_sample_counts[@]}"; do
-  $PLOTTER --moving_average_filter $FILE $BELLY_SENSOR $IMU $moving_average_filter_sample_count
+# Generate the example image with no filter.
+for sensor in "${sensors[@]}"; do
+  $PLOTTER --no-moving_average_filter $FILE $sensor $IMU 0
 done
 
-for image in ./resources/Mike/*.png; do
-  if ! [[ "$image" == *3.png ]]; then
-    rm "$image"
-  fi
+# Generate the example image with the filters applied.
+for sensor in "${sensors[@]}"; do
+  for (( i=25; i<=500; i+=25 )); do
+    $PLOTTER --moving_average_filter $FILE $sensor $IMU $i
+  done
 done
 
 cd "$PREV_DIR"
