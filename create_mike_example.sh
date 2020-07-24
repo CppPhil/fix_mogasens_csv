@@ -22,9 +22,9 @@ readonly IMU=accelerometer
 
 sensors=(
   769  # left arm
-#  770 # belly
-#  771 # right arm
-#  772 # chest
+  770 # belly
+  771 # right arm
+  772 # chest
 )
 
 # Generate the example image with no filter.
