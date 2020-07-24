@@ -40,6 +40,7 @@ find_package(Threads REQUIRED)
 add_subdirectory(external/fmtlib)
 add_subdirectory(external/googletest)
 add_subdirectory(external/scnlib)
+add_subdirectory(external/philslib)
 
 add_subdirectory(csv_lib)
 add_subdirectory(fix_csv)
