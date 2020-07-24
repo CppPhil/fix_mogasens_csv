@@ -18,6 +18,7 @@ from data_set import DataSet
 from imu_unit import imu_unit
 from moving_average_filter import moving_average_filter
 from sensor_to_string import sensor_to_string
+from imu_constants import min_value, max_value
 
 
 def plot(the_imu, data_frame):
@@ -183,6 +184,9 @@ def main():
     plt.ylabel(imu_unit(imu))
     plt.xlabel(f'{hardware_timestamp_string()} (in milliseconds)')
     plt.gca().xaxis.set_major_locator(plt.MultipleLocator(1000))  # A second
+
+    plt.yticks([min_value(imu)] + list(plt.yticks()[0]) + [max_value(imu)])
+
     plt.grid()
     plt.savefig(png_file, bbox_inches='tight')
     plt.close()
