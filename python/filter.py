@@ -5,8 +5,8 @@ import argparse
 import os
 
 from modules.data_set import DataSet
-from modules.sensors import sensors
 from modules.moving_average_filter import moving_average_filter
+from modules.sensors import *
 
 
 def select_filter(use_moving_average_filter):
@@ -69,18 +69,28 @@ def main():
   gyroscope_y = []
   gyroscope_z = []
 
-  for i in range(len(data_sets[0].time)):
-    for data_set in data_sets:
-      time.append(data_set.time[i])
-      hardware_timestamp.append(data_set.hardware_timestamp[i])
-      extract_id.append(data_set.extract_id[i])
-      trigger.append(data_set.trigger[i])
-      accelerometer_x.append(data_set.accelerometer_x[i])
-      accelerometer_y.append(data_set.accelerometer_y[i])
-      accelerometer_z.append(data_set.accelerometer_z[i])
-      gyroscope_x.append(data_set.gyroscope_x[i])
-      gyroscope_y.append(data_set.gyroscope_y[i])
-      gyroscope_z.append(data_set.gyroscope_z[i])
+  # Create the indices into the sensor specific data sets
+  indices = []
+  for i in range(len(data_sets)):
+      indices.append(0)
+
+  for current_extract_id in entire_data_set.extract_id:
+      for i in range(len(data_sets)):  # Find the matching sensor specific data set
+          current_data_set = data_sets[i]
+          current_index = indices[i]
+
+          if current_extract_id == current_data_set.extract_id[0]:
+              time.append(current_data_set.time[current_index])
+              hardware_timestamp.append(current_data_set.hardware_timestamp[current_index])
+              extract_id.append(current_data_set.extract_id[current_index])
+              trigger.append(current_data_set.trigger[current_index])
+              accelerometer_x.append(current_data_set.accelerometer_x[current_index])
+              accelerometer_y.append(current_data_set.accelerometer_y[current_index])
+              accelerometer_z.append(current_data_set.accelerometer_z[current_index])
+              gyroscope_x.append(current_data_set.gyroscope_x[current_index])
+              gyroscope_y.append(current_data_set.gyroscope_y[current_index])
+              gyroscope_z.append(current_data_set.gyroscope_z[current_index])
+              indices[i] += 1  # Increment the index
 
   # Create the actual data set to be written to a file
   entire_filtered_data_set = DataSet(time, hardware_timestamp, extract_id,
