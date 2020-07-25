@@ -37,7 +37,7 @@ class DataSet:
     obj.gyroscope_y = []
     obj.gyroscope_z = []
 
-    with open(csv_file_name, 'r') as csv_file:
+    with open(csv_file_name, 'r', encoding='utf-8') as csv_file:
       plots = csv.reader(csv_file, delimiter=',')
       for row_count, row in enumerate(plots):
         if row_count == 0:  # Skip the header row
@@ -80,7 +80,7 @@ class DataSet:
     return self
 
   def write_to_file(self, file_path):
-    with open(file_path, 'w', newline='') as csv_file:
+    with open(file_path, 'w', newline='\n', encoding='utf-8') as csv_file:
       writer = csv.writer(csv_file,
                           delimiter=',',
                           quotechar='"',
