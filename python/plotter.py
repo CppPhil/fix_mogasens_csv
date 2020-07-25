@@ -16,9 +16,9 @@ import pandas as pd
 from modules.constants import *
 from modules.data_set import DataSet
 from modules.imu_unit import imu_unit
-from modules.moving_average_filter import moving_average_filter
 from modules.sensor_to_string import sensor_to_string
 from modules.imu_constants import min_value, max_value
+from filter import main as filter_main
 
 
 def plot(the_imu, data_frame):
@@ -54,12 +54,6 @@ def plot(the_imu, data_frame):
         f'exiting.',
         file=sys.stderr)
     sys.exit()
-
-
-def select_filter(use_moving_average_filter):
-  if use_moving_average_filter:
-    return moving_average_filter
-  return lambda sample_count, data: data
 
 
 def main():
@@ -98,15 +92,17 @@ def main():
           file=sys.stderr)
     sys.exit()
 
-  entire_data_set = DataSet.from_file(csv_file_path)
-  data_set = entire_data_set\
-      .filter_by_sensor(desired_sensor)\
-      .apply_filter(lambda data: select_filter(use_moving_average_filter)(moving_average_filter_sample_count, data))
-
-  filter_kind = "no_filter"
-
+  filter_args = [csv_file_path]
   if use_moving_average_filter:
-    filter_kind = f"avg_filter_{moving_average_filter_sample_count}"
+    filter_args.append('--moving_average_filter')
+  else:
+    filter_args.append('--no-moving_average_filter')
+  filter_args.append(moving_average_filter_sample_count)
+  filtered_csv_file_path = filter_main(filter_args)
+
+  entire_data_set = DataSet.from_file(filtered_csv_file_path)
+  data_set = entire_data_set\
+      .filter_by_sensor(desired_sensor)
 
   hardware_timestamp_data = []
   channel1_data = []
@@ -170,7 +166,7 @@ def main():
         channel6_string(): channel6_data[i]
     })
 
-    title = f"{csv_file_path}_{filter_kind}_{sensor_to_string(desired_sensor)}_{imu}_{i + 1}".replace(
+    title = f"{filtered_csv_file_path}_{sensor_to_string(desired_sensor)}_{imu}_{i + 1}".replace(
         " ", "_")
     png_file = f"{title}.png"
 

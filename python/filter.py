@@ -3,6 +3,7 @@
 
 import argparse
 import os
+import sys
 
 from modules.data_set import DataSet
 from modules.moving_average_filter import moving_average_filter
@@ -12,10 +13,11 @@ from modules.sensors import *
 def select_filter(use_moving_average_filter):
   if use_moving_average_filter:
     return moving_average_filter
-  return lambda sample_count, data: data  # If no filter shall be used return a lambda that returns the data set unchanged.
+  # If no filter shall be used return a lambda that returns the data set unchanged.
+  return lambda sample_count, data: data
 
 
-def main():
+def main(arguments):
   # Parse command line arguments
   parser = argparse.ArgumentParser(description='Filter a MoGaSens CSV file.')
   parser.add_argument('csv_file_path',
@@ -31,7 +33,7 @@ def main():
   parser.add_argument('moving_average_filter_sample_count',
                       type=int,
                       help='The sample count to use')
-  args = parser.parse_args()
+  args = parser.parse_args(arguments)
   csv_file_path = args.csv_file_path
   use_moving_average_filter = args.moving_average_filter
   moving_average_filter_sample_count = args.moving_average_filter_sample_count
@@ -104,10 +106,12 @@ def main():
   file_name, file_extension = os.path.splitext(csv_file_path)
 
   # Write the filtered data set of all the sensors to a file
-  entire_filtered_data_set.write_to_file(
-      f"{file_name}_{filter_kind}{file_extension}")
+  output_file_name = f"{file_name}_{filter_kind}{file_extension}"
+  entire_filtered_data_set.write_to_file(output_file_name)
+
+  return output_file_name
 
 
 # Entry point
 if __name__ == "__main__":
-  main()
+  main(sys.argv)
