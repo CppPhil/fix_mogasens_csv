@@ -17,7 +17,7 @@ from modules.constants import *
 from modules.data_set import DataSet
 from modules.imu_unit import imu_unit
 from modules.sensor_to_string import sensor_to_string
-from modules.imu_constants import min_value, max_value
+from modules.imu_constants import minimum_plotting_value, maximum_plotting_value
 from filter import main as filter_main
 
 
@@ -54,6 +54,24 @@ def plot(the_imu, data_frame):
         f'exiting.',
         file=sys.stderr)
     sys.exit()
+
+
+# noinspection SpellCheckingInspection
+def yticks(y_ticks, imu):
+  ticks = list(y_ticks[0])
+  lowest = ticks[0]
+  highest = ticks[-1]
+
+  minimum = minimum_plotting_value(imu)
+  maximum = maximum_plotting_value(imu)
+
+  if lowest > minimum:
+    ticks.insert(0, minimum)
+
+  if highest < maximum:
+    ticks.append(maximum)
+
+  return ticks
 
 
 def main():
@@ -181,7 +199,7 @@ def main():
     plt.xlabel(f'{hardware_timestamp_string()} (in milliseconds)')
     plt.gca().xaxis.set_major_locator(plt.MultipleLocator(1000))  # A second
 
-    plt.yticks([min_value(imu)] + list(plt.yticks()[0]) + [max_value(imu)])
+    plt.yticks(yticks(plt.yticks(), imu))
 
     plt.grid()
     plt.savefig(png_file, bbox_inches='tight')
