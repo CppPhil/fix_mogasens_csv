@@ -35,7 +35,7 @@ def fix_csv_app(build_type, compiler)
 end
 
 csv_files = Dir["#{RESOURCES_DIR}/**/*.csv"].reject do |file|
-  file.end_with?('_out.csv')
+  file.include?('_out')
 end
 csv_files.each do |file|
   puts("Processing #{file}.")
