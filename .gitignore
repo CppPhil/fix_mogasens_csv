@@ -211,5 +211,5 @@ python/mogasens_plotter/.idea
 python/mogasens_plotter/venv
 
 # __pycache__
-python/mogasens_plotter/__pycache__
+python/modules/__pycache__
 

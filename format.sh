@@ -62,7 +62,7 @@ format_python() {
 
 cd $DIR
 
-python_files=$(find "$DIR/python/mogasens_plotter" -name '*py')
+python_files=$(find "$DIR/python" -name '*.py')
 for python_file in "${python_files[@]}"; do
   format_python "$python_file"
 done

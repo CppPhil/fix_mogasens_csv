@@ -38,7 +38,7 @@ filter_sample_count_option = if filter_sample_count.nil?
                              end
 
 working_directory = Dir.pwd
-plotter = "#{working_directory}/python/mogasens_plotter/main.py"
+plotter = "#{working_directory}/python/plotter.py"
 
 def python_interpreter
   if System.os == :linux

@@ -3,8 +3,8 @@
 
 import csv
 
-from constants import *
-from this_sensor import this_sensor
+from .constants import *
+from .this_sensor import this_sensor
 
 
 class DataSet:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf8 -*-
 
-from constants import accelerometer_string, gyroscope_string
+from .constants import accelerometer_string, gyroscope_string
 
 
 def imu_unit(the_imu):

@@ -13,12 +13,12 @@ import sys
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from constants import *
-from data_set import DataSet
-from imu_unit import imu_unit
-from moving_average_filter import moving_average_filter
-from sensor_to_string import sensor_to_string
-from imu_constants import min_value, max_value
+from modules.constants import *
+from modules.data_set import DataSet
+from modules.imu_unit import imu_unit
+from modules.moving_average_filter import moving_average_filter
+from modules.sensor_to_string import sensor_to_string
+from modules.imu_constants import min_value, max_value
 
 
 def plot(the_imu, data_frame):

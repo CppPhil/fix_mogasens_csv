@@ -16,7 +16,7 @@ cd "$DIR"
 ./build.sh
 ./fix_csvs.sh
 
-readonly PLOTTER="./python/mogasens_plotter/main.py"
+readonly PLOTTER="./python/plotter.py"
 readonly FILE="./resources/Mike/2020-07-02_14.07.33_out.csv"
 readonly IMU=accelerometer
 
