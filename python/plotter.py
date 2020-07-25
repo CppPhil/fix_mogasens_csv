@@ -97,7 +97,7 @@ def main():
     filter_args.append('--moving_average_filter')
   else:
     filter_args.append('--no-moving_average_filter')
-  filter_args.append(moving_average_filter_sample_count)
+  filter_args.append(str(moving_average_filter_sample_count))
   filtered_csv_file_path = filter_main(filter_args)
 
   entire_data_set = DataSet.from_file(filtered_csv_file_path)
