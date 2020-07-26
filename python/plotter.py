@@ -81,6 +81,7 @@ def invoke_moving_average_filter(use_moving_average_filter, csv_file_path,
     filter_args.append('--moving_average_filter')
   else:
     filter_args.append('--no-moving_average_filter')
+  filter_args.append('--csv_file_path ')
   filter_args.append(csv_file_path)
   filter_args.append(str(moving_average_filter_sample_count))
   return filter_main(filter_args)

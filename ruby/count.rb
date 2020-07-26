@@ -43,9 +43,9 @@ def counting_app(build_type, compiler)
 end
 
 filterer = "#{Dir.pwd}/python/filter.py"
-run_string = "#{Python.interpreter} #{filterer}"\
+run_string = "#{Python.interpreter} #{filterer} "\
              "#{moving_average_filter_option} "\
-             "\"%s\" " \
+             "--csv_file_path \"%s\" " \
              "#{filter_sample_count_option}"
 
 files_to_filter = Dir["#{RESOURCES_DIR}/**/*.csv"].select do |file|

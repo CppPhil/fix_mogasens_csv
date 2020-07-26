@@ -20,9 +20,6 @@ def select_filter(use_moving_average_filter):
 def main(arguments):
   # Parse command line arguments
   parser = argparse.ArgumentParser(description='Filter a MoGaSens CSV file.')
-  parser.add_argument('csv_file_path',
-                      type=str,
-                      help='Path to the CSV file to filter.')
   parser.add_argument('--moving_average_filter',
                       dest='moving_average_filter',
                       action='store_true')
@@ -30,6 +27,10 @@ def main(arguments):
                       dest='moving_average_filter',
                       action='store_false')
   parser.set_defaults(moving_average_filter=False)
+  parser.add_argument('--csv_file_path',
+                      type=str,
+                      help='Path to the CSV file to filter.',
+                      required=True)
   parser.add_argument('moving_average_filter_sample_count',
                       type=int,
                       help='The sample count to use')
@@ -42,6 +43,14 @@ def main(arguments):
   filter_kind = "no_filter"
   if use_moving_average_filter:
     filter_kind = f"avg_filter_{moving_average_filter_sample_count}"
+
+  # Split the input file path into name and file extension
+  file_name, file_extension = os.path.splitext(csv_file_path)
+
+  output_file_name = f"{file_name}_{filter_kind}{file_extension}"
+
+  if os.path.isfile(output_file_name):  # Don't do anything if the file's already there.
+    return output_file_name
 
   entire_data_set = DataSet.from_file(
       csv_file_path)  # Load the entire data set
@@ -102,11 +111,7 @@ def main(arguments):
                                      accelerometer_z, gyroscope_x, gyroscope_y,
                                      gyroscope_z)
 
-  # Split the input file path into name and file extension
-  file_name, file_extension = os.path.splitext(csv_file_path)
-
   # Write the filtered data set of all the sensors to a file
-  output_file_name = f"{file_name}_{filter_kind}{file_extension}"
   entire_filtered_data_set.write_to_file(output_file_name)
 
   return output_file_name
@@ -114,4 +119,4 @@ def main(arguments):
 
 # Entry point
 if __name__ == "__main__":
-  main(sys.argv)
+  main(sys.argv[1:])
