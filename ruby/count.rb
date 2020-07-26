@@ -2,12 +2,20 @@ require 'rbconfig'
 require_relative 'modules/system'
 require_relative 'modules/util'
 require_relative 'modules/command_line'
+require_relative 'modules/average_filter'
+require_relative 'modules/python'
 
 MINGW_COMPILER = 'MinGW'.freeze
 MSVC_COMPILER = 'MSVC'.freeze
 
-options = CommandLine.parse([CommandLine.build_type_option, \
+options = CommandLine.parse([CommandLine.filter_sample_count_option, \
+                             CommandLine.build_type_option, \
                              CommandLine.compiler_option])
+
+moving_average_filter_option \
+ = AverageFilter.moving_average_filter_option(options)
+
+filter_sample_count_option = AverageFilter.filter_sample_count_option(options)
 
 build_type = Util.build_type(options)
 
@@ -34,8 +42,26 @@ def counting_app(build_type, compiler)
   end
 end
 
-csv_files = Dir["#{RESOURCES_DIR}/**/*.csv"].select do |file|
+filterer = "#{Dir.pwd}/python/filter.py"
+run_string = "#{Python.interpreter} #{filterer}"\
+             "#{moving_average_filter_option} "\
+             "\"%s\" " \
+             "#{filter_sample_count_option}"
+
+files_to_filter = Dir["#{RESOURCES_DIR}/**/*.csv"].select do |file|
   file.end_with?('_out.csv')
+end
+
+files_to_filter.each do |file|
+  str = sprintf(run_string, file)
+  unless system(str)
+    STDERR.puts("\"#{str}\" failed, exiting.")
+    exit(1)
+  end
+end
+
+csv_files = Dir["#{RESOURCES_DIR}/**/*.csv"].select do |file|
+  file.include?('_out') && !file.end_with?('_out.csv')
 end
 
 if csv_files.empty?

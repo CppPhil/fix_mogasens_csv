@@ -9,6 +9,10 @@ module CommandLine
     'compiler'.freeze
   end
 
+  def self.filter_sample_count_option
+    'filter_sample_count'.freeze
+  end
+
   def self.parse(opts)
     options = {}
 
@@ -26,6 +30,13 @@ module CommandLine
       if opts.include?(compiler_option)
         opt.on('--compiler=COMPILER', compilers) do |o|
           options[:compiler] = o
+        end
+      end
+
+      if opts.include?(filter_sample_count_option)
+        opt.on('--filter_sample_count=SAMPLE_COUNT',
+               'Filter count for the moving average filter') do |o|
+          options[:filter_sample_count] = o
         end
       end
 

@@ -1,7 +1,8 @@
 require 'rbconfig'
 require 'etc'
-require 'optparse'
-require_relative 'modules/system'
+require_relative 'modules/python'
+require_relative 'modules/command_line'
+require_relative 'modules/average_filter'
 
 def dev_null
   if System.os == :linux
@@ -14,42 +15,15 @@ def dev_null
   end
 end
 
-options = {}
+options = CommandLine.parse([CommandLine.filter_sample_count_option])
 
-OptionParser.new do |opt|
-  opt.on('--filter_sample_count=SAMPLE_COUNT',
-         'Filter count for the moving average filter') do |o|
-    options[:filter_sample_count] = o
-  end
-end.parse!
+moving_average_filter_option \
+ = AverageFilter.moving_average_filter_option(options)
 
-filter_sample_count = options[:filter_sample_count]
-
-moving_average_filter_option = if filter_sample_count.nil?
-                                 '--no-moving_average_filter'
-                               else
-                                 '--moving_average_filter'
-                               end
-
-filter_sample_count_option = if filter_sample_count.nil?
-                               '0'
-                             else
-                               filter_sample_count.to_s
-                             end
+filter_sample_count_option = AverageFilter.filter_sample_count_option(options)
 
 working_directory = Dir.pwd
 plotter = "#{working_directory}/python/plotter.py"
-
-def python_interpreter
-  if System.os == :linux
-    'python3'
-  elsif System.os == :windows
-    'python.exe'
-  else
-    STDERR.puts('Unsupported operating system, exiting.')
-    exit(1)
-  end
-end
 
 Dir.chdir('resources')
 
@@ -82,7 +56,7 @@ csv_files.each do |csv_file|
   sensors.each do |sensor|
     imus.each do |imu|
       threads << Thread.new do
-        run_string = "#{python_interpreter} #{plotter} "\
+        run_string = "#{Python.interpreter} #{plotter} "\
                      "#{moving_average_filter_option} "\
                      "#{csv_file} #{sensor} "\
                      "#{imu} #{filter_sample_count_option} "\
