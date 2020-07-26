@@ -82,7 +82,7 @@ def invoke_moving_average_filter(use_moving_average_filter, csv_file_path,
   else:
     filter_args.append('--no-moving_average_filter')
   filter_args.append('--csv_file_path')
-  filter_args.append(csv_file_path)  # TODO: HERE TODO: HERE TODO: HERE TODO: HERE
+  filter_args.append(csv_file_path)
   filter_args.append(str(moving_average_filter_sample_count))
   return filter_main(filter_args)
 
@@ -111,8 +111,6 @@ def main(arguments):
                       help='The sample count to use')
 
   args = parser.parse_args(arguments)
-
-  print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> HERE HERHEREHREHREHEREHHEEHREHERHEREHREHEREHREH")
 
   csv_file_path = args.csv_file_path
   desired_sensor = args.sensor
