@@ -62,7 +62,8 @@ csv_files.each do |csv_file|
           "#{csv_file} "\
           "#{sensor} "\
           "#{imu} "\
-          "#{filter_sample_count_option}"
+          "#{filter_sample_count_option} "\
+          "> #{dev_null}"
 
         unless system(run_string)
           STDERR.puts("\"#{run_string}\" failed, exiting.")
