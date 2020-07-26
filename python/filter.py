@@ -18,6 +18,10 @@ def select_filter(use_moving_average_filter):
 
 
 def main(arguments):
+  print(">>>>>> filter.py: main(arguments) here ::::>><oeutnmhihruhoemtnuhtejcnrsui o")
+  for a in arguments:
+    print(f"arg: {a}")
+
   # Parse command line arguments
   parser = argparse.ArgumentParser(description='Filter a MoGaSens CSV file.')
   parser.add_argument('--moving_average_filter',

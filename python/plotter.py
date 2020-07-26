@@ -81,18 +81,14 @@ def invoke_moving_average_filter(use_moving_average_filter, csv_file_path,
     filter_args.append('--moving_average_filter')
   else:
     filter_args.append('--no-moving_average_filter')
-  filter_args.append('--csv_file_path ')
-  filter_args.append(csv_file_path)
+  filter_args.append('--csv_file_path')
+  filter_args.append(csv_file_path)  # TODO: HERE TODO: HERE TODO: HERE TODO: HERE
   filter_args.append(str(moving_average_filter_sample_count))
   return filter_main(filter_args)
 
 
 def main(arguments):
   parser = argparse.ArgumentParser(description='Plot MoGaSens CSV file.')
-  parser.add_argument('--csv_file_path',
-                      type=str,
-                      help='Path to the CSV file to plot.',
-                      required=True)
   parser.add_argument('--moving_average_filter',
                       dest='moving_average_filter',
                       action='store_true')
@@ -100,21 +96,23 @@ def main(arguments):
                       dest='moving_average_filter',
                       action='store_false')
   parser.set_defaults(moving_average_filter=False)
-  parser.add_argument('--sensor',
+  parser.add_argument('csv_file_path',
+                      type=str,
+                      help='Path to the CSV file to plot.')
+  parser.add_argument('sensor',
                       type=int,
-                      help='The sensor to plot (769 | 770 | 771 | 772).',
-                      required=True)
+                      help='The sensor to plot (769 | 770 | 771 | 772).')
   parser.add_argument(
-      '--imu',
+      'imu',
       type=str,
-      help='The Inertial Measurement Unit to use (accelerometer / gyroscope).',
-      required=True)
-  parser.add_argument('--moving_average_filter_sample_count',
+      help='The Inertial Measurement Unit to use (accelerometer / gyroscope).')
+  parser.add_argument('moving_average_filter_sample_count',
                       type=int,
-                      help='The sample count to use',
-                      required=True)
+                      help='The sample count to use')
 
   args = parser.parse_args(arguments)
+
+  print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> HERE HERHEREHREHREHEREHHEEHREHERHEREHREHEREHREH")
 
   csv_file_path = args.csv_file_path
   desired_sensor = args.sensor
