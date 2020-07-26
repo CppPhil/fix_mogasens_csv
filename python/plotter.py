@@ -87,18 +87,12 @@ def invoke_moving_average_filter(use_moving_average_filter, csv_file_path,
   return filter_main(filter_args)
 
 
-def main():
+def main(arguments):
   parser = argparse.ArgumentParser(description='Plot MoGaSens CSV file.')
-  parser.add_argument('csv_file_path',
+  parser.add_argument('--csv_file_path',
                       type=str,
-                      help='Path to the CSV file to plot.')
-  parser.add_argument('sensor',
-                      type=int,
-                      help='The sensor to plot (769 | 770 | 771 | 772).')
-  parser.add_argument(
-      'imu',
-      type=str,
-      help='The Inertial Measurement Unit to use (accelerometer / gyroscope).')
+                      help='Path to the CSV file to plot.',
+                      required=True)
   parser.add_argument('--moving_average_filter',
                       dest='moving_average_filter',
                       action='store_true')
@@ -106,11 +100,21 @@ def main():
                       dest='moving_average_filter',
                       action='store_false')
   parser.set_defaults(moving_average_filter=False)
-  parser.add_argument('moving_average_filter_sample_count',
+  parser.add_argument('--sensor',
                       type=int,
-                      help='The sample count to use')
+                      help='The sensor to plot (769 | 770 | 771 | 772).',
+                      required=True)
+  parser.add_argument(
+      '--imu',
+      type=str,
+      help='The Inertial Measurement Unit to use (accelerometer / gyroscope).',
+      required=True)
+  parser.add_argument('--moving_average_filter_sample_count',
+                      type=int,
+                      help='The sample count to use',
+                      required=True)
 
-  args = parser.parse_args()
+  args = parser.parse_args(arguments)
 
   csv_file_path = args.csv_file_path
   desired_sensor = args.sensor
@@ -218,4 +222,4 @@ def main():
 
 
 if __name__ == "__main__":
-  main()
+  main(sys.argv[1:])

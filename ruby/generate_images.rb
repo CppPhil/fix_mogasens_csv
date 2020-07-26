@@ -56,11 +56,14 @@ csv_files.each do |csv_file|
   sensors.each do |sensor|
     imus.each do |imu|
       threads << Thread.new do
-        run_string = "#{Python.interpreter} #{plotter} "\
-                     "#{moving_average_filter_option} "\
-                     "#{csv_file} #{sensor} "\
-                     "#{imu} #{filter_sample_count_option} "\
-                     "> #{dev_null}"
+        run_string = \
+            "#{Python.interpreter} #{plotter} "\
+            "--csv_file_path \"#{csv_file}\" "\
+            "#{moving_average_filter_option} "\
+            "--sensor #{sensor} "\
+            "--imu #{imu} "\
+            "--moving_average_filter_sample_count #{filter_sample_count_option} "\
+            "> #{dev_null}"
 
         unless system(run_string)
           STDERR.puts("\"#{run_string}\" failed, exiting.")

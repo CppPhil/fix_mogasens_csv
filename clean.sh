@@ -17,6 +17,8 @@ rm -f ./resources/Felix/*.png
 rm -f ./resources/Marcelle/*.png
 rm -f ./resources/Mike/*.png
 rm -f ./log.txt
+rm -rf ./python/__pycache__
+rm -rf ./python/modules/__pycache__
 
 cd $PREV_DIR
 
