@@ -1,7 +1,3 @@
-Check the sensor counts in the data sets.
-
--------------------------------------------------------------------------
-
 Marcelle/2020-07-02_14.59.59 Hardware timestamp macht Sprung.
 Marcelle/2020-07-02_15.31.36 Hardware timestamp macht Sprung.
 
