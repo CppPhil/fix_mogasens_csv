@@ -49,7 +49,8 @@ def main(arguments):
 
   output_file_name = f"{file_name}_{filter_kind}{file_extension}"
 
-  if os.path.isfile(output_file_name):  # Don't do anything if the file's already there.
+  if os.path.isfile(
+      output_file_name):  # Don't do anything if the file's already there.
     return output_file_name
 
   entire_data_set = DataSet.from_file(
