@@ -1,0 +1,343 @@
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: 0 of 490110 data points (0.0%) are above / below the threshold.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: 0 of 544242 data points (0.0%) are above / below the threshold.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: 0 of 374772 data points (0.0%) are above / below the threshold.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: 0 of 432198 data points (0.0%) are above / below the threshold.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: 0 of 288972 data points (0.0%) are above / below the threshold.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: 0 of 353574 data points (0.0%) are above / below the threshold.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: 0 of 297288 data points (0.0%) are above / below the threshold.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: 0 of 372060 data points (0.0%) are above / below the threshold.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: 0 of 317064 data points (0.0%) are above / below the threshold.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: 0 of 475926 data points (0.0%) are above / below the threshold.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: 0 of 372378 data points (0.0%) are above / below the threshold.
+
+irrelevance (average)
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerX is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerY is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerZ is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeX is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeZ is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerX is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerZ is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeY is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerX is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerY is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerZ is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeX is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeY is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeZ is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerX is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerZ is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeX is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeY is not relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeZ is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerX is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerY is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerZ is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeX is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeZ is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerX is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerZ is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeY is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerX is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerY is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerZ is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeX is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeY is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeZ is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerX is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerZ is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeX is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeY is not relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeZ is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerX is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerY is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerZ is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeX is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeZ is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerX is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerZ is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeY is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerX is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerY is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerZ is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeX is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeY is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeZ is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerX is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerZ is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeX is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeY is not relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeZ is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerX is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerY is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerZ is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeX is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeZ is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerX is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerZ is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeY is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerX is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerY is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerZ is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeX is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeY is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeZ is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerX is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerZ is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeX is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeY is not relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeZ is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerX is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerY is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerZ is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeX is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeZ is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerX is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerZ is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeY is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerX is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerY is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerZ is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeX is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeY is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeZ is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerX is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerZ is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeX is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeY is not relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeZ is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerX is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerY is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerZ is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeX is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeZ is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerX is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerZ is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeY is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerX is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerY is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerZ is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeX is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeY is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeZ is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerX is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerZ is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeX is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeY is not relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeZ is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerX is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerY is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerZ is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeX is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeZ is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerX is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerZ is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeY is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerX is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerY is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerZ is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeX is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeY is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeZ is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerX is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerZ is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeX is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeY is not relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeZ is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerX is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerY is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerZ is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeX is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeZ is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerX is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerZ is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeY is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerX is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerY is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerZ is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeX is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeY is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeZ is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerX is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerZ is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeX is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeY is not relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeZ is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerX is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerY is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerZ is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeX is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeZ is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerX is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerZ is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeY is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerX is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerY is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerZ is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeX is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeY is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeZ is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerX is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerZ is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeX is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeY is not relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeZ is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerX is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerY is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerZ is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeX is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeZ is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerX is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerZ is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeY is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerX is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerY is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerZ is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeX is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeY is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeZ is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerX is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerZ is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeX is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeY is not relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeZ is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerX is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerY is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerZ is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeX is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeZ is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerX is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerZ is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeY is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerX is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerY is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerZ is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeX is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeY is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeZ is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerX is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerZ is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeX is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeY is not relevant.
+resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeZ is not relevant.
+
+irrelevance (half maximum)
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerZ isn't relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY isn't relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY isn't relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeY isn't relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY isn't relevant.
+resources/Felix/2020-07-02_13.00.09_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeZ isn't relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY isn't relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX isn't relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ isn't relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeX isn't relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeY isn't relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY isn't relevant.
+resources/Felix/2020-07-02_12.50.00_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeX isn't relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeX isn't relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY isn't relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY isn't relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY isn't relevant.
+resources/Felix/2020-07-02_11.17.39_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeZ isn't relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY isn't relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ isn't relevant.
+resources/Mike/2020-07-02_14.38.40_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY isn't relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY isn't relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ isn't relevant.
+resources/Mike/2020-07-02_14.20.28_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY isn't relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerZ isn't relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeX isn't relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY isn't relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY isn't relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX isn't relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerZ isn't relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeX isn't relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeY isn't relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY isn't relevant.
+resources/Mike/2020-07-02_14.07.33_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeX isn't relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerZ isn't relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeX isn't relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY isn't relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY isn't relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX isn't relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ isn't relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: RightArm, channel: AccelerometerZ isn't relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeX isn't relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeY isn't relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY isn't relevant.
+resources/Mike/2020-07-02_14.14.32_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeX isn't relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY isn't relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY isn't relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX isn't relevant.
+resources/Marcelle/2020-07-02_15.13.22_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeZ isn't relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerZ isn't relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeX isn't relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY isn't relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY isn't relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX isn't relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ isn't relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: RightArm, channel: GyroscopeX isn't relevant.
+resources/Marcelle/2020-07-02_14.59.59_out_avg_filter_175.csv: sensor: Chest, channel: GyroscopeY isn't relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: LeftArm, channel: AccelerometerZ isn't relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeX isn't relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: LeftArm, channel: GyroscopeY isn't relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: Belly, channel: AccelerometerY isn't relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeX isn't relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: Belly, channel: GyroscopeZ isn't relevant.
+resources/Marcelle/2020-07-02_15.39.22_out_avg_filter_175.csv: sensor: Chest, channel: AccelerometerY isn't relevant.
