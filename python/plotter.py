@@ -74,6 +74,18 @@ def yticks(y_ticks, imu):
   return ticks
 
 
+def invoke_moving_average_filter(use_moving_average_filter, csv_file_path,
+                                 moving_average_filter_sample_count):
+  filter_args = []
+  if use_moving_average_filter:
+    filter_args.append('--moving_average_filter')
+  else:
+    filter_args.append('--no-moving_average_filter')
+  filter_args.append(csv_file_path)
+  filter_args.append(str(moving_average_filter_sample_count))
+  return filter_main(filter_args)
+
+
 def main():
   parser = argparse.ArgumentParser(description='Plot MoGaSens CSV file.')
   parser.add_argument('csv_file_path',
@@ -110,13 +122,9 @@ def main():
           file=sys.stderr)
     sys.exit()
 
-  filter_args = [csv_file_path]
-  if use_moving_average_filter:
-    filter_args.append('--moving_average_filter')
-  else:
-    filter_args.append('--no-moving_average_filter')
-  filter_args.append(str(moving_average_filter_sample_count))
-  filtered_csv_file_path = filter_main(filter_args)
+  filtered_csv_file_path = invoke_moving_average_filter(
+      use_moving_average_filter, csv_file_path,
+      moving_average_filter_sample_count)
 
   entire_data_set = DataSet.from_file(filtered_csv_file_path)
   data_set = entire_data_set\
