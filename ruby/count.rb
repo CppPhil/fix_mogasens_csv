@@ -45,7 +45,7 @@ end
 filterer = "#{Dir.pwd}/python/filter.py"
 run_string = "#{Python.interpreter} #{filterer} "\
              "#{moving_average_filter_option} "\
-             "--csv_file_path \"%s\" " \
+             '--csv_file_path "%s" ' \
              "#{filter_sample_count_option}"
 
 files_to_filter = Dir["#{RESOURCES_DIR}/**/*.csv"].select do |file|
@@ -53,7 +53,7 @@ files_to_filter = Dir["#{RESOURCES_DIR}/**/*.csv"].select do |file|
 end
 
 files_to_filter.each do |file|
-  str = sprintf(run_string, file)
+  str = format(run_string, file)
   unless system(str)
     STDERR.puts("\"#{str}\" failed, exiting.")
     exit(1)
