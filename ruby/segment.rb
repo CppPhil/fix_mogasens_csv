@@ -49,8 +49,13 @@ unless system(run_segment_py_string)
   exit(1)
 end
 
-exit_status = GenerateImagesModule.main({ filter_sample_count: 0 },\
-                                        options[:out_dir], false)
+Dir.mkdir(options[:out_dir])
+
+exit_status = GenerateImagesModule.main(\
+  { filter_sample_count: 0 },\
+  "#{options[:out_dir]}/*.csv",\
+  false
+)
 
 if exit_status != 0
   STDERR.puts('Failure invoking GenerateImages.main from segment.rb!')
