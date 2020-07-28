@@ -2,19 +2,6 @@ require 'optparse'
 require_relative 'modules/python'
 require_relative 'generate_images'
 
-# TODO: 1. Take the command line arguments we need for segment.py | DONE
-# TODO: 2. Save the out_dir in a variable.                        | DONE
-# TODO: 3. Invoke segment.py                                      | DONE
-#    Perhaps hack generate_images.rb for the following:           | DONE
-# TODO: 4. Iterate over all the .csv files in the out_dir.        | DONE
-# TODO: 5. Invoke plotter.py for each file.                       | DONE
-#           -> --no-moving_average_filter                         | DONE
-#           -> --no-time_based_split                              | DONE
-#           -> put each .csv file in out_dir as the csv_file_path | DONE
-#           -> each sensor                                        | DONE
-#           -> each imu                                           | DONE
-#           -> Use a moving_average_filter_sample_count of 0      | DONE
-
 options = {}
 
 OptionParser.new do |opt|
