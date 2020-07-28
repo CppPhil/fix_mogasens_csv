@@ -21,7 +21,7 @@ readonly FILE="./resources/Mike/2020-07-02_14.07.33_out.csv"
 readonly IMU=accelerometer
 
 sensors=(
-  769  # left arm
+  769 # left arm
   770 # belly
   771 # right arm
   772 # chest
