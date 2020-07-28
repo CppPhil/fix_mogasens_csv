@@ -87,6 +87,13 @@ def invoke_moving_average_filter(use_moving_average_filter, csv_file_path,
   return filter_main(filter_args)
 
 
+def first_hardware_timestamp_threshold_index(use_time_based_split):
+  if use_time_based_split:
+    return 0
+
+  return -1
+
+
 def main(arguments):
   parser = argparse.ArgumentParser(description='Plot MoGaSens CSV file.')
   parser.add_argument('--moving_average_filter',
@@ -96,6 +103,13 @@ def main(arguments):
                       dest='moving_average_filter',
                       action='store_false')
   parser.set_defaults(moving_average_filter=False)
+  parser.add_argument('--time_based_split',
+                      dest='time_based_split',
+                      action='store_true')
+  parser.add_argument('--no-time_based_split',
+                      dest='time_based_split',
+                      action='store_false')
+  parser.set_defaults(time_based_split=True)
   parser.add_argument('csv_file_path',
                       type=str,
                       help='Path to the CSV file to plot.')
@@ -117,6 +131,7 @@ def main(arguments):
   imu = args.imu
   use_moving_average_filter = args.moving_average_filter
   moving_average_filter_sample_count = args.moving_average_filter_sample_count
+  use_time_based_split = args.time_based_split
 
   if sensor_to_string(desired_sensor).startswith('bogus sensor'):
     print(f"{desired_sensor} is not a valid sensor ID, exiting.",
@@ -149,7 +164,8 @@ def main(arguments):
 
   hardware_timestamp_threshold_offset = 10000  # 10 seconds
   hardware_timestamp_threshold = data_set.hardware_timestamp[
-      0] + hardware_timestamp_threshold_offset
+      first_hardware_timestamp_threshold_index(
+          use_time_based_split)] + hardware_timestamp_threshold_offset
 
   def append_accumulator(data, accumulator):
     data.append(accumulator.copy())
