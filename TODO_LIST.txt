@@ -1,3 +1,15 @@
+Segment data application:
+
+command line parameters:
+ path to filtered csv file
+ path to the directory to write the segments to as individual csv files
+
+have some way of visualizing the segments
+
+add numpy & scipy installation instructions to guides
+
+-------------------------------------------------------------------------
+
 Marcelle/2020-07-02_14.59.59 Hardware timestamp macht Sprung.
 Marcelle/2020-07-02_15.31.36 Hardware timestamp macht Sprung.
 
