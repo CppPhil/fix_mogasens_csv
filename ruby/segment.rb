@@ -17,7 +17,8 @@ OptionParser.new do |opt|
     options[:channel] = o
   end
 
-  opt.on('--segmentation_kind', 'The segmentation kind to use (min | max | both)') do |o|
+  opt.on('--segmentation_kind',\
+         'The segmentation kind to use (min | max | both)') do |o|
     options[:segmentation_kind] = o
   end
 
@@ -41,10 +42,11 @@ unless system(run_segment_py_string)
   exit(1)
 end
 
-exit_status = GenerateImages.main({:filter_sample_count => 0}, options[:out_dir], false)
+exit_status = GenerateImages.main({ filter_sample_count: 0 },\
+                                  options[:out_dir], false)
 
 if exit_status != 0
-  STDERR.puts("Failure invoking GenerateImages.main from segment.rb!")
+  STDERR.puts('Failure invoking GenerateImages.main from segment.rb!')
 end
 
 exit(exit_status)
