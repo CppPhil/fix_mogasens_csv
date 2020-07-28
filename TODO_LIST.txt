@@ -18,6 +18,8 @@ Add segmentation to CI
 Have some filter.bat / filter.sh to just generate filtered data sets
 Add them to CI
 
+Check if generate_images.sh still works.
+
 -------------------------------------------------------------------------
 
 Marcelle/2020-07-02_14.59.59 Hardware timestamp macht Sprung.

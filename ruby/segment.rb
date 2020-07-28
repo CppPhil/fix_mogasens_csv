@@ -1,6 +1,6 @@
 require 'optparse'
 require_relative 'modules/python'
-require_relative 'generate_images'
+require_relative 'modules/generate_images_module'
 
 options = {}
 
@@ -25,7 +25,12 @@ OptionParser.new do |opt|
   opt.on('--out_dir', 'Path to the directory to write the segments to.') do |o|
     options[:out_dir] = o
   end
-end
+
+  opt.on_tail('-h', '--help', 'Show this message') do
+    STDERR.puts opt
+    exit(0)
+  end
+end.parse!
 
 SEGMENTOR = "#{Dir.pwd}/python/segment.py".freeze
 
@@ -42,7 +47,7 @@ unless system(run_segment_py_string)
   exit(1)
 end
 
-exit_status = GenerateImages.main({ filter_sample_count: 0 },\
+exit_status = GenerateImagesModule.main({ filter_sample_count: 0 },\
                                   options[:out_dir], false)
 
 if exit_status != 0
