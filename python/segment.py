@@ -13,19 +13,26 @@ def main(arguments):
                       type=str,
                       help='Path to the CSV file to segment.',
                       required=True)
+  parser.add_argument('--sensor',
+                      type=int,
+                      help='The sensor to use (769 | 770 | 771 | 772)',
+                      required=True)
+  parser.add_argument('--channel',
+                      type=int,
+                      help='The channel to use (1 | 2 | 3 | 4 | 5 | 6)',
+                      required=True)
   parser.add_argument('--out_dir',
                       type=str,
                       help='Path to the directory to write the segments to.',
                       required=True)
   args = parser.parse_args(arguments)
   csv_file_path = args.csv_file_path
+  sensor = args.sensor
+  channel = args.channel
   out_dir = args.out_dir
 
-  # TODO: Put in the sensor and the channel by which to segment everything.
-
   entire_data_set = DataSet.from_file(csv_file_path)
-
-  # TODO: Filter by sensor.
+  desired_sensor_data_set = entire_data_set.filter_by_sensor(sensor)
 
   # TODO: Segment
 
