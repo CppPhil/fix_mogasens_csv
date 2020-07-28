@@ -12,6 +12,7 @@ TODO: HERE
  Do the in source TODOs.
  Export the data sets.
 
+Add numpy & scipy dependencies to CI
 Add segmentation to CI
 
 -------------------------------------------------------------------------
