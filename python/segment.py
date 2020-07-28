@@ -82,7 +82,8 @@ def main(arguments):
       f"channel{channel}", segmentation_kind_from_str(segmentation_kind))
   segments = entire_data_set.segment_by(segmenting_hardware_timestamps)
 
-  file_name, extension = os.path.splitext(csv_file_path)
+  base_name = os.path.basename(csv_file_path)
+  file_name, extension = os.path.splitext(base_name)
 
   for i in range(len(segments)):
     current_segment = segments[i]
