@@ -48,7 +48,7 @@ unless system(run_segment_py_string)
 end
 
 exit_status = GenerateImagesModule.main({ filter_sample_count: 0 },\
-                                  options[:out_dir], false)
+                                        options[:out_dir], false)
 
 if exit_status != 0
   STDERR.puts('Failure invoking GenerateImages.main from segment.rb!')

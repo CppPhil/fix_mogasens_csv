@@ -50,10 +50,10 @@ module GenerateImagesModule
     end
 
     sensors = [
-        769, # right arm
-        770, # belly
-        771, # chest
-        772  # left arm
+      769, # right arm
+      770, # belly
+      771, # chest
+      772  # left arm
     ].freeze
 
     imus = %w[accelerometer gyroscope].freeze
