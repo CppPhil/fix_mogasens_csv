@@ -34,6 +34,8 @@ OptionParser.new do |opt|
   end
 end.parse!
 
+Dir.mkdir(options[:out_dir]) unless Dir.exist?(options[:out_dir])
+
 SEGMENTOR = "#{Dir.pwd}/python/segment.py".freeze
 
 run_segment_py_string = \
@@ -48,8 +50,6 @@ unless system(run_segment_py_string)
   STDERR.puts("\"#{run_segment_py_string}\" failed, exiting.")
   exit(1)
 end
-
-Dir.mkdir(options[:out_dir])
 
 exit_status = GenerateImagesModule.main(\
   { filter_sample_count: 0 },\
