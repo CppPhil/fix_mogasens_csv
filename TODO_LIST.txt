@@ -15,6 +15,9 @@ TODO: HERE
 Add numpy & scipy dependencies to CI
 Add segmentation to CI
 
+Have some filter.bat / filter.sh to just generate filtered data sets
+Add them to CI
+
 -------------------------------------------------------------------------
 
 Marcelle/2020-07-02_14.59.59 Hardware timestamp macht Sprung.
