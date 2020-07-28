@@ -12,6 +12,8 @@ TODO: HERE
  Do the in source TODOs.
  Export the data sets.
 
+Add segmentation to CI
+
 -------------------------------------------------------------------------
 
 Marcelle/2020-07-02_14.59.59 Hardware timestamp macht Sprung.
