@@ -3,8 +3,12 @@
 
 import csv
 
+import numpy as np
+from scipy.signal import argrelmin, argrelmax
+
 from .constants import *
 from .this_sensor import this_sensor
+from .segmentation_kind import SegmentationKind
 
 
 class DataSet:
@@ -97,3 +101,80 @@ class DataSet:
             self.accelerometer_z[i], self.gyroscope_x[i], self.gyroscope_y[i],
             self.gyroscope_z[i]
         ])
+
+  def channel_by_str(self, str):
+    if str == channel1_string():
+      return self.accelerometer_x
+
+    if str == channel2_string():
+      return self.accelerometer_y
+
+    if str == channel3_string():
+      return self.accelerometer_z
+
+    if str == channel4_string():
+      return self.gyroscope_x
+
+    if str == channel5_string():
+      return self.gyroscope_y
+
+    if str == channel6_string():
+      return self.gyroscope_z
+
+    raise Exception(f"\"{str}\" is not a valid input to channel_by_str!")
+
+  def segment(self, channel, segmentationKind):
+    segmentation_points = []
+    channel_data = np.array(self.channel_by_str(channel))
+
+    # argrelmin/max return 1 element tuples containing a numpy array
+    if segmentationKind & SegmentationKind.LOCAL_MINIMA:
+      segmentation_points.extend(argrelmin(channel_data)[0].tolist())
+
+    if segmentationKind & SegmentationKind.LOCAL_MAXIMA:
+      segmentation_points.extend(argrelmax(channel_data)[0].tolist())
+
+    segmentation_points.sort()
+
+    segments = []
+    previous_segmentation_point = 0
+
+    for current_segmentation_point in segmentation_points:
+      segments.append(
+          DataSet(
+              self.
+              time[previous_segmentation_point:current_segmentation_point],
+              self.hardware_timestamp[
+                  previous_segmentation_point:current_segmentation_point],
+              self.extract_id[
+                  previous_segmentation_point:current_segmentation_point],
+              self.
+              trigger[previous_segmentation_point:current_segmentation_point],
+              self.accelerometer_x[
+                  previous_segmentation_point:current_segmentation_point],
+              self.accelerometer_y[
+                  previous_segmentation_point:current_segmentation_point],
+              self.accelerometer_z[
+                  previous_segmentation_point:current_segmentation_point],
+              self.gyroscope_x[
+                  previous_segmentation_point:current_segmentation_point],
+              self.gyroscope_y[
+                  previous_segmentation_point:current_segmentation_point],
+              self.gyroscope_z[
+                  previous_segmentation_point:current_segmentation_point]))
+      previous_segmentation_point = current_segmentation_point
+
+    # The remainder will be the last segment
+    segments.append(
+        DataSet(self.time[previous_segmentation_point:],
+                self.hardware_timestamp[previous_segmentation_point:],
+                self.extract_id[previous_segmentation_point:],
+                self.trigger[previous_segmentation_point:],
+                self.accelerometer_x[previous_segmentation_point:],
+                self.accelerometer_y[previous_segmentation_point:],
+                self.accelerometer_z[previous_segmentation_point:],
+                self.gyroscope_x[previous_segmentation_point:],
+                self.gyroscope_y[previous_segmentation_point:],
+                self.gyroscope_z[previous_segmentation_point:]))
+
+    return segments

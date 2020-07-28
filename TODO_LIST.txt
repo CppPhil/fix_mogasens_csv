@@ -8,6 +8,10 @@ have some way of visualizing the segments
 
 add numpy & scipy installation instructions to guides
 
+TODO: HERE
+ Do the in source TODOs.
+ Export the data sets.
+
 -------------------------------------------------------------------------
 
 Marcelle/2020-07-02_14.59.59 Hardware timestamp macht Sprung.
