@@ -15,78 +15,95 @@ def dev_null
   end
 end
 
-options = CommandLine.parse([CommandLine.filter_sample_count_option])
+DEFAULT_DIRECTORY = './resources/**/*.csv'.freeze
 
-moving_average_filter_option \
- = AverageFilter.moving_average_filter_option(options)
+module GenerateImages
+  def self.main(options, directory, use_time_based_splitting)
+    moving_average_filter_option \
+   = AverageFilter.moving_average_filter_option(options)
 
-filter_sample_count_option = AverageFilter.filter_sample_count_option(options)
+    filter_sample_count_option = AverageFilter.filter_sample_count_option(options)
 
-working_directory = Dir.pwd
-plotter = "#{working_directory}/python/plotter.py"
+    time_based_split_option = nil
 
-Dir.chdir('resources')
+    if use_time_based_splitting
+      time_based_split_option = '--time_based_split'
+    else
+      time_based_split_option = '--no-time_based_split'
+    end
 
-csv_files = Dir['./**/*.csv'].select do |file|
-  file.end_with?('_out.csv')
-end
+    working_directory = Dir.pwd
+    plotter = "#{working_directory}/python/plotter.py"
 
-if csv_files.size.zero?
-  STDERR.puts('No _out.csv files were found, exiting.')
-  exit(1)
-end
+    csv_files = Dir[directory].select do |file|
+      if directory == DEFAULT_DIRECTORY
+        file.end_with?('_out.csv')
+      else
+        true
+      end
+    end
 
-sensors = [
-  769, # right arm
-  770, # belly
-  771, # chest
-  772  # left arm
-]
+    if csv_files.size.zero?
+      STDERR.puts('No files were found, exiting.')
+      return 1
+    end
 
-imus = %w[accelerometer gyroscope]
+    sensors = [
+      769, # right arm
+      770, # belly
+      771, # chest
+      772  # left arm
+    ].freeze
 
-proc_count = Etc.nprocessors
-total_count = csv_files.size * sensors.size * imus.size
-counter = 1
-threads = []
+    imus = %w[accelerometer gyroscope].freeze
 
-puts("Generating images with #{proc_count} threads.")
+    proc_count = Etc.nprocessors
+    total_count = csv_files.size * sensors.size * imus.size
+    counter = 1
+    threads = []
 
-csv_files.each do |csv_file|
-  sensors.each do |sensor|
-    imus.each do |imu|
-      threads << Thread.new do
-        run_string = \
-          "#{Python.interpreter} #{plotter} "\
-          "#{moving_average_filter_option} "\
-          "#{csv_file} "\
-          "#{sensor} "\
-          "#{imu} "\
-          "#{filter_sample_count_option} "\
-          "> #{dev_null}"
+    puts("Generating images with #{proc_count} threads.")
 
-        unless system(run_string)
-          STDERR.puts("\"#{run_string}\" failed, exiting.")
-          exit(1)
+    csv_files.each do |csv_file|
+      sensors.each do |sensor|
+        imus.each do |imu|
+          threads << Thread.new do
+            run_string = \
+            "#{Python.interpreter} #{plotter} "\
+            "#{moving_average_filter_option} "\
+            "#{time_based_split_option} "\
+            "#{csv_file} "\
+            "#{sensor} "\
+            "#{imu} "\
+            "#{filter_sample_count_option} "\
+            "> #{dev_null}"
+
+            unless system(run_string)
+              STDERR.puts("\"#{run_string}\" failed, exiting.")
+              return 1
+            end
+          end
+
+          if (counter % proc_count).zero?
+            threads.each(&:join)
+            threads.clear
+          end
+
+          printf("%.2f%%\r", counter.to_f / total_count.to_f * 100.0)
+          $stdout.flush
+          counter += 1
         end
       end
-
-      if (counter % proc_count).zero?
-        threads.each(&:join)
-        threads.clear
-      end
-
-      printf("%.2f%%\r", counter.to_f / total_count.to_f * 100.0)
-      $stdout.flush
-      counter += 1
     end
+
+    threads.each(&:join)
+    puts('100.00%')
+    $stdout.flush
+
+    puts('Done.')
   end
 end
 
-threads.each(&:join)
-puts('100.00%')
-$stdout.flush
-
-puts('Done.')
-
-exit(0)
+options = CommandLine.parse([CommandLine.filter_sample_count_option])
+exit_status = GenerateImages.main(options, DEFAULT_DIRECTORY, true)
+exit(exit_status)
