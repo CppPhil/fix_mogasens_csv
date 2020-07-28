@@ -87,13 +87,6 @@ def invoke_moving_average_filter(use_moving_average_filter, csv_file_path,
   return filter_main(filter_args)
 
 
-def first_hardware_timestamp_threshold_index(use_time_based_split):
-  if use_time_based_split:
-    return 0
-
-  return -1
-
-
 def main(arguments):
   parser = argparse.ArgumentParser(description='Plot MoGaSens CSV file.')
   parser.add_argument('--moving_average_filter',
@@ -164,8 +157,7 @@ def main(arguments):
 
   hardware_timestamp_threshold_offset = 10000  # 10 seconds
   hardware_timestamp_threshold = data_set.hardware_timestamp[
-      first_hardware_timestamp_threshold_index(
-          use_time_based_split)] + hardware_timestamp_threshold_offset
+      0] + hardware_timestamp_threshold_offset if use_time_based_split else sys.maxsize
 
   def append_accumulator(data, accumulator):
     data.append(accumulator.copy())
@@ -181,19 +173,23 @@ def main(arguments):
     append_accumulator(channel6_data, channel6_accumulator)
 
   for i in range(data_set.size()):
-    hardware_timestamp_accumulator.append(data_set.hardware_timestamp[i])
-    channel1_accumulator.append(data_set.accelerometer_x[i])
-    channel2_accumulator.append(data_set.accelerometer_y[i])
-    channel3_accumulator.append(data_set.accelerometer_z[i])
-    channel4_accumulator.append(data_set.gyroscope_x[i])
-    channel5_accumulator.append(data_set.gyroscope_y[i])
-    channel6_accumulator.append(data_set.gyroscope_z[i])
+    try:
+        hardware_timestamp_accumulator.append(data_set.hardware_timestamp[i])
+        channel1_accumulator.append(data_set.accelerometer_x[i])
+        channel2_accumulator.append(data_set.accelerometer_y[i])
+        channel3_accumulator.append(data_set.accelerometer_z[i])
+        channel4_accumulator.append(data_set.gyroscope_x[i])
+        channel5_accumulator.append(data_set.gyroscope_y[i])
+        channel6_accumulator.append(data_set.gyroscope_z[i])
 
-    current_hardware_timestamp = data_set.hardware_timestamp[i]
+        current_hardware_timestamp = data_set.hardware_timestamp[i]
 
-    if current_hardware_timestamp >= hardware_timestamp_threshold:
-      append_accumulators()
-      hardware_timestamp_threshold += hardware_timestamp_threshold_offset
+        if current_hardware_timestamp >= hardware_timestamp_threshold:
+          append_accumulators()
+          hardware_timestamp_threshold += hardware_timestamp_threshold_offset
+    except IndexError as err:
+      print(f"plotter.py: IndexError for file \"{filtered_csv_file_path}\" with index {i}: \"{err}\"", file=sys.stderr)
+      exit(1)
 
   if len(hardware_timestamp_accumulator) != 0:
     append_accumulators()

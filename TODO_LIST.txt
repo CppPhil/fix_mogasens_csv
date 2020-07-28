@@ -1,16 +1,10 @@
-Segment data application:
+TODO: HERE: Fix bugs
 
-command line parameters:
- path to filtered csv file
- path to the directory to write the segments to as individual csv files
+Create some images over 'real' data sets with lines in them showing the segments ???
 
-have some way of visualizing the segments
+Segment data application
 
 add numpy & scipy installation instructions to guides
-
-TODO: HERE
- Do the in source TODOs.
- Export the data sets.
 
 Add numpy & scipy dependencies to CI
 Add segmentation to CI
