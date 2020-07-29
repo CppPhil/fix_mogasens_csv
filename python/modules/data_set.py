@@ -62,6 +62,12 @@ class DataSet:
   def size(self):
     return len(self.time)
 
+  def is_empty(self):
+    return self.size() == 0
+
+  def has_elements(self):
+    return not self.is_empty()
+
   def filter_by_sensor(self, sensor):
     this_sensor_time, this_sensor_hardware_timestamp, this_sensor_extract_id, this_sensor_trigger, this_sensor_accelerometer_x, this_sensor_accelerometer_y, this_sensor_accelerometer_z, this_sensor_gyroscope_x, this_sensor_gyroscope_y, this_sensor_gyroscope_z = this_sensor(
         sensor, self.time, self.hardware_timestamp, self.extract_id,

@@ -69,6 +69,10 @@ def main(arguments):
     # Add the filtered sensor specific data set to the list
     data_sets.append(data_set)
 
+  # Get rid off data sets that are empty.
+  data_sets = list(
+      filter(lambda the_data_set: the_data_set.has_elements(), data_sets))
+
   # Build a combined data set of all the filtered sensor specific data sets
   time = []
   hardware_timestamp = []

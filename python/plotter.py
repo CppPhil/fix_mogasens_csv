@@ -174,21 +174,23 @@ def main(arguments):
 
   for i in range(data_set.size()):
     try:
-        hardware_timestamp_accumulator.append(data_set.hardware_timestamp[i])
-        channel1_accumulator.append(data_set.accelerometer_x[i])
-        channel2_accumulator.append(data_set.accelerometer_y[i])
-        channel3_accumulator.append(data_set.accelerometer_z[i])
-        channel4_accumulator.append(data_set.gyroscope_x[i])
-        channel5_accumulator.append(data_set.gyroscope_y[i])
-        channel6_accumulator.append(data_set.gyroscope_z[i])
+      hardware_timestamp_accumulator.append(data_set.hardware_timestamp[i])
+      channel1_accumulator.append(data_set.accelerometer_x[i])
+      channel2_accumulator.append(data_set.accelerometer_y[i])
+      channel3_accumulator.append(data_set.accelerometer_z[i])
+      channel4_accumulator.append(data_set.gyroscope_x[i])
+      channel5_accumulator.append(data_set.gyroscope_y[i])
+      channel6_accumulator.append(data_set.gyroscope_z[i])
 
-        current_hardware_timestamp = data_set.hardware_timestamp[i]
+      current_hardware_timestamp = data_set.hardware_timestamp[i]
 
-        if current_hardware_timestamp >= hardware_timestamp_threshold:
-          append_accumulators()
-          hardware_timestamp_threshold += hardware_timestamp_threshold_offset
+      if current_hardware_timestamp >= hardware_timestamp_threshold:
+        append_accumulators()
+        hardware_timestamp_threshold += hardware_timestamp_threshold_offset
     except IndexError as err:
-      print(f"plotter.py: IndexError for file \"{filtered_csv_file_path}\" with index {i}: \"{err}\"", file=sys.stderr)
+      print(
+          f"plotter.py: IndexError for file \"{filtered_csv_file_path}\" with index {i}: \"{err}\"",
+          file=sys.stderr)
       exit(1)
 
   if len(hardware_timestamp_accumulator) != 0:
