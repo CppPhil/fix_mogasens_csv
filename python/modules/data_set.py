@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf8 -*-
-
+import _csv
 import csv
 import sys
 
@@ -42,31 +42,38 @@ class DataSet:
     obj.gyroscope_y = []
     obj.gyroscope_z = []
 
-    with open(csv_file_name, 'r', encoding='utf-8') as csv_file:
-      plots = csv.reader(csv_file, delimiter=',')
-      for row_count, row in enumerate(plots):
-        if row_count == 0:  # Skip the header row
-          continue
+    with open(csv_file_name, 'r', newline='\r\n',
+              encoding='utf-8') as csv_file:
+      try:
+        plots = csv.reader(csv_file, delimiter=',')
+        for row_count, row in enumerate(plots):
+          if row_count == 0:  # Skip the header row
+            continue
 
-        try:
-          obj.time.append(float(row[time_column_index()]))
-          obj.hardware_timestamp.append(int(row[hardware_timestamp_index()]))
-          obj.extract_id.append(int(row[extract_id_column_index()]))
-          obj.trigger.append(float(row[trigger_index()]))
-          obj.accelerometer_x.append(float(
-              row[accelerometer_x_column_index()]))
-          obj.accelerometer_y.append(float(
-              row[accelerometer_y_column_index()]))
-          obj.accelerometer_z.append(float(
-              row[accelerometer_z_column_index()]))
-          obj.gyroscope_x.append(float(row[gyroscope_x_column_index()]))
-          obj.gyroscope_y.append(float(row[gyroscope_y_column_index()]))
-          obj.gyroscope_z.append(float(row[gyroscope_z_column_index()]))
-        except IndexError as err:
-          print(
-              f"data_set.py: DataSet.from_file: IndexError for file \"{csv_file_name}\": \"{err}\"",
-              file=sys.stderr)
-          sys.exit(1)
+          try:
+            obj.time.append(float(row[time_column_index()]))
+            obj.hardware_timestamp.append(int(row[hardware_timestamp_index()]))
+            obj.extract_id.append(int(row[extract_id_column_index()]))
+            obj.trigger.append(float(row[trigger_index()]))
+            obj.accelerometer_x.append(
+                float(row[accelerometer_x_column_index()]))
+            obj.accelerometer_y.append(
+                float(row[accelerometer_y_column_index()]))
+            obj.accelerometer_z.append(
+                float(row[accelerometer_z_column_index()]))
+            obj.gyroscope_x.append(float(row[gyroscope_x_column_index()]))
+            obj.gyroscope_y.append(float(row[gyroscope_y_column_index()]))
+            obj.gyroscope_z.append(float(row[gyroscope_z_column_index()]))
+          except IndexError as err:
+            print(
+                f"data_set.py: DataSet.from_file: IndexError for file \"{csv_file_name}\": \"{err}\"",
+                file=sys.stderr)
+            sys.exit(1)
+      except _csv.Error as err:
+        print(
+            f"data_set.py: DataSet.from_file: _csv.Error for file \"{csv_file_name}\": \"{err}\"",
+            file=sys.stderr)
+        sys.exit(1)
 
     return obj
 
@@ -101,7 +108,7 @@ class DataSet:
     return self
 
   def write_to_file(self, file_path):
-    with open(file_path, 'w', newline='\n', encoding='utf-8') as csv_file:
+    with open(file_path, 'w', newline='\r\n', encoding='utf-8') as csv_file:
       writer = csv.writer(csv_file,
                           delimiter=',',
                           quotechar='"',
