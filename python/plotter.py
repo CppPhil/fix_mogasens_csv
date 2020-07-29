@@ -53,7 +53,7 @@ def plot(the_imu, data_frame):
         f'imu was "{the_imu}" which is neither "#{accelerometer_string()}" nor "#{gyroscope_string()}", '
         f'exiting.',
         file=sys.stderr)
-    sys.exit()
+    sys.exit(1)
 
 
 # noinspection SpellCheckingInspection
@@ -129,7 +129,7 @@ def main(arguments):
   if sensor_to_string(desired_sensor).startswith('bogus sensor'):
     print(f"{desired_sensor} is not a valid sensor ID, exiting.",
           file=sys.stderr)
-    sys.exit()
+    sys.exit(1)
 
   filtered_csv_file_path = invoke_moving_average_filter(
       use_moving_average_filter, csv_file_path,
@@ -138,6 +138,12 @@ def main(arguments):
   entire_data_set = DataSet.from_file(filtered_csv_file_path)
   data_set = entire_data_set\
       .filter_by_sensor(desired_sensor)
+
+  if data_set.is_empty():
+    print(
+        f"plotter.py: data set \"{filtered_csv_file_path}\" for sensor {desired_sensor} ({sensor_to_string(desired_sensor)} was empty, exiting.)",
+        file=sys.stderr)
+    sys.exit(0)
 
   hardware_timestamp_data = []
   channel1_data = []
