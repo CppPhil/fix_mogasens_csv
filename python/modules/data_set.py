@@ -3,6 +3,7 @@
 import _csv
 import csv
 import sys
+import traceback
 
 import numpy as np
 from scipy.signal import argrelmin, argrelmax
@@ -42,10 +43,9 @@ class DataSet:
     obj.gyroscope_y = []
     obj.gyroscope_z = []
 
-    with open(csv_file_name, 'r', newline='\r\n',
-              encoding='utf-8') as csv_file:
+    with open(csv_file_name, 'r', encoding='utf-8') as csv_file:
       try:
-        plots = csv.reader(csv_file, delimiter=',')
+        plots = csv.reader(csv_file, dialect=csv.excel_tab, delimiter=',')
         for row_count, row in enumerate(plots):
           if row_count == 0:  # Skip the header row
             continue
@@ -68,6 +68,7 @@ class DataSet:
             print(
                 f"data_set.py: DataSet.from_file: IndexError for file \"{csv_file_name}\": \"{err}\"",
                 file=sys.stderr)
+            traceback.print_exc(file=sys.stderr)
             sys.exit(1)
       except _csv.Error as err:
         print(
@@ -108,7 +109,7 @@ class DataSet:
     return self
 
   def write_to_file(self, file_path):
-    with open(file_path, 'w', newline='\r\n', encoding='utf-8') as csv_file:
+    with open(file_path, 'w', newline='\n', encoding='utf-8') as csv_file:
       writer = csv.writer(csv_file,
                           delimiter=',',
                           quotechar='"',
