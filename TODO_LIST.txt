@@ -1,5 +1,7 @@
 TODO: HERE: Fix bugs
 
+Perhaps try to dos2unix stuff??
+
 Create some images over 'real' data sets with lines in them showing the segments ???
 
 Segment data application
