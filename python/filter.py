@@ -73,6 +73,10 @@ def main(arguments):
   data_sets = list(
       filter(lambda the_data_set: the_data_set.has_elements(), data_sets))
 
+  if len(data_sets) == 0:
+    print(f"filter.py: all data sets were empty for file \"{csv_file_path}\"!", file=sys.stderr)
+    sys.exit(1)
+
   # Build a combined data set of all the filtered sensor specific data sets
   time = []
   hardware_timestamp = []

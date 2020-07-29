@@ -197,7 +197,7 @@ def main(arguments):
       print(
           f"plotter.py: IndexError for file \"{filtered_csv_file_path}\" with index {i}: \"{err}\"",
           file=sys.stderr)
-      exit(1)
+      sys.exit(1)
 
   if len(hardware_timestamp_accumulator) != 0:
     append_accumulators()

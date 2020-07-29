@@ -85,12 +85,14 @@ def main(arguments):
   base_name = os.path.basename(csv_file_path)
   file_name, extension = os.path.splitext(base_name)
 
+  print(f"Segmented \"{csv_file_path}\" in {len(segments)} segments.")
+
   for i in range(len(segments)):
     current_segment = segments[i]
     current_segment.write_to_file(
-        f"{out_dir}/{file_name}_segment_{i}{extension}")
+        f"{out_dir}/{file_name}_segment_{i + 1}{extension}")
 
-  exit(0)
+  sys.exit(0)
 
 
 if __name__ == "__main__":
