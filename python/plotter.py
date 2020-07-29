@@ -141,7 +141,7 @@ def main(arguments):
 
   if data_set.is_empty():
     print(
-        f"plotter.py: data set \"{filtered_csv_file_path}\" for sensor {desired_sensor} ({sensor_to_string(desired_sensor)} was empty, exiting.)",
+        f"plotter.py: data set \"{filtered_csv_file_path}\" for sensor {desired_sensor} ({sensor_to_string(desired_sensor)}) was empty, exiting.",
         file=sys.stderr)
     sys.exit(0)
 
