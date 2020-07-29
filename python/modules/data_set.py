@@ -2,6 +2,7 @@
 # -*- coding: utf8 -*-
 
 import csv
+import sys
 
 import numpy as np
 from scipy.signal import argrelmin, argrelmax
@@ -47,16 +48,26 @@ class DataSet:
         if row_count == 0:  # Skip the header row
           continue
 
-        obj.time.append(float(row[time_column_index()]))
-        obj.hardware_timestamp.append(int(row[hardware_timestamp_index()]))
-        obj.extract_id.append(int(row[extract_id_column_index()]))
-        obj.trigger.append(float(row[trigger_index()]))
-        obj.accelerometer_x.append(float(row[accelerometer_x_column_index()]))
-        obj.accelerometer_y.append(float(row[accelerometer_y_column_index()]))
-        obj.accelerometer_z.append(float(row[accelerometer_z_column_index()]))
-        obj.gyroscope_x.append(float(row[gyroscope_x_column_index()]))
-        obj.gyroscope_y.append(float(row[gyroscope_y_column_index()]))
-        obj.gyroscope_z.append(float(row[gyroscope_z_column_index()]))
+        try:
+          obj.time.append(float(row[time_column_index()]))
+          obj.hardware_timestamp.append(int(row[hardware_timestamp_index()]))
+          obj.extract_id.append(int(row[extract_id_column_index()]))
+          obj.trigger.append(float(row[trigger_index()]))
+          obj.accelerometer_x.append(float(
+              row[accelerometer_x_column_index()]))
+          obj.accelerometer_y.append(float(
+              row[accelerometer_y_column_index()]))
+          obj.accelerometer_z.append(float(
+              row[accelerometer_z_column_index()]))
+          obj.gyroscope_x.append(float(row[gyroscope_x_column_index()]))
+          obj.gyroscope_y.append(float(row[gyroscope_y_column_index()]))
+          obj.gyroscope_z.append(float(row[gyroscope_z_column_index()]))
+        except IndexError as err:
+          print(
+              f"data_set.py: DataSet.from_file: IndexError for file \"{csv_file_name}\": \"{err}\"",
+              file=sys.stderr)
+          sys.exit(1)
+
     return obj
 
   def size(self):
