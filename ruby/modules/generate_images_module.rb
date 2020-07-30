@@ -102,5 +102,6 @@ module GenerateImagesModule
     $stdout.flush
 
     puts('Done.')
+    0 # Exit status code of 0 to indicate success
   end
 end
