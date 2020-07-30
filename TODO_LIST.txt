@@ -17,6 +17,8 @@ Add them to CI
 
 Check if generate_images.sh still works.
 
+Perhaps use some window of some size to find the min / max in.
+
 -------------------------------------------------------------------------
 
 Marcelle/2020-07-02_14.59.59 Hardware timestamp macht Sprung.
