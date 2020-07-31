@@ -2,6 +2,11 @@
 set(LIB_NAME csv_lib)
 
 set(LIB_HEADERS
+    include/cl/fs/directory.hpp
+    include/cl/fs/file.hpp
+    include/cl/fs/file_stream.hpp
+    include/cl/fs/path.hpp
+    include/cl/fs/windows.hpp
     include/cl/channel.hpp
     include/cl/column.hpp
     include/cl/data_point.hpp
@@ -15,6 +20,11 @@ set(LIB_HEADERS
     include/cl/unreachable.hpp)
 
 set(LIB_SOURCES
+    src/cl/fs/directory.cpp
+    src/cl/fs/file.cpp
+    src/cl/fs/file_stream.cpp
+    src/cl/fs/path.cpp
+    src/cl/fs/windows.cpp
     src/cl/channel.cpp
     src/cl/data_point.cpp
     src/cl/data_set.cpp
@@ -27,6 +37,10 @@ add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 
 target_link_libraries(${LIB_NAME} PUBLIC Threads::Threads fmt::fmt
                                          CppPhil::philslib dlib::dlib)
+
+if(WIN32)
+  target_link_libraries(${LIB_NAME} PUBLIC Kernel32.lib)
+endif()
 
 target_include_directories(${LIB_NAME}
                            INTERFACE ${mogasens_csv_SOURCE_DIR}/csv_lib/include)
