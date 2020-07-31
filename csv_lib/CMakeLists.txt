@@ -26,7 +26,7 @@ set(LIB_SOURCES
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 
 target_link_libraries(${LIB_NAME} PUBLIC Threads::Threads fmt::fmt
-                                         CppPhil::philslib)
+                                         CppPhil::philslib dlib::dlib)
 
 target_include_directories(${LIB_NAME}
                            INTERFACE ${mogasens_csv_SOURCE_DIR}/csv_lib/include)

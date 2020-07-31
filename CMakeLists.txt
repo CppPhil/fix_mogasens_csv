@@ -1,3 +1,5 @@
+include(FetchContent)
+
 cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 
 project(mogasens_csv VERSION 1.0.0)
@@ -34,6 +36,12 @@ endif()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+FetchContent_Declare(
+  dlib
+  GIT_REPOSITORY https://github.com/davisking/dlib.git
+  GIT_TAG v19.20)
+FetchContent_MakeAvailable(dlib)
 
 find_package(Threads REQUIRED)
 
