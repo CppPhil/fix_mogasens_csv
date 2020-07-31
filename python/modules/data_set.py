@@ -70,6 +70,12 @@ class DataSet:
                 file=sys.stderr)
             traceback.print_exc(file=sys.stderr)
             sys.exit(1)
+          except ValueError as value_error:
+            print(
+                f"data_set.py: DataSet.from_file: ValueError for file \"{csv_file_name}\": \"{value_error}\", row_count: {row_count}, row: {row}",
+                file=sys.stderr)
+            traceback.print_exc(file=sys.stderr)
+            sys.exit(1)
       except _csv.Error as err:
         print(
             f"data_set.py: DataSet.from_file: _csv.Error for file \"{csv_file_name}\": \"{err}\"",
