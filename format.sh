@@ -66,7 +66,6 @@ python_files=$(find "$DIR/python" -name '*.py')
 for python_file in "${python_files[@]}"; do
   format_python "$python_file"
 done
-format_python $DIR/python/fix_compile_commands.py
 
 format_cmake $DIR/CMakeLists.txt
 
