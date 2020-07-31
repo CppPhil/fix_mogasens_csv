@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 
-#include "sensor.hpp"
+#include "cl/sensor.hpp"
 
 namespace cl {
 enum class Column : std::size_t {

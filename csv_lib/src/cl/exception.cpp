@@ -1,6 +1,6 @@
 #include <utility>
 
-#include "exception.hpp"
+#include "cl/exception.hpp"
 
 namespace cl {
 Exception::Exception(

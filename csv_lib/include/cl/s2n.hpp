@@ -9,7 +9,7 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
-#include "error.hpp"
+#include "cl/error.hpp"
 
 namespace cl {
 template<typename Integer>

@@ -1,4 +1,4 @@
-#include "dos2unix.hpp"
+#include "cl/dos2unix.hpp"
 
 namespace cl {
 std::vector<pl::byte> dos2unix(const void* p, std::size_t size)
@@ -32,5 +32,7 @@ std::vector<pl::byte> dos2unix(const void* p, std::size_t size)
 
     previousByte = currentByte;
   }
+
+  return res;
 }
 } // namespace cl

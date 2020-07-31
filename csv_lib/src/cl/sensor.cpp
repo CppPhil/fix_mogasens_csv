@@ -2,7 +2,7 @@
 
 #include <ostream>
 
-#include "sensor.hpp"
+#include "cl/sensor.hpp"
 
 namespace cl {
 std::ostream& operator<<(std::ostream& os, Sensor sensor)

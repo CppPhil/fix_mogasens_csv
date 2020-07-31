@@ -45,7 +45,7 @@ if(WIN32)
 endif()
 
 target_include_directories(${LIB_NAME}
-                           INTERFACE ${mogasens_csv_SOURCE_DIR}/csv_lib/include)
+                           PUBLIC ${mogasens_csv_SOURCE_DIR}/csv_lib/include)
 
 target_include_directories(
   ${LIB_NAME}
@@ -53,8 +53,5 @@ target_include_directories(
          ${mogasens_csv_SOURCE_DIR}/external/tl/include
          ${mogasens_csv_SOURCE_DIR}/external/expected/include
          ${mogasens_csv_SOURCE_DIR}/external/optional/include)
-
-target_include_directories(
-  ${LIB_NAME} PRIVATE ${mogasens_csv_SOURCE_DIR}/csv_lib/include/cl)
 
 add_subdirectory(test)

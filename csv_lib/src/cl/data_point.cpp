@@ -4,7 +4,7 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
-#include "data_point.hpp"
+#include "cl/data_point.hpp"
 
 namespace cl {
 std::ostream& operator<<(std::ostream& os, const DataPoint& dataPoint)

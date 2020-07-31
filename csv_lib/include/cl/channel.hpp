@@ -6,7 +6,7 @@
 #include <array>
 #include <iosfwd>
 
-#include "data_set.hpp"
+#include "cl/data_set.hpp"
 
 #define CL_CHANNEL                                                \
   CL_CHANNEL_X(AccelerometerX, 1, &::cl::DataSet::accelerometerX) \

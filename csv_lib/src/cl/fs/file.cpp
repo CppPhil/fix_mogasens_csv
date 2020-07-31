@@ -9,11 +9,11 @@
 #include <pl/os.hpp>
 
 #if PL_OS == PL_OS_WINDOWS
-#include "fs/windows.hpp"
+#include "cl/fs/windows.hpp"
 #include <Windows.h>
 #endif
 
-#include "fs/file.hpp"
+#include "cl/fs/file.hpp"
 
 namespace cl::fs {
 File::File(Path path) : m_path{std::move(path)} {}

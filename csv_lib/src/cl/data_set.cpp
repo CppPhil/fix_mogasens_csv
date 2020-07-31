@@ -12,8 +12,8 @@
 #include <pl/algo/ranged_algorithms.hpp>
 #include <pl/assert.hpp>
 
-#include "data_set.hpp"
-#include "sensor.hpp"
+#include "cl/data_set.hpp"
+#include "cl/sensor.hpp"
 
 namespace cl {
 namespace {

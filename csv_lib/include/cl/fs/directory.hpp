@@ -2,7 +2,7 @@
 #define INCG_CL_FS_DIRECTORY_HPP
 #include <vector>
 
-#include "fs/path.hpp"
+#include "cl/fs/path.hpp"
 
 namespace cl::fs {
 class Directory {

@@ -3,8 +3,8 @@
 #include <iosfwd>
 #include <string>
 
-#include "channel.hpp"
-#include "sensor.hpp"
+#include "cl/channel.hpp"
+#include "cl/sensor.hpp"
 
 namespace cl {
 class DataPoint {

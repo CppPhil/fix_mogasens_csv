@@ -10,11 +10,11 @@
 #include <sys/types.h>
 #include <unistd.h>
 #elif == PL_OS == PL_OS_WINDOWS
-#include "fs/windows.hpp"
+#include "cl/fs/windows.hpp"
 #include <Windows.h>
 #endif
 
-#include "fs/path.hpp"
+#include "cl/fs/path.hpp"
 
 namespace cl::fs {
 std::ostream& operator<<(std::ostream& os, const Path& path)

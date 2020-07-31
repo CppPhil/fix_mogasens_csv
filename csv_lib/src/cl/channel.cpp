@@ -8,7 +8,7 @@
 
 #include <pl/numeric.hpp>
 
-#include "channel.hpp"
+#include "cl/channel.hpp"
 
 namespace cl {
 DataSet::ChannelAccessor dataSetAccessor(Channel channel)

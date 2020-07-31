@@ -5,7 +5,7 @@
 
 #include <pl/algo/ranged_algorithms.hpp>
 
-#include "fs/directory.hpp"
+#include "cl/fs/directory.hpp"
 
 namespace cl::fs {
 Directory::Directory(Path path) : m_path{std::move(path)} {}

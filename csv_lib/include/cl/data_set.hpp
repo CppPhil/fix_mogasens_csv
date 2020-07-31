@@ -6,9 +6,9 @@
 #include <string>
 #include <vector>
 
-#include "column.hpp"
-#include "error.hpp"
-#include "sensor.hpp"
+#include "cl/column.hpp"
+#include "cl/error.hpp"
+#include "cl/sensor.hpp"
 
 namespace cl {
 class DataSet {

@@ -9,8 +9,8 @@
 #include <pl/byte.hpp>
 #include <pl/noncopyable.hpp>
 
-#include "error.hpp"
-#include "fs/file.hpp"
+#include "cl/error.hpp"
+#include "cl/fs/file.hpp"
 
 namespace cl::fs {
 class FileStream {

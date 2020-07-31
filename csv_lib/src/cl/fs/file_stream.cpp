@@ -5,7 +5,7 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
-#include "fs/file_stream.hpp"
+#include "cl/fs/file_stream.hpp"
 
 namespace cl::fs {
 namespace {
@@ -79,7 +79,7 @@ std::vector<pl::byte> FileStream::readAll() const
 
   const std::size_t v{std::fread(result.data(), 1, m_size, m_file)};
   (void)v;
-  assert(v == m_size && "Read error in FileStream::readAll.");
+  assert(v == result.size() && "Read error in FileStream::readAll.");
 
   return result;
 }
