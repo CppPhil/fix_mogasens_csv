@@ -329,6 +329,10 @@ int main(int argc, char* argv[])
     }
   }
 
+  if (!fmc::convertToUnixLineEndings(outputFilePath)) {
+    return EXIT_FAILURE;
+  }
+
   fmt::print("Successfully wrote data to \"{}\".\n", outputFilePath);
 
   return EXIT_SUCCESS;
