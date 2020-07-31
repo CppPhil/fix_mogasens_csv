@@ -43,9 +43,9 @@ class DataSet:
     obj.gyroscope_y = []
     obj.gyroscope_z = []
 
-    with open(csv_file_name, 'r', encoding='utf-8') as csv_file:
+    with open(csv_file_name, 'r', newline='\n', encoding='utf-8') as csv_file:
       try:
-        plots = csv.reader(csv_file, dialect=csv.excel_tab, delimiter=',')
+        plots = csv.reader(csv_file, delimiter=',')
         for row_count, row in enumerate(plots):
           if row_count == 0:  # Skip the header row
             continue
