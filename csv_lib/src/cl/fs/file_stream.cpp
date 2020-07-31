@@ -41,12 +41,28 @@ Expected<FileStream> FileStream::create(const File& file, OpenMode openMode)
   return FileStream{fh, size};
 }
 
+FileStream::FileStream(this_type&& other) noexcept
+  : m_file{other.m_file}, m_size{other.m_size}
+{
+  other.m_file = nullptr;
+  other.m_size = 0;
+}
+
+FileStream& FileStream::operator=(this_type&& other) noexcept
+{
+  std::swap(m_file, other.m_file);
+  std::swap(m_size, other.m_size);
+  return *this;
+}
+
 FileStream::~FileStream()
 {
+  if (m_file == nullptr) { return; }
+
   const int errC{std::fclose(m_file)};
 
   (void)errC;
-  if (errC != 0) { assert(false && "Failure to close file in ~FileStream") }
+  if (errC != 0) { assert(false && "Failure to close file in ~FileStream"); }
 }
 
 bool FileStream::write(const void* data, std::size_t byteCount)
@@ -66,5 +82,10 @@ std::vector<pl::byte> FileStream::readAll() const
   assert(v == m_size && "Read error in FileStream::readAll.");
 
   return result;
+}
+
+FileStream::FileStream(std::FILE* ptr, std::int64_t size) noexcept
+  : m_file{ptr}, m_size{size}
+{
 }
 } // namespace cl::fs

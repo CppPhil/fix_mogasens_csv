@@ -21,11 +21,17 @@ public:
     ReadWrite = Read | Write
   };
 
+  using this_type = FileStream;
+
   PL_NONCOPYABLE(FileStream);
 
   [[nodiscard]] static Expected<FileStream> create(
     const File& file,
     OpenMode    openMode);
+
+  FileStream(this_type&& other) noexcept;
+
+  this_type& operator=(this_type&& other) noexcept;
 
   ~FileStream();
 
