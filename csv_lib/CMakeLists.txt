@@ -15,13 +15,13 @@ set(LIB_HEADERS
     include/cl/unreachable.hpp)
 
 set(LIB_SOURCES
-    src/channel.cpp
-    src/data_point.cpp
-    src/data_set.cpp
-    src/error.cpp
-    src/exception.cpp
-    src/read_csv_file.cpp
-    src/sensor.cpp)
+    src/cl/channel.cpp
+    src/cl/data_point.cpp
+    src/cl/data_set.cpp
+    src/cl/error.cpp
+    src/cl/exception.cpp
+    src/cl/read_csv_file.cpp
+    src/cl/sensor.cpp)
 
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 

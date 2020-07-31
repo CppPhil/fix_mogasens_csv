@@ -16,7 +16,7 @@ if(MSVC)
   string(
     APPEND
     CMAKE_CXX_FLAGS
-    " /D_CRT_SECURE_NO_WARNINGS /D_SCL_SECURE_NO_WARNINGS /D_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING /DNOMINMAX"
+    " /D_CRT_SECURE_NO_WARNINGS /D_SCL_SECURE_NO_WARNINGS /D_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING /DNOMINMAX /D_UNICODE /DUNICODE"
   )
 
   string(APPEND CMAKE_CXX_FLAGS_DEBUG " /Od /DDEBUG_MODE")
@@ -25,17 +25,16 @@ else()
   string(
     APPEND
     CMAKE_CXX_FLAGS
-    " -Werror -Wall -Wextra -Wcast-align -Wcast-qual -Wmissing-field-initializers -Wmissing-include-dirs -Wpointer-arith -Wstrict-aliasing=2 -Wunreachable-code -Wunused -Wunused-parameter"
+    " -fwrapv -Werror -Wall -Wextra -Wcast-align -Wmissing-include-dirs -Wpointer-arith -Wstrict-aliasing=2 -Wunreachable-code -Wunused -Wunused-parameter -Wno-uninitialized -Wno-deprecated-copy -Wno-aggressive-loop-optimizations"
   )
 
   string(APPEND CMAKE_CXX_FLAGS_DEBUG " -g -O0 -DDEBUG_MODE")
-  string(APPEND CMAKE_CXX_FLAGS_RELEASE
-         " -g -O3 -funroll-loops -DNDEBUG -DRELEASE_MODE")
+  string(APPEND CMAKE_CXX_FLAGS_RELEASE " -g -O3 -DNDEBUG -DRELEASE_MODE")
 endif()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_EXTENSIONS ON)
 
 FetchContent_Declare(
   dlib
