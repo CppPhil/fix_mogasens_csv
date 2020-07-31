@@ -66,7 +66,7 @@ class DataSet:
             obj.gyroscope_z.append(float(row[gyroscope_z_column_index()]))
           except IndexError as err:
             print(
-                f"data_set.py: DataSet.from_file: IndexError for file \"{csv_file_name}\": \"{err}\"",
+                f"data_set.py: DataSet.from_file: IndexError for file \"{csv_file_name}\": \"{err}\", row_count: {row_count}, row: {row}",
                 file=sys.stderr)
             traceback.print_exc(file=sys.stderr)
             sys.exit(1)

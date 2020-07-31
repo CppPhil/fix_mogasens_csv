@@ -33,6 +33,9 @@ Expected<FileStream> FileStream::create(const File& file, OpenMode openMode)
   const std::int64_t size{file.size()};
 
   if (size == -1) {
+    const int i{std::fclose(fh)};
+    (void)i;
+    assert(i == 0 && "Couldn't close file handle.");
     return CL_UNEXPECTED(
       Error::Filesystem,
       fmt::format("Couldn't determine size of file \"{}\"", file.path()));
