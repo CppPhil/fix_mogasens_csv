@@ -12,15 +12,6 @@ readonly DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 readonly PREV_DIR=$(pwd)
 
-clang_tidy() {
-  if [ "$(which clang-tidy)" == "" ]; then
-    printf "clang-tidy was not found, skipping.\n" >&2
-    return
-  fi
-  
-  ./python/run-clang-tidy.py -p build -j $(nproc) -format -quiet
-}
-
 run_rubocop() {
   ruby_dir="$1"
 
@@ -38,10 +29,6 @@ run_rubocop() {
 cd $DIR
 
 ./python/fix_compile_commands.py
-clang_tidy "$DIR/feature_extraction"
-clang_tidy "$DIR/fix_csv"
-clang_tidy "$DIR/csv_lib"
-clang_tidy "$DIR/counting"
 run_rubocop "$DIR/ruby"
 
 cd $PREV_DIR
