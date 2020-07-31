@@ -12,6 +12,9 @@
 
 #include <csv.hpp>
 
+#include "cl/dos2unix.hpp"
+#include "cl/fs/file.hpp"
+#include "cl/fs/file_stream.hpp"
 #include "cl/read_csv_file.hpp"
 #include "cl/to_string.hpp"
 
@@ -44,9 +47,58 @@ int main(int argc, char* argv[])
     return EXIT_FAILURE;
   }
 
+  // TODO: Create a backup of the CSV file (in its own function)
+
+  // TODO: put this conversion code in its own function.
+  cl::fs::File csvFile{cl::fs::Path{csvPath.to_string()}};
+  std::vector<pl::byte>
+    crlfCsvData{}; // The CR LF line terminated data will go here.
+  {
+    cl::Expected<cl::fs::FileStream> fileStream{
+      cl::fs::FileStream::create(csvFile, cl::fs::FileStream::Read)};
+    if (!fileStream.has_value()) {
+      fmt::print(
+        stderr,
+        "Couldn't open file stream for reading to file \"{}\"!\n",
+        csvPath);
+      return EXIT_FAILURE;
+    }
+    crlfCsvData = fileStream->readAll();
+  }
+  // Convert to Unix line endings.
+  const std::vector<pl::byte> lfCsvData{
+    cl::dos2unix(crlfCsvData.data(), crlfCsvData.size())};
+  if (!csvFile.remove()) {
+    fmt::print(stderr, "Couldn't delete file \"{}\"!\n", csvPath);
+    return EXIT_FAILURE;
+  }
+  if (!csvFile.create()) {
+    fmt::print(
+      stderr,
+      "Couldn't create file \"{}\" after having deleted it!\n",
+      csvPath);
+    return EXIT_FAILURE;
+  }
+  cl::Expected<cl::fs::FileStream> filestream{
+    cl::fs::FileStream::create(csvFile, cl::fs::FileStream::Write)};
+  if (!filestream.has_value()) {
+    fmt::print(
+      stderr,
+      "Couldn't open file stream for writing for file \"{}\"!\n",
+      csvPath);
+    return EXIT_FAILURE;
+  }
+  // Write the Unix line endings back to the file.
+  if (!filestream->write(lfCsvData.data(), lfCsvData.size())) {
+    fmt::print(stderr, "Couldn't write LF data to file \"{}\"!\n", csvPath);
+    return EXIT_FAILURE;
+  }
+
   std::vector<std::string>                            columnNames{};
   cl::Expected<std::vector<std::vector<std::string>>> expectedData{
     cl::readCsvFile(csvPath, &columnNames, cl::CsvFileKind::Raw)};
+
+  // TODO: Restore the file from a backup (in its own function.).
 
   if (!expectedData.has_value()) {
     fmt::print(

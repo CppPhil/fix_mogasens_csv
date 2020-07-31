@@ -11,6 +11,7 @@ set(LIB_HEADERS
     include/cl/column.hpp
     include/cl/data_point.hpp
     include/cl/data_set.hpp
+    include/cl/dos2unix.hpp
     include/cl/error.hpp
     include/cl/exception.hpp
     include/cl/read_csv_file.hpp
@@ -28,6 +29,7 @@ set(LIB_SOURCES
     src/cl/channel.cpp
     src/cl/data_point.cpp
     src/cl/data_set.cpp
+    src/cl/dos2unix.cpp
     src/cl/error.cpp
     src/cl/exception.cpp
     src/cl/read_csv_file.cpp
