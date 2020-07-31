@@ -4,7 +4,7 @@ namespace cl {
 std::vector<pl::byte> dos2unix(const void* p, std::size_t size)
 {
   using namespace pl::integer_literals;
-  constexpr pl::byte carriageReturn{0x0C_byte};
+  constexpr pl::byte carriageReturn{0x0D_byte};
   constexpr pl::byte lineFeed{0x0A_byte};
 
   std::vector<pl::byte> res{};
