@@ -28,7 +28,6 @@ run_rubocop() {
 
 cd $DIR
 
-./python/fix_compile_commands.py
 run_rubocop "$DIR/ruby"
 
 cd $PREV_DIR
