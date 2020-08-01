@@ -1,3 +1,5 @@
+Fix segment.rb so that it works
+
 Create some images over 'real' data sets with lines in them showing the segments ???
   -> See: https://stackoverflow.com/a/47212465
 
