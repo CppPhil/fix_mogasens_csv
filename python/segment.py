@@ -85,7 +85,7 @@ def main(arguments):
       plotter_main(
           arguments=[
               '--no-moving_average_filter',  # Don't use a filter
-              '--no-time_based_split',  # Time based split setting
+              '--time_based_split',  # Time based split setting
               csv_file_path,  # Path to the entire CSV file
               f'{sensor}',  # The sensor (left arm, belly, right arm, chest)
               imu,  # The imu (accelerometer / gyroscope)

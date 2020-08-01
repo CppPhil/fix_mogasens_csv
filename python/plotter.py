@@ -32,6 +32,14 @@ def plot(the_imu, data_frame, segmenting_hwstamps):
 
   line_width = 0.6
 
+  hwstamps = data_frame[hardware_timestamp_string()].to_list()
+  lowest = hwstamps[0]
+  highest = hwstamps[-1]
+
+  segmentation_points \
+      = [hwstamp for hwstamp in segmenting_hwstamps if
+         lowest <= hwstamp <= highest] if segmenting_hwstamps is not None else None
+
   def plot_channel(channel, color, label):
     plt.plot(hardware_timestamp_string(),
              channel,
@@ -40,8 +48,8 @@ def plot(the_imu, data_frame, segmenting_hwstamps):
              label=label,
              linewidth=line_width)
 
-    if segmenting_hwstamps is not None:
-      for hwstamp in segmenting_hwstamps:
+    if segmentation_points is not None:
+      for hwstamp in segmentation_points:
         plt.axvline(x=hwstamp, linewidth=(line_width / 4.0) * 3.0)
 
   if the_imu == accelerometer_string():
