@@ -50,7 +50,7 @@ def plot(the_imu, data_frame, segmenting_hwstamps):
 
     if segmentation_points is not None:
       for hwstamp in segmentation_points:
-        plt.axvline(x=hwstamp, linewidth=(line_width / 4.0) * 3.0)
+        plt.axvline(x=hwstamp, linewidth=line_width, color='magenta')
 
   if the_imu == accelerometer_string():
     plot_channel(channel1_string(), first_color, first_label)
@@ -232,7 +232,7 @@ def main_impl(arguments, segmenting_hwstamps):
 
     title = f"{filtered_csv_file_path}_{sensor_to_string(desired_sensor)}_{imu}_{i + 1}".replace(
         " ", "_")
-    png_file = f"{title}.png"
+    svg_file = f"{title}.svg"
 
     x_size = 11
     y_size = 6
@@ -248,10 +248,10 @@ def main_impl(arguments, segmenting_hwstamps):
     plt.yticks(yticks(plt.yticks(), imu))
 
     plt.grid()
-    plt.savefig(png_file, bbox_inches='tight')
+    plt.savefig(svg_file, bbox_inches='tight', format='svg')
     plt.close()
 
-    print(f"Wrote \"{png_file}\".")
+    print(f"Wrote \"{svg_file}\".")
 
 
 if __name__ == "__main__":

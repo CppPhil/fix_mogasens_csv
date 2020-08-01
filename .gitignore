@@ -181,10 +181,10 @@ resources/Mike/*_out*.csv
 log.txt
 above_threshold_log.txt
 
-# automatically generated PNG images
-resources/Felix/*.png
-resources/Marcelle/*.png
-resources/Mike/*.png
+# automatically generated svg images
+resources/Felix/*.svg
+resources/Marcelle/*.svg
+resources/Mike/*.svg
 
 # .vscode directory
 .vscode
