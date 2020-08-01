@@ -80,17 +80,14 @@ def main(arguments):
   desired_sensor_data_set = entire_data_set.filter_by_sensor(sensor)
   segmenting_hardware_timestamps = desired_sensor_data_set.segmenting_hardware_timestamps(
       f"channel{channel}", segmentation_kind_from_str(segmentation_kind))
-  segments = entire_data_set.segment_by(segmenting_hardware_timestamps)
 
-  base_name = os.path.basename(csv_file_path)
-  file_name, extension = os.path.splitext(base_name)
+  print(f"Segmented \"{csv_file_path}\" in {len(segmenting_hardware_timestamps)} segments.")
 
-  print(f"Segmented \"{csv_file_path}\" in {len(segments)} segments.")
+  # TODO: Create image with lines at segmenting_hardware_timestamps
+  #       over the ENTIRE data set.
 
-  for i in range(len(segments)):
-    current_segment = segments[i]
-    current_segment.write_to_file(
-        f"{out_dir}/{file_name}_segment_{i + 1}{extension}")
+
+
 
   sys.exit(0)
 
