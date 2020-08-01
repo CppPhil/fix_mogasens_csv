@@ -149,7 +149,8 @@ def main_impl(arguments, segmenting_hwstamps):
 
   filtered_csv_file_path = invoke_moving_average_filter(
       use_moving_average_filter, csv_file_path,
-      moving_average_filter_sample_count)
+      moving_average_filter_sample_count
+  ) if use_moving_average_filter else csv_file_path
 
   entire_data_set = DataSet.from_file(filtered_csv_file_path)
   data_set = entire_data_set \
