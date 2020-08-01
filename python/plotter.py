@@ -33,24 +33,16 @@ def plot(the_imu, data_frame, segmenting_hwstamps):
   line_width = 0.6
 
   def plot_channel(channel, color, label):
-    if segmenting_hwstamps is None:
-      plt.plot(hardware_timestamp_string(),
-               channel,
-               data=data_frame,
-               color=color,
-               label=label,
-               linewidth=line_width)
-    else:
-      vals = data_frame[channel].to_list()
-      mark = [vals.index(i) for i in segmenting_hwstamps]
-      plt.plot(hardware_timestamp_string(),
-               channel,
-               markevery=mark,
-               marker="o",
-               data=data_frame,
-               color=color,
-               label=label,
-               linewidth=line_width)
+    plt.plot(hardware_timestamp_string(),
+             channel,
+             data=data_frame,
+             color=color,
+             label=label,
+             linewidth=line_width)
+
+    if segmenting_hwstamps is not None:
+      for hwstamp in segmenting_hwstamps:
+        plt.axvline(x=hwstamp)
 
   if the_imu == accelerometer_string():
     plot_channel(channel1_string(), first_color, first_label)
@@ -152,7 +144,7 @@ def main_impl(arguments, segmenting_hwstamps):
       moving_average_filter_sample_count)
 
   entire_data_set = DataSet.from_file(filtered_csv_file_path)
-  data_set = entire_data_set\
+  data_set = entire_data_set \
       .filter_by_sensor(desired_sensor)
 
   if data_set.is_empty():

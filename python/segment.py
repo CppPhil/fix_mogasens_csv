@@ -9,7 +9,7 @@ from modules.data_set import DataSet
 from modules.segmentation_kind import *
 from modules.sensors import sensors
 from modules.constants import *
-from .plotter import main_impl as plotter_main
+from plotter import main_impl as plotter_main
 
 
 def validate_sensor(sensor):
