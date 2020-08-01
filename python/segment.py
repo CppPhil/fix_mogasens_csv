@@ -8,6 +8,8 @@ import os
 from modules.data_set import DataSet
 from modules.segmentation_kind import *
 from modules.sensors import sensors
+from modules.constants import *
+from .plotter import main_impl as plotter_main
 
 
 def validate_sensor(sensor):
@@ -81,14 +83,21 @@ def main(arguments):
   segmenting_hardware_timestamps = desired_sensor_data_set.segmenting_hardware_timestamps(
       f"channel{channel}", segmentation_kind_from_str(segmentation_kind))
 
-  print(f"Segmented \"{csv_file_path}\" in {len(segmenting_hardware_timestamps)} segments.")
+  print(
+      f"Segmented \"{csv_file_path}\" in {len(segmenting_hardware_timestamps)} segments."
+  )
 
-  # TODO: Create image with lines at segmenting_hardware_timestamps
-  #       over the ENTIRE data set.
+  imus = [accelerometer_string(), gyroscope_string()]
 
+  for sensor in sensors():
+    for imu in imus:
+      plotter_main(arguments=[
+          '--no-moving_average_filter', '--no-time_based_split', csv_file_path,
+          f'{sensor}', imu, '0'
+      ],
+                   segmenting_hwstamps=segmenting_hardware_timestamps)
 
-
-
+  print("segment.py: Done.")
   sys.exit(0)
 
 

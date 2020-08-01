@@ -21,7 +21,7 @@ from modules.imu_constants import minimum_plotting_value, maximum_plotting_value
 from filter import main as filter_main
 
 
-def plot(the_imu, data_frame):
+def plot(the_imu, data_frame, segmenting_hwstamps):
   first_color = 'blue'
   second_color = 'red'
   third_color = 'green'
@@ -33,12 +33,24 @@ def plot(the_imu, data_frame):
   line_width = 0.6
 
   def plot_channel(channel, color, label):
-    plt.plot(hardware_timestamp_string(),
-             channel,
-             data=data_frame,
-             color=color,
-             label=label,
-             linewidth=line_width)
+    if segmenting_hwstamps is None:
+      plt.plot(hardware_timestamp_string(),
+               channel,
+               data=data_frame,
+               color=color,
+               label=label,
+               linewidth=line_width)
+    else:
+      vals = data_frame[channel].to_list()
+      mark = [vals.index(i) for i in segmenting_hwstamps]
+      plt.plot(hardware_timestamp_string(),
+               channel,
+               markevery=mark,
+               marker="o",
+               data=data_frame,
+               color=color,
+               label=label,
+               linewidth=line_width)
 
   if the_imu == accelerometer_string():
     plot_channel(channel1_string(), first_color, first_label)
@@ -88,6 +100,10 @@ def invoke_moving_average_filter(use_moving_average_filter, csv_file_path,
 
 
 def main(arguments):
+  main_impl(arguments, segmenting_hwstamps=None)
+
+
+def main_impl(arguments, segmenting_hwstamps):
   parser = argparse.ArgumentParser(description='Plot MoGaSens CSV file.')
   parser.add_argument('--moving_average_filter',
                       dest='moving_average_filter',
@@ -220,7 +236,7 @@ def main(arguments):
     x_size = 11
     y_size = 6
     plt.rc('figure', figsize=(x_size, y_size))
-    plot(imu, df)
+    plot(imu, df, segmenting_hwstamps)
     plt.legend(loc='upper right')
 
     plt.title(title)
