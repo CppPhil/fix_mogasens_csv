@@ -4,9 +4,10 @@ add numpy & scipy dependencies to CI
 
 -> Add filter.sh them to CI
 
-Check if generate_images.sh still works.
+Use some window of some size to find the min / max in.
+ -> For the segmentation.
 
-Perhaps use some window of some size to find the min / max in.
+TODO: Test it all on Microsoft Windows.
 
 -------------------------------------------------------------------------
 
