@@ -1,12 +1,8 @@
-Segment data application
-
 add numpy & scipy installation instructions to guides
 
-Add numpy & scipy dependencies to CI
-Add segmentation to CI
+add numpy & scipy dependencies to CI
 
-Have some filter.bat / filter.sh to just generate filtered data sets
-Add them to CI
+-> Add filter.sh them to CI
 
 Check if generate_images.sh still works.
 
