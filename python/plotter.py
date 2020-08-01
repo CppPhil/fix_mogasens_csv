@@ -42,7 +42,7 @@ def plot(the_imu, data_frame, segmenting_hwstamps):
 
     if segmenting_hwstamps is not None:
       for hwstamp in segmenting_hwstamps:
-        plt.axvline(x=hwstamp)
+        plt.axvline(x=hwstamp, linewidth=(line_width / 4.0) * 3.0)
 
   if the_imu == accelerometer_string():
     plot_channel(channel1_string(), first_color, first_label)

@@ -18,7 +18,7 @@ end
 
 if csv_files.size.zero?
   STDERR.puts('No files were found, exiting.')
-  return 1
+  exit(1)
 end
 
 RUN_STRING = "#{Python.interpreter} #{FILTERER} "\
@@ -28,10 +28,12 @@ RUN_STRING = "#{Python.interpreter} #{FILTERER} "\
 
 csv_files.each do |file|
   run_string = format(RUN_STRING, file)
+  puts("Applying #{filter_sample_count_option} filter to #{file}.")
   unless system(run_string)
     STDERR.puts("\"#{run_string}\" failed, exiting.")
     exit(1)
   end
 end
 
+puts('Done.')
 exit(0)
