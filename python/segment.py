@@ -19,7 +19,7 @@ def validate_sensor(sensor):
   return True
 
 
-def validate(csv_file_path, sensor, channel, segmentation_kind, out_dir):
+def validate(csv_file_path, sensor, channel, segmentation_kind):
   if not os.path.isfile(csv_file_path):
     print(f"\"{csv_file_path}\" is not a file.", file=sys.stderr)
     return False
@@ -37,10 +37,6 @@ def validate(csv_file_path, sensor, channel, segmentation_kind, out_dir):
   except Exception:
     print(f"\"{segmentation_kind}\" is not a valid segmentation kind.",
           file=sys.stderr)
-    return False
-
-  if not os.path.isdir(out_dir):
-    print(f"\"{out_dir}\" is not a directory.", file=sys.stderr)
     return False
 
   return True
@@ -64,18 +60,13 @@ def main(arguments):
                       type=str,
                       help='The segmentation kind to use (min | max | both)',
                       required=True)
-  parser.add_argument('--out_dir',
-                      type=str,
-                      help='Path to the directory to write the segments to.',
-                      required=True)
   args = parser.parse_args(arguments)
   csv_file_path = args.csv_file_path
   sensor = args.sensor
   channel = args.channel
   segmentation_kind = args.segmentation_kind
-  out_dir = args.out_dir
 
-  if not validate(csv_file_path, sensor, channel, segmentation_kind, out_dir):
+  if not validate(csv_file_path, sensor, channel, segmentation_kind):
     sys.exit(1)
 
   entire_data_set = DataSet.from_file(csv_file_path)
@@ -91,11 +82,16 @@ def main(arguments):
 
   for sensor in sensors():
     for imu in imus:
-      plotter_main(arguments=[
-          '--no-moving_average_filter', '--no-time_based_split', csv_file_path,
-          f'{sensor}', imu, '0'
-      ],
-                   segmenting_hwstamps=segmenting_hardware_timestamps)
+      plotter_main(
+          arguments=[
+              '--no-moving_average_filter',  # Don't use a filter
+              '--no-time_based_split',  # Time based split setting
+              csv_file_path,  # Path to the entire CSV file
+              f'{sensor}',  # The sensor (left arm, belly, right arm, chest)
+              imu,  # The imu (accelerometer / gyroscope)
+              '0'  # Filter sample count (must be 0 if none is used)
+          ],
+          segmenting_hwstamps=segmenting_hardware_timestamps)
 
   print("segment.py: Done.")
   sys.exit(0)
