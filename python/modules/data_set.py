@@ -8,7 +8,6 @@ import traceback
 import numpy as np
 from scipy.signal import argrelextrema
 
-from .local_extrema import local_extrema
 from .constants import *
 from .this_sensor import this_sensor
 from .segmentation_kind import SegmentationKind
