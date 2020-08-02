@@ -6,6 +6,8 @@ add numpy & scipy dependencies to CI
 
 TODO: Test it all on Microsoft Windows.
 
+TODO: Publish results.
+
 -------------------------------------------------------------------------
 
 Marcelle/2020-07-02_14.59.59 Hardware timestamp macht Sprung.
