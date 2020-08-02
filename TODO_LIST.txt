@@ -1,13 +1,8 @@
-TODO: Get rid of stupid NaNs WTF
-
 add numpy & scipy installation instructions to guides
 
 add numpy & scipy dependencies to CI
 
--> Add filter.sh them to CI
-
-Use some window of some size to find the min / max in.
- -> For the segmentation.
+-> Add filter.sh to CI
 
 TODO: Test it all on Microsoft Windows.
 
