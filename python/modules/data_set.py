@@ -81,10 +81,6 @@ class DataSet:
             f"data_set.py: DataSet.from_file: _csv.Error for file \"{csv_file_name}\": \"{err}\"",
             file=sys.stderr)
         sys.exit(1)
-
-    # TODO: HERE
-    print(obj)
-
     return obj
 
   def size(self):
@@ -163,10 +159,12 @@ class DataSet:
     segmentation_points = []
 
     if segmentationKind & SegmentationKind.LOCAL_MINIMA:
-        segmentation_points.extend(argrelextrema(channel_data, np.less, order=radius)[0].tolist())
+      segmentation_points.extend(
+          argrelextrema(channel_data, np.less, order=radius)[0].tolist())
 
     if segmentationKind & SegmentationKind.LOCAL_MAXIMA:
-        segmentation_points.extend(argrelextrema(channel_data, np.greater, order=radius)[0].tolist())
+      segmentation_points.extend(
+          argrelextrema(channel_data, np.greater, order=radius)[0].tolist())
 
     segmentation_points.sort()
 
