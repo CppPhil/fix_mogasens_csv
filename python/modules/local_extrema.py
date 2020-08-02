@@ -14,7 +14,7 @@ def is_lesser(value, window):
 
 def local_extrema(data, window_size, segmentationKind):
   indices = []  # result
-  stride = (window_size - 1) / 2
+  stride = int((window_size - 1) / 2)
   data_size = len(data)
   max_index = data_size - 1
 

@@ -13,9 +13,9 @@ rm -f ./CMakeLists.txt.user
 rm -f ./resources/Felix/*_out*.csv
 rm -f ./resources/Marcelle/*_out*.csv
 rm -f ./resources/Mike/*_out*.csv
-rm -f ./resources/Felix/*.png
-rm -f ./resources/Marcelle/*.png
-rm -f ./resources/Mike/*.png
+rm -f ./resources/Felix/*.svg
+rm -f ./resources/Marcelle/*.svg
+rm -f ./resources/Mike/*.svg
 rm -f ./log.txt
 rm -rf ./python/__pycache__
 rm -rf ./python/modules/__pycache__
