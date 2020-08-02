@@ -96,7 +96,7 @@ def main(arguments):
       window_size)
 
   print(
-      f"Segmented \"{csv_file_path}\" in {len(segmenting_hardware_timestamps)} segments."
+      f"segment.py: {len(segmenting_hardware_timestamps)} segmentation points found in \"{csv_file_path}\"."
   )
 
   imus = [accelerometer_string(), gyroscope_string()]
