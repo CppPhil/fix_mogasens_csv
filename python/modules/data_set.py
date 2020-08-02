@@ -9,8 +9,8 @@ import numpy as np
 from scipy.signal import argrelextrema
 
 from .constants import *
-from .this_sensor import this_sensor
 from .segmentation_kind import SegmentationKind
+from .this_sensor import this_sensor
 
 
 class DataSet:
