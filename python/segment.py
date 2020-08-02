@@ -14,29 +14,43 @@ from plotter import main_impl as plotter_main
 
 def validate_sensor(sensor):
   if sensor not in sensors():
-    print(f"{sensor} is not a valid sensor.", file=sys.stderr)
+    print(f"segment.py: {sensor} is not a valid sensor.", file=sys.stderr)
     return False
   return True
 
 
-def validate(csv_file_path, sensor, channel, segmentation_kind):
+def validate(csv_file_path, sensor, channel, segmentation_kind, window_size):
   if not os.path.isfile(csv_file_path):
-    print(f"\"{csv_file_path}\" is not a file.", file=sys.stderr)
+    print(f"segment.py: \"{csv_file_path}\" is not a file.", file=sys.stderr)
     return False
 
   if not validate_sensor(sensor):
     return False
 
   if channel not in range(1, 7):
-    print(f"{channel} is not a valid channel, must be within 1 - 6.",
-          file=sys.stderr)
+    print(
+        f"segment.py: {channel} is not a valid channel, must be within 1 - 6.",
+        file=sys.stderr)
     return False
 
   try:
     segmentation_kind_from_str(segmentation_kind)
   except Exception:
-    print(f"\"{segmentation_kind}\" is not a valid segmentation kind.",
-          file=sys.stderr)
+    print(
+        f"segment.py: \"{segmentation_kind}\" is not a valid segmentation kind.",
+        file=sys.stderr)
+    return False
+
+  if window_size < 3:
+    print(
+        f"segment.py: window size was {window_size}, but must be at least 3!",
+        file=sys.stderr)
+    return False
+
+  if not window_size % 2 == 1:
+    print(
+        f"segment.py: window size {window_size} is an even number, but an odd number is required.",
+        file=sys.stderr)
     return False
 
   return True
@@ -60,19 +74,26 @@ def main(arguments):
                       type=str,
                       help='The segmentation kind to use (min | max | both)',
                       required=True)
+  parser.add_argument('--window_size',
+                      type=int,
+                      help='The window size to use for segmenting.',
+                      required=True)
   args = parser.parse_args(arguments)
   csv_file_path = args.csv_file_path
   sensor = args.sensor
   channel = args.channel
   segmentation_kind = args.segmentation_kind
+  window_size = args.window_size
 
-  if not validate(csv_file_path, sensor, channel, segmentation_kind):
+  if not validate(csv_file_path, sensor, channel, segmentation_kind,
+                  window_size):
     sys.exit(1)
 
   entire_data_set = DataSet.from_file(csv_file_path)
   desired_sensor_data_set = entire_data_set.filter_by_sensor(sensor)
   segmenting_hardware_timestamps = desired_sensor_data_set.segmenting_hardware_timestamps(
-      f"channel{channel}", segmentation_kind_from_str(segmentation_kind))
+      f"channel{channel}", segmentation_kind_from_str(segmentation_kind),
+      window_size)
 
   print(
       f"Segmented \"{csv_file_path}\" in {len(segmenting_hardware_timestamps)} segments."

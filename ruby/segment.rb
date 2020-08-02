@@ -24,6 +24,11 @@ OptionParser.new do |opt|
     options[:segmentation_kind] = o
   end
 
+  opt.on('--window_size=WINDOW_SIZE',\
+         'The window size to use for segmenting') do |o|
+    options[:window_size] = o
+  end
+
   opt.on_tail('-h', '--help', 'Show this message') do
     STDERR.puts opt
     exit(0)
@@ -37,7 +42,8 @@ run_segment_py_string = \
   "--csv_file_path #{options[:csv_file_path]} "\
   "--sensor #{options[:sensor]} "\
   "--channel #{options[:channel]} "\
-  "--segmentation_kind #{options[:segmentation_kind]}"
+  "--segmentation_kind #{options[:segmentation_kind]} "\
+  "--window_size #{options[:window_size]}"
 
 unless system(run_segment_py_string)
   STDERR.puts("\"#{run_segment_py_string}\" failed, exiting.")

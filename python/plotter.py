@@ -30,7 +30,7 @@ def plot(the_imu, data_frame, segmenting_hwstamps):
   second_label = 'y'
   third_label = 'z'
 
-  line_width = 0.6
+  line_width = 0.75
 
   hwstamps = data_frame[hardware_timestamp_string()].to_list()
   lowest = hwstamps[0]

@@ -153,16 +153,17 @@ class DataSet:
 
     raise Exception(f"\"{string}\" is not a valid input to channel_by_str!")
 
-  def segmenting_hardware_timestamps(self, channel, segmentationKind):
+  def segmenting_hardware_timestamps(self, channel, segmentation_kind,
+                                     window_size):
     channel_data = np.array(self.channel_by_str(channel))
-    radius = 12
+    radius = int((window_size - 1) / 2)
     segmentation_points = []
 
-    if segmentationKind & SegmentationKind.LOCAL_MINIMA:
+    if segmentation_kind & SegmentationKind.LOCAL_MINIMA:
       segmentation_points.extend(
           argrelextrema(channel_data, np.less, order=radius)[0].tolist())
 
-    if segmentationKind & SegmentationKind.LOCAL_MAXIMA:
+    if segmentation_kind & SegmentationKind.LOCAL_MAXIMA:
       segmentation_points.extend(
           argrelextrema(channel_data, np.greater, order=radius)[0].tolist())
 
