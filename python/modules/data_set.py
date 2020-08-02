@@ -6,6 +6,7 @@ import sys
 import traceback
 
 import numpy as np
+from scipy.signal import argrelextrema
 
 from .local_extrema import local_extrema
 from .constants import *
@@ -82,6 +83,9 @@ class DataSet:
             file=sys.stderr)
         sys.exit(1)
 
+    # TODO: HERE
+    print(obj)
+
     return obj
 
   def size(self):
@@ -155,10 +159,18 @@ class DataSet:
     raise Exception(f"\"{string}\" is not a valid input to channel_by_str!")
 
   def segmenting_hardware_timestamps(self, channel, segmentationKind):
-    channel_data = self.channel_by_str(channel)
-    segmentation_points = local_extrema(data=channel_data,
-                                        window_size=25,
-                                        segmentationKind=segmentationKind)
+    channel_data = np.array(self.channel_by_str(channel))
+    radius = 12
+    segmentation_points = []
+
+    if segmentationKind & SegmentationKind.LOCAL_MINIMA:
+        segmentation_points.extend(argrelextrema(channel_data, np.less, order=radius)[0].tolist())
+
+    if segmentationKind & SegmentationKind.LOCAL_MAXIMA:
+        segmentation_points.extend(argrelextrema(channel_data, np.greater, order=radius)[0].tolist())
+
+    segmentation_points.sort()
+
     return [
         self.hardware_timestamp[segmentation_point]
         for segmentation_point in segmentation_points
