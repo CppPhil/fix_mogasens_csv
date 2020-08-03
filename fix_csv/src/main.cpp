@@ -1,6 +1,8 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include <ios>
+#include <iostream>
 #include <fstream>
 
 #include <pl/algo/clamp.hpp>
@@ -110,6 +112,11 @@ int main(int argc, char* argv[])
   constexpr int expectedArgumentCount{2};
   constexpr int csvPathIndex{1};
 
+  std::setbuf(stdout, nullptr);
+  std::setbuf(stderr, nullptr);
+  std::cout << std::unitbuf;
+  std::cerr << std::unitbuf;
+
   if (argc != expectedArgumentCount) {
     fmt::print(
       stderr,
@@ -139,7 +146,12 @@ int main(int argc, char* argv[])
       csvBackupPath);
     return EXIT_FAILURE;
   }
-  if (!fmc::convertToUnixLineEndings(csvPathString)) { return EXIT_FAILURE; }
+  if (!fmc::convertToUnixLineEndings(csvPathString)) { 
+    fmt::print(
+      stderr, "Couldn't convert \"{}\" to Unix line endings.\n", csvPathString
+    );
+    return EXIT_FAILURE; 
+  }
 
   std::vector<std::string>                            columnNames{};
   cl::Expected<std::vector<std::vector<std::string>>> expectedData{
