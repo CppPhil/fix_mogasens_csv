@@ -29,10 +29,12 @@ build_script:
   - cmd: fix_csvs.bat --build_type=Debug --compiler=%gen%
   - cmd: generate_images.bat
   - cmd: count.bat --build_type=Debug --compiler=%gen%
+  - cmd: filter.bat --filter_sample_count=125
   - cmd: echo "Release"
   - cmd: build.bat --build_type=Release --compiler=%gen%
   - cmd: test.bat --build_type=Release
   - cmd: fix_csvs.bat --build_type=Release --compiler=%gen%
   - cmd: generate_images.bat
   - cmd: count.bat --build_type=Release --compiler=%gen%
+  - cmd: filter.bat --filter_sample_count=125
 

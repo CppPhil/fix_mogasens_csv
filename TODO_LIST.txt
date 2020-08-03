@@ -1,5 +1,3 @@
--> Add filter.sh to CI
-
 TODO: Test it all on Microsoft Windows.
 
 TODO: Publish results.

@@ -71,6 +71,7 @@ script:
   - ./fix_csvs.sh --build_type=Debug
   - ./generate_images.sh
   - ./count.sh --build_type=Debug
+  - ./filter.sh --filter_sample_count=125
   - ./clean.sh
   - printf "\n\n"
   # Release
@@ -80,4 +81,5 @@ script:
   - ./fix_csvs.sh --build_type=Release
   - ./generate_images.sh
   - ./count.sh --build_type=Release
+  - ./filter.sh --filter_sample_count=125
 
