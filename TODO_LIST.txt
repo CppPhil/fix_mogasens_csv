@@ -1,5 +1,3 @@
-add numpy & scipy installation instructions to guides
-
 add numpy & scipy dependencies to CI
 
 -> Add filter.sh to CI
