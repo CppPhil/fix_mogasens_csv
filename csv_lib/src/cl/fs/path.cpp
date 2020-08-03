@@ -9,7 +9,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-#elif == PL_OS == PL_OS_WINDOWS
+#elif PL_OS == PL_OS_WINDOWS
 #include "cl/fs/windows.hpp"
 #include <Windows.h>
 #endif
