@@ -5,6 +5,10 @@
 #include <pl/os.hpp>
 #include <pl/string_view.hpp>
 
+#if PL_OS == PL_OS_WINDOWS
+#include <Windows.h>
+#endif
+
 namespace cl::fs {
 #if PL_OS == PL_OS_WINDOWS
 [[nodiscard]] std::wstring utf8ToUtf16(pl::string_view utf8);

@@ -4,11 +4,8 @@
 #include "cl/fs/windows.hpp"
 
 #if PL_OS == PL_OS_WINDOWS
-#include <Windows.h>
-#endif
-
-namespace cl::fs {
-#if PL_OS == PL_OS_WINDOWS
+namespace cl {
+namespace fs {
 namespace {
 [[nodiscard]] std::size_t utf8ToUtf16RequiredChars(pl::string_view utf8)
 {
@@ -86,33 +83,34 @@ std::string utf16ToUtf8(pl::wstring_view utf16)
 }
 
 std::wstring formatError(DWORD errorCode)
-{ 
-    LPWSTR      buffer{nullptr};
-    const DWORD dw{FormatMessageW(
-      /* dwFlags */ FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS,
-      /* lpSource */ nullptr,
-      /* dwMessageId */ errorCode,
-      /* dwLanguageId */ MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-      /* lpBuffer */ reinterpret_cast<LPWSTR>(&buffer),
-      /* nSize */ 0,
-      /* Arguments */ nullptr
-    )
-    };
-    (void)dw;
-    assert(dw != 0 && "FormatMessageW failed!");
+{
+  LPWSTR      buffer{nullptr};
+  const DWORD dw{FormatMessageW(
+    /* dwFlags */ FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER
+      | FORMAT_MESSAGE_IGNORE_INSERTS,
+    /* lpSource */ nullptr,
+    /* dwMessageId */ errorCode,
+    /* dwLanguageId */ MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+    /* lpBuffer */ reinterpret_cast<LPWSTR>(&buffer),
+    /* nSize */ 0,
+    /* Arguments */ nullptr)};
+  (void)dw;
+  assert(dw != 0 && "FormatMessageW failed!");
 
-    std::wstring result {  };
+  std::wstring result{};
 
-    if (buffer != nullptr) {
-      result = buffer;
-      const HLOCAL r{LocalFree(buffer)};
-      (void)r;
-      assert(r == nullptr && "LocalFree failed!");
-      buffer = nullptr;
-      return result;
-    }
+  if (buffer != nullptr) {
+    result = buffer;
+    const HLOCAL r{LocalFree(buffer)};
+    (void)r;
+    assert(r == nullptr && "LocalFree failed!");
+    buffer = nullptr;
+    return result;
+  }
 
-    assert(false && "Couldn't allocate memory for FormatMessageW!");
-    return L"";
+  assert(false && "Couldn't allocate memory for FormatMessageW!");
+  return L"";
+} // namespace fs
+} // namespace cl
 #endif
-} // cl::fs
+
