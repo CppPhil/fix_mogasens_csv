@@ -25,7 +25,7 @@ else()
   string(
     APPEND
     CMAKE_CXX_FLAGS
-    " -fwrapv -fno-strict-aliasing -Werror -Wall -Wextra -Wcast-align -Wmissing-include-dirs -Wpointer-arith -Wunreachable-code -Wunused -Wunused-parameter -Wno-uninitialized -Wno-deprecated-copy -Wno-aggressive-loop-optimizations -Wno-implicit-fallthrough"
+    " -fwrapv -Werror -Wall -Wextra -Wstrict-aliasing=2 -Wcast-align -Wmissing-include-dirs -Wpointer-arith -Wunreachable-code -Wunused -Wunused-parameter -Wno-uninitialized -Wno-deprecated-copy -Wno-aggressive-loop-optimizations -Wno-implicit-fallthrough"
   )
 
   string(APPEND CMAKE_CXX_FLAGS_DEBUG " -g -O0 -DDEBUG_MODE")
@@ -47,13 +47,27 @@ set(DLIB_JPEG_SUPPORT
 set(DLIB_LINK_WITH_SQLITE3
     OFF
     CACHE BOOL "Disable this if you don't want to link against sqlite3" FORCE)
+set(DLIB_USE_BLAS
+    OFF
+    CACHE BOOL "Disable this if you don't want to use a BLAS library" FORCE)
+set(DLIB_USE_LAPACK
+    OFF
+    CACHE BOOL "Disable this if you don't want to use a LAPACK library" FORCE)
+set(DLIB_USE_CUDA
+    OFF
+    CACHE BOOL "Disable this if you don't want to use NVIDIA CUDA" FORCE)
 set(DLIB_PNG_SUPPORT
     OFF
     CACHE BOOL "Disable this if you don't want to link against libpng" FORCE)
 set(DLIB_GIF_SUPPORT
     OFF
     CACHE BOOL "Disable this if you don't want to link against libgif" FORCE)
-
+set(DLIB_USE_MKL_FFT
+    OFF
+    CACHE
+      BOOL
+      "Disable this is you don't want to use the MKL DFTI FFT implementation"
+      FORCE)
 FetchContent_Declare(
   dlib
   GIT_REPOSITORY https://github.com/davisking/dlib.git
