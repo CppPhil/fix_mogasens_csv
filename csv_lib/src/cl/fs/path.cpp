@@ -2,6 +2,7 @@
 #include <cstring>
 
 #include <ostream>
+#include <iostream>
 #include <utility>
 
 #include <pl/os.hpp>
@@ -41,6 +42,7 @@ bool Path::exists() const noexcept
   const DWORD dw{GetFileAttributesW(fileName.c_str())};
 
   if (dw == INVALID_FILE_ATTRIBUTES) {
+    std::wcerr << L"Path::exists: " << formatError(GetLastError()) << L'\n';
     assert(
       false
       && "GetFileAttributesW returned INVALID_FILE_ATTRIBUTES in Path::exists");
@@ -75,6 +77,7 @@ bool Path::isFile() const noexcept
   const DWORD dw{GetFileAttributesW(fileName.c_str())};
 
   if (dw == INVALID_FILE_ATTRIBUTES) {
+    std::wcerr << L"Path::isFile: " << formatError(GetLastError()) << L'\n';
     assert(
       false
       && "GetFileAttributesW returned INVALID_FILE_ATTRIBUTES in Path::isFile");
@@ -107,6 +110,7 @@ bool Path::isDirectory() const noexcept
   const DWORD dw{GetFileAttributesW(fileName.c_str())};
 
   if (dw == INVALID_FILE_ATTRIBUTES) {
+    std::wcerr << L"Path::isDirectory: " << formatError(GetLastError()) << L'\n';
     assert(
       false
       && "GetFileAttributesW returned INVALID_FILE_ATTRIBUTES in Path::isDirectory");

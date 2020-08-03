@@ -84,5 +84,35 @@ std::string utf16ToUtf8(pl::wstring_view utf16)
   buf.pop_back();
   return buf;
 }
+
+std::wstring formatError(DWORD errorCode)
+{ 
+    LPWSTR      buffer{nullptr};
+    const DWORD dw{FormatMessageW(
+      /* dwFlags */ FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS,
+      /* lpSource */ nullptr,
+      /* dwMessageId */ errorCode,
+      /* dwLanguageId */ MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+      /* lpBuffer */ reinterpret_cast<LPWSTR>(&buffer),
+      /* nSize */ 0,
+      /* Arguments */ nullptr
+    )
+    };
+    (void)dw;
+    assert(dw != 0 && "FormatMessageW failed!");
+
+    std::wstring result {  };
+
+    if (buffer != nullptr) {
+      result = buffer;
+      const HLOCAL r{LocalFree(buffer)};
+      (void)r;
+      assert(r == nullptr && "LocalFree failed!");
+      buffer = nullptr;
+      return result;
+    }
+
+    assert(false && "Couldn't allocate memory for FormatMessageW!");
+    return L"";
 #endif
 } // cl::fs

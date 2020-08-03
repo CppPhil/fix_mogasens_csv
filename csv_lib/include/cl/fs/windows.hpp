@@ -7,9 +7,11 @@
 
 namespace cl::fs {
 #if PL_OS == PL_OS_WINDOWS
-std::wstring utf8ToUtf16(pl::string_view utf8);
+[[nodiscard]] std::wstring utf8ToUtf16(pl::string_view utf8);
 
-std::string utf16ToUtf8(pl::wstring_view utf16);
+[[nodiscard]] std::string utf16ToUtf8(pl::wstring_view utf16);
+
+[[nodiscard]] std::wstring formatError(DWORD errorCode);
 #endif
 } // cl::fs
 #endif // INCG_CL_FS_WINDOWS_HPP

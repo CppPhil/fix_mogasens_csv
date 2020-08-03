@@ -116,6 +116,8 @@ int main(int argc, char* argv[])
   std::setbuf(stderr, nullptr);
   std::cout << std::unitbuf;
   std::cerr << std::unitbuf;
+  std::wcout << std::unitbuf;
+  std::wcerr << std::unitbuf;
 
   if (argc != expectedArgumentCount) {
     fmt::print(
