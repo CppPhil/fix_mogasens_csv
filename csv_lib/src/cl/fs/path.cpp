@@ -1,4 +1,5 @@
 #include <cstring>
+#include <cassert>
 
 #include <ostream>
 #include <utility>
@@ -65,6 +66,13 @@ bool Path::isFile() const noexcept
   const std::wstring fileName{utf8ToUtf16(m_path)};
 
   const DWORD dw{GetFileAttributesW(fileName.c_str())};
+
+  if (dw == INVALID_FILE_ATTRIBUTES) {
+    assert(
+      false
+      && "GetFileAttributesW returned INVALID_FILE_ATTRIBUTES in Path::isFile");
+	  return false;
+  }
 
   if (dw & FILE_ATTRIBUTE_ARCHIVE) { return true; }
 
