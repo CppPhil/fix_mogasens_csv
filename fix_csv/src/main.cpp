@@ -189,7 +189,7 @@ int main(int argc, char* argv[])
   {
     auto csvWriter = csv::make_csv_writer(outputFileStream);
     csvWriter << columnNames;
-  
+
     std::size_t   rowCount{2};
     std::uint64_t overflowCount{0};
 

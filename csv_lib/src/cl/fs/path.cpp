@@ -40,9 +40,7 @@ bool Path::exists() const noexcept
 
   const DWORD dw{GetFileAttributesW(fileName.c_str())};
 
-  if (dw == INVALID_FILE_ATTRIBUTES) {
-    return false;
-  }
+  if (dw == INVALID_FILE_ATTRIBUTES) { return false; }
 
   if (dw & FILE_ATTRIBUTE_ARCHIVE) { return true; }
 
@@ -71,9 +69,7 @@ bool Path::isFile() const noexcept
 
   const DWORD dw{GetFileAttributesW(fileName.c_str())};
 
-  if (dw == INVALID_FILE_ATTRIBUTES) {
-    return false;
-  }
+  if (dw == INVALID_FILE_ATTRIBUTES) { return false; }
 
   if (dw & FILE_ATTRIBUTE_ARCHIVE) { return true; }
 
@@ -100,9 +96,7 @@ bool Path::isDirectory() const noexcept
 
   const DWORD dw{GetFileAttributesW(fileName.c_str())};
 
-  if (dw == INVALID_FILE_ATTRIBUTES) {
-    return false;
-  }
+  if (dw == INVALID_FILE_ATTRIBUTES) { return false; }
 
   if (dw & FILE_ATTRIBUTE_DIRECTORY) { return true; }
 
