@@ -39,7 +39,8 @@ csv_files = Dir["#{RESOURCES_DIR}/**/*.csv"].reject do |file|
 end
 csv_files.each do |file|
   puts("Processing #{file}.")
-  unless system("#{fix_csv_app(build_type, compiler)} \"#{file}\"")
+  path = "\"#{File.join(Dir.pwd, file)}\""
+  unless system("#{fix_csv_app(build_type, compiler)} #{path}")
     STDERR.puts('Failure running fix_mogasens_csv_app, exiting.')
     exit(1)
   end
