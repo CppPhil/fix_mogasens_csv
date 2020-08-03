@@ -1,8 +1,8 @@
 #include <cassert>
 #include <cstring>
 
-#include <ostream>
 #include <iostream>
+#include <ostream>
 #include <utility>
 
 #include <pl/os.hpp>
@@ -110,7 +110,8 @@ bool Path::isDirectory() const noexcept
   const DWORD dw{GetFileAttributesW(fileName.c_str())};
 
   if (dw == INVALID_FILE_ATTRIBUTES) {
-    std::wcerr << L"Path::isDirectory: " << formatError(GetLastError()) << L'\n';
+    std::wcerr << L"Path::isDirectory: " << formatError(GetLastError())
+               << L'\n';
     assert(
       false
       && "GetFileAttributesW returned INVALID_FILE_ATTRIBUTES in Path::isDirectory");

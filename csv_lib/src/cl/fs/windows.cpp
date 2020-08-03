@@ -113,4 +113,3 @@ std::wstring formatError(DWORD errorCode)
 } // namespace fs
 } // namespace cl
 #endif
-
