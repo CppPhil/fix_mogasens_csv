@@ -87,7 +87,7 @@ bool File::copyTo(const Path& copyToPath) const noexcept
   const BOOL errC{CopyFileW(
     /* lpExistingFileName */ wstr.c_str(),
     /* lpNewFileName */ newFileName.c_str(),
-    /* bFailIfExists */ TRUE)};
+    /* bFailIfExists */ FALSE)};
 
   return errC != 0;
 #endif
@@ -116,7 +116,8 @@ bool File::remove() noexcept
   return std::remove(m_path.str().c_str()) == 0;
 #elif PL_OS == PL_OS_WINDOWS
   const std::wstring u16Path{utf8ToUtf16(m_path.str())};
-  return DeleteFileW(u16Path.c_str()) != 0;
+  const BOOL         errC{DeleteFileW(u16Path.c_str())};
+  return errC != 0;
 #endif
 }
 

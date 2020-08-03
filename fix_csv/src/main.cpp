@@ -186,10 +186,10 @@ int main(int argc, char* argv[])
 
   fmc::deleteNonBoschSensors(&data);
 
-  auto csvWriter = csv::make_csv_writer(outputFileStream);
-  csvWriter << columnNames;
-
   {
+    auto csvWriter = csv::make_csv_writer(outputFileStream);
+    csvWriter << columnNames;
+  
     std::size_t   rowCount{2};
     std::uint64_t overflowCount{0};
 
@@ -341,6 +341,8 @@ int main(int argc, char* argv[])
       ++rowCount;
     }
   }
+
+  outputFileStream.close();
 
   if (!fmc::convertToUnixLineEndings(outputFilePath)) { return EXIT_FAILURE; }
 
