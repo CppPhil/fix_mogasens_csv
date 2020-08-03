@@ -4,6 +4,7 @@
 #include <ostream>
 #include <utility>
 
+#include <pl/algo/ranged_algorithms.hpp>
 #include <pl/os.hpp>
 
 #if PL_OS == PL_OS_LINUX
@@ -23,7 +24,15 @@ std::ostream& operator<<(std::ostream& os, const Path& path)
   return os << path.m_path;
 }
 
-Path::Path(std::string path) : m_path{std::move(path)} {}
+Path::Path(std::string path) : m_path{std::move(path)}
+{
+#if PL_OS == PL_OS_WINDOWS
+  pl::algo::replace(
+    /* cont */ m_path,
+    /* old_value */ '/',
+    /* new_value */ '\\');
+#endif
+}
 
 bool Path::exists() const noexcept
 {
