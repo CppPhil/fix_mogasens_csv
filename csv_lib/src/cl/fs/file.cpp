@@ -66,7 +66,7 @@ bool File::copyTo(const Path& copyToPath) const noexcept
   return true;
 #elif PL_OS == PL_OS_WINDOWS
   const std::wstring wstr{utf8ToUtf16(m_path.str())};
-  const std::wstring newFileName{utf8toUtf16(copyToPath.str())};
+  const std::wstring newFileName{utf8ToUtf16(copyToPath.str())};
 
   const BOOL errC{CopyFileW(
     /* lpExistingFileName */ wstr.c_str(),
