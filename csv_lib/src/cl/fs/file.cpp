@@ -36,20 +36,18 @@ bool File::create() const noexcept
   return true;
 #elif PL_OS == PL_OS_WINDOWS
   const std::wstring u16Path{utf8ToUtf16(m_path.str())};
-  HANDLE             fileHandle{ CreateFileW(
+  HANDLE             fileHandle{CreateFileW(
     /* lpFileName */ u16Path.c_str(),
     /* dwDesiredAccess */ GENERIC_READ | GENERIC_WRITE,
     /* dwShareMode */ 0,
     /* lpSecurityAttributes */ nullptr,
     /* dwCreationDisposition */ CREATE_NEW,
     /* dwFlagsAndAttributes */ FILE_ATTRIBUTE_NORMAL,
-    /* hTemplateFile */ nullptr
-   )
-  };
+    /* hTemplateFile */ nullptr)};
 
   if (fileHandle == INVALID_HANDLE_VALUE) { return false; }
 
-  return CloseHandle(fileHandle) != 0;    
+  return CloseHandle(fileHandle) != 0;
 #endif
 }
 
@@ -104,17 +102,18 @@ bool File::moveTo(const Path& newPath)
   const std::wstring newPathWstring{utf8ToUtf16(newPath.str())};
 
   return MoveFileExW(
-    /* lpExistingFileName */ thisPath.c_str(),
-    /* lpNewFileName */ newPathWstring.c_str(),
-    /* dwFlags */ MOVEFILE_COPY_ALLOWED | MOVEFILE_REPLACE_EXISTING
-      | MOVEFILE_WRITE_THROUGH
-  ) != 0;
-#endif 
+           /* lpExistingFileName */ thisPath.c_str(),
+           /* lpNewFileName */ newPathWstring.c_str(),
+           /* dwFlags */ MOVEFILE_COPY_ALLOWED | MOVEFILE_REPLACE_EXISTING
+             | MOVEFILE_WRITE_THROUGH)
+         != 0;
+#endif
 }
 
-bool File::remove() noexcept { 
+bool File::remove() noexcept
+{
 #if PL_OS == PL_OS_LINUX
-    return std::remove(m_path.str().c_str()) == 0; 
+  return std::remove(m_path.str().c_str()) == 0;
 #elif PL_OS == PL_OS_WINDOWS
   const std::wstring u16Path{utf8ToUtf16(m_path.str())};
   return DeleteFileW(u16Path.c_str()) != 0;

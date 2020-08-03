@@ -1,9 +1,9 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include <fstream>
 #include <ios>
 #include <iostream>
-#include <fstream>
 
 #include <pl/algo/clamp.hpp>
 #include <pl/numeric.hpp>
@@ -146,11 +146,10 @@ int main(int argc, char* argv[])
       csvBackupPath);
     return EXIT_FAILURE;
   }
-  if (!fmc::convertToUnixLineEndings(csvPathString)) { 
+  if (!fmc::convertToUnixLineEndings(csvPathString)) {
     fmt::print(
-      stderr, "Couldn't convert \"{}\" to Unix line endings.\n", csvPathString
-    );
-    return EXIT_FAILURE; 
+      stderr, "Couldn't convert \"{}\" to Unix line endings.\n", csvPathString);
+    return EXIT_FAILURE;
   }
 
   std::vector<std::string>                            columnNames{};

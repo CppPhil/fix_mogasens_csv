@@ -1,5 +1,5 @@
-#include <cstring>
 #include <cassert>
+#include <cstring>
 
 #include <ostream>
 #include <utility>
@@ -40,7 +40,7 @@ bool Path::exists() const noexcept
 
   const DWORD dw{GetFileAttributesW(fileName.c_str())};
 
-    if (dw == INVALID_FILE_ATTRIBUTES) {
+  if (dw == INVALID_FILE_ATTRIBUTES) {
     assert(
       false
       && "GetFileAttributesW returned INVALID_FILE_ATTRIBUTES in Path::exists");
@@ -78,7 +78,7 @@ bool Path::isFile() const noexcept
     assert(
       false
       && "GetFileAttributesW returned INVALID_FILE_ATTRIBUTES in Path::isFile");
-	  return false;
+    return false;
   }
 
   if (dw & FILE_ATTRIBUTE_ARCHIVE) { return true; }
@@ -106,7 +106,7 @@ bool Path::isDirectory() const noexcept
 
   const DWORD dw{GetFileAttributesW(fileName.c_str())};
 
-    if (dw == INVALID_FILE_ATTRIBUTES) {
+  if (dw == INVALID_FILE_ATTRIBUTES) {
     assert(
       false
       && "GetFileAttributesW returned INVALID_FILE_ATTRIBUTES in Path::isDirectory");
