@@ -110,6 +110,7 @@ std::wstring formatError(DWORD errorCode)
 
   assert(false && "Couldn't allocate memory for FormatMessageW!");
   return L"";
+}
 } // namespace fs
 } // namespace cl
 #endif
