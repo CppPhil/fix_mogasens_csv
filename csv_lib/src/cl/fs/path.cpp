@@ -40,6 +40,13 @@ bool Path::exists() const noexcept
 
   const DWORD dw{GetFileAttributesW(fileName.c_str())};
 
+    if (dw == INVALID_FILE_ATTRIBUTES) {
+    assert(
+      false
+      && "GetFileAttributesW returned INVALID_FILE_ATTRIBUTES in Path::exists");
+    return false;
+  }
+
   if (dw & FILE_ATTRIBUTE_ARCHIVE) { return true; }
 
   if (dw & FILE_ATTRIBUTE_DIRECTORY) { return true; }
@@ -98,6 +105,13 @@ bool Path::isDirectory() const noexcept
   const std::wstring fileName{utf8ToUtf16(m_path)};
 
   const DWORD dw{GetFileAttributesW(fileName.c_str())};
+
+    if (dw == INVALID_FILE_ATTRIBUTES) {
+    assert(
+      false
+      && "GetFileAttributesW returned INVALID_FILE_ATTRIBUTES in Path::isDirectory");
+    return false;
+  }
 
   if (dw & FILE_ATTRIBUTE_DIRECTORY) { return true; }
 
