@@ -1,7 +1,6 @@
 #include <cassert>
 #include <cstring>
 
-#include <iostream>
 #include <ostream>
 #include <utility>
 
@@ -42,10 +41,6 @@ bool Path::exists() const noexcept
   const DWORD dw{GetFileAttributesW(fileName.c_str())};
 
   if (dw == INVALID_FILE_ATTRIBUTES) {
-    std::wcerr << L"Path::exists: " << formatError(GetLastError()) << L'\n';
-    assert(
-      false
-      && "GetFileAttributesW returned INVALID_FILE_ATTRIBUTES in Path::exists");
     return false;
   }
 
@@ -77,10 +72,6 @@ bool Path::isFile() const noexcept
   const DWORD dw{GetFileAttributesW(fileName.c_str())};
 
   if (dw == INVALID_FILE_ATTRIBUTES) {
-    std::wcerr << L"Path::isFile: " << formatError(GetLastError()) << L'\n';
-    assert(
-      false
-      && "GetFileAttributesW returned INVALID_FILE_ATTRIBUTES in Path::isFile");
     return false;
   }
 
@@ -110,11 +101,6 @@ bool Path::isDirectory() const noexcept
   const DWORD dw{GetFileAttributesW(fileName.c_str())};
 
   if (dw == INVALID_FILE_ATTRIBUTES) {
-    std::wcerr << L"Path::isDirectory: " << formatError(GetLastError())
-               << L'\n';
-    assert(
-      false
-      && "GetFileAttributesW returned INVALID_FILE_ATTRIBUTES in Path::isDirectory");
     return false;
   }
 
