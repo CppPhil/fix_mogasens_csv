@@ -16,8 +16,7 @@ clone_script:
       && git submodule update --init --recursive
 
 install:
-  - cmd: C:\Python38-x64\Scripts\pip.exe install matplotlib
-  - cmd: C:\Python38-x64\Scripts\pip.exe install pandas
+  - cmd: C:\Python38-x64\Scripts\pip.exe install numpy scipy matplotlib ipython jupyter pandas sympy nose
 
 before_build:
   - cmd: set PATH=%PATH:C:\Program Files\Git\usr\bin;=% # Remove Git sh.exe from PATH so that CMake will generate MinGW Makefiles.

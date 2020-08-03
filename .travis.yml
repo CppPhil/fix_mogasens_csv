@@ -51,8 +51,7 @@ jobs:
 
 before_install:
   - pyenv shell 3.6.3
-  - pip3 install matplotlib
-  - pip3 install pandas
+  - pip3 install numpy scipy matplotlib ipython jupyter pandas sympy nose
   - set -e
   - CMAKE_VERSION=3.18.0
   - |
