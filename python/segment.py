@@ -110,7 +110,8 @@ def main(arguments):
     for imu in imus:
       plotter_main(
           arguments=[
-              f'--image_format {args.image_format}',  # Image format
+              '--image_format',
+              args.image_format,
               '--no-moving_average_filter',  # Don't use a filter
               '--time_based_split',  # Time based split setting
               csv_file_path,  # Path to the entire CSV file
