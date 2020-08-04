@@ -17,7 +17,8 @@ set(LIB_HEADERS
     include/cl/read_csv_file.hpp
     include/cl/s2n.hpp
     include/cl/sensor.hpp
-    include/cl/to_string.hpp)
+    include/cl/to_string.hpp
+    include/cl/use_unbuffered_io.hpp)
 
 set(LIB_SOURCES
     src/cl/fs/directory.cpp
@@ -32,7 +33,8 @@ set(LIB_SOURCES
     src/cl/error.cpp
     src/cl/exception.cpp
     src/cl/read_csv_file.cpp
-    src/cl/sensor.cpp)
+    src/cl/sensor.cpp
+    src/cl/use_unbuffered_io.cpp)
 
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 

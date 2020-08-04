@@ -2,8 +2,6 @@
 #include <cstdlib>
 
 #include <fstream>
-#include <ios>
-#include <iostream>
 
 #include <pl/algo/clamp.hpp>
 #include <pl/numeric.hpp>
@@ -14,110 +12,23 @@
 
 #include <csv.hpp>
 
-#include "cl/dos2unix.hpp"
-#include "cl/fs/file.hpp"
-#include "cl/fs/file_stream.hpp"
 #include "cl/read_csv_file.hpp"
-#include "cl/to_string.hpp"
+#include "cl/use_unbuffered_io.hpp"
 
 #include "adjust_hardware_timestamp.hpp"
 #include "columns.hpp"
+#include "convert_to_unix_line_endings.hpp"
+#include "create_backup_file.hpp"
 #include "delete_non_bosch_sensors.hpp"
 #include "remove_zeros_from_field.hpp"
-
-namespace fmc {
-namespace {
-[[nodiscard]] bool createBackupFile(
-  const std::string& csvFilePath,
-  const std::string& backupFilePath)
-{
-  const cl::fs::File csvFile{cl::fs::Path{csvFilePath}};
-  return csvFile.copyTo(cl::fs::Path{backupFilePath});
-}
-
-[[nodiscard]] bool restoreFromBackup(
-  const std::string& csvFilePath,
-  const std::string& backupFilePath)
-{
-  const cl::fs::Path modifiedFilePath{csvFilePath};
-  cl::fs::File       csvFile{modifiedFilePath};
-  if (!csvFile.remove()) {
-    fmt::print(stderr, "Couldn't delete file \"{}\".\n", modifiedFilePath);
-    return false;
-  }
-  cl::fs::File backupFile{cl::fs::Path{backupFilePath}};
-  if (!backupFile.moveTo(modifiedFilePath)) {
-    fmt::print(
-      stderr,
-      "Couldn't move file \"{}\" to \"{}\"!\n",
-      backupFilePath,
-      modifiedFilePath);
-    return false;
-  }
-  return true;
-}
-
-[[nodiscard]] bool convertToUnixLineEndings(const std::string& csvPath)
-{
-  cl::fs::File csvFile{cl::fs::Path{csvPath}};
-  std::vector<pl::byte>
-    crlfCsvData{}; // The CR LF line terminated data will go here.
-  {
-    cl::Expected<cl::fs::FileStream> fileStream{
-      cl::fs::FileStream::create(csvFile, cl::fs::FileStream::Read)};
-    if (!fileStream.has_value()) {
-      fmt::print(
-        stderr,
-        "Couldn't open file stream for reading to file \"{}\"!\n",
-        csvPath);
-      return false;
-    }
-    crlfCsvData = fileStream->readAll();
-  }
-  // Convert to Unix line endings.
-  const std::vector<pl::byte> lfCsvData{
-    cl::dos2unix(crlfCsvData.data(), crlfCsvData.size())};
-  if (!csvFile.remove()) {
-    fmt::print(stderr, "Couldn't delete file \"{}\"!\n", csvPath);
-    return false;
-  }
-  if (!csvFile.create()) {
-    fmt::print(
-      stderr,
-      "Couldn't create file \"{}\" after having deleted it!\n",
-      csvPath);
-    return false;
-  }
-  cl::Expected<cl::fs::FileStream> filestream{
-    cl::fs::FileStream::create(csvFile, cl::fs::FileStream::Write)};
-  if (!filestream.has_value()) {
-    fmt::print(
-      stderr,
-      "Couldn't open file stream for writing for file \"{}\"!\n",
-      csvPath);
-    return false;
-  }
-  // Write the Unix line endings back to the file.
-  if (!filestream->write(lfCsvData.data(), lfCsvData.size())) {
-    fmt::print(stderr, "Couldn't write LF data to file \"{}\"!\n", csvPath);
-    return false;
-  }
-  return true;
-}
-} // namespace
-} // namespace fmc
+#include "restore_from_backup.hpp"
 
 int main(int argc, char* argv[])
 {
   constexpr int expectedArgumentCount{2};
   constexpr int csvPathIndex{1};
 
-  std::setbuf(stdout, nullptr);
-  std::setbuf(stderr, nullptr);
-  std::cout << std::unitbuf;
-  std::cerr << std::unitbuf;
-  std::wcout << std::unitbuf;
-  std::wcerr << std::unitbuf;
+  cl::useUnbufferedIo();
 
   if (argc != expectedArgumentCount) {
     fmt::print(
