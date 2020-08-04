@@ -20,6 +20,7 @@ bool convertToUnixLineEndings(const std::string& csvPath)
   cl::fs::File csvFile{cl::fs::Path{csvPath}};
   std::vector<pl::byte>
     crlfCsvData{}; // The CR LF line terminated data will go here.
+
   {
     cl::Expected<cl::fs::FileStream> fileStream{
       cl::fs::FileStream::create(csvFile, cl::fs::FileStream::Read)};
@@ -32,13 +33,16 @@ bool convertToUnixLineEndings(const std::string& csvPath)
     }
     crlfCsvData = fileStream->readAll();
   }
+
   // Convert to Unix line endings.
   const std::vector<pl::byte> lfCsvData{
     cl::dos2unix(crlfCsvData.data(), crlfCsvData.size())};
+
   if (!csvFile.remove()) {
     fmt::print(stderr, "Couldn't delete file \"{}\"!\n", csvPath);
     return false;
   }
+
   if (!csvFile.create()) {
     fmt::print(
       stderr,
@@ -46,8 +50,10 @@ bool convertToUnixLineEndings(const std::string& csvPath)
       csvPath);
     return false;
   }
+
   cl::Expected<cl::fs::FileStream> filestream{
     cl::fs::FileStream::create(csvFile, cl::fs::FileStream::Write)};
+
   if (!filestream.has_value()) {
     fmt::print(
       stderr,
@@ -55,11 +61,13 @@ bool convertToUnixLineEndings(const std::string& csvPath)
       csvPath);
     return false;
   }
+
   // Write the Unix line endings back to the file.
   if (!filestream->write(lfCsvData.data(), lfCsvData.size())) {
     fmt::print(stderr, "Couldn't write LF data to file \"{}\"!\n", csvPath);
     return false;
   }
+
   return true;
 }
 } // namespace fmc

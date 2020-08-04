@@ -14,11 +14,14 @@ bool restoreFromBackup(
 {
   const cl::fs::Path modifiedFilePath{csvFilePath};
   cl::fs::File       csvFile{modifiedFilePath};
+
   if (!csvFile.remove()) {
     fmt::print(stderr, "Couldn't delete file \"{}\".\n", modifiedFilePath);
     return false;
   }
+
   cl::fs::File backupFile{cl::fs::Path{backupFilePath}};
+
   if (!backupFile.moveTo(modifiedFilePath)) {
     fmt::print(
       stderr,
@@ -27,6 +30,7 @@ bool restoreFromBackup(
       modifiedFilePath);
     return false;
   }
+
   return true;
 }
 } // namespace fmc
