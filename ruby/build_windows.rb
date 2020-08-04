@@ -73,7 +73,7 @@ unless system(cmake_command)
   STDERR.puts('Failure running CMake.')
   STDERR.puts('Is CMake on the PATH?')
   STDERR.puts('If CMake is not installed use the installer '\
-              'from https://github.com/Kitware/CMake/releases/download/v3.18.0-rc4/cmake-3.18.0-rc4-win64-x64.msi')
+              'from https://github.com/Kitware/CMake/releases/download/v3.18.1/cmake-3.18.1-win64-x64.msi')
   STDERR.puts('Exiting.')
   exit(1)
 end
