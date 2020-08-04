@@ -105,6 +105,11 @@ def main(arguments):
 
 def main_impl(arguments, segmenting_hwstamps):
   parser = argparse.ArgumentParser(description='Plot MoGaSens CSV file.')
+  parser.add_argument('--image_format',
+                      type=str,
+                      help='The image format to use e.g. svg',
+                      default='png',
+                      required=False)
   parser.add_argument('--moving_average_filter',
                       dest='moving_average_filter',
                       action='store_true')
@@ -135,6 +140,7 @@ def main_impl(arguments, segmenting_hwstamps):
 
   args = parser.parse_args(arguments)
 
+  image_format = args.image_format
   csv_file_path = args.csv_file_path
   desired_sensor = args.sensor
   imu = args.imu
@@ -232,7 +238,7 @@ def main_impl(arguments, segmenting_hwstamps):
 
     title = f"{filtered_csv_file_path}_{sensor_to_string(desired_sensor)}_{imu}_{i + 1}".replace(
         " ", "_")
-    svg_file = f"{title}.svg"
+    output_image_file_name = f"{title}.#{image_format}"
 
     x_size = 11
     y_size = 6
@@ -248,10 +254,12 @@ def main_impl(arguments, segmenting_hwstamps):
     plt.yticks(yticks(plt.yticks(), imu))
 
     plt.grid()
-    plt.savefig(svg_file, bbox_inches='tight', format='svg')
+    plt.savefig(output_image_file_name,
+                bbox_inches='tight',
+                format=image_format)
     plt.close()
 
-    print(f"Wrote \"{svg_file}\".")
+    print(f"Wrote \"{output_image_file_name}\".")
 
 
 if __name__ == "__main__":

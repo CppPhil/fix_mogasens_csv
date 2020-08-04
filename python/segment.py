@@ -58,6 +58,11 @@ def validate(csv_file_path, sensor, channel, segmentation_kind, window_size):
 
 def main(arguments):
   parser = argparse.ArgumentParser(description='Segment a MoGaSens CSV file.')
+  parser.add_argument('--image_format',
+                      type=str,
+                      help='The image format to use e.g. svg',
+                      default='png',
+                      required=False)
   parser.add_argument('--csv_file_path',
                       type=str,
                       help='Path to the CSV file to segment.',
@@ -105,6 +110,7 @@ def main(arguments):
     for imu in imus:
       plotter_main(
           arguments=[
+              f'--image_format {args.image_format}',  # Image format
               '--no-moving_average_filter',  # Don't use a filter
               '--time_based_split',  # Time based split setting
               csv_file_path,  # Path to the entire CSV file

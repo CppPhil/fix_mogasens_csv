@@ -33,6 +33,12 @@ module GenerateImagesModule
                                 '--no-time_based_split'
                               end
 
+    image_format = if options[:image_format].nil?
+                     'png'
+                   else
+                     options[:image_format]
+                   end
+
     working_directory = Dir.pwd
     plotter = "#{working_directory}/python/plotter.py"
 
@@ -71,6 +77,7 @@ module GenerateImagesModule
           threads << Thread.new do
             run_string = \
               "#{Python.interpreter} #{plotter} "\
+              "--image_format #{image_format} "\
               "#{moving_average_filter_option} "\
               "#{time_based_split_option} "\
               "#{csv_file} "\

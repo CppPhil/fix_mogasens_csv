@@ -13,6 +13,10 @@ module CommandLine
     'filter_sample_count'.freeze
   end
 
+  def self.image_format_option
+    'image_format'.freeze
+  end
+
   def self.parse(opts)
     options = {}
 
@@ -37,6 +41,13 @@ module CommandLine
         opt.on('--filter_sample_count=SAMPLE_COUNT',
                'Filter count for the moving average filter') do |o|
           options[:filter_sample_count] = o
+        end
+      end
+
+      if opts.include?(image_format_option)
+        opt.on('--image_format=IMAGE_FORMAT',
+               'The image format to use e.g. svg; defaults to png') do |o|
+          options[:image_format] = o
         end
       end
 

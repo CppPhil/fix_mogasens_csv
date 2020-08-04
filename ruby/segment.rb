@@ -5,6 +5,11 @@ require_relative 'modules/generate_images_module'
 options = {}
 
 OptionParser.new do |opt|
+  opt.on('--image_format=IMAGE_FORMAT',
+         'The image format to use e.g. svg; defaults to png') do |o|
+    options[:image_format] = o
+  end
+
   opt.on('--csv_file_path=PATH', 'Path to the CSV file to segment.') do |o|
     options[:csv_file_path] = o
   end
@@ -35,10 +40,17 @@ OptionParser.new do |opt|
   end
 end.parse!
 
+image_format = if options[:image_format].nil?
+                 'png'
+               else
+                 options[:image_format]
+               end
+
 SEGMENTOR = "#{Dir.pwd}/python/segment.py".freeze
 
 run_segment_py_string = \
   "#{Python.interpreter} #{SEGMENTOR} "\
+  "--image_format #{image_format} "\
   "--csv_file_path #{options[:csv_file_path]} "\
   "--sensor #{options[:sensor]} "\
   "--channel #{options[:channel]} "\
