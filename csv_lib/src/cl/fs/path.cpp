@@ -37,27 +37,27 @@ Path::Path(std::string path) : m_path{std::move(path)}
 bool Path::exists() const noexcept
 {
 #if PL_OS == PL_OS_LINUX
-  struct stat buf;
-  std::memset(&buf, 0, sizeof(buf));
-  const int i{stat(m_path.c_str(), &buf)};
+  struct stat statBuffer;
+  std::memset(&statBuffer, 0, sizeof(statBuffer));
+  const int statStatusCode{stat(m_path.c_str(), &statBuffer)};
 
-  if (i == -1) { return false; }
+  if (statStatusCode == -1) { return false; }
 
-  return S_ISDIR(buf.st_mode) || S_ISREG(buf.st_mode);
+  return S_ISDIR(statBuffer.st_mode) || S_ISREG(statBuffer.st_mode);
 #elif PL_OS == PL_OS_WINDOWS
   const std::wstring fileName{utf8ToUtf16(m_path)};
 
-  const DWORD dw{GetFileAttributesW(fileName.c_str())};
+  const DWORD fileAttributes{GetFileAttributesW(fileName.c_str())};
 
-  if (dw == INVALID_FILE_ATTRIBUTES) { return false; }
+  if (fileAttributes == INVALID_FILE_ATTRIBUTES) { return false; }
 
-  if (dw & FILE_ATTRIBUTE_ARCHIVE) { return true; }
+  if (fileAttributes & FILE_ATTRIBUTE_ARCHIVE) { return true; }
 
-  if (dw & FILE_ATTRIBUTE_DIRECTORY) { return true; }
+  if (fileAttributes & FILE_ATTRIBUTE_DIRECTORY) { return true; }
 
-  if (dw & FILE_ATTRIBUTE_NORMAL) { return true; }
+  if (fileAttributes & FILE_ATTRIBUTE_NORMAL) { return true; }
 
-  if (dw & FILE_ATTRIBUTE_READONLY) { return true; }
+  if (fileAttributes & FILE_ATTRIBUTE_READONLY) { return true; }
 
   return false;
 #endif
@@ -66,25 +66,25 @@ bool Path::exists() const noexcept
 bool Path::isFile() const noexcept
 {
 #if PL_OS == PL_OS_LINUX
-  struct stat buf;
-  std::memset(&buf, 0, sizeof(buf));
-  const int i{stat(m_path.c_str(), &buf)};
+  struct stat statBuffer;
+  std::memset(&statBuffer, 0, sizeof(statBuffer));
+  const int statStatusCode{stat(m_path.c_str(), &statBuffer)};
 
-  if (i == -1) { return false; }
+  if (statStatusCode == -1) { return false; }
 
-  return S_ISREG(buf.st_mode);
+  return S_ISREG(statBuffer.st_mode);
 #elif PL_OS == PL_OS_WINDOWS
   const std::wstring fileName{utf8ToUtf16(m_path)};
 
-  const DWORD dw{GetFileAttributesW(fileName.c_str())};
+  const DWORD fileAttributes{GetFileAttributesW(fileName.c_str())};
 
-  if (dw == INVALID_FILE_ATTRIBUTES) { return false; }
+  if (fileAttributes == INVALID_FILE_ATTRIBUTES) { return false; }
 
-  if (dw & FILE_ATTRIBUTE_ARCHIVE) { return true; }
+  if (fileAttributes & FILE_ATTRIBUTE_ARCHIVE) { return true; }
 
-  if (dw & FILE_ATTRIBUTE_NORMAL) { return true; }
+  if (fileAttributes & FILE_ATTRIBUTE_NORMAL) { return true; }
 
-  if (dw & FILE_ATTRIBUTE_READONLY) { return true; }
+  if (fileAttributes & FILE_ATTRIBUTE_READONLY) { return true; }
 
   return false;
 #endif
@@ -93,21 +93,21 @@ bool Path::isFile() const noexcept
 bool Path::isDirectory() const noexcept
 {
 #if PL_OS == PL_OS_LINUX
-  struct stat buf;
-  std::memset(&buf, 0, sizeof(buf));
-  const int i{stat(m_path.c_str(), &buf)};
+  struct stat statBuffer;
+  std::memset(&statBuffer, 0, sizeof(statBuffer));
+  const int statStatusCode{stat(m_path.c_str(), &statBuffer)};
 
-  if (i == -1) { return false; }
+  if (statStatusCode == -1) { return false; }
 
-  return S_ISDIR(buf.st_mode);
+  return S_ISDIR(statBuffer.st_mode);
 #elif PL_OS == PL_OS_WINDOWS
   const std::wstring fileName{utf8ToUtf16(m_path)};
 
-  const DWORD dw{GetFileAttributesW(fileName.c_str())};
+  const DWORD fileAttributes{GetFileAttributesW(fileName.c_str())};
 
-  if (dw == INVALID_FILE_ATTRIBUTES) { return false; }
+  if (fileAttributes == INVALID_FILE_ATTRIBUTES) { return false; }
 
-  if (dw & FILE_ATTRIBUTE_DIRECTORY) { return true; }
+  if (fileAttributes & FILE_ATTRIBUTE_DIRECTORY) { return true; }
 
   return false;
 #endif

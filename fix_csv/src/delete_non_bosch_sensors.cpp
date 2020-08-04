@@ -3,10 +3,10 @@
 #include <pl/algo/erase.hpp>
 #include <pl/string_view.hpp>
 #include <pl/stringify.hpp>
+#include <pl/unreachable.hpp>
 
 #include "cl/column.hpp"
 #include "cl/sensor.hpp"
-#include "cl/unreachable.hpp"
 
 #include "delete_non_bosch_sensors.hpp"
 
@@ -23,7 +23,7 @@ constexpr pl::string_view extractIdString(cl::Sensor sensor) noexcept
 #undef CL_SENSOR_X
   }
 
-  CL_UNREACHABLE();
+  PL_UNREACHABLE();
 }
 } // namespace
 

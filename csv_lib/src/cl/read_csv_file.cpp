@@ -7,8 +7,9 @@
 
 #include <csv.hpp>
 
+#include <pl/unreachable.hpp>
+
 #include "cl/read_csv_file.hpp"
-#include "cl/unreachable.hpp"
 
 namespace cl {
 namespace {
@@ -24,7 +25,7 @@ namespace {
   case CsvFileKind::Fixed: return data.front().size() == fixedFirstSize;
   }
 
-  CL_UNREACHABLE();
+  PL_UNREACHABLE();
 }
 
 [[nodiscard]] bool checkOtherRows(
@@ -42,7 +43,7 @@ namespace {
       });
   }
 
-  CL_UNREACHABLE();
+  PL_UNREACHABLE();
 }
 } // namespace
 

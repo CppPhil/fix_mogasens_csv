@@ -7,16 +7,16 @@ std::vector<pl::byte> dos2unix(const void* p, std::size_t size)
   constexpr pl::byte carriageReturn{0x0D_byte};
   constexpr pl::byte lineFeed{0x0A_byte};
 
-  std::vector<pl::byte> res{};
-  res.reserve(size);
+  std::vector<pl::byte> result{};
+  result.reserve(size);
 
   const pl::byte* const begin{static_cast<const pl::byte*>(p)};
   const pl::byte* const end{begin + size};
 
   pl::byte previousByte{0};
 
-  for (const pl::byte* it{begin}; it != end; ++it) {
-    const pl::byte currentByte{*it};
+  for (const pl::byte* iterator{begin}; iterator != end; ++iterator) {
+    const pl::byte currentByte{*iterator};
 
     if (currentByte == carriageReturn) {
       previousByte = carriageReturn;
@@ -24,15 +24,15 @@ std::vector<pl::byte> dos2unix(const void* p, std::size_t size)
     }
 
     if ((previousByte == carriageReturn) && (currentByte == lineFeed)) {
-      res.push_back(lineFeed);
+      result.push_back(lineFeed);
     }
     else {
-      res.push_back(currentByte);
+      result.push_back(currentByte);
     }
 
     previousByte = currentByte;
   }
 
-  return res;
+  return result;
 }
 } // namespace cl

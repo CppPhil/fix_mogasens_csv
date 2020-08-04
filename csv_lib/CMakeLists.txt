@@ -17,8 +17,7 @@ set(LIB_HEADERS
     include/cl/read_csv_file.hpp
     include/cl/s2n.hpp
     include/cl/sensor.hpp
-    include/cl/to_string.hpp
-    include/cl/unreachable.hpp)
+    include/cl/to_string.hpp)
 
 set(LIB_SOURCES
     src/cl/fs/directory.cpp

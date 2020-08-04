@@ -25,19 +25,19 @@ bool File::create() const noexcept
   if (exists()) { return false; }
 
 #if PL_OS == PL_OS_LINUX
-  std::FILE* fh{std::fopen(m_path.str().c_str(), "wb")};
+  std::FILE* fileHandle{std::fopen(m_path.str().c_str(), "wb")};
 
-  if (fh == nullptr) { return false; }
+  if (fileHandle == nullptr) { return false; }
 
-  const int errC{std::fclose(fh)};
-  (void)errC;
-  assert(errC == 0 && "Couldn't close file handle in file::create");
+  const int statusCode{std::fclose(fileHandle)};
+  (void)statusCode;
+  assert(statusCode == 0 && "Couldn't close file handle in file::create");
 
   return true;
 #elif PL_OS == PL_OS_WINDOWS
-  const std::wstring u16Path{utf8ToUtf16(m_path.str())};
+  const std::wstring utf16Path{utf8ToUtf16(m_path.str())};
   HANDLE             fileHandle{CreateFileW(
-    /* lpFileName */ u16Path.c_str(),
+    /* lpFileName */ utf16Path.c_str(),
     /* dwDesiredAccess */ GENERIC_READ | GENERIC_WRITE,
     /* dwShareMode */ 0,
     /* lpSecurityAttributes */ nullptr,
@@ -54,42 +54,44 @@ bool File::create() const noexcept
 bool File::copyTo(const Path& copyToPath) const noexcept
 {
 #if PL_OS == PL_OS_LINUX
-  std::FILE* fh{std::fopen(m_path.str().c_str(), "rb")};
+  std::FILE* source{std::fopen(m_path.str().c_str(), "rb")};
 
-  if (fh == nullptr) { return false; }
+  if (source == nullptr) { return false; }
 
-  std::FILE* dest{std::fopen(copyToPath.str().c_str(), "wb")};
+  std::FILE* destination{std::fopen(copyToPath.str().c_str(), "wb")};
 
-  if (dest == nullptr) {
-    const int i{std::fclose(fh)};
-    (void)i;
-    assert(i == 0 && "failure to close file handle in file::copyTo");
+  if (destination == nullptr) {
+    const int destinationCloseStatusCode{std::fclose(source)};
+    (void)destinationCloseStatusCode;
+    assert(
+      destinationCloseStatusCode == 0
+      && "failure to close file handle in file::copyTo");
     return false;
   }
 
-  for (int ch; (ch = std::getc(fh)) != EOF;) {
-    const int errC{std::putc(ch, dest)};
-    (void)errC;
-    assert(errC != EOF && "Failure to write!");
+  for (int character{0}; (character = std::getc(source)) != EOF;) {
+    const int writeByteStatusCode{std::putc(character, destination)};
+    (void)writeByteStatusCode;
+    assert(writeByteStatusCode != EOF && "Failure to write!");
   }
 
-  int errorCode{std::fclose(fh)};
-  assert(errorCode == 0 && "Couldn't close file handle.");
-  errorCode = std::fclose(dest);
-  assert(errorCode == 0 && "Couldn't close destination file handle.");
-  (void)errorCode;
+  int closeStatusCode{std::fclose(source)};
+  assert(closeStatusCode == 0 && "Couldn't close file handle.");
+  closeStatusCode = std::fclose(destination);
+  assert(closeStatusCode == 0 && "Couldn't close destination file handle.");
+  (void)closeStatusCode;
 
   return true;
 #elif PL_OS == PL_OS_WINDOWS
-  const std::wstring wstr{utf8ToUtf16(m_path.str())};
+  const std::wstring utf16Path{utf8ToUtf16(m_path.str())};
   const std::wstring newFileName{utf8ToUtf16(copyToPath.str())};
 
-  const BOOL errC{CopyFileW(
-    /* lpExistingFileName */ wstr.c_str(),
+  const BOOL copyFileStatusCode{CopyFileW(
+    /* lpExistingFileName */ utf16Path.c_str(),
     /* lpNewFileName */ newFileName.c_str(),
     /* bFailIfExists */ FALSE)};
 
-  return errC != 0;
+  return copyFileStatusCode != 0;
 #endif
 }
 
@@ -115,9 +117,9 @@ bool File::remove() noexcept
 #if PL_OS == PL_OS_LINUX
   return std::remove(m_path.str().c_str()) == 0;
 #elif PL_OS == PL_OS_WINDOWS
-  const std::wstring u16Path{utf8ToUtf16(m_path.str())};
-  const BOOL         errC{DeleteFileW(u16Path.c_str())};
-  return errC != 0;
+  const std::wstring utf16Path{utf8ToUtf16(m_path.str())};
+  const BOOL         deleteFileStatusCode{DeleteFileW(utf16Path.c_str())};
+  return deleteFileStatusCode != 0;
 #endif
 }
 

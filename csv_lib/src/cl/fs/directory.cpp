@@ -18,7 +18,7 @@ std::vector<Path> Directory::list() const
 
   const std::vector<dlib::file> files{dir.get_files()};
 
-  const std::vector<dlib::directory> dirs{dir.get_dirs()};
+  const std::vector<dlib::directory> directories{dir.get_dirs()};
 
   std::vector<Path> result{};
 
@@ -27,7 +27,7 @@ std::vector<Path> Directory::list() const
       return Path{file.full_name()};
     });
   pl::algo::transform(
-    dirs, std::back_inserter(result), [](const dlib::directory& dir) {
+    directories, std::back_inserter(result), [](const dlib::directory& dir) {
       return Path{dir.full_name()};
     });
 

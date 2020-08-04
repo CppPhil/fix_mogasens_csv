@@ -12,9 +12,9 @@ namespace {
 const char* mapOpenMode(FileStream::OpenMode openMode)
 {
   switch (openMode) {
-  case FileStream::Read: return "rb";
-  case FileStream::Write: return "wb";
-  case FileStream::ReadWrite: return "wb+";
+  case FileStream::Read: return "rb";       /* read binary */
+  case FileStream::Write: return "wb";      /* write binary */
+  case FileStream::ReadWrite: return "wb+"; /* read / write binary */
   }
 
   PL_UNREACHABLE();
@@ -23,25 +23,27 @@ const char* mapOpenMode(FileStream::OpenMode openMode)
 
 Expected<FileStream> FileStream::create(const File& file, OpenMode openMode)
 {
-  std::FILE* fh{std::fopen(file.path().str().c_str(), mapOpenMode(openMode))};
+  std::FILE* fileHandle{
+    std::fopen(file.path().str().c_str(), mapOpenMode(openMode))};
 
-  if (fh == nullptr) {
+  if (fileHandle == nullptr) {
     return CL_UNEXPECTED(
       Error::Filesystem, fmt::format("Couldn't open \"{}\"", file.path()));
   }
 
-  const std::int64_t size{file.size()};
+  constexpr auto     errorSentinelValue{-1};
+  const std::int64_t fileByteCount{file.size()};
 
-  if (size == -1) {
-    const int i{std::fclose(fh)};
-    (void)i;
-    assert(i == 0 && "Couldn't close file handle.");
+  if (fileByteCount == errorSentinelValue) {
+    const int closeStatusCode{std::fclose(fileHandle)};
+    (void)closeStatusCode;
+    assert(closeStatusCode == 0 && "Couldn't close file handle.");
     return CL_UNEXPECTED(
       Error::Filesystem,
       fmt::format("Couldn't determine size of file \"{}\"", file.path()));
   }
 
-  return FileStream{fh, size};
+  return FileStream{fileHandle, fileByteCount};
 }
 
 FileStream::FileStream(this_type&& other) noexcept
@@ -62,29 +64,31 @@ FileStream::~FileStream()
 {
   if (m_file == nullptr) { return; }
 
-  const int errC{std::fclose(m_file)};
+  const int closeStatusCode{std::fclose(m_file)};
 
-  (void)errC;
-  if (errC != 0) { assert(false && "Failure to close file in ~FileStream"); }
+  (void)closeStatusCode;
+  if (closeStatusCode != 0) {
+    assert(false && "Failure to close file in ~FileStream");
+  }
 }
 
 bool FileStream::write(const void* data, std::size_t byteCount)
 {
-  const std::size_t res{std::fwrite(data, 1, byteCount, m_file)};
+  const std::size_t writeResult{std::fwrite(data, 1, byteCount, m_file)};
 
-  return res == byteCount;
+  return writeResult == byteCount;
 }
 
 std::vector<pl::byte> FileStream::readAll() const
 {
   using namespace pl::integer_literals;
-  std::vector<pl::byte> result(m_size, 0x00_byte);
+  std::vector<pl::byte> bytes(m_size, 0x00_byte);
 
-  const std::size_t v{std::fread(result.data(), 1, m_size, m_file)};
-  (void)v;
-  assert(v == result.size() && "Read error in FileStream::readAll.");
+  const std::size_t readResult{std::fread(bytes.data(), 1, m_size, m_file)};
+  (void)readResult;
+  assert(readResult == bytes.size() && "Read error in FileStream::readAll.");
 
-  return result;
+  return bytes;
 }
 
 FileStream::FileStream(std::FILE* ptr, std::int64_t size) noexcept
