@@ -70,8 +70,8 @@ std::string utf16ToUtf8(pl::wstring_view utf16)
     /* dwFlags */ 0,
     /* lpWideCharStr */ utf16.c_str(),
     /* cchWideChar */ -1,
-    /* lpMultiByteStr */ buf.data(),
-    /* cbMultiByte */ buf.size(),
+    /* lpMultiByteStr */ buffer.data(),
+    /* cbMultiByte */ buffer.size(),
     /* lpDefaultChar */ nullptr,
     /* lpUsedDefaultChar */ nullptr)};
 
