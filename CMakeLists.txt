@@ -25,7 +25,7 @@ else()
   string(
     APPEND
     CMAKE_CXX_FLAGS
-    " -fwrapv -fno-strict-aliasing -Werror -Wall -Wextra -Wcast-align -Wmissing-include-dirs -Wpointer-arith -Wunreachable-code -Wunused -Wunused-parameter -Wno-uninitialized -Wno-deprecated-copy -Wno-aggressive-loop-optimizations -Wno-implicit-fallthrough"
+    " -fwrapv -Werror -Wall -Wextra -Wstrict-aliasing -Wcast-align -Wmissing-include-dirs -Wpointer-arith -Wunreachable-code -Wunused -Wunused-parameter -Wno-uninitialized -Wno-deprecated-copy -Wno-aggressive-loop-optimizations -Wno-implicit-fallthrough"
   )
 
   string(APPEND CMAKE_CXX_FLAGS_DEBUG " -g -O0 -DDEBUG_MODE")
