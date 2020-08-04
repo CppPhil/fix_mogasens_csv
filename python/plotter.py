@@ -238,7 +238,7 @@ def main_impl(arguments, segmenting_hwstamps):
 
     title = f"{filtered_csv_file_path}_{sensor_to_string(desired_sensor)}_{imu}_{i + 1}".replace(
         " ", "_")
-    output_image_file_name = f"{title}.#{image_format}"
+    output_image_file_name = f"{title}.{image_format}"
 
     x_size = 11
     y_size = 6
