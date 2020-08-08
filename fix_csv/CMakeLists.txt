@@ -7,13 +7,18 @@ set(LIB_HEADERS
     include/convert_to_unix_line_endings.hpp
     include/create_backup_file.hpp
     include/delete_non_bosch_sensors.hpp
+    include/delete_out_of_bounds_values.hpp
     include/remove_zeros_from_field.hpp
     include/restore_from_backup.hpp)
 
 set(LIB_SOURCES
-    src/adjust_hardware_timestamp.cpp src/convert_to_unix_line_endings.cpp
-    src/create_backup_file.cpp src/delete_non_bosch_sensors.cpp
-    src/remove_zeros_from_field.cpp src/restore_from_backup.cpp)
+    src/adjust_hardware_timestamp.cpp
+    src/convert_to_unix_line_endings.cpp
+    src/create_backup_file.cpp
+    src/delete_non_bosch_sensors.cpp
+    src/delete_out_of_bounds_values.cpp
+    src/remove_zeros_from_field.cpp
+    src/restore_from_backup.cpp)
 
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 
