@@ -39,6 +39,8 @@ namespace fmc {
     }
   }
 
+  outputFileStream.close();
+
   if (!fmc::convertToUnixLineEndings(outputFilePath)) { return false; }
 
   fmt::print("Successfully wrote data to \"{}\".\n", outputFilePath);
