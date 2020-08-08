@@ -186,6 +186,11 @@ resources/Felix/*.svg
 resources/Marcelle/*.svg
 resources/Mike/*.svg
 
+# automatically generated png images
+resources/Felix/*.png
+resources/Marcelle/*.png
+resources/Mike/*.png
+
 # .vscode directory
 .vscode
 
