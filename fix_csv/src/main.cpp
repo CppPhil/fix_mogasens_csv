@@ -10,8 +10,6 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
-#include <csv.hpp>
-
 #include "cl/read_csv_file.hpp"
 #include "cl/use_unbuffered_io.hpp"
 
@@ -23,6 +21,7 @@
 #include "delete_out_of_bounds_values.hpp"
 #include "remove_zeros_from_field.hpp"
 #include "restore_from_backup.hpp"
+#include "write_file.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -246,35 +245,9 @@ int main(int argc, char* argv[])
     return EXIT_FAILURE;
   }
 
-  const std::string outputFilePath{[csvPath] {
-    std::string buffer(
-      csvPath.c_str(), csvPath.size() - csvFileExtension.size());
-    buffer += "_out";
-    buffer.append(csvFileExtension.begin(), csvFileExtension.end());
-    return buffer;
-  }()};
-  std::ofstream     outputFileStream{
-    outputFilePath, std::ios_base::out | std::ios_base::trunc};
-
-  if (!outputFileStream) {
-    fmt::print(stderr, "Couldn't open \"{}\" for writing!\n", outputFilePath);
+  if (!fmc::writeFile(csvPath, csvFileExtension, columnNames, data)) {
     return EXIT_FAILURE;
   }
-
-  {
-    auto csvWriter = csv::make_csv_writer(outputFileStream);
-    csvWriter << columnNames;
-
-    for (const std::vector<std::string>& currentRow : data) {
-      csvWriter << currentRow;
-    }
-  }
-
-  outputFileStream.close();
-
-  if (!fmc::convertToUnixLineEndings(outputFilePath)) { return EXIT_FAILURE; }
-
-  fmt::print("Successfully wrote data to \"{}\".\n", outputFilePath);
 
   return EXIT_SUCCESS;
 }

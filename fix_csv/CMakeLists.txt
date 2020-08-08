@@ -9,7 +9,8 @@ set(LIB_HEADERS
     include/delete_non_bosch_sensors.hpp
     include/delete_out_of_bounds_values.hpp
     include/remove_zeros_from_field.hpp
-    include/restore_from_backup.hpp)
+    include/restore_from_backup.hpp
+    include/write_file.hpp)
 
 set(LIB_SOURCES
     src/adjust_hardware_timestamp.cpp
@@ -18,7 +19,8 @@ set(LIB_SOURCES
     src/delete_non_bosch_sensors.cpp
     src/delete_out_of_bounds_values.cpp
     src/remove_zeros_from_field.cpp
-    src/restore_from_backup.cpp)
+    src/restore_from_backup.cpp
+    src/write_file.cpp)
 
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 
