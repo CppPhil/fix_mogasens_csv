@@ -3,6 +3,7 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
+#include "cl/channel.hpp"
 #include "cl/data_point.hpp"
 
 #include "above_threshold.hpp"
@@ -17,11 +18,8 @@ void runAboveThreshold(
   fmt::print(
     aboveThresholdLogOutputFileStream, "File: \"{}\"\n", dataSet.fileName());
 
-  constexpr long double accelerometerThreshold{1.99L};
-  constexpr long double gyroscopeThreshold{1999.99L};
-
-  const std::vector<cl::DataPoint> aboveThresholdDataPoints{
-    ctg::aboveThreshold(dataSet, accelerometerThreshold, gyroscopeThreshold)};
+  const std::vector<cl::DataPoint> aboveThresholdDataPoints{ctg::aboveThreshold(
+    dataSet, cl::accelerometerThreshold, cl::gyroscopeThreshold)};
 
   const std::size_t dataPointCount{cl::channelCount * dataSet.rowCount()};
 

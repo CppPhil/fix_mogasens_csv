@@ -7,6 +7,7 @@
 #include <tl/casts.hpp>
 
 #include <pl/numeric.hpp>
+#include <pl/unreachable.hpp>
 
 #include "cl/channel.hpp"
 
@@ -49,5 +50,15 @@ bool isAccelerometer(Channel channel)
 bool isGyroscope(Channel channel)
 {
   return pl::is_between(tl::underlying_cast(channel), UINT64_C(4), UINT64_C(6));
+}
+
+long double threshold(Channel channel)
+{
+  if (isAccelerometer(channel)) { return accelerometerThreshold; }
+
+  if (isGyroscope(channel)) { return gyroscopeThreshold; }
+
+  assert(false && "invalid channel value!");
+  PL_UNREACHABLE();
 }
 } // namespace cl

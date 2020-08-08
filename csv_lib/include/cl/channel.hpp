@@ -54,8 +54,13 @@ DataSet::ChannelAccessor dataSetAccessor(Channel channel);
 
 std::ostream& operator<<(std::ostream& os, Channel channel);
 
-bool isAccelerometer(Channel channel);
+[[nodiscard]] bool isAccelerometer(Channel channel);
 
-bool isGyroscope(Channel channel);
+[[nodiscard]] bool isGyroscope(Channel channel);
+
+inline constexpr long double accelerometerThreshold{1.99L};
+inline constexpr long double gyroscopeThreshold{1999.99L};
+
+[[nodiscard]] long double threshold(Channel channel);
 } // namespace cl
 #endif // INCG_CL_CHANNEL_HPP
