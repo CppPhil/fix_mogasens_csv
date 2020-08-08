@@ -81,27 +81,10 @@ int main(int argc, char* argv[])
   }
 
   std::vector<std::vector<std::string>> data{std::move(expectedData).value()};
-  const std::string                     outputFilePath{[csvPath] {
-    std::string buffer(
-      csvPath.c_str(), csvPath.size() - csvFileExtension.size());
-    buffer += "_out";
-    buffer.append(csvFileExtension.begin(), csvFileExtension.end());
-    return buffer;
-  }()};
-  std::ofstream                         outputFileStream{
-    outputFilePath, std::ios_base::out | std::ios_base::trunc};
-
-  if (!outputFileStream) {
-    fmt::print(stderr, "Couldn't open \"{}\" for writing!\n", outputFilePath);
-    return EXIT_FAILURE;
-  }
 
   fmc::deleteNonBoschSensors(&data);
 
   {
-    auto csvWriter = csv::make_csv_writer(outputFileStream);
-    csvWriter << columnNames;
-
     std::size_t   rowCount{2};
     std::uint64_t overflowCount{0};
 
@@ -248,9 +231,42 @@ int main(int argc, char* argv[])
 
         ++columnCount;
       }
-
-      csvWriter << currentRow;
       ++rowCount;
+    }
+  }
+
+  if (const cl::Expected<void> expected{fmc::deleteOutOfBoundsValues(&data)};
+      !expected.has_value()) {
+    fmt::print(
+      stderr,
+      "Couldn't erase out-of-bounds values from \"{}\", error message: "
+      "\"{}\"!\n",
+      csvPath,
+      expected.error());
+    return EXIT_FAILURE;
+  }
+
+  const std::string outputFilePath{[csvPath] {
+    std::string buffer(
+      csvPath.c_str(), csvPath.size() - csvFileExtension.size());
+    buffer += "_out";
+    buffer.append(csvFileExtension.begin(), csvFileExtension.end());
+    return buffer;
+  }()};
+  std::ofstream     outputFileStream{
+    outputFilePath, std::ios_base::out | std::ios_base::trunc};
+
+  if (!outputFileStream) {
+    fmt::print(stderr, "Couldn't open \"{}\" for writing!\n", outputFilePath);
+    return EXIT_FAILURE;
+  }
+
+  {
+    auto csvWriter = csv::make_csv_writer(outputFileStream);
+    csvWriter << columnNames;
+
+    for (const std::vector<std::string>& currentRow : data) {
+      csvWriter << currentRow;
     }
   }
 
