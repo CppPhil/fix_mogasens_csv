@@ -1,5 +1,3 @@
-Test if everything still works extensively.
-
 -------------------------------------------------------------------------
 
 Marcelle/2020-07-02_14.59.59 Hardware timestamp macht Sprung.
