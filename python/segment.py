@@ -56,6 +56,25 @@ def validate(csv_file_path, sensor, channel, segmentation_kind, window_size):
   return True
 
 
+def delete_too_close_segmenting_hardware_timestamps(
+    segmenting_hardware_timestamps):
+  minimum_distance_milliseconds = 325
+
+  maximum_index = len(segmenting_hardware_timestamps) - 1
+  current_index = 0
+
+  while current_index != maximum_index:
+    current_value = segmenting_hardware_timestamps[current_index]
+    next_value = segmenting_hardware_timestamps[current_index + 1]
+    distance = next_value - current_value
+
+    if distance < minimum_distance_milliseconds:
+      segmenting_hardware_timestamps.pop(current_index)
+      maximum_index -= 1
+    else:
+      current_index += 1
+
+
 def main(arguments):
   parser = argparse.ArgumentParser(description='Segment a MoGaSens CSV file.')
   parser.add_argument('--image_format',
@@ -101,7 +120,14 @@ def main(arguments):
       window_size)
 
   print(
-      f"segment.py: {len(segmenting_hardware_timestamps)} segmentation points found in \"{csv_file_path}\"."
+      f"segment.py: {len(segmenting_hardware_timestamps)} segmentation points found in \"{csv_file_path}\" (before deleting too close ones)."
+  )
+
+  delete_too_close_segmenting_hardware_timestamps(
+      segmenting_hardware_timestamps)
+
+  print(
+      f"segment.py: {len(segmenting_hardware_timestamps)} segmentation points found in \"{csv_file_path}\" (after deleting too close ones)."
   )
 
   imus = [accelerometer_string(), gyroscope_string()]
