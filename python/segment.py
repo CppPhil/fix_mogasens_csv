@@ -89,14 +89,12 @@ def delete_too_close_segmenting_hardware_timestamps(data_set,
 
 def delete_low_variance_segmentation_points(data_set, segmentation_points,
                                             channel):
-  minimum_variance = 0.01
+  minimum_variance = 0.005
 
   def is_variance_too_low(current_segmentation_point, next_segmentation_point):
     desired_channel = data_set.channel_by_str(f"channel{channel}")
     variance = np.var(
         desired_channel[current_segmentation_point:next_segmentation_point])
-    
-
     return variance < minimum_variance
 
   delete_segmentation_points_if(segmentation_points, is_variance_too_low)
@@ -146,9 +144,8 @@ def main(arguments):
       f"channel{channel}", segmentation_kind_from_str(segmentation_kind),
       window_size)
 
-  # TODO: This doesn't seem to do anything when the low_variance one is present.
-  # delete_too_close_segmenting_hardware_timestamps(desired_sensor_data_set,
-  #                                                 segmentation_points)
+  delete_too_close_segmenting_hardware_timestamps(desired_sensor_data_set,
+                                                  segmentation_points)
   delete_low_variance_segmentation_points(desired_sensor_data_set,
                                           segmentation_points, channel)
 
