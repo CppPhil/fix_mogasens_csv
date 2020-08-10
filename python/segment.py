@@ -4,7 +4,7 @@
 import argparse
 import sys
 import os
-
+import numpy as np
 from modules.data_set import DataSet
 from modules.segmentation_kind import *
 from modules.sensors import sensors
@@ -56,20 +56,58 @@ def validate(csv_file_path, sensor, channel, segmentation_kind, window_size):
   return True
 
 
-def delete_too_close_segmenting_hardware_timestamps(
-    segmenting_hardware_timestamps):
-  minimum_distance_milliseconds = 325
-
-  maximum_index = len(segmenting_hardware_timestamps) - 1
+def delete_segmentation_points_if(segmentation_points, condition):
+  maximum_index = len(segmentation_points) - 1
   current_index = 0
 
   while current_index != maximum_index:
-    current_value = segmenting_hardware_timestamps[current_index]
-    next_value = segmenting_hardware_timestamps[current_index + 1]
-    distance = next_value - current_value
+    current_segmentation_point = segmentation_points[current_index]
+    next_segmentation_point = segmentation_points[current_index + 1]
+
+    if condition(current_segmentation_point, next_segmentation_point):
+      segmentation_points.pop(current_index)
+      maximum_index -= 1
+    else:
+      current_index += 1
+
+
+def delete_too_close_segmenting_hardware_timestamps(data_set,
+                                                    segmentation_points):
+  minimum_distance_milliseconds = 325
+
+  maximum_index = len(segmentation_points) - 1
+  current_index = 0
+
+  while current_index != maximum_index:
+    current_value = segmentation_points[current_index]
+    next_value = segmentation_points[current_index + 1]
+
+    current_hwstamp = data_set.hardware_timestamp[current_value]
+    next_hwstamp = data_set.hardware_timestamp[next_value]
+    distance = next_hwstamp - current_hwstamp
 
     if distance < minimum_distance_milliseconds:
-      segmenting_hardware_timestamps.pop(current_index)
+      segmentation_points.pop(current_index)
+      maximum_index -= 1
+    else:
+      current_index += 1
+
+
+def delete_low_variance_segmentation_points(data_set, segmentation_points,
+                                            channel):
+  minimum_variance = 0.2  # TODO: This may need to be changed.
+
+  maximum_index = len(segmentation_points) - 1
+  current_index = 0
+
+  while current_index != maximum_index:
+    current_value = segmentation_points[current_index]
+    next_value = segmentation_points[current_index + 1]
+
+    if np.var(
+        data_set.channel_by_str(f"channel{channel}")
+        [current_value:next_value]) < minimum_variance:
+      segmentation_points.pop(current_index)
       maximum_index -= 1
     else:
       current_index += 1
@@ -115,16 +153,16 @@ def main(arguments):
 
   entire_data_set = DataSet.from_file(csv_file_path)
   desired_sensor_data_set = entire_data_set.filter_by_sensor(sensor)
-  segmenting_hardware_timestamps = desired_sensor_data_set.segmenting_hardware_timestamps(
+  segmentation_points = desired_sensor_data_set.segmentation_points(
       f"channel{channel}", segmentation_kind_from_str(segmentation_kind),
       window_size)
 
-  print(
-      f"segment.py: {len(segmenting_hardware_timestamps)} segmentation points found in \"{csv_file_path}\" (before deleting too close ones)."
-  )
+  delete_too_close_segmenting_hardware_timestamps(desired_sensor_data_set,
+                                                  segmentation_points)
+  delete_low_variance_segmentation_points(desired_sensor_data_set, segmentation_points, channel)
 
-  delete_too_close_segmenting_hardware_timestamps(
-      segmenting_hardware_timestamps)
+  segmenting_hardware_timestamps = desired_sensor_data_set.segmenting_hardware_timestamps(
+      segmentation_points)
 
   print(
       f"segment.py: {len(segmenting_hardware_timestamps)} segmentation points found in \"{csv_file_path}\" (after deleting too close ones)."

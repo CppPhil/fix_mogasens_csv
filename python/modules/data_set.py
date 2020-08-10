@@ -153,8 +153,7 @@ class DataSet:
 
     raise Exception(f"\"{string}\" is not a valid input to channel_by_str!")
 
-  def segmenting_hardware_timestamps(self, channel, segmentation_kind,
-                                     window_size):
+  def segmentation_points(self, channel, segmentation_kind, window_size):
     channel_data = np.array(self.channel_by_str(channel))
     radius = int((window_size - 1) / 2)
     segmentation_points = []
@@ -169,6 +168,9 @@ class DataSet:
 
     segmentation_points.sort()
 
+    return segmentation_points
+
+  def segmenting_hardware_timestamps(self, segmentation_points):
     return [
         self.hardware_timestamp[segmentation_point]
         for segmentation_point in segmentation_points
