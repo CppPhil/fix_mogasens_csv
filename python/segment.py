@@ -75,42 +75,29 @@ def delete_too_close_segmenting_hardware_timestamps(data_set,
                                                     segmentation_points):
   minimum_distance_milliseconds = 325
 
-  maximum_index = len(segmentation_points) - 1
-  current_index = 0
+  def is_distance_too_small(current_segmentation_point,
+                            next_segmentation_point):
+    current_hardware_timestamp = data_set.hardware_timestamp[
+        current_segmentation_point]
+    next_hardware_timestamp = data_set.hardware_timestamp[
+        next_segmentation_point]
+    distance = next_hardware_timestamp - current_hardware_timestamp
+    return distance < minimum_distance_milliseconds
 
-  while current_index != maximum_index:
-    current_value = segmentation_points[current_index]
-    next_value = segmentation_points[current_index + 1]
-
-    current_hwstamp = data_set.hardware_timestamp[current_value]
-    next_hwstamp = data_set.hardware_timestamp[next_value]
-    distance = next_hwstamp - current_hwstamp
-
-    if distance < minimum_distance_milliseconds:
-      segmentation_points.pop(current_index)
-      maximum_index -= 1
-    else:
-      current_index += 1
+  delete_segmentation_points_if(segmentation_points, is_distance_too_small)
 
 
 def delete_low_variance_segmentation_points(data_set, segmentation_points,
                                             channel):
   minimum_variance = 0.2  # TODO: This may need to be changed.
 
-  maximum_index = len(segmentation_points) - 1
-  current_index = 0
+  def is_variance_too_low(current_segmentation_point, next_segmentation_point):
+    desired_channel = data_set.channel_by_str(f"channel{channel}")
+    variance = np.var(
+        desired_channel[current_segmentation_point:next_segmentation_point])
+    return variance < minimum_variance
 
-  while current_index != maximum_index:
-    current_value = segmentation_points[current_index]
-    next_value = segmentation_points[current_index + 1]
-
-    if np.var(
-        data_set.channel_by_str(f"channel{channel}")
-        [current_value:next_value]) < minimum_variance:
-      segmentation_points.pop(current_index)
-      maximum_index -= 1
-    else:
-      current_index += 1
+  delete_segmentation_points_if(segmentation_points, is_variance_too_low)
 
 
 def main(arguments):
@@ -159,7 +146,8 @@ def main(arguments):
 
   delete_too_close_segmenting_hardware_timestamps(desired_sensor_data_set,
                                                   segmentation_points)
-  delete_low_variance_segmentation_points(desired_sensor_data_set, segmentation_points, channel)
+  delete_low_variance_segmentation_points(desired_sensor_data_set,
+                                          segmentation_points, channel)
 
   segmenting_hardware_timestamps = desired_sensor_data_set.segmenting_hardware_timestamps(
       segmentation_points)
