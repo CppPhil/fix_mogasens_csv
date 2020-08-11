@@ -100,6 +100,20 @@ def delete_low_variance_segmentation_points(data_set, segmentation_points,
   delete_segmentation_points_if(segmentation_points, is_variance_too_low)
 
 
+def without_ending_segmentation_points(data_set, segmentation_points):
+  too_large_distance_milliseconds = 1750
+  for i in range(len(segmentation_points) - 1):
+    hardware_timestamps = data_set.hardware_timestamp
+    current_segmentation_point = segmentation_points[i]
+    next_segmentation_point = segmentation_points[i + 1]
+    distance = hardware_timestamps[
+        next_segmentation_point] - hardware_timestamps[
+            current_segmentation_point]
+    if distance > too_large_distance_milliseconds:
+      return segmentation_points[0:i + 1]
+  return segmentation_points
+
+
 def main(arguments):
   parser = argparse.ArgumentParser(description='Segment a MoGaSens CSV file.')
   parser.add_argument('--image_format',
@@ -148,6 +162,8 @@ def main(arguments):
                                                   segmentation_points)
   delete_low_variance_segmentation_points(desired_sensor_data_set,
                                           segmentation_points, channel)
+  segmentation_points = without_ending_segmentation_points(
+      desired_sensor_data_set, segmentation_points)
 
   segmenting_hardware_timestamps = desired_sensor_data_set.segmenting_hardware_timestamps(
       segmentation_points)
