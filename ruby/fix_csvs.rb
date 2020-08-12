@@ -14,6 +14,10 @@ build_type = Util.build_type(options)
 compiler = options[:compiler]
 compiler = MINGW_COMPILER if compiler.nil?
 
+puts("fix_csvs.rb: Starting.\n"\
+     "build_type is \"#{build_type}\".\n"\
+     "compiler is \"#{compiler}\".")
+
 RESOURCES_DIR = 'resources'.freeze
 
 def fix_csv_app(build_type, compiler)

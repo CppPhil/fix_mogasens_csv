@@ -39,6 +39,12 @@ module GenerateImagesModule
                      options[:image_format]
                    end
 
+    puts("generate_images_module.rb: Starting.\n"\
+     "moving_average_filter_option is \"#{moving_average_filter_option}\".\n"\
+     "filter_sample_count_option is \"#{filter_sample_count_option}\".\n"\
+     "time_based_split_option is \"#{time_based_split_option}\".\n"\
+     "image_format is \"#{image_format}\".")
+
     working_directory = Dir.pwd
     plotter = "#{working_directory}/python/plotter.py"
 

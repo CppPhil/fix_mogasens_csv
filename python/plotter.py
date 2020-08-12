@@ -62,7 +62,7 @@ def plot(the_imu, data_frame, segmenting_hwstamps):
     plot_channel(channel6_string(), third_color, third_label)
   else:
     print(
-        f'imu was "{the_imu}" which is neither "#{accelerometer_string()}" nor "#{gyroscope_string()}", '
+        f'plotter.py: imu was "{the_imu}" which is neither "#{accelerometer_string()}" nor "#{gyroscope_string()}", '
         f'exiting.',
         file=sys.stderr)
     sys.exit(1)
@@ -149,7 +149,7 @@ def main_impl(arguments, segmenting_hwstamps):
   use_time_based_split = args.time_based_split
 
   if sensor_to_string(desired_sensor).startswith('bogus sensor'):
-    print(f"{desired_sensor} is not a valid sensor ID, exiting.",
+    print(f"plotter.py: {desired_sensor} is not a valid sensor ID, exiting.",
           file=sys.stderr)
     sys.exit(1)
 
@@ -259,7 +259,7 @@ def main_impl(arguments, segmenting_hwstamps):
                 format=image_format)
     plt.close()
 
-    print(f"Wrote \"{output_image_file_name}\".")
+    print(f"plotter.py: Wrote \"{output_image_file_name}\".")
 
 
 if __name__ == "__main__":

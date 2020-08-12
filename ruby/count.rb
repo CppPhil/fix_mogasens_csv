@@ -22,6 +22,12 @@ build_type = Util.build_type(options)
 compiler = options[:compiler]
 compiler = MINGW_COMPILER if compiler.nil?
 
+puts("count.rb: Starting.\n"\
+     "moving_average_filter_option is \"#{moving_average_filter_option}\".\n"\
+     "filter_sample_count_option is \"#{filter_sample_count_option}\".\n"\
+     "build_type is \"#{build_type}\".\n"\
+     "compiler is \"#{compiler}\".")
+
 RESOURCES_DIR = 'resources'.freeze
 
 def counting_app(build_type, compiler)

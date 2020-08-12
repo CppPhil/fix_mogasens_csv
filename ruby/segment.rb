@@ -46,6 +46,10 @@ image_format = if options[:image_format].nil?
                  options[:image_format]
                end
 
+puts("segment.rb: Starting.\n"\
+     "command line options: \"#{options}\"\n"\
+     "image_format is \"#{image_format}\".")
+
 SEGMENTOR = "#{Dir.pwd}/python/segment.py".freeze
 
 run_segment_py_string = \

@@ -24,6 +24,9 @@ build_type = Util.build_type(options)
 compiler = options[:compiler]
 compiler = MINGW_COMPILER if compiler.nil?
 
+puts("build_windows.rb: Starting.\nbuild_type is \"#{build_type}\".\n"\
+     "compiler is \"#{compiler}\".")
+
 MINGW_DIR = 'mingw_dist'.freeze
 
 if compiler == MINGW_COMPILER
