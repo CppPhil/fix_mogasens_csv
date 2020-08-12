@@ -73,7 +73,7 @@ def delete_segmentation_points_if(segmentation_points, condition):
 
 def delete_too_close_segmenting_hardware_timestamps(data_set,
                                                     segmentation_points):
-  minimum_distance_milliseconds = 325  # TODO: This may need to change.
+  minimum_distance_milliseconds = 250  # TODO: This may need to change.
 
   def is_distance_too_small(current_segmentation_point,
                             next_segmentation_point):
@@ -92,7 +92,8 @@ def delete_low_variance_segmentation_points(data_set, segmentation_points,
   minimum_variance = 0.004  # TODO: This may need to change.
 
   # TODO: Debug I/O
-  print("Total variance: {:f}".format(np.var(data_set.channel_by_str(f"channel{channel}"))))
+  print("Total variance: {:f}".format(
+      np.var(data_set.channel_by_str(f"channel{channel}"))))
 
   def is_variance_too_low(current_segmentation_point, next_segmentation_point):
     desired_channel = data_set.channel_by_str(f"channel{channel}")

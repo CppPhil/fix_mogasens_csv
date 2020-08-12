@@ -3,11 +3,13 @@ Find segmentation settings
  minimum_distance
  minimum_variance
  too_large_distance
-than work for every data set
+that work for every data set
 -------------------------------------------------------------------------
 
 Marcelle/2020-07-02_14.59.59 Hardware timestamp macht Sprung.
 Marcelle/2020-07-02_15.31.36 Hardware timestamp macht Sprung.
+
+correct those timestamps manually.
 
 -------------------------------------------------------------------------
 
