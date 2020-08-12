@@ -162,6 +162,8 @@ def main(arguments):
                   window_size):
     sys.exit(1)
 
+  print(f"\nsegment.py launched with \"{csv_file_path}\".")
+
   entire_data_set = DataSet.from_file(csv_file_path)
   desired_sensor_data_set = entire_data_set.filter_by_sensor(sensor)
   segmentation_points = desired_sensor_data_set.segmentation_points(
