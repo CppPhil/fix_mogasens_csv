@@ -23,14 +23,17 @@
 
 int main(int argc, char* argv[])
 {
-  constexpr int minimumArgumentCount{2};
+  constexpr int         minimumArgumentCount{2};
+  const pl::string_view thisApplication{argv[0]};
+
+  fmt::print("{}: starting.\n", thisApplication);
 
   if (argc < minimumArgumentCount) {
     fmt::print(
       stderr,
       "{}: {} command line arguments given, but at least {} were expected, "
       "exiting.\n",
-      argv[0],
+      thisApplication,
       argc,
       minimumArgumentCount);
     return EXIT_FAILURE;
@@ -43,7 +46,10 @@ int main(int argc, char* argv[])
 
   if (!aboveThresholdLogOuputFileStream) {
     fmt::print(
-      stderr, "Couldn't open log file: \"{}\"\n.", aboveThresholdLogFilePath);
+      stderr,
+      "{}: Couldn't open log file: \"{}\"\n.",
+      thisApplication,
+      aboveThresholdLogFilePath);
     return EXIT_FAILURE;
   }
 
@@ -62,7 +68,7 @@ int main(int argc, char* argv[])
       fmt::print(
         stderr,
         "{}: couldn't read \"{}\", error: \"{}\".\n",
-        argv[0],
+        thisApplication,
         filePath,
         readFileResult.error());
       return EXIT_FAILURE;
@@ -75,7 +81,7 @@ int main(int argc, char* argv[])
       fmt::print(
         stderr,
         "{}: couldn't create data set from \"{}\", error: \"{}\".\n",
-        argv[0],
+        thisApplication,
         filePath,
         expectedDataSet.error());
       return EXIT_FAILURE;

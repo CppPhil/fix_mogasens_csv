@@ -3,12 +3,12 @@
 
 #include <fstream>
 
+#include <fmt/format.h>
+#include <fmt/ostream.h>
+
 #include <pl/algo/clamp.hpp>
 #include <pl/numeric.hpp>
 #include <pl/string_view.hpp>
-
-#include <fmt/format.h>
-#include <fmt/ostream.h>
 
 #include "cl/read_csv_file.hpp"
 #include "cl/use_unbuffered_io.hpp"
@@ -25,15 +25,19 @@
 
 int main(int argc, char* argv[])
 {
-  constexpr int expectedArgumentCount{2};
-  constexpr int csvPathIndex{1};
+  constexpr int         expectedArgumentCount{2};
+  constexpr int         csvPathIndex{1};
+  const pl::string_view thisApplication{argv[0]};
 
   cl::useUnbufferedIo();
+
+  fmt::print("{}: starting.\n", thisApplication);
 
   if (argc != expectedArgumentCount) {
     fmt::print(
       stderr,
-      "Unexpected command line argument count: {}, expected: {}!\n",
+      "{}: Unexpected command line argument count: {}, expected: {}!\n",
+      thisApplication,
       argc - 1,
       expectedArgumentCount - 1);
     return EXIT_FAILURE;
@@ -45,7 +49,11 @@ int main(int argc, char* argv[])
 
   if (!csvPath.ends_with(csvFileExtension)) {
     fmt::print(
-      stderr, "\"{}\" doesn't end with \"{}\"!\n", csvPath, csvFileExtension);
+      stderr,
+      "{}: \"{}\" doesn't end with \"{}\"!\n",
+      thisApplication,
+      csvPath,
+      csvFileExtension);
     return EXIT_FAILURE;
   }
 
@@ -54,14 +62,18 @@ int main(int argc, char* argv[])
   if (!fmc::createBackupFile(csvPathString, csvBackupPath)) {
     fmt::print(
       stderr,
-      "Couldn't copy \"{}\" to \"{}\".\n",
+      "{}: Couldn't copy \"{}\" to \"{}\".\n",
+      thisApplication,
       csvPathString,
       csvBackupPath);
     return EXIT_FAILURE;
   }
   if (!fmc::convertToUnixLineEndings(csvPathString)) {
     fmt::print(
-      stderr, "Couldn't convert \"{}\" to Unix line endings.\n", csvPathString);
+      stderr,
+      "{}: Couldn't convert \"{}\" to Unix line endings.\n",
+      thisApplication,
+      csvPathString);
     return EXIT_FAILURE;
   }
 
@@ -75,7 +87,11 @@ int main(int argc, char* argv[])
 
   if (!expectedData.has_value()) {
     fmt::print(
-      stderr, "Couldn't read \"{}\": \"{}\"\n", csvPath, expectedData.error());
+      stderr,
+      "{}: Couldn't read \"{}\": \"{}\"\n",
+      thisApplication,
+      csvPath,
+      expectedData.error());
     return EXIT_FAILURE;
   }
 
@@ -238,8 +254,9 @@ int main(int argc, char* argv[])
       !expected.has_value()) {
     fmt::print(
       stderr,
-      "Couldn't erase out-of-bounds values from \"{}\", error message: "
+      "{}: Couldn't erase out-of-bounds values from \"{}\", error message: "
       "\"{}\"!\n",
+      thisApplication,
       csvPath,
       expected.error());
     return EXIT_FAILURE;

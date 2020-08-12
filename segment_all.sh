@@ -35,6 +35,7 @@ readonly CSV_FILES=(
 
 cd "$DIR"
 
+./build.sh
 ./fix_csvs.sh
 ./filter.sh --filter_sample_count=$FILTER_SAMPLE_COUNT
 
