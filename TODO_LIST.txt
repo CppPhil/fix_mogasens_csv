@@ -1,9 +1,3 @@
-Find segmentation settings
- window_size
- minimum_distance
- minimum_variance
- too_large_distance
-that work for every data set
 -------------------------------------------------------------------------
 
 Marcelle/2020-07-02_14.59.59 Hardware timestamp macht Sprung.
