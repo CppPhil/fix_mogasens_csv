@@ -1,4 +1,4 @@
-REM @echo off
+@echo off
 
 set dir=%~dp0
 set prev_dir=%CD%
