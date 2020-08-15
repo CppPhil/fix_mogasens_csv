@@ -15,4 +15,5 @@ unless system("ctest . -C \"#{build_type}\" --output-on-failure")
   exit(1)
 end
 
+Dir.chdir('..')
 exit(0)

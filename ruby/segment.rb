@@ -50,12 +50,12 @@ puts("segment.rb: Starting.\n"\
      "command line options: \"#{options}\"\n"\
      "image_format is \"#{image_format}\".")
 
-SEGMENTOR = "#{Dir.pwd}/python/segment.py".freeze
+SEGMENTOR = "\"#{Dir.pwd}/python/segment.py\"".freeze
 
 run_segment_py_string = \
   "#{Python.interpreter} #{SEGMENTOR} "\
   "--image_format #{image_format} "\
-  "--csv_file_path #{options[:csv_file_path]} "\
+  "--csv_file_path \"#{options[:csv_file_path]}\" "\
   "--sensor #{options[:sensor]} "\
   "--channel #{options[:channel]} "\
   "--segmentation_kind #{options[:segmentation_kind]} "\

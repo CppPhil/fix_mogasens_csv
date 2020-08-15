@@ -48,7 +48,7 @@ def counting_app(build_type, compiler)
   end
 end
 
-filterer = "#{Dir.pwd}/python/filter.py"
+filterer = "\"#{Dir.pwd}/python/filter.py\""
 run_string = "#{Python.interpreter} #{filterer} "\
              "#{moving_average_filter_option} "\
              '--csv_file_path "%s" ' \

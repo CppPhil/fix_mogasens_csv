@@ -14,7 +14,7 @@ puts("filter.rb: Starting.\n"\
      "moving_average_filter_option is \"#{moving_average_filter_option}\".\n"\
      "filter_sample_count_option is \"#{filter_sample_count_option}\".")
 
-FILTERER = "#{Dir.pwd}/python/filter.py".freeze
+FILTERER = "\"#{Dir.pwd}/python/filter.py\"".freeze
 
 csv_files = Dir[GenerateImagesModule.default_directory].select do |file|
   file.end_with?('_out.csv')

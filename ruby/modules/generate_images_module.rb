@@ -46,7 +46,7 @@ module GenerateImagesModule
      "image_format is \"#{image_format}\".")
 
     working_directory = Dir.pwd
-    plotter = "#{working_directory}/python/plotter.py"
+    plotter = "\"#{working_directory}/python/plotter.py\""
 
     csv_files = Dir[directory].select do |file|
       if directory == default_directory
@@ -86,7 +86,7 @@ module GenerateImagesModule
               "--image_format #{image_format} "\
               "#{moving_average_filter_option} "\
               "#{time_based_split_option} "\
-              "#{csv_file} "\
+              "\"#{csv_file}\" "\
               "#{sensor} "\
               "#{imu} "\
               "#{filter_sample_count_option} "\
