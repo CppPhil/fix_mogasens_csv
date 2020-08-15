@@ -1,4 +1,7 @@
 Windows: generate_images.bat ft2font bug in matplotlib
+  -> pip install msvc-runtime
+      seems to fix it 
+        -> Add that to the guide.
 
 -------------------------------------------------------------------------
 
