@@ -1,6 +1,6 @@
 @echo off
 
-set dir=%~dp0
+set dir="%~dp0"
 set prev_dir="%CD%"
 set goto_ruby="%dir%\external\goto-ruby\goto-ruby.bat"
 
