@@ -1,5 +1,3 @@
-Windows: Verzeichnis mit Leerzeichen macht Aerger.
-
 Windows: generate_images.bat ft2font bug in matplotlib
 
 -------------------------------------------------------------------------
