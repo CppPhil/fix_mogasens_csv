@@ -238,6 +238,14 @@ def main(arguments):
   entire_data_set = DataSet.from_file(csv_file_path)
   desired_sensor_data_set = entire_data_set.filter_by_sensor(sensor)
   exercise_begin, exercise_end = exercise_range(csv_file_path)
+
+  if exercise_begin == 0 and exercise_end == 0:
+    print(
+        f"segment.py: exercise_range returned the empty range for \"{csv_file_path}\", skipping file."
+    )
+    print(f"segment.py: Exiting.")
+    sys.exit(0)
+
   desired_sensor_data_set.crop_front(exercise_begin)
   desired_sensor_data_set.crop_back(exercise_end)
 
