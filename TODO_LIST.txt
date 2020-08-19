@@ -1,17 +1,17 @@
 Sprung bei
  Felix/2020-07-02_11.17.39
    Zeile 4609 zu 4610
-    von 57873 zu 58227 hw timestamp
+    von 57873 zu 58227 hardware timestamp
  & Zeile 41948 zu 41949
-    von 42233 zu 42607 hw timestamp
+    von 42233 zu 42607 hardware timestamp
 
  Felix/2020-07-02_13.00.09
    Zeile 37396 zu 37397
-    von 61965 zu 62415 hw timestamp
+    von 61965 zu 62415 hardware timestamp
 
  Mike/2020-07-02_14.07.33
    Zeile 37278 zu 37279
-    von 43889 zu 44121 hw timestamp
+    von 43889 zu 44121 hardware timestamp
 
 -------------------------------------------------------------------------
 
