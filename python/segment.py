@@ -168,10 +168,31 @@ def is_mike_4(csv_file_path):
   return "Mike/2020-07-02_14.38.40" in csv_file_path
 
 
-# TODO: Map csv_file_paths to start points
-#       and end points.
-#       The end points are exclusive.
-#       [begin;end)
+def exercise_range(csv_file_path):
+  # [begin;end)
+  if is_felix_1(csv_file_path):
+    return 58227, 108143
+  if is_felix_2(csv_file_path):
+    return 16003, 63001
+  if is_felix_3(csv_file_path):
+    return 27003, 62415
+  if is_marcelle_1(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_marcelle_2(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_marcelle_3(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_marcelle_4(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_mike_1(csv_file_path):
+    return 7003, 44121
+  if is_mike_2(csv_file_path):
+    return 32003, 65001
+  if is_mike_3(csv_file_path):
+    return 61995, 84015
+  if is_mike_4(csv_file_path):
+    return 0, 0  # TODO: HERE
+  raise Exception(f'"{csv_file_path}" is not a known CSV file.')
 
 
 def main(arguments):
@@ -216,8 +237,9 @@ def main(arguments):
 
   entire_data_set = DataSet.from_file(csv_file_path)
   desired_sensor_data_set = entire_data_set.filter_by_sensor(sensor)
-
-  # TODO: Do crop front & crop back
+  exercise_begin, exercise_end = exercise_range(csv_file_path)
+  desired_sensor_data_set.crop_front(exercise_begin)
+  desired_sensor_data_set.crop_back(exercise_end)
 
   segmentation_points = desired_sensor_data_set.segmentation_points(
       f"channel{channel}", segmentation_kind_from_str(segmentation_kind),
