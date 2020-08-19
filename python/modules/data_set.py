@@ -203,3 +203,31 @@ class DataSet:
                 self.gyroscope_y[last_idx:], self.gyroscope_z[last_idx:]))
 
     return segments
+
+  def crop_front(self, exercise_start_timestamp):
+    # inclusive
+    crop_index = self.hardware_timestamp.index(exercise_start_timestamp)
+    self.time = self.time[crop_index:]
+    self.hardware_timestamp = self.hardware_timestamp[crop_index:]
+    self.extract_id = self.extract_id[crop_index:]
+    self.trigger = self.trigger[crop_index:]
+    self.accelerometer_x = self.accelerometer_x[crop_index:]
+    self.accelerometer_y = self.accelerometer_y[crop_index:]
+    self.accelerometer_z = self.accelerometer_z[crop_index:]
+    self.gyroscope_x = self.gyroscope_x[crop_index:]
+    self.gyroscope_y = self.gyroscope_y[crop_index:]
+    self.gyroscope_z = self.gyroscope_z[crop_index:]
+
+  def crop_back(self, exercise_end_timestamp):
+    # exclusive
+    crop_index = self.hardware_timestamp.index(exercise_end_timestamp)
+    self.time = self.time[:crop_index]
+    self.hardware_timestamp = self.hardware_timestamp[:crop_index]
+    self.extract_id = self.extract_id[:crop_index]
+    self.trigger = self.trigger[:crop_index]
+    self.accelerometer_x = self.accelerometer_x[:crop_index]
+    self.accelerometer_y = self.accelerometer_y[:crop_index]
+    self.accelerometer_z = self.accelerometer_z[:crop_index]
+    self.gyroscope_x = self.gyroscope_x[:crop_index]
+    self.gyroscope_y = self.gyroscope_y[:crop_index]
+    self.gyroscope_z = self.gyroscope_z[:crop_index]

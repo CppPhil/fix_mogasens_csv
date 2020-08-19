@@ -166,6 +166,9 @@ def main(arguments):
 
   entire_data_set = DataSet.from_file(csv_file_path)
   desired_sensor_data_set = entire_data_set.filter_by_sensor(sensor)
+
+  # TODO: Do crop front & crop back
+
   segmentation_points = desired_sensor_data_set.segmentation_points(
       f"channel{channel}", segmentation_kind_from_str(segmentation_kind),
       window_size)
