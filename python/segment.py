@@ -124,6 +124,11 @@ def without_ending_segmentation_points(data_set, segmentation_points):
   return segmentation_points
 
 
+# TODO: Map csv_file_paths to start points
+#       and end points.
+#       The end points are exclusive.
+#       [begin;end)
+
 def main(arguments):
   parser = argparse.ArgumentParser(description='Segment a MoGaSens CSV file.')
   parser.add_argument('--image_format',
