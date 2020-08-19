@@ -124,10 +124,55 @@ def without_ending_segmentation_points(data_set, segmentation_points):
   return segmentation_points
 
 
+def is_felix_1(csv_file_path):
+  return "Felix/2020-07-02_11.17.39" in csv_file_path
+
+
+def is_felix_2(csv_file_path):
+  return "Felix/2020-07-02_12.50.00" in csv_file_path
+
+
+def is_felix_3(csv_file_path):
+  return "Felix/2020-07-02_13.00.09" in csv_file_path
+
+
+def is_marcelle_1(csv_file_path):
+  return "Marcelle/2020-07-02_14.59.59" in csv_file_path
+
+
+def is_marcelle_2(csv_file_path):
+  return "Marcelle/2020-07-02_15.13.22" in csv_file_path
+
+
+def is_marcelle_3(csv_file_path):
+  return "Marcelle/2020-07-02_15.31.36" in csv_file_path
+
+
+def is_marcelle_4(csv_file_path):
+  return "Marcelle/2020-07-02_15.39.22" in csv_file_path
+
+
+def is_mike_1(csv_file_path):
+  return "Mike/2020-07-02_14.07.33" in csv_file_path
+
+
+def is_mike_2(csv_file_path):
+  return "Mike/2020-07-02_14.14.32" in csv_file_path
+
+
+def is_mike_3(csv_file_path):
+  return "Mike/2020-07-02_14.20.28" in csv_file_path
+
+
+def is_mike_4(csv_file_path):
+  return "Mike/2020-07-02_14.38.40" in csv_file_path
+
+
 # TODO: Map csv_file_paths to start points
 #       and end points.
 #       The end points are exclusive.
 #       [begin;end)
+
 
 def main(arguments):
   parser = argparse.ArgumentParser(description='Segment a MoGaSens CSV file.')
