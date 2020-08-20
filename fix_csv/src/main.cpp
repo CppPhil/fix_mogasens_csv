@@ -122,44 +122,17 @@ int main(int argc, char* argv[])
         std::string& currentField{currentRow.at(columnIndex)};
 
         if (columnIndex == cl::column_index<cl::Column::HardwareTimestamp>) {
-          const auto nextRowIndex{columnIndex + 1};
+          const auto nextRowIndex{rowIndex + 1};
 
           if (nextRowIndex < data.size()) { /* if not the last row */
             const std::string nextRowValue{
               data.at(nextRowIndex)
                 .at(cl::column_index<cl::Column::HardwareTimestamp>)};
 
-            fmt::print(
-              stderr,
-              "currentField: \"{}\"\n"
-              "nextRowIndex: {}\n"
-              "nextRowValue: \"{}\"\n"
-              "overflowCount: {}\n",
-              currentField,
-              nextRowIndex,
-              nextRowValue,
-              overflowCount);
-
             fmc::adjustHardwareTimestamp(
               /* cellContent */ &currentField,
               /* nextRowHardwareTimestamp */ nextRowValue,
               /* overflowCount */ &overflowCount);
-
-            fmt::print(
-              stderr,
-              "AFTERWARD\n"
-              "currentField: \"{}\"\n"
-              "nextRowIndex: {}\n"
-              "nextRowValue: \"{}\"\n"
-              "overflowCount: {}\n\n",
-              currentField,
-              nextRowIndex,
-              nextRowValue,
-              overflowCount);
-          }
-          else {
-            fmt::print(
-              stderr, "DIDN'T GO IN THERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n");
           }
         }
         else if (pl::is_between(
