@@ -119,19 +119,45 @@ int main(int argc, char* argv[])
 
       for (std::string& currentField : currentRow) {
         if (columnCount == fmc::hardwareTimestampColumn) {
-          constexpr std::uint64_t overflowThreshold{65532U};
-          const std::string       beforeChange{currentField};
-          static std::string      lastHardwareTimestampBeforeChange{};
-          static std::string      lastHardwareTimestampWritten{};
+          const auto nextRowIndex{
+            rowCount}; /* rowCount is the index of the next row */
 
-          if (lastHardwareTimestampBeforeChange == beforeChange) {
-            currentField = lastHardwareTimestampWritten;
+          if (nextRowIndex < data.size()) { /* if not the last row */
+            const std::string nextRowValue{
+              data.at(nextRowIndex)
+                .at(cl::column_index<cl::Column::HardwareTimestamp>)};
+
+            fmt::print(
+              stderr,
+              "currentField: \"{}\"\n"
+              "nextRowIndex: {}\n"
+              "nextRowValue: \"{}\"\n"
+              "overflowCount: {}\n",
+              currentField,
+              nextRowIndex,
+              nextRowValue,
+              overflowCount);
+
+            fmc::adjustHardwareTimestamp(
+              /* cellContent */ &currentField,
+              /* nextRowHardwareTimestamp */ nextRowValue,
+              /* overflowCount */ &overflowCount);
+
+            fmt::print(
+              stderr,
+              "AFTERWARD\n"
+              "currentField: \"{}\"\n"
+              "nextRowIndex: {}\n"
+              "nextRowValue: \"{}\"\n"
+              "overflowCount: {}\n\n",
+              currentField,
+              nextRowIndex,
+              nextRowValue,
+              overflowCount);
           }
           else {
-            fmc::adjustHardwareTimestamp(
-              &currentField, overflowThreshold, &overflowCount);
-            lastHardwareTimestampBeforeChange = beforeChange;
-            lastHardwareTimestampWritten      = currentField;
+            fmt::print(
+              stderr, "DIDN'T GO IN THERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n");
           }
         }
         else if (pl::is_between(

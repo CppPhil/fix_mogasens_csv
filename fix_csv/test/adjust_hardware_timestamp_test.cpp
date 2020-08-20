@@ -8,16 +8,16 @@
 
 #include "gtest/gtest.h"
 
-#include "adjust_hardware_timestamp.hpp"
+#include "cl/to_string.hpp"
 
-constexpr std::uint64_t overflowThreshold{65532U};
+#include "adjust_hardware_timestamp.hpp"
 
 TEST(adjustHardwareTimestamp, shouldDoNothingForNonOverflowedValue)
 {
   std::string   value{"0"};
   std::uint64_t count{0};
 
-  fmc::adjustHardwareTimestamp(&value, overflowThreshold, &count);
+  fmc::adjustHardwareTimestamp(&value, "0", &count);
 
   EXPECT_EQ("0", value);
   EXPECT_EQ(0, count);
@@ -32,16 +32,16 @@ TEST(adjustHardwareTimestamp, shouldIncrementOverflowCount)
 
   std::uint64_t overflowCount{0};
 
-  fmc::adjustHardwareTimestamp(&value1, overflowThreshold, &overflowCount);
+  fmc::adjustHardwareTimestamp(&value1, "0", &overflowCount);
   EXPECT_EQ(1, overflowCount);
 
-  fmc::adjustHardwareTimestamp(&value2, overflowThreshold, &overflowCount);
+  fmc::adjustHardwareTimestamp(&value2, "1", &overflowCount);
   EXPECT_EQ(2, overflowCount);
 
-  fmc::adjustHardwareTimestamp(&value3, overflowThreshold, &overflowCount);
+  fmc::adjustHardwareTimestamp(&value3, "2", &overflowCount);
   EXPECT_EQ(3, overflowCount);
 
-  fmc::adjustHardwareTimestamp(&value4, overflowThreshold, &overflowCount);
+  fmc::adjustHardwareTimestamp(&value4, "3", &overflowCount);
   EXPECT_EQ(4, overflowCount);
 }
 
@@ -63,32 +63,32 @@ TEST(adjustHardwareTimestamp, shouldWorkForOneRoundOfOverflow)
 
   std::uint64_t overflowCount{1};
 
-  fmc::adjustHardwareTimestamp(&value1, overflowThreshold, &overflowCount);
+  fmc::adjustHardwareTimestamp(&value1, "0", &overflowCount);
   ASSERT_EQ(1, overflowCount);
   EXPECT_EQ(value1Expected, value1);
 
-  fmc::adjustHardwareTimestamp(&value2, overflowThreshold, &overflowCount);
+  fmc::adjustHardwareTimestamp(&value2, "1", &overflowCount);
   ASSERT_EQ(1, overflowCount);
   EXPECT_EQ(value2Expected, value2);
 
-  fmc::adjustHardwareTimestamp(&value3, overflowThreshold, &overflowCount);
+  fmc::adjustHardwareTimestamp(&value3, "2", &overflowCount);
   ASSERT_EQ(1, overflowCount);
   EXPECT_EQ(value3Expected, value3);
 
-  fmc::adjustHardwareTimestamp(&value4, overflowThreshold, &overflowCount);
+  fmc::adjustHardwareTimestamp(&value4, "3", &overflowCount);
   ASSERT_EQ(1, overflowCount);
   EXPECT_EQ(value4Expected, value4);
 
-  fmc::adjustHardwareTimestamp(&value5, overflowThreshold, &overflowCount);
+  fmc::adjustHardwareTimestamp(&value5, "4", &overflowCount);
   ASSERT_EQ(1, overflowCount);
   EXPECT_EQ(value5Expected, value5);
 
-  fmc::adjustHardwareTimestamp(&value6, overflowThreshold, &overflowCount);
+  fmc::adjustHardwareTimestamp(&value6, "5", &overflowCount);
   ASSERT_EQ(1, overflowCount);
   EXPECT_EQ(value6Expected, value6);
 
   std::string s{"65535"};
-  fmc::adjustHardwareTimestamp(&s, overflowThreshold, &overflowCount);
+  fmc::adjustHardwareTimestamp(&s, "3", &overflowCount);
   ASSERT_EQ(2, overflowCount);
   EXPECT_EQ("131071", s);
 }
@@ -104,27 +104,27 @@ TEST(adjustHardwareTimestamp, shouldWorkForTwoRoundsOfOverflow)
 
   std::uint64_t cnt{2};
 
-  fmc::adjustHardwareTimestamp(&value1, overflowThreshold, &cnt);
+  fmc::adjustHardwareTimestamp(&value1, "0", &cnt);
   ASSERT_EQ(2, cnt);
   EXPECT_EQ("131072", value1);
 
-  fmc::adjustHardwareTimestamp(&value2, overflowThreshold, &cnt);
+  fmc::adjustHardwareTimestamp(&value2, "1", &cnt);
   ASSERT_EQ(2, cnt);
   EXPECT_EQ("131073", value2);
 
-  fmc::adjustHardwareTimestamp(&value3, overflowThreshold, &cnt);
+  fmc::adjustHardwareTimestamp(&value3, "2", &cnt);
   ASSERT_EQ(2, cnt);
   EXPECT_EQ("131074", value3);
 
-  fmc::adjustHardwareTimestamp(&value4, overflowThreshold, &cnt);
+  fmc::adjustHardwareTimestamp(&value4, "3", &cnt);
   ASSERT_EQ(2, cnt);
   EXPECT_EQ("131075", value4);
 
-  fmc::adjustHardwareTimestamp(&value5, overflowThreshold, &cnt);
+  fmc::adjustHardwareTimestamp(&value5, "4", &cnt);
   ASSERT_EQ(2, cnt);
   EXPECT_EQ("131076", value5);
 
-  fmc::adjustHardwareTimestamp(&value6, overflowThreshold, &cnt);
+  fmc::adjustHardwareTimestamp(&value6, "5", &cnt);
   ASSERT_EQ(2, cnt);
   EXPECT_EQ("131077", value6);
 }
@@ -137,12 +137,19 @@ TEST(adjustHardwareTimestamp, shouldWork)
   constexpr std::uint64_t max{UINT64_C(1048560)};
 
   for (std::uint64_t i{UINT64_C(0)}; i < max; i += increment) {
-    fmt::format_int expected{i};
-    fmt::format_int actualFormatter{sixteenBit};
-    std::string     s{actualFormatter.str()};
-    fmc::adjustHardwareTimestamp(&s, overflowThreshold, &overflowCount);
-    ASSERT_EQ(expected.size(), s.size());
-    ASSERT_EQ(0, std::memcmp(expected.data(), s.data(), expected.size()));
+    const std::string expected{cl::to_string(i)};
+    std::string       actual{cl::to_string(sixteenBit)};
+
+    const std::string nextRow{cl::to_string(static_cast<std::uint16_t>(
+      sixteenBit + static_cast<std::uint16_t>(increment)))};
+
+    fmc::adjustHardwareTimestamp(
+      /* cellContent */ &actual,
+      /* nextRowHardwareTimestamp */ nextRow,
+      /* overflowCount */ &overflowCount);
+
+    ASSERT_EQ(expected, actual);
+
     sixteenBit += increment;
   }
 

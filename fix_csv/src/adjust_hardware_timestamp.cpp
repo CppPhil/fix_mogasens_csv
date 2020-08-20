@@ -14,16 +14,16 @@
 
 namespace fmc {
 void adjustHardwareTimestamp(
-  std::string*   cellContent,
-  std::uint64_t  overflowThreshold,
-  std::uint64_t* overflowCount)
+  std::string*       cellContent,
+  const std::string& nextRowHardwareTimestamp,
+  std::uint64_t*     overflowCount)
 {
   const auto cellValueExpected{cl::s2n<unsigned long long>(*cellContent)};
 
   if (!cellValueExpected.has_value()) {
     fmt::print(
       stderr,
-      "{}: s2n failed: \"{}\"\n",
+      "{}: s2n failed (cellValue): \"{}\"\n",
       PL_CURRENT_FUNCTION,
       cellValueExpected.error());
 
@@ -32,6 +32,21 @@ void adjustHardwareTimestamp(
 
   auto cellValue{cellValueExpected.value()};
 
+  const auto nextRowValueExpected{
+    cl::s2n<unsigned long long>(nextRowHardwareTimestamp)};
+
+  if (!nextRowValueExpected.has_value()) {
+    fmt::print(
+      stderr,
+      "{}: s2n failed (nextRowValue): \"{}\"\n",
+      PL_CURRENT_FUNCTION,
+      nextRowValueExpected.error());
+
+    return;
+  }
+
+  const auto nextRowValue{nextRowValueExpected.value()};
+
   const auto oldCellValue{cellValue};
 
   if (*overflowCount > 0U) {
@@ -39,7 +54,7 @@ void adjustHardwareTimestamp(
       += *overflowCount * (2ULL << ((sizeof(std::uint16_t) * CHAR_BIT) - 1));
   }
 
-  if (oldCellValue >= overflowThreshold) { ++(*overflowCount); }
+  if (nextRowValue < oldCellValue) { ++(*overflowCount); }
 
   *cellContent = cl::to_string(cellValue);
 }
