@@ -134,6 +134,14 @@ int main(int argc, char* argv[])
               /* nextRowHardwareTimestamp */ nextRowValue,
               /* overflowCount */ &overflowCount);
           }
+          else {
+            // Also adjust the very last row.
+            fmc::adjustHardwareTimestamp(
+              /* cellContent */ &currentField,
+              /* nextRowHardwareTimestamp */
+              "65535" /* this can't be less than any UINT16 value */,
+              /* overflowCount*/ &overflowCount);
+          }
         }
         else if (pl::is_between(
                    columnIndex,
