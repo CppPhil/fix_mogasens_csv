@@ -172,11 +172,6 @@ build
 # doxygen generated documentation
 docs
 
-# exported csv files
-resources/Felix/*_out*.csv
-resources/Marcelle/*_out*.csv
-resources/Mike/*_out*.csv
-
 # log files
 log.txt
 above_threshold_log.txt
