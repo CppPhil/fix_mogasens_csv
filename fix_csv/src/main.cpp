@@ -100,11 +100,11 @@ int main(int argc, char* argv[])
   fmc::deleteNonBoschSensors(&data);
 
   {
-    std::size_t   rowCount{2};
-    std::uint64_t overflowCount{0};
+    std::uint64_t         overflowCount{0};
+    constexpr std::size_t rowOffset{2};
 
-    for (std::vector<std::string>& currentRow : data) {
-      std::size_t columnCount{1};
+    for (std::size_t rowIndex{0}; rowIndex < data.size(); ++rowIndex) {
+      std::vector<std::string>& currentRow{data.at(rowIndex)};
 
       constexpr std::size_t expectedRowSize{10};
 
@@ -112,15 +112,17 @@ int main(int argc, char* argv[])
         fmt::print(
           stderr,
           "Row {} was of size {}, but size {} was expected!\n",
-          rowCount,
+          rowIndex + rowOffset,
           currentRow.size(),
           expectedRowSize);
       }
 
-      for (std::string& currentField : currentRow) {
-        if (columnCount == fmc::hardwareTimestampColumn) {
-          const auto nextRowIndex{
-            rowCount}; /* rowCount is the index of the next row */
+      for (std::size_t columnIndex{0}; columnIndex < currentRow.size();
+           ++columnIndex) {
+        std::string& currentField{currentRow.at(columnIndex)};
+
+        if (columnIndex == cl::column_index<cl::Column::HardwareTimestamp>) {
+          const auto nextRowIndex{columnIndex + 1};
 
           if (nextRowIndex < data.size()) { /* if not the last row */
             const std::string nextRowValue{
@@ -161,19 +163,19 @@ int main(int argc, char* argv[])
           }
         }
         else if (pl::is_between(
-                   columnCount,
-                   fmc::accelerometerXColumn,
-                   fmc::gyroscopeZColumn)) {
+                   columnIndex,
+                   cl::column_index<cl::Column::AccelerometerX>,
+                   cl::column_index<cl::Column::GyroscopeZ>)) {
           fmc::removeZerosFromField(&currentField);
 
           const auto printError
-            = [columnCount, rowCount](const char* errorMessage) {
+            = [columnIndex, rowIndex](const char* errorMessage) {
                 fmt::print(
                   stderr,
                   "Could not parse value at column {}, row {} as an integer: "
                   "\"{}\"\n",
-                  columnCount,
-                  rowCount,
+                  columnIndex + 1,
+                  rowIndex + rowOffset,
                   errorMessage);
               };
 
@@ -190,8 +192,8 @@ int main(int argc, char* argv[])
                 "{}, "
                 "clamping value!\n",
                 asInteger,
-                columnCount,
-                rowCount,
+                columnIndex + 1,
+                rowIndex + rowOffset,
                 INT16_MIN,
                 INT16_MAX);
 
@@ -204,9 +206,9 @@ int main(int argc, char* argv[])
             long double asFloat{static_cast<long double>(asInteger)};
 
             if (pl::is_between(
-                  columnCount,
-                  fmc::accelerometerXColumn,
-                  fmc::accelerometerZColumn)) {
+                  columnIndex,
+                  cl::column_index<cl::Column::AccelerometerX>,
+                  cl::column_index<cl::Column::AccelerometerZ>)) {
               constexpr long double accelerometerSensitivity{16384.0L};
               asFloat /= accelerometerSensitivity;
               constexpr long double accelerometerRangeLowerBound{-2.0L};
@@ -221,8 +223,8 @@ int main(int argc, char* argv[])
                   "Accelerometer value {} at column {}, row {} was not "
                   "within {} to {}, clamping value!\n",
                   asFloat,
-                  columnCount,
-                  rowCount,
+                  columnIndex + 1,
+                  rowIndex + rowOffset,
                   accelerometerRangeLowerBound,
                   accelerometerRangeUpperBound);
                 asFloat = pl::algo::clamp(
@@ -232,9 +234,9 @@ int main(int argc, char* argv[])
               }
             }
             else if (pl::is_between(
-                       columnCount,
-                       fmc::gyroscopeXColumn,
-                       fmc::gyroscopeZColumn)) {
+                       columnIndex,
+                       cl::column_index<cl::Column::GyroscopeX>,
+                       cl::column_index<cl::Column::GyroscopeZ>)) {
               constexpr long double gyroscopeDivisor{16.4L};
               asFloat /= gyroscopeDivisor;
               constexpr long double gyroscopeRangeLowerBound{-2000.0L};
@@ -249,8 +251,8 @@ int main(int argc, char* argv[])
                   "Gyroscope value {} at column {}, row {} was not "
                   "within {} to {}, clamping value!\n",
                   asFloat,
-                  columnCount,
-                  rowCount,
+                  columnIndex + 1,
+                  rowIndex + rowOffset,
                   gyroscopeRangeLowerBound,
                   gyroscopeRangeUpperBound);
                 asFloat = pl::algo::clamp(
@@ -269,10 +271,7 @@ int main(int argc, char* argv[])
             return EXIT_FAILURE;
           }
         }
-
-        ++columnCount;
       }
-      ++rowCount;
     }
   }
 
