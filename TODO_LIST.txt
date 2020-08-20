@@ -1,6 +1,6 @@
-Check hardware timestamp jumps in _out.csv files.
+generate_images with filter is bugged ...
 
-Check images unfiltered / filtered / segmented.
+Check images with segmentation
 
 ---------------------------------------------------------------------------
 Sprung bei

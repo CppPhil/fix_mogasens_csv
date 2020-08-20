@@ -100,8 +100,8 @@ int main(int argc, char* argv[])
   fmc::deleteNonBoschSensors(&data);
 
   {
-    std::uint64_t         overflowCount{0};
-    constexpr std::size_t rowOffset{2};
+    std::uint64_t                overflowCount{0};
+    static constexpr std::size_t rowOffset{2};
 
     for (std::size_t rowIndex{0}; rowIndex < data.size(); ++rowIndex) {
       std::vector<std::string>& currentRow{data.at(rowIndex)};
