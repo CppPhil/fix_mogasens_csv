@@ -1,5 +1,3 @@
-Check _out.csv files for overflow correction being correct.
-
 Check hardware timestamp jumps in _out.csv files.
 
 Check images unfiltered / filtered / segmented.
