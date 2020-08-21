@@ -3,7 +3,6 @@ set(LIB_NAME fix_mogasens_csv_lib)
 
 set(LIB_HEADERS
     include/adjust_hardware_timestamp.hpp
-    include/columns.hpp
     include/convert_to_unix_line_endings.hpp
     include/create_backup_file.hpp
     include/delete_non_bosch_sensors.hpp
