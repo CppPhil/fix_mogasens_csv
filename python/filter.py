@@ -51,6 +51,9 @@ def main(arguments):
 
   if os.path.isfile(
       output_file_name):  # Don't do anything if the file's already there.
+    print(
+        f"filter.py: \"{output_file_name}\" already exists. Exiting without doing anything."
+    )
     return output_file_name
 
   entire_data_set = DataSet.from_file(
