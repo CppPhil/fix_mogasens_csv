@@ -10,13 +10,14 @@ puts("generate_images.rb: Starting.\n"\
      "command line options: \"#{options}\".")
 
 FILTER_SCRIPT = "\"#{Dir.pwd}/ruby/filter.rb\"".freeze
+RUN_STRING = "#{Ruby.interpreter} #{FILTER_SCRIPT}"\
+             " --filter_sample_count=#{options[:filter_sample_count]}".freeze
 
-RUN_STRING = "#{Ruby.interpreter} #{FILTER_SCRIPT} "\
-             "--filter_sample_count=#{options[:filter_sample_count]}".freeze
-
-unless system(RUN_STRING)
-  STDERR.puts("\"#{RUN_STRING}\" failed, exiting.")
-  exit(1)
+unless options[:filter_sample_count].nil?
+  unless system(RUN_STRING)
+    STDERR.puts("\"#{RUN_STRING}\" failed, exiting.")
+    exit(1)
+  end
 end
 
 exit_status = GenerateImagesModule.main(\
