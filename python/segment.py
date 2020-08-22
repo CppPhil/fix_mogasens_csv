@@ -257,8 +257,8 @@ def main(arguments):
                                                   segmentation_points)
   delete_low_variance_segmentation_points(desired_sensor_data_set,
                                           segmentation_points, channel)
-  segmentation_points = without_ending_segmentation_points(
-      desired_sensor_data_set, segmentation_points)
+  #segmentation_points = without_ending_segmentation_points( ## TODO: This can be removed.
+  #    desired_sensor_data_set, segmentation_points)
 
   segmenting_hardware_timestamps = desired_sensor_data_set.segmenting_hardware_timestamps(
       segmentation_points)
