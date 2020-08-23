@@ -36,44 +36,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
-set(DLIB_NO_GUI_SUPPORT
-    ON
-    CACHE BOOL
-          "Enable this if you don't want to compile any of the dlib GUI code"
-          FORCE)
-set(DLIB_JPEG_SUPPORT
-    OFF
-    CACHE BOOL "Disable this if you don't want to link against libjpeg" FORCE)
-set(DLIB_LINK_WITH_SQLITE3
-    OFF
-    CACHE BOOL "Disable this if you don't want to link against sqlite3" FORCE)
-set(DLIB_USE_BLAS
-    OFF
-    CACHE BOOL "Disable this if you don't want to use a BLAS library" FORCE)
-set(DLIB_USE_LAPACK
-    OFF
-    CACHE BOOL "Disable this if you don't want to use a LAPACK library" FORCE)
-set(DLIB_USE_CUDA
-    OFF
-    CACHE BOOL "Disable this if you don't want to use NVIDIA CUDA" FORCE)
-set(DLIB_PNG_SUPPORT
-    OFF
-    CACHE BOOL "Disable this if you don't want to link against libpng" FORCE)
-set(DLIB_GIF_SUPPORT
-    OFF
-    CACHE BOOL "Disable this if you don't want to link against libgif" FORCE)
-set(DLIB_USE_MKL_FFT
-    OFF
-    CACHE
-      BOOL
-      "Disable this is you don't want to use the MKL DFTI FFT implementation"
-      FORCE)
-FetchContent_Declare(
-  dlib
-  GIT_REPOSITORY https://github.com/davisking/dlib.git
-  GIT_TAG v19.20)
-FetchContent_MakeAvailable(dlib)
-
 find_package(Threads REQUIRED)
 
 add_subdirectory(external/fmtlib)

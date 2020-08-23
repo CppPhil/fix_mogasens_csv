@@ -2,7 +2,6 @@
 set(LIB_NAME csv_lib)
 
 set(LIB_HEADERS
-    include/cl/fs/directory.hpp
     include/cl/fs/file.hpp
     include/cl/fs/file_stream.hpp
     include/cl/fs/path.hpp
@@ -21,7 +20,6 @@ set(LIB_HEADERS
     include/cl/use_unbuffered_io.hpp)
 
 set(LIB_SOURCES
-    src/cl/fs/directory.cpp
     src/cl/fs/file.cpp
     src/cl/fs/file_stream.cpp
     src/cl/fs/path.cpp
@@ -39,7 +37,7 @@ set(LIB_SOURCES
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 
 target_link_libraries(${LIB_NAME} PUBLIC Threads::Threads fmt::fmt
-                                         CppPhil::philslib dlib::dlib)
+                                         CppPhil::philslib)
 
 if(WIN32)
   target_link_libraries(${LIB_NAME} PUBLIC Kernel32.lib)

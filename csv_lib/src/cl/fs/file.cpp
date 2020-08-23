@@ -4,13 +4,15 @@
 #include <string>
 #include <utility>
 
-#include <dlib/dir_nav.h>
-
 #include <pl/os.hpp>
 
 #if PL_OS == PL_OS_WINDOWS
 #include "cl/fs/windows.hpp"
 #include <Windows.h>
+#elif PL_OS == PL_OS_LINUX
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 #endif
 
 #include "cl/fs/file.hpp"
@@ -125,12 +127,43 @@ bool File::remove() noexcept
 
 std::int64_t File::size() const noexcept
 {
-  try {
-    return dlib::file{m_path.str().c_str()}.size();
+  constexpr std::int64_t errorResultValue{-1};
+
+#if PL_OS == PL_OS_LINUX
+  struct stat buf {
+  };
+  const int statusCode{stat(m_path.str().c_str(), &buf)};
+
+  if (statusCode == -1) { return errorResultValue; }
+
+  return buf.st_size;
+#elif PL_OS == PL_OS_WINDOWS
+  const std::wstring utf16Path{utf8ToUtf16(m_path.str())};
+  const HANDLE       fileHandle{CreateFileW(
+    /* lpFileName */ utf16Path.c_str(),
+    /* dwDesiredAccess */ GENERIC_READ,
+    /* dwShareMode */ 0,
+    /* lpSecurityAttributes */ nullptr,
+    /* dwCreationDisposition */ OPEN_EXISTING,
+    /* dwFlagsAndAttributes */ FILE_ATTRIBUTE_NORMAL,
+    /* hTemplateFile */ nullptr)};
+
+  if (fileHandle == INVALID_HANDLE_VALUE) { return errorResultValue; }
+
+  LARGE_INTEGER fileSize{};
+  const BOOL    statusCode{GetFileSizeEx(
+    /* hFile */ fileHandle,
+    /* lpFileSize */ &fileSize)};
+
+  if (statusCode == 0) {
+    CloseHandle(/* hObject */ fileHandle);
+    return errorResultValue;
   }
-  catch ([[maybe_unused]] const dlib::file::file_not_found& ex) {
-    return -1;
-  }
+
+  if (CloseHandle(/* hObject */ fileHandle) == 0) { return errorResultValue; }
+
+  return fileSize.QuadPart;
+#endif
 }
 
 const Path& File::path() const noexcept { return m_path; }
