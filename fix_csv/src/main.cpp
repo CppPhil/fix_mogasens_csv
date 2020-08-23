@@ -44,6 +44,9 @@ int main(int argc, char* argv[])
   }
 
   const pl::string_view csvPath{argv[csvPathIndex]};
+
+  fmt::print("{}: csvPath is \"{}\"\n", thisApplication, csvPath);
+
   using namespace pl::string_view_literals;
   static constexpr auto csvFileExtension = ".csv"_sv;
 
