@@ -148,9 +148,7 @@ std::int64_t File::size() const noexcept
     /* dwFlagsAndAttributes */ FILE_ATTRIBUTE_NORMAL,
     /* hTemplateFile */ nullptr)};
 
-  if (fileHandle == INVALID_HANDLE_VALUE) {
-      return errorResultValue; 
-  }
+  if (fileHandle == INVALID_HANDLE_VALUE) { return errorResultValue; }
 
   LARGE_INTEGER fileSize{};
   const BOOL    statusCode{GetFileSizeEx(

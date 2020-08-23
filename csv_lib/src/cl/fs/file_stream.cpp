@@ -23,7 +23,8 @@ const char* mapOpenMode(FileStream::OpenMode openMode)
 
 Expected<FileStream> FileStream::create(const File& file, OpenMode openMode)
 {
-  // The file size has to be determined here, because Microsoft Windows won't allow you to get the file size while the file is opened.
+  // The file size has to be determined here, because Microsoft Windows won't
+  // allow you to get the file size while the file is opened.
   const std::int64_t fileByteCount{file.size()};
 
   std::FILE* fileHandle{
@@ -34,7 +35,7 @@ Expected<FileStream> FileStream::create(const File& file, OpenMode openMode)
       Error::Filesystem, fmt::format("Couldn't open \"{}\"", file.path()));
   }
 
-  constexpr auto     errorSentinelValue{-1};
+  constexpr auto errorSentinelValue{-1};
 
   if (fileByteCount == errorSentinelValue) {
     const int closeStatusCode{std::fclose(fileHandle)};
