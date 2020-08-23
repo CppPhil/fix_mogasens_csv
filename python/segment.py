@@ -58,13 +58,13 @@ def validate(csv_file_path, sensor, channel, segmentation_kind, window_size):
 
 def delete_segmentation_points_if(segmentation_points, condition):
   maximum_index = len(segmentation_points) - 1
-  current_index = 0
+  current_index = 1
 
-  while current_index != maximum_index:
+  while current_index != maximum_index + 1:
+    previous_segmentation_point = segmentation_points[current_index - 1]
     current_segmentation_point = segmentation_points[current_index]
-    next_segmentation_point = segmentation_points[current_index + 1]
 
-    if condition(current_segmentation_point, next_segmentation_point):
+    if condition(previous_segmentation_point, current_segmentation_point):
       segmentation_points.pop(current_index)
       maximum_index -= 1
     else:
@@ -75,13 +75,13 @@ def delete_too_close_segmenting_hardware_timestamps(data_set,
                                                     segmentation_points):
   minimum_distance_milliseconds = 250  # TODO: This may need to change.
 
-  def is_distance_too_small(current_segmentation_point,
-                            next_segmentation_point):
+  def is_distance_too_small(previous_segmentation_point,
+                            current_segmentation_point):
+    previous_hardware_timestamp = data_set.hardware_timestamp[
+        previous_segmentation_point]
     current_hardware_timestamp = data_set.hardware_timestamp[
         current_segmentation_point]
-    next_hardware_timestamp = data_set.hardware_timestamp[
-        next_segmentation_point]
-    distance = next_hardware_timestamp - current_hardware_timestamp
+    distance = current_hardware_timestamp - previous_hardware_timestamp
     return distance < minimum_distance_milliseconds
 
   delete_segmentation_points_if(segmentation_points, is_distance_too_small)
@@ -95,15 +95,17 @@ def delete_low_variance_segmentation_points(data_set, segmentation_points,
   print("Total variance: {:f}".format(
       np.var(data_set.channel_by_str(f"channel{channel}"))))
 
-  def is_variance_too_low(current_segmentation_point, next_segmentation_point):
+  def is_variance_too_low(previous_segmentation_point,
+                          current_segmentation_point):
     desired_channel = data_set.channel_by_str(f"channel{channel}")
     variance = np.var(
-        desired_channel[current_segmentation_point:next_segmentation_point])
+        desired_channel[previous_segmentation_point:current_segmentation_point]
+    )
 
     # TODO: Debug I/O
     print("[{};{}): variance is {:f}".format(
-        data_set.hardware_timestamp[current_segmentation_point],
-        data_set.hardware_timestamp[next_segmentation_point], variance))
+        data_set.hardware_timestamp[previous_segmentation_point],
+        data_set.hardware_timestamp[current_segmentation_point], variance))
 
     return variance < minimum_variance
 
