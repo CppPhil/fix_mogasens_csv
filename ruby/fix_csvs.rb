@@ -44,8 +44,9 @@ end
 csv_files.each do |file|
   puts("Processing #{file}.")
   path = "\"#{File.join(Dir.pwd, file)}\""
-  unless system("#{fix_csv_app(build_type, compiler)} #{path}")
-    STDERR.puts('Failure running fix_mogasens_csv_app, exiting.')
+  run_string = "#{fix_csv_app(build_type, compiler)} #{path}"
+  unless system(run_string)
+    STDERR.puts("Failure running \"#{run_string}\", exiting.")
     exit(1)
   end
   puts('')
