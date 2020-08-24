@@ -1,6 +1,12 @@
 #include <cassert>
 
+#include <pl/os.hpp>
 #include <pl/unreachable.hpp>
+
+#if PL_OS == PL_OS_WINDOWS
+#include "cl/fs/windows.hpp"
+#include <wchar.h>
+#endif
 
 #include <fmt/format.h>
 #include <fmt/ostream.h>
@@ -27,8 +33,14 @@ Expected<FileStream> FileStream::create(const File& file, OpenMode openMode)
   // allow you to get the file size while the file is opened.
   const std::int64_t fileByteCount{file.size()};
 
+#if PL_OS == PL_OS_LINUX
   std::FILE* fileHandle{
     std::fopen(file.path().str().c_str(), mapOpenMode(openMode))};
+#elif PL_OS == PL_OS_WINDOWS
+  const std::wstring utf16Filename{utf8ToUtf16(file.path().str())};
+  const std::wstring utf16Mode{utf8ToUtf16(mapOpenMode(openMode))};
+  std::FILE* fileHandle{_wfopen(utf16Filename.c_str() utf16Mode.c_str())};
+#endif
 
   if (fileHandle == nullptr) {
     return CL_UNEXPECTED(
