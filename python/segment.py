@@ -165,11 +165,11 @@ def exercise_range(csv_file_path):
   if is_felix_3(csv_file_path):
     return 27003, 62415
   if is_marcelle_1(csv_file_path):
-    return 0, 0  # TODO: HERE
+    return 74001, 100001
   if is_marcelle_2(csv_file_path):
-    return 0, 0  # TODO: HERE
+    return 23003, 66101
   if is_marcelle_3(csv_file_path):
-    return 0, 0  # TODO: HERE
+    return 72271, 113979
   if is_marcelle_4(csv_file_path):
     return 0, 0  # TODO: HERE
   if is_mike_1(csv_file_path):
