@@ -39,7 +39,7 @@ Expected<FileStream> FileStream::create(const File& file, OpenMode openMode)
 #elif PL_OS == PL_OS_WINDOWS
   const std::wstring utf16Filename{utf8ToUtf16(file.path().str())};
   const std::wstring utf16Mode{utf8ToUtf16(mapOpenMode(openMode))};
-  std::FILE* fileHandle{_wfopen(utf16Filename.c_str() utf16Mode.c_str())};
+  std::FILE* fileHandle{_wfopen(utf16Filename.c_str(), utf16Mode.c_str())};
 #endif
 
   if (fileHandle == nullptr) {
