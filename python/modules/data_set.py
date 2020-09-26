@@ -153,6 +153,8 @@ class DataSet:
 
     raise Exception(f"\"{string}\" is not a valid input to channel_by_str!")
 
+  # TODO: This needs to work on the normed data.
+  # TODO: Move this into a different file.
   def segmentation_points(self, channel, segmentation_kind, window_size):
     channel_data = np.array(self.channel_by_str(channel))
     radius = int((window_size - 1) / 2)

@@ -87,6 +87,7 @@ def delete_too_close_segmenting_hardware_timestamps(data_set,
   delete_segmentation_points_if(segmentation_points, is_distance_too_small)
 
 
+# TODO: This needs to work on the normed data.
 def delete_low_variance_segmentation_points(data_set, segmentation_points,
                                             channel):
   minimum_variance = 0.002  # TODO: This may need to change.
@@ -198,7 +199,7 @@ def main(arguments):
                       type=int,
                       help='The sensor to use (769 | 770 | 771 | 772)',
                       required=True)
-  parser.add_argument('--channel',
+  parser.add_argument('--channel',  # TODO: This needs to be replaced with IMU (accelerometer / gyroscope)
                       type=int,
                       help='The channel to use (1 | 2 | 3 | 4 | 5 | 6)',
                       required=True)
