@@ -5,11 +5,7 @@ import csv
 import sys
 import traceback
 
-import numpy as np
-from scipy.signal import argrelextrema
-
 from .constants import *
-from .segmentation_kind import SegmentationKind
 from .this_sensor import this_sensor
 
 
@@ -152,25 +148,6 @@ class DataSet:
       return self.gyroscope_z
 
     raise Exception(f"\"{string}\" is not a valid input to channel_by_str!")
-
-  # TODO: This needs to work on the normed data.
-  # TODO: Move this into a different file.
-  def segmentation_points(self, channel, segmentation_kind, window_size):
-    channel_data = np.array(self.channel_by_str(channel))
-    radius = int((window_size - 1) / 2)
-    segmentation_points = []
-
-    if segmentation_kind & SegmentationKind.LOCAL_MINIMA:
-      segmentation_points.extend(
-          argrelextrema(channel_data, np.less, order=radius)[0].tolist())
-
-    if segmentation_kind & SegmentationKind.LOCAL_MAXIMA:
-      segmentation_points.extend(
-          argrelextrema(channel_data, np.greater, order=radius)[0].tolist())
-
-    segmentation_points.sort()
-
-    return segmentation_points
 
   def segmenting_hardware_timestamps(self, segmentation_points):
     return [

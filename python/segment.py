@@ -5,11 +5,13 @@ import argparse
 import sys
 import os
 import numpy as np
+import modules.segmentation_points as segment
 from modules.data_set import DataSet
 from modules.segmentation_kind import *
 from modules.sensors import sensors
 from modules.constants import *
 from plotter import main_impl as plotter_main
+from modules.euclidean_norm import euclidean_norm
 
 
 def validate_sensor(sensor):
@@ -19,7 +21,7 @@ def validate_sensor(sensor):
   return True
 
 
-def validate(csv_file_path, sensor, channel, segmentation_kind, window_size):
+def validate(csv_file_path, sensor, imu, segmentation_kind, window_size):
   if not os.path.isfile(csv_file_path):
     print(f"segment.py: \"{csv_file_path}\" is not a file.", file=sys.stderr)
     return False
@@ -27,10 +29,8 @@ def validate(csv_file_path, sensor, channel, segmentation_kind, window_size):
   if not validate_sensor(sensor):
     return False
 
-  if channel not in range(1, 7):
-    print(
-        f"segment.py: {channel} is not a valid channel, must be within 1 - 6.",
-        file=sys.stderr)
+  if imu not in [accelerometer_string(), gyroscope_string()]:
+    print(f"segment.py: {imu} is not a valid IMU.", file=sys.stderr)
     return False
 
   try:
@@ -87,27 +87,13 @@ def delete_too_close_segmenting_hardware_timestamps(data_set,
   delete_segmentation_points_if(segmentation_points, is_distance_too_small)
 
 
-# TODO: This needs to work on the normed data.
-def delete_low_variance_segmentation_points(data_set, segmentation_points,
-                                            channel):
+def delete_low_variance_segmentation_points(normed_data, segmentation_points):
   minimum_variance = 0.002  # TODO: This may need to change.
-
-  # TODO: Debug I/O
-  print("Total variance: {:f}".format(
-      np.var(data_set.channel_by_str(f"channel{channel}"))))
 
   def is_variance_too_low(previous_segmentation_point,
                           current_segmentation_point):
-    desired_channel = data_set.channel_by_str(f"channel{channel}")
     variance = np.var(
-        desired_channel[previous_segmentation_point:current_segmentation_point]
-    )
-
-    # TODO: Debug I/O
-    print("[{};{}): variance is {:f}".format(
-        data_set.hardware_timestamp[previous_segmentation_point],
-        data_set.hardware_timestamp[current_segmentation_point], variance))
-
+        normed_data[previous_segmentation_point:current_segmentation_point])
     return variance < minimum_variance
 
   delete_segmentation_points_if(segmentation_points, is_variance_too_low)
@@ -184,6 +170,15 @@ def exercise_range(csv_file_path):
   raise Exception(f'"{csv_file_path}" is not a known CSV file.')
 
 
+def create_euclidean_norm(data_set, imu):
+  if imu == accelerometer_string():
+    return euclidean_norm(data_set.accelerometer_x, data_set.accelerometer_y,
+                          data_set.accelerometer_z)
+  elif imu == gyroscope_string():
+    return euclidean_norm(data_set.gyroscope_x, data_set.gyroscope_y,
+                          data_set.gyroscope_z)
+
+
 def main(arguments):
   parser = argparse.ArgumentParser(description='Segment a MoGaSens CSV file.')
   parser.add_argument('--image_format',
@@ -199,9 +194,9 @@ def main(arguments):
                       type=int,
                       help='The sensor to use (769 | 770 | 771 | 772)',
                       required=True)
-  parser.add_argument('--channel',  # TODO: This needs to be replaced with IMU (accelerometer / gyroscope)
-                      type=int,
-                      help='The channel to use (1 | 2 | 3 | 4 | 5 | 6)',
+  parser.add_argument('--imu',
+                      type=str,
+                      help='The IMU to use (accelerometer | gyroscope)',
                       required=True)
   parser.add_argument('--segmentation_kind',
                       type=str,
@@ -214,12 +209,11 @@ def main(arguments):
   args = parser.parse_args(arguments)
   csv_file_path = args.csv_file_path
   sensor = args.sensor
-  channel = args.channel
+  imu = args.imu
   segmentation_kind = args.segmentation_kind
   window_size = args.window_size
 
-  if not validate(csv_file_path, sensor, channel, segmentation_kind,
-                  window_size):
+  if not validate(csv_file_path, sensor, imu, segmentation_kind, window_size):
     sys.exit(1)
 
   print(f"\nsegment.py launched with \"{csv_file_path}\".")
@@ -238,14 +232,14 @@ def main(arguments):
   desired_sensor_data_set.crop_front(exercise_begin)
   desired_sensor_data_set.crop_back(exercise_end)
 
-  segmentation_points = desired_sensor_data_set.segmentation_points(
-      f"channel{channel}", segmentation_kind_from_str(segmentation_kind),
-      window_size)
+  normed_data = create_euclidean_norm(desired_sensor_data_set, imu)
+
+  segmentation_points = segment.segmentation_points(
+      normed_data, segmentation_kind_from_str(segmentation_kind), window_size)
 
   delete_too_close_segmenting_hardware_timestamps(desired_sensor_data_set,
                                                   segmentation_points)
-  delete_low_variance_segmentation_points(desired_sensor_data_set,
-                                          segmentation_points, channel)
+  delete_low_variance_segmentation_points(normed_data, segmentation_points)
 
   segmenting_hardware_timestamps = desired_sensor_data_set.segmenting_hardware_timestamps(
       segmentation_points)

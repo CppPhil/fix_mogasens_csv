@@ -30,7 +30,7 @@ build_script:
   - cmd: generate_images.bat
   - cmd: count.bat --build_type=Debug --compiler=%gen%
   - cmd: filter.bat --filter_sample_count=125
-  - cmd: segment.bat --csv_file_path=resources/Mike/2020-07-02_14.38.40_out_avg_filter_125.csv --sensor=770 --channel=3 --segmentation_kind=both --window_size=51
+  - cmd: segment.bat --csv_file_path=resources/Mike/2020-07-02_14.38.40_out_avg_filter_125.csv --sensor=770 --imu=accelerometer --segmentation_kind=both --window_size=51
   - cmd: echo "Release"
   - cmd: build.bat --build_type=Release --compiler=%gen%
   - cmd: test.bat --build_type=Release
@@ -38,5 +38,5 @@ build_script:
   - cmd: generate_images.bat
   - cmd: count.bat --build_type=Release --compiler=%gen%
   - cmd: filter.bat --filter_sample_count=125
-  - cmd: segment.bat --csv_file_path=resources/Mike/2020-07-02_14.38.40_out_avg_filter_125.csv --sensor=770 --channel=3 --segmentation_kind=both --window_size=51
+  - cmd: segment.bat --csv_file_path=resources/Mike/2020-07-02_14.38.40_out_avg_filter_125.csv --sensor=770 --imu=accelerometer --segmentation_kind=both --window_size=51
 

@@ -19,9 +19,9 @@ OptionParser.new do |opt|
     options[:sensor] = o
   end
 
-  opt.on('--channel=CHANNEL',\
-         'The channel to use for segmenting (1 | 2 | 3 | 4 | 5 | 6)') do |o|
-    options[:channel] = o
+  opt.on('--imu=IMU',\
+         'The IMU to use (accelerometer | gyroscope)') do |o|
+    options[:imu] = o
   end
 
   opt.on('--segmentation_kind=KIND',\
@@ -57,7 +57,7 @@ run_segment_py_string = \
   "--image_format #{image_format} "\
   "--csv_file_path \"#{options[:csv_file_path]}\" "\
   "--sensor #{options[:sensor]} "\
-  "--channel #{options[:channel]} "\
+  "--imu #{options[:imu]} "\
   "--segmentation_kind #{options[:segmentation_kind]} "\
   "--window_size #{options[:window_size]}"
 
