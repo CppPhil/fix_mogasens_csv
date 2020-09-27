@@ -25,7 +25,7 @@ def find_local_extrema(data, segmentation_kind, radius):
     if ((segmentation_kind & SegmentationKind.LOCAL_MINIMA) and all(current_value < element for element in window)) \
        or ((segmentation_kind & SegmentationKind.LOCAL_MAXIMA) and all(current_value > element for element in window)):
       extrema.append(current_index)
-      current_index = window_end + 1  # Skip over the window after having found a value.
+      current_index = window_end + 1  # Skip over the window after having found a local extremum.
     else:
       current_index += 1
 
