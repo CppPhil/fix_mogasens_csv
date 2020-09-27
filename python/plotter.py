@@ -18,17 +18,28 @@ from modules.data_set import DataSet
 from modules.imu_unit import imu_unit
 from modules.sensor_to_string import sensor_to_string
 from modules.imu_constants import minimum_plotting_value, maximum_plotting_value
+from modules.euclidean_norm import euclidean_norm
 from filter import main as filter_main
+
+
+def accelerometer_norm_string():
+  return 'accelerometer_norm'
+
+
+def gyroscope_norm_string():
+  return 'gyroscope_norm'
 
 
 def plot(the_imu, data_frame, segmenting_hwstamps):
   first_color = 'blue'
   second_color = 'red'
   third_color = 'green'
+  norm_color = 'orange'
 
   first_label = 'x'
   second_label = 'y'
   third_label = 'z'
+  norm_label = 'euclidean norm'
 
   line_width = 0.75
 
@@ -56,10 +67,12 @@ def plot(the_imu, data_frame, segmenting_hwstamps):
     plot_channel(channel1_string(), first_color, first_label)
     plot_channel(channel2_string(), second_color, second_label)
     plot_channel(channel3_string(), third_color, third_label)
+    plot_channel(accelerometer_norm_string(), norm_color, norm_label)
   elif the_imu == gyroscope_string():
     plot_channel(channel4_string(), first_color, first_label)
     plot_channel(channel5_string(), second_color, second_label)
     plot_channel(channel6_string(), third_color, third_label)
+    plot_channel(gyroscope_norm_string(), norm_color, norm_label)
   else:
     print(
         f'plotter.py: imu was "{the_imu}" which is neither "#{accelerometer_string()}" nor "#{gyroscope_string()}", '
@@ -162,6 +175,12 @@ def main_impl(arguments, segmenting_hwstamps):
   data_set = entire_data_set \
       .filter_by_sensor(desired_sensor)
 
+  accelerometer_norm = euclidean_norm(data_set.accelerometer_x,
+                                      data_set.accelerometer_y,
+                                      data_set.accelerometer_z)
+  gyroscope_norm = euclidean_norm(data_set.gyroscope_x, data_set.gyroscope_y,
+                                  data_set.gyroscope_z)
+
   if data_set.is_empty():
     print(
         f"plotter.py: data set \"{filtered_csv_file_path}\" for sensor {desired_sensor} ({sensor_to_string(desired_sensor)}) was empty, exiting.",
@@ -172,17 +191,21 @@ def main_impl(arguments, segmenting_hwstamps):
   channel1_data = []
   channel2_data = []
   channel3_data = []
+  accelerometer_norm_data = []
   channel4_data = []
   channel5_data = []
   channel6_data = []
+  gyroscope_norm_data = []
 
   hardware_timestamp_accumulator = []
   channel1_accumulator = []
   channel2_accumulator = []
   channel3_accumulator = []
+  accelerometer_norm_accumulator = []
   channel4_accumulator = []
   channel5_accumulator = []
   channel6_accumulator = []
+  gyroscope_norm_accumulator = []
 
   hardware_timestamp_threshold_offset = 10000  # 10 seconds
   hardware_timestamp_threshold = data_set.hardware_timestamp[
@@ -197,9 +220,11 @@ def main_impl(arguments, segmenting_hwstamps):
     append_accumulator(channel1_data, channel1_accumulator)
     append_accumulator(channel2_data, channel2_accumulator)
     append_accumulator(channel3_data, channel3_accumulator)
+    append_accumulator(accelerometer_norm_data, accelerometer_norm_accumulator)
     append_accumulator(channel4_data, channel4_accumulator)
     append_accumulator(channel5_data, channel5_accumulator)
     append_accumulator(channel6_data, channel6_accumulator)
+    append_accumulator(gyroscope_norm_data, gyroscope_norm_accumulator)
 
   for i in range(data_set.size()):
     try:
@@ -207,9 +232,11 @@ def main_impl(arguments, segmenting_hwstamps):
       channel1_accumulator.append(data_set.accelerometer_x[i])
       channel2_accumulator.append(data_set.accelerometer_y[i])
       channel3_accumulator.append(data_set.accelerometer_z[i])
+      accelerometer_norm_accumulator.append(accelerometer_norm[i])
       channel4_accumulator.append(data_set.gyroscope_x[i])
       channel5_accumulator.append(data_set.gyroscope_y[i])
       channel6_accumulator.append(data_set.gyroscope_z[i])
+      gyroscope_norm_accumulator.append(gyroscope_norm[i])
 
       current_hardware_timestamp = data_set.hardware_timestamp[i]
 
@@ -231,9 +258,11 @@ def main_impl(arguments, segmenting_hwstamps):
         channel1_string(): channel1_data[i],
         channel2_string(): channel2_data[i],
         channel3_string(): channel3_data[i],
+        accelerometer_norm_string(): accelerometer_norm_data[i],
         channel4_string(): channel4_data[i],
         channel5_string(): channel5_data[i],
-        channel6_string(): channel6_data[i]
+        channel6_string(): channel6_data[i],
+        gyroscope_norm_string(): gyroscope_norm_data[i]
     })
 
     title = f"{filtered_csv_file_path}_{sensor_to_string(desired_sensor)}_{imu}_{i + 1}".replace(
