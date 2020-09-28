@@ -38,9 +38,12 @@ def fix_csv_app(build_type, compiler)
   end
 end
 
-csv_files = Dir["#{RESOURCES_DIR}/**/*.csv"].reject do |file|
+csv_files = (Dir["#{RESOURCES_DIR}/Felix/*.csv"] \
+            + Dir["#{RESOURCES_DIR}/Marcelle/*.csv"] \
+            + Dir["#{RESOURCES_DIR}/Mike/*.csv"]).reject do |file|
   file.include?('_out')
 end
+
 csv_files.each do |file|
   puts("Processing #{file}.")
   path = "\"#{File.join(Dir.pwd, file)}\""
