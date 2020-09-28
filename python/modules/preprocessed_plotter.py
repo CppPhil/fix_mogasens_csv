@@ -46,9 +46,10 @@ def plot(the_imu, data_frame, segmenting_hwstamps):
     plot_channel('norm_acc', 'orange', 'norm')
     plot_channel('norm_avg_acc', 'aqua', 'norm_avg')
     plot_channel('norm_butter_acc', 'teal', 'norm_butter')
-    plot_channel('rx_acc', 'navy', 'rx')
-    plot_channel('ry_acc', 'olive', 'ry')
-    plot_channel('rz_acc', 'maroon', 'rz')
+    # TODO: These weird ones seem to be extreme ????
+    # plot_channel('rx_acc', 'navy', 'rx')
+    # plot_channel('ry_acc', 'olive', 'ry')
+    # plot_channel('rz_acc', 'maroon', 'rz')
   elif the_imu == gyroscope_string():
     plot_channel('norm_gyro', 'blue', 'norm')
     plot_channel('norm_avg_gyro', 'red', 'norm_avg')

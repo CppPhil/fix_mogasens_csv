@@ -140,7 +140,7 @@ def exercise_range(csv_file_path):
   if is_felix_2(csv_file_path):
     return 16003, 63001
   if is_felix_3(csv_file_path):
-    return 27003, 62415
+    return 26999, 62415
   if is_marcelle_1(csv_file_path):
     return 74001, 100001
   if is_marcelle_2(csv_file_path):
@@ -154,7 +154,7 @@ def exercise_range(csv_file_path):
   if is_mike_2(csv_file_path):
     return 32003, 65001
   if is_mike_3(csv_file_path):
-    return 61995, 84015
+    return 61995, 84013
   if is_mike_4(csv_file_path):
     return 0, 0  # TODO: HERE
   raise Exception(f'"{csv_file_path}" is not a known CSV file.')
