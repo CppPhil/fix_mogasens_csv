@@ -1,5 +1,3 @@
-Have the old segment_all around
-
 Add preprocessed_segment scripts to CI.
 
 ---------------------------------------------------------------------------
