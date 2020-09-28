@@ -13,34 +13,60 @@ readonly DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 readonly PREV_DIR=$(pwd)
 
 readonly RESOURCE_DIR="resources"
-readonly FELIX_DIR="$RESOURCE_DIR/Felix"
-readonly MARCELLE_DIR="$RESOURCE_DIR/Marcelle"
-readonly MIKE_DIR="$RESOURCE_DIR/Mike"
 
-readonly FILTER_SAMPLE_COUNT=125
-
-readonly SUFFIX="_out_avg_filter_$FILTER_SAMPLE_COUNT.csv"
+readonly PREPROCESSED_DIR="$RESOURCE_DIR/Pre-processed-Data"
 
 readonly CSV_FILES=(
-  "$FELIX_DIR/2020-07-02_11.17.39$SUFFIX"
-  "$FELIX_DIR/2020-07-02_12.50.00$SUFFIX"
-  "$FELIX_DIR/2020-07-02_13.00.09$SUFFIX"
-  "$MARCELLE_DIR/2020-07-02_14.59.59$SUFFIX"
-  "$MARCELLE_DIR/2020-07-02_15.13.22$SUFFIX"
-  "$MARCELLE_DIR/2020-07-02_15.31.36$SUFFIX"
-  "$MIKE_DIR/2020-07-02_14.07.33$SUFFIX"
-  "$MIKE_DIR/2020-07-02_14.14.32$SUFFIX"
-  "$MIKE_DIR/2020-07-02_14.20.28$SUFFIX"
+  "$PREPROCESSED_DIR/2020-07-02_11.17.39_Belly.csv"
+  "$PREPROCESSED_DIR/2020-07-02_11.17.39_Chest.csv"
+  "$PREPROCESSED_DIR/2020-07-02_11.17.39_LeftArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_11.17.39_RightArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_12.50.00_Belly.csv"
+  "$PREPROCESSED_DIR/2020-07-02_12.50.00_Chest.csv"
+  "$PREPROCESSED_DIR/2020-07-02_12.50.00_LeftArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_12.50.00_RightArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_13.00.09_Belly.csv"
+  "$PREPROCESSED_DIR/2020-07-02_13.00.09_Chest.csv"
+  "$PREPROCESSED_DIR/2020-07-02_13.00.09_LeftArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_13.00.09_RightArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.07.33_Belly.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.07.33_Chest.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.07.33_LeftArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.07.33_RightArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.14.32_Belly.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.14.32_Chest.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.14.32_LeftArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.14.32_RightArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.20.28_Belly.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.20.28_Chest.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.20.28_LeftArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.20.28_RightArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.38.40 (Falschausführung)_Belly.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.38.40 (Falschausführung)_Chest.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.38.40 (Falschausführung)_LeftArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.38.40 (Falschausführung)_RightArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.59.59_Belly.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.59.59_Chest.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.59.59_LeftArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_14.59.59_RightArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_15.13.22_Belly.csv"
+  "$PREPROCESSED_DIR/2020-07-02_15.13.22_Chest.csv"
+  "$PREPROCESSED_DIR/2020-07-02_15.13.22_LeftArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_15.13.22_RightArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_15.31.36_Belly.csv"
+  "$PREPROCESSED_DIR/2020-07-02_15.31.36_Chest.csv"
+  "$PREPROCESSED_DIR/2020-07-02_15.31.36_LeftArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_15.31.36_RightArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_15.39.22 (Falschausführung)_Belly.csv"
+  "$PREPROCESSED_DIR/2020-07-02_15.39.22 (Falschausführung)_Chest.csv"
+  "$PREPROCESSED_DIR/2020-07-02_15.39.22 (Falschausführung)_LeftArm.csv"
+  "$PREPROCESSED_DIR/2020-07-02_15.39.22 (Falschausführung)_RightArm.csv"
 )
 
 cd "$DIR"
 
-./build.sh
-./fix_csvs.sh
-./filter.sh --filter_sample_count=$FILTER_SAMPLE_COUNT
-
 for csv_file in "${CSV_FILES[@]}"; do
-  ./segment.sh --image_format=png --csv_file_path=$csv_file --sensor=770 --imu=accelerometer --segmentation_kind=both --window_size=51
+  ./preprocessed_segment.sh --image_format=png --csv_file_path=$csv_file --imu=accelerometer --segmentation_kind=both --window_size=51
 done
 
 cd "$PREV_DIR"

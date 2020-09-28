@@ -1,7 +1,4 @@
-TODOs:
- + Change segment_all.sh to use preprocessed_segment.sh script.
-
- Add 'em to CI.
+Add preprocessed_segment scripts to CI.
 
 ---------------------------------------------------------------------------
 Sprung bei
