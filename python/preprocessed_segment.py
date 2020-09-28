@@ -207,8 +207,12 @@ def main(arguments):
   data_set.crop_front(exercise_begin)
   data_set.crop_back(exercise_end)
 
+  # Butterworth
   normed_data = data_set.norm_butter_acc if imu == accelerometer_string(
   ) else data_set.norm_butter_gyro
+  # Moving average
+  # normed_data = data_set.norm_avg_acc if imu == accelerometer_string(
+  # ) else data_set.norm_avg_gyro
 
   segmentation_points = segment.segmentation_points(
       normed_data, segmentation_kind_from_str(segmentation_kind), window_size)
