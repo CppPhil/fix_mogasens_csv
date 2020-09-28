@@ -9,6 +9,7 @@ import numpy as np
 import modules.segmentation_points as segment
 
 from modules.constants import accelerometer_string, gyroscope_string
+from modules.preprocessed_data_set import PreprocessedDataSet
 from modules.segmentation_kind import segmentation_kind_from_str
 
 
@@ -65,9 +66,9 @@ def delete_too_close_segmenting_hardware_timestamps(data_set,
 
   def is_distance_too_small(previous_segmentation_point,
                             current_segmentation_point):
-    previous_hardware_timestamp = data_set.hardware_timestamp[
+    previous_hardware_timestamp = data_set.timestamp_ms[
         previous_segmentation_point]
-    current_hardware_timestamp = data_set.hardware_timestamp[
+    current_hardware_timestamp = data_set.timestamp_ms[
         current_segmentation_point]
     distance = current_hardware_timestamp - previous_hardware_timestamp
     return distance < minimum_distance_milliseconds
@@ -192,8 +193,7 @@ def main(arguments):
 
   print(f"\npreprocessed_segment.py launched with \"{csv_file_path}\".")
 
-  # TODO: Change how DataSet is read.
-  data_set = DataSet.from_file(csv_file_path)
+  data_set = PreprocessedDataSet.from_file(csv_file_path)
   exercise_begin, exercise_end = exercise_range(csv_file_path)
 
   if exercise_begin == 0 and exercise_end == 0:
@@ -206,15 +206,17 @@ def main(arguments):
   data_set.crop_front(exercise_begin)
   data_set.crop_back(exercise_end)
 
-  # TODO: Put in the thingamajig of the DataSet that we wont to segment by.
+  normed_data = data_set.norm_butter_acc if imu == accelerometer_string(
+  ) else data_set.norm_butter_gyro
+
   segmentation_points = segment.segmentation_points(
       normed_data, segmentation_kind_from_str(segmentation_kind), window_size)
 
-  delete_too_close_segmenting_hardware_timestamps(desired_sensor_data_set,
+  delete_too_close_segmenting_hardware_timestamps(data_set,
                                                   segmentation_points)
   delete_low_variance_segmentation_points(normed_data, segmentation_points)
 
-  segmenting_hardware_timestamps = desired_sensor_data_set.segmenting_hardware_timestamps(
+  segmenting_hardware_timestamps = data_set.segmenting_hardware_timestamps(
       segmentation_points)
 
   print(

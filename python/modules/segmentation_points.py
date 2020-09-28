@@ -4,7 +4,7 @@ from .segmentation_kind import SegmentationKind
 
 
 def find_local_extrema(data, segmentation_kind, radius):
-  extrema = []
+  extremum_indices = []
   current_index = 0
 
   while current_index < len(data):
@@ -24,12 +24,12 @@ def find_local_extrema(data, segmentation_kind, radius):
 
     if ((segmentation_kind & SegmentationKind.LOCAL_MINIMA) and all(current_value < element for element in window)) \
        or ((segmentation_kind & SegmentationKind.LOCAL_MAXIMA) and all(current_value > element for element in window)):
-      extrema.append(current_index)
+      extremum_indices.append(current_index)
       current_index = window_end + 1  # Skip over the window after having found a local extremum.
     else:
       current_index += 1
 
-  return extrema
+  return extremum_indices
 
 
 def segmentation_points(normed_data, segmentation_kind, window_size):
