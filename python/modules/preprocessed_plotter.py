@@ -40,18 +40,23 @@ def plot(the_imu, data_frame, segmenting_hwstamps):
       plt.axvline(x=hwstamp, linewidth=line_width, color='magenta')
 
   if the_imu == accelerometer_string():
-    plot_channel('x_acc', 'blue', 'x')
-    plot_channel('y_acc', 'red', 'y')
-    plot_channel('z_acc', 'green', 'z')
-    plot_channel('norm_acc', 'orange', 'norm')
+    # These unfiltered ones are way too noisy to display.
+    # plot_channel('x_acc', 'blue', 'x')
+    # plot_channel('y_acc', 'red', 'y')
+    # plot_channel('z_acc', 'green', 'z')
+    # plot_channel('norm_acc', 'orange', 'norm')
+
     plot_channel('norm_avg_acc', 'aqua', 'norm_avg')
     plot_channel('norm_butter_acc', 'teal', 'norm_butter')
+
     # TODO: These weird ones seem to be extreme ????
     # plot_channel('rx_acc', 'navy', 'rx')
     # plot_channel('ry_acc', 'olive', 'ry')
     # plot_channel('rz_acc', 'maroon', 'rz')
   elif the_imu == gyroscope_string():
-    plot_channel('norm_gyro', 'blue', 'norm')
+    # Unfiltered data is way too noisy to be displayed.
+    # plot_channel('norm_gyro', 'blue', 'norm')
+
     plot_channel('norm_avg_gyro', 'red', 'norm_avg')
     plot_channel('norm_butter_gyro', 'green', 'norm_butter')
   else:
