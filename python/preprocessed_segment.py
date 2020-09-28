@@ -228,11 +228,11 @@ def main(arguments):
 
   for imu in imus:
     modules.preprocessed_plotter.main(
-      image_format=args.image_format,
-      is_time_based_split_enabled=True,
-      csv_file_path=csv_file_path,
-      imu=imu,
-      segmenting_hwstamps=segmenting_hardware_timestamps)
+        image_format=args.image_format,
+        is_time_based_split_enabled=True,
+        csv_file_path=csv_file_path,
+        imu=imu,
+        segmenting_hwstamps=segmenting_hardware_timestamps)
 
   print("preprocessed_segment.py: Done.")
   sys.exit(0)

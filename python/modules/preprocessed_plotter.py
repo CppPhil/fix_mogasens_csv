@@ -79,7 +79,8 @@ def yticks(y_ticks, imu):
   return ticks
 
 
-def main(image_format, is_time_based_split_enabled, csv_file_path, imu, segmenting_hwstamps):
+def main(image_format, is_time_based_split_enabled, csv_file_path, imu,
+         segmenting_hwstamps):
   data_set = PreprocessedDataSet.from_file(csv_file_path)
 
   if data_set.is_empty():
@@ -117,7 +118,8 @@ def main(image_format, is_time_based_split_enabled, csv_file_path, imu, segmenti
   norm_butter_gyro_accumulator = []
 
   hardware_timestamp_threshold_offset = 10000  # 10 seconds
-  hardware_timestamp_threshold = data_set.timestamp_ms[0] + hardware_timestamp_threshold_offset if is_time_based_split_enabled else sys.maxsize
+  hardware_timestamp_threshold = data_set.timestamp_ms[
+      0] + hardware_timestamp_threshold_offset if is_time_based_split_enabled else sys.maxsize
 
   def append_accumulator(data, accumulator):
     data.append(accumulator.copy())
@@ -170,19 +172,19 @@ def main(image_format, is_time_based_split_enabled, csv_file_path, imu, segmenti
 
   for i in range(len(timestamp_ms_data)):
     df = pd.DataFrame({
-      'timestamp_ms': timestamp_ms_data[i],
-      'x_acc': x_acc_data[i],
-      'y_acc': y_acc_data[i],
-      'z_acc': z_acc_data[i],
-      'norm_acc': norm_acc_data[i],
-      'norm_avg_acc': norm_avg_acc_data[i],
-      'norm_butter_acc': norm_butter_acc_data[i],
-      'rx_acc': rx_acc_data[i],
-      'ry_acc': ry_acc_data[i],
-      'rz_acc': rz_acc_data[i],
-      'norm_gyro': norm_gyro_data[i],
-      'norm_avg_gyro': norm_avg_gyro_data[i],
-      'norm_butter_gyro': norm_butter_gyro_data[i]
+        'timestamp_ms': timestamp_ms_data[i],
+        'x_acc': x_acc_data[i],
+        'y_acc': y_acc_data[i],
+        'z_acc': z_acc_data[i],
+        'norm_acc': norm_acc_data[i],
+        'norm_avg_acc': norm_avg_acc_data[i],
+        'norm_butter_acc': norm_butter_acc_data[i],
+        'rx_acc': rx_acc_data[i],
+        'ry_acc': ry_acc_data[i],
+        'rz_acc': rz_acc_data[i],
+        'norm_gyro': norm_gyro_data[i],
+        'norm_avg_gyro': norm_avg_gyro_data[i],
+        'norm_butter_gyro': norm_butter_gyro_data[i]
     })
 
     title = f"{csv_file_path}_{imu}_{i + 1}".replace(" ", "_")
