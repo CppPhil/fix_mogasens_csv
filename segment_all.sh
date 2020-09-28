@@ -1,7 +1,7 @@
 #!/bin/bash
 
 catch_errors() {
-  printf "\nbuild.sh failed!\n" >&2
+  printf "\nsegment_all.sh failed!\n" >&2
   exit 1
 }
 
