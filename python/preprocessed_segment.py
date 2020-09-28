@@ -7,6 +7,7 @@ import sys
 import numpy as np
 
 import modules.segmentation_points as segment
+import modules.preprocessed_plotter
 
 from modules.constants import accelerometer_string, gyroscope_string
 from modules.preprocessed_data_set import PreprocessedDataSet
@@ -225,23 +226,15 @@ def main(arguments):
 
   imus = [accelerometer_string(), gyroscope_string()]
 
-  # TODO: Change the call to the plotter here.
-  # TODO: Have a different plotter.
   for imu in imus:
-    plotter_main(
-        arguments=[
-            '--image_format',
-            args.image_format,
-            '--no-moving_average_filter',  # Don't use a filter
-            '--time_based_split',  # Time based split setting
-            csv_file_path,  # Path to the entire CSV file
-            f'{sensor}',  # The sensor (left arm, belly, right arm, chest)
-            imu,  # The imu (accelerometer / gyroscope)
-            '0'  # Filter sample count (must be 0 if none is used)
-        ],
-        segmenting_hwstamps=segmenting_hardware_timestamps)
+    modules.preprocessed_plotter.main(
+      image_format=args.image_format,
+      is_time_based_split_enabled=True,
+      csv_file_path=csv_file_path,
+      imu=imu,
+      segmenting_hwstamps=segmenting_hardware_timestamps)
 
-  print("segment.py: Done.")
+  print("preprocessed_segment.py: Done.")
   sys.exit(0)
 
 
