@@ -1,8 +1,7 @@
 TODOs:
- + Add preprocessed_segment.rb  script.
- + Add preprocessed_segment.sh  script.
- + Add preprocessed_segment.bat script.
  + Change segment_all.sh to use preprocessed_segment.sh script.
+
+ Add 'em to CI.
 
 ---------------------------------------------------------------------------
 Sprung bei
