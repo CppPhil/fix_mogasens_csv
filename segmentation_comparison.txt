@@ -1,53 +1,53 @@
 Datensatz|Gezaehlte Liegestuetz|preprocessed butter|preprocessed avg|alt       | 
 ---------|---------------------|-------------------|----------------|----------|
-Felix    |                     |                   |
-11.17.39 | 24                  |                   |
- Belly   |                     | 64                |
- Chest   |                     | 55                |
- LeftArm |                     | 72                |
- RightArm|                     | 59                |
-12.50.00 | 20                  |                   |
- Belly   |                     | 64                |
- Chest   |                     | 77                |
- LeftArm |                     | 65                |
- RightArm|                     | 62                |
-13.00.09 | 15                  |                   |
- Belly   |                     | 39                |
- Chest   |                     | 38                |
- LeftArm |                     | 37                |
- RightArm|                     | 36                |
-         |                     |                   |
-Marcelle |                     |                   |
-14.59.59 | 10                  |                   |
- Belly   |                     | 27                |
- Chest   |                     | 25                |
- LeftArm |                     | 27                |
- RightArm|                     | 30                |
-15.13.22 | 16                  |                   |
- Belly   |                     | 44                |
- Chest   |                     | 44                |
- LeftArm |                     | 46                |
- RightArm|                     | 43                |
-15.31.36 | 18                  |                   |
- Belly   |                     | 41                |
- Chest   |                     | 33                |
- LeftArm |                     | 43                |
- RightArm|                     | 49                |
-         |                     |                   |
-Mike     |                     |                   |
-14.07.33 | 26                  |                   |
- Belly   |                     | 75                |
- Chest   |                     | 67                |
- LeftArm |                     | 61                |
- RightArm|                     | 63                |
-14.14.32 | 22                  |                   |
- Belly   |                     | 73                |
- Chest   |                     | 60                |
- LeftArm |                     | 55                |
- RightArm|                     | 52                |
-14.20.28 | 18                  |                   |
- Belly   |                     | 51                |
- Chest   |                     | 46                |
- LeftArm |                     | 43                |
- RightArm|                     | 46                |
+Felix    |                     |                   |                |
+11.17.39 | 24                  |                   |                |
+ Belly   |                     | 64                | 46             |
+ Chest   |                     | 55                | 46             |
+ LeftArm |                     | 72                | 49             |
+ RightArm|                     | 59                | 50             |
+12.50.00 | 20                  |                   |                |
+ Belly   |                     | 64                | 42             |
+ Chest   |                     | 77                |  7             |
+ LeftArm |                     | 65                | 42             |
+ RightArm|                     | 62                | 41             |
+13.00.09 | 15                  |                   |                |
+ Belly   |                     | 39                | 31             |
+ Chest   |                     | 38                | 17             |
+ LeftArm |                     | 37                | 30             |
+ RightArm|                     | 36                | 30             |
+         |                     |                   |                |
+Marcelle |                     |                   |                |
+14.59.59 | 10                  |                   |                |
+ Belly   |                     | 27                | 14             |
+ Chest   |                     | 25                | 12             |
+ LeftArm |                     | 27                | 20             |
+ RightArm|                     | 30                | 21             |
+15.13.22 | 16                  |                   |                |
+ Belly   |                     | 44                | 35             |
+ Chest   |                     | 44                | 32             |
+ LeftArm |                     | 46                | 31             |
+ RightArm|                     | 43                | 33             |
+15.31.36 | 18                  |                   |                |
+ Belly   |                     | 41                | 33             |
+ Chest   |                     | 33                |  9             |
+ LeftArm |                     | 43                | 14             |
+ RightArm|                     | 49                | 33             |
+         |                     |                   |                |
+Mike     |                     |                   |                |
+14.07.33 | 26                  |                   |                |
+ Belly   |                     | 75                | 47             |
+ Chest   |                     | 67                | 42             |
+ LeftArm |                     | 61                | 52             |
+ RightArm|                     | 63                | 38             |
+14.14.32 | 22                  |                   |                |
+ Belly   |                     | 73                | 32             |
+ Chest   |                     | 60                | 27             |
+ LeftArm |                     | 55                | 41             |
+ RightArm|                     | 52                | 21             |
+14.20.28 | 18                  |                   |                |
+ Belly   |                     | 51                | 22             |
+ Chest   |                     | 46                | 24             |
+ LeftArm |                     | 43                | 29             |
+ RightArm|                     | 46                | 11             |
 
