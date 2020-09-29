@@ -40,25 +40,23 @@ def plot(the_imu, data_frame, segmenting_hwstamps):
       plt.axvline(x=hwstamp, linewidth=line_width, color='magenta')
 
   if the_imu == accelerometer_string():
-    # These unfiltered ones are way too noisy to display.
-    # plot_channel('x_acc', 'blue', 'x')
-    # plot_channel('y_acc', 'red', 'y')
-    # plot_channel('z_acc', 'green', 'z')
-    # plot_channel('norm_acc', 'orange', 'norm')
-
-    plot_channel('norm_avg_acc', 'aqua', 'norm_avg')
-    plot_channel('norm_butter_acc', 'teal', 'norm_butter')
-
-    # TODO: These weird ones seem to be extreme ????
-    # plot_channel('rx_acc', 'navy', 'rx')
-    # plot_channel('ry_acc', 'olive', 'ry')
-    # plot_channel('rz_acc', 'maroon', 'rz')
+    plot_channel('x_acc_avg', 'red', 'x avg')
+    plot_channel('y_acc_avg', 'green', 'y avg')
+    plot_channel('z_acc_avg', 'blue', 'z avg')
+    plot_channel('x_acc_butter', 'orange', 'x butter')
+    plot_channel('y_acc_butter', 'lime', 'y butter')
+    plot_channel('z_acc_butter', 'aqua', 'z butter')
+    plot_channel('norm_avg_acc', 'navy', 'norm avg')
+    plot_channel('norm_butter_acc', 'teal', 'norm butter')
   elif the_imu == gyroscope_string():
-    # Unfiltered data is way too noisy to be displayed.
-    # plot_channel('norm_gyro', 'blue', 'norm')
-
-    plot_channel('norm_avg_gyro', 'red', 'norm_avg')
-    plot_channel('norm_butter_gyro', 'green', 'norm_butter')
+    plot_channel('rx_acc_avg', 'red', 'x avg')
+    plot_channel('ry_acc_avg', 'green', 'y avg')
+    plot_channel('rz_acc_avg', 'blue', 'z avg')
+    plot_channel('rx_acc_butter', 'orange', 'x butter')
+    plot_channel('ry_acc_butter', 'lime', 'y butter')
+    plot_channel('rz_acc_butter', 'aqua', 'z butter')
+    plot_channel('norm_avg_gyro', 'navy', 'norm avg')
+    plot_channel('norm_butter_acc', 'teal', 'norm butter')
   else:
     print(
         f'preprocessed_plotter.py: imu was "{the_imu}" which is neither "#{accelerometer_string()}" nor "#{gyroscope_string()}", '
@@ -99,12 +97,24 @@ def main(image_format, is_time_based_split_enabled, csv_file_path, imu,
   x_acc_data = []
   y_acc_data = []
   z_acc_data = []
+  x_acc_avg_data = []
+  y_acc_avg_data = []
+  z_acc_avg_data = []
+  x_acc_butter_data = []
+  y_acc_butter_data = []
+  z_acc_butter_data = []
   norm_acc_data = []
   norm_avg_acc_data = []
   norm_butter_acc_data = []
   rx_acc_data = []
   ry_acc_data = []
   rz_acc_data = []
+  rx_acc_avg_data = []
+  ry_acc_avg_data = []
+  rz_acc_avg_data = []
+  rx_acc_butter_data = []
+  ry_acc_butter_data = []
+  rz_acc_butter_data = []
   norm_gyro_data = []
   norm_avg_gyro_data = []
   norm_butter_gyro_data = []
@@ -113,12 +123,24 @@ def main(image_format, is_time_based_split_enabled, csv_file_path, imu,
   x_acc_accumulator = []
   y_acc_accumulator = []
   z_acc_accumulator = []
+  x_acc_avg_accumulator = []
+  y_acc_avg_accumulator = []
+  z_acc_avg_accumulator = []
+  x_acc_butter_accumulator = []
+  y_acc_butter_accumulator = []
+  z_acc_butter_accumulator = []
   norm_acc_accumulator = []
   norm_avg_acc_accumulator = []
   norm_butter_acc_accumulator = []
   rx_acc_accumulator = []
   ry_acc_accumulator = []
   rz_acc_accumulator = []
+  rx_acc_avg_accumulator = []
+  ry_acc_avg_accumulator = []
+  rz_acc_avg_accumulator = []
+  rx_acc_butter_accumulator = []
+  ry_acc_butter_accumulator = []
+  rz_acc_butter_accumulator = []
   norm_gyro_accumulator = []
   norm_avg_gyro_accumulator = []
   norm_butter_gyro_accumulator = []
@@ -136,12 +158,24 @@ def main(image_format, is_time_based_split_enabled, csv_file_path, imu,
     append_accumulator(x_acc_data, x_acc_accumulator)
     append_accumulator(y_acc_data, y_acc_accumulator)
     append_accumulator(z_acc_data, z_acc_accumulator)
+    append_accumulator(x_acc_avg_data, x_acc_avg_accumulator)
+    append_accumulator(y_acc_avg_data, y_acc_avg_accumulator)
+    append_accumulator(z_acc_avg_data, z_acc_avg_accumulator)
+    append_accumulator(x_acc_butter_data, x_acc_butter_accumulator)
+    append_accumulator(y_acc_butter_data, y_acc_butter_accumulator)
+    append_accumulator(z_acc_butter_data, z_acc_butter_accumulator)
     append_accumulator(norm_acc_data, norm_acc_accumulator)
     append_accumulator(norm_avg_acc_data, norm_avg_acc_accumulator)
     append_accumulator(norm_butter_acc_data, norm_butter_acc_accumulator)
     append_accumulator(rx_acc_data, rx_acc_accumulator)
     append_accumulator(ry_acc_data, ry_acc_accumulator)
     append_accumulator(rz_acc_data, rz_acc_accumulator)
+    append_accumulator(rx_acc_avg_data, rx_acc_avg_accumulator)
+    append_accumulator(ry_acc_avg_data, ry_acc_avg_accumulator)
+    append_accumulator(rz_acc_avg_data, rz_acc_avg_accumulator)
+    append_accumulator(rx_acc_butter_data, rx_acc_butter_accumulator)
+    append_accumulator(ry_acc_butter_data, ry_acc_butter_accumulator)
+    append_accumulator(rz_acc_butter_data, rz_acc_butter_accumulator)
     append_accumulator(norm_gyro_data, norm_gyro_accumulator)
     append_accumulator(norm_avg_gyro_data, norm_avg_gyro_accumulator)
     append_accumulator(norm_butter_gyro_data, norm_butter_gyro_accumulator)
@@ -152,12 +186,24 @@ def main(image_format, is_time_based_split_enabled, csv_file_path, imu,
       x_acc_accumulator.append(data_set.x_acc[i])
       y_acc_accumulator.append(data_set.y_acc[i])
       z_acc_accumulator.append(data_set.z_acc[i])
+      x_acc_avg_accumulator.append(data_set.x_acc_avg[i])
+      y_acc_avg_accumulator.append(data_set.y_acc_avg[i])
+      z_acc_avg_accumulator.append(data_set.z_acc_avg[i])
+      x_acc_butter_accumulator.append(data_set.x_acc_butter[i])
+      y_acc_butter_accumulator.append(data_set.y_acc_butter[i])
+      z_acc_butter_accumulator.append(data_set.z_acc_butter[i])
       norm_acc_accumulator.append(data_set.norm_acc[i])
       norm_avg_acc_accumulator.append(data_set.norm_avg_acc[i])
       norm_butter_acc_accumulator.append(data_set.norm_butter_acc[i])
       rx_acc_accumulator.append(data_set.rx_acc[i])
       ry_acc_accumulator.append(data_set.ry_acc[i])
       rz_acc_accumulator.append(data_set.rz_acc[i])
+      rx_acc_avg_accumulator.append(data_set.rx_acc_avg[i])
+      ry_acc_avg_accumulator.append(data_set.ry_acc_avg[i])
+      rz_acc_avg_accumulator.append(data_set.rz_acc_avg[i])
+      rx_acc_butter_accumulator.append(data_set.rx_acc_butter[i])
+      ry_acc_butter_accumulator.append(data_set.ry_acc_butter[i])
+      rz_acc_butter_accumulator.append(data_set.rz_acc_butter[i])
       norm_gyro_accumulator.append(data_set.norm_gyro[i])
       norm_avg_gyro_accumulator.append(data_set.norm_avg_gyro[i])
       norm_butter_gyro_accumulator.append(data_set.norm_butter_gyro[i])
@@ -176,18 +222,30 @@ def main(image_format, is_time_based_split_enabled, csv_file_path, imu,
   if len(timestamp_ms_accumulator) != 0:
     append_accumulators()
 
-  for i in range(len(timestamp_ms_data)):
+  for i in range(len(timestamp_ms_data)):  # TODO: HERE
     df = pd.DataFrame({
         'timestamp_ms': timestamp_ms_data[i],
         'x_acc': x_acc_data[i],
         'y_acc': y_acc_data[i],
         'z_acc': z_acc_data[i],
+        'x_acc_avg': x_acc_avg_data[i],
+        'y_acc_avg': y_acc_avg_data[i],
+        'z_acc_avg': z_acc_avg_data[i],
+        'x_acc_butter': x_acc_butter_data[i],
+        'y_acc_butter': y_acc_butter_data[i],
+        'z_acc_butter': z_acc_butter_data[i],
         'norm_acc': norm_acc_data[i],
         'norm_avg_acc': norm_avg_acc_data[i],
         'norm_butter_acc': norm_butter_acc_data[i],
         'rx_acc': rx_acc_data[i],
         'ry_acc': ry_acc_data[i],
         'rz_acc': rz_acc_data[i],
+        'rx_acc_avg': rx_acc_avg_data[i],
+        'ry_acc_avg': ry_acc_avg_data[i],
+        'rz_acc_avg': rz_acc_avg_data[i],
+        'rx_acc_butter': rx_acc_butter_data[i],
+        'ry_acc_butter': ry_acc_butter_data[i],
+        'rz_acc_butter': rz_acc_butter_data[i],
         'norm_gyro': norm_gyro_data[i],
         'norm_avg_gyro': norm_avg_gyro_data[i],
         'norm_butter_gyro': norm_butter_gyro_data[i]
