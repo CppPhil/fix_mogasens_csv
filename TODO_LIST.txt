@@ -1,3 +1,13 @@
+Nur Minima
+Nur Maxima finden
+
+100 / 150 window_size -> find_segmentation_points
+ += 1 immer?
+
+Varianz
+
+Distanz zwischen 2 Punkten zum rausschmeissen.
+
 ---------------------------------------------------------------------------
 Sprung bei
  Felix/2020-07-02_11.17.39
