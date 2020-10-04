@@ -14,7 +14,7 @@ readonly PREV_DIR=$(pwd)
 
 readonly RESOURCE_DIR="resources"
 
-readonly PREPROCESSED_DIR="$RESOURCE_DIR/Pre-processed-Data"
+readonly PREPROCESSED_DIR="$RESOURCE_DIR/preprocessed"
 
 readonly CSV_FILES=(
   "$PREPROCESSED_DIR/2020-07-02_11.17.39_Belly.csv"
