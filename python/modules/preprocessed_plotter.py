@@ -118,6 +118,8 @@ def main(image_format, is_time_based_split_enabled, csv_file_path, imu,
   norm_gyro_data = []
   norm_avg_gyro_data = []
   norm_butter_gyro_data = []
+  interpolated_data = []
+  out_of_bounds_data = []
 
   timestamp_ms_accumulator = []
   x_acc_accumulator = []
@@ -144,6 +146,8 @@ def main(image_format, is_time_based_split_enabled, csv_file_path, imu,
   norm_gyro_accumulator = []
   norm_avg_gyro_accumulator = []
   norm_butter_gyro_accumulator = []
+  interpolated_accumulator = []
+  out_of_bounds_accumulator = []
 
   hardware_timestamp_threshold_offset = 10000  # 10 seconds
   hardware_timestamp_threshold = data_set.timestamp_ms[
@@ -179,6 +183,8 @@ def main(image_format, is_time_based_split_enabled, csv_file_path, imu,
     append_accumulator(norm_gyro_data, norm_gyro_accumulator)
     append_accumulator(norm_avg_gyro_data, norm_avg_gyro_accumulator)
     append_accumulator(norm_butter_gyro_data, norm_butter_gyro_accumulator)
+    append_accumulator(interpolated_data, interpolated_accumulator)
+    append_accumulator(out_of_bounds_data, out_of_bounds_accumulator)
 
   for i in range(data_set.size()):
     try:
@@ -207,6 +213,8 @@ def main(image_format, is_time_based_split_enabled, csv_file_path, imu,
       norm_gyro_accumulator.append(data_set.norm_gyro[i])
       norm_avg_gyro_accumulator.append(data_set.norm_avg_gyro[i])
       norm_butter_gyro_accumulator.append(data_set.norm_butter_gyro[i])
+      interpolated_accumulator.append(data_set.interpolated[i])
+      out_of_bounds_accumulator.append(data_set.out_of_bounds[i])
 
       current_hardware_timestamp = data_set.timestamp_ms[i]
 
@@ -248,7 +256,9 @@ def main(image_format, is_time_based_split_enabled, csv_file_path, imu,
         'rz_acc_butter': rz_acc_butter_data[i],
         'norm_gyro': norm_gyro_data[i],
         'norm_avg_gyro': norm_avg_gyro_data[i],
-        'norm_butter_gyro': norm_butter_gyro_data[i]
+        'norm_butter_gyro': norm_butter_gyro_data[i],
+        'interpolated': interpolated_data[i],
+        'out_of_bounds': out_of_bounds_data[i]
     })
 
     title = f"{csv_file_path}_{imu}_{i + 1}".replace(" ", "_")

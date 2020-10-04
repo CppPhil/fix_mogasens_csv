@@ -12,7 +12,7 @@ class PreprocessedDataSet:
                norm_acc, norm_avg_acc, norm_butter_acc, rx_acc, ry_acc, rz_acc,
                rx_acc_avg, ry_acc_avg, rz_acc_avg, rx_acc_butter,
                ry_acc_butter, rz_acc_butter, norm_gyro, norm_avg_gyro,
-               norm_butter_gyro):
+               norm_butter_gyro, interpolated, out_of_bounds):
     self.time_s = time_s
     self.timestamp_ms = timestamp_ms
     self.x_acc = x_acc
@@ -39,6 +39,8 @@ class PreprocessedDataSet:
     self.norm_gyro = norm_gyro
     self.norm_avg_gyro = norm_avg_gyro
     self.norm_butter_gyro = norm_butter_gyro
+    self.interpolated = interpolated
+    self.out_of_bounds = out_of_bounds
 
   @classmethod
   def from_file(cls, csv_file_name):
@@ -70,6 +72,8 @@ class PreprocessedDataSet:
     obj.norm_gyro = []
     obj.norm_avg_gyro = []
     obj.norm_butter_gyro = []
+    obj.interpolated = []
+    obj.out_of_bounds = []
 
     with open(csv_file_name, 'r', newline='', encoding='utf-8') as csv_file:
       try:
@@ -105,6 +109,8 @@ class PreprocessedDataSet:
             obj.norm_gyro.append(float(row[23]))
             obj.norm_avg_gyro.append(float(row[24]))
             obj.norm_butter_gyro.append(float(row[25]))
+            obj.interpolated.append(int(row[26]))
+            obj.out_of_bounds.append(int(row[27]))
           except IndexError as err:
             print(
                 f"preprocessed_data_set.py: PreprocessedDataSet.from_file: IndexError for file \"{csv_file_name}\": \"{err}\", row_count: {row_count}, row: {row}",
@@ -144,7 +150,8 @@ class PreprocessedDataSet:
           'yAccAvg', 'zAccAvg', 'xAccButter', 'yAccButter', 'zAccButter',
           'normAcc', 'normAvgAcc', 'normButterAcc', 'rxAcc', 'ryAcc', 'rzAcc',
           'rxAccAvg', 'ryAccAvg', 'rzAccAvg', 'rxAccButter', 'ryAccButter',
-          'rzAccButter', 'normGyro', 'normAvgGyro', 'normButterGyro'
+          'rzAccButter', 'normGyro', 'normAvgGyro', 'normButterGyro',
+          'interpolated', 'outOfBounds'
       ])
 
       for i in range(self.size()):
@@ -157,7 +164,7 @@ class PreprocessedDataSet:
             self.rz_acc[i], self.rx_acc_avg[i], self.ry_acc_avg[i],
             self.rz_acc_avg[i], self.rx_acc_butter[i], self.ry_acc_butter[i],
             self.rz_acc_butter[i], self.norm_gyro[i], self.norm_avg_gyro[i],
-            self.norm_butter_gyro[i]
+            self.norm_butter_gyro[i], self.interpolated[i], self.out_of_bounds[i]
         ])
 
   def segmenting_hardware_timestamps(self, segmentation_points):
@@ -188,7 +195,9 @@ class PreprocessedDataSet:
               self.ry_acc_butter[last_idx:idx],
               self.rz_acc_butter[last_idx:idx], self.norm_gyro[last_idx:idx],
               self.norm_avg_gyro[last_idx:idx],
-              self.norm_butter_gyro[last_idx:idx]))
+              self.norm_butter_gyro[last_idx:idx],
+              self.interpolated[last_idx:idx],
+              self.out_of_bounds[last_idx:idx]))
       last_idx = idx
 
     segments.append(
@@ -205,7 +214,8 @@ class PreprocessedDataSet:
             self.ry_acc_avg[last_idx:], self.rz_acc_avg[last_idx:],
             self.rx_acc_butter[last_idx:], self.ry_acc_butter[last_idx:],
             self.rz_acc_butter[last_idx:], self.norm_gyro[last_idx:],
-            self.norm_avg_gyro[last_idx:], self.norm_butter_gyro[last_idx:]))
+            self.norm_avg_gyro[last_idx:], self.norm_butter_gyro[last_idx:],
+            self.interpolated[last_idx:], self.out_of_bounds[last_idx:]))
 
     return segments
 
@@ -239,6 +249,8 @@ class PreprocessedDataSet:
     self.norm_gyro = self.norm_gyro[crop_index:]
     self.norm_avg_gyro = self.norm_avg_gyro[crop_index:]
     self.norm_butter_gyro = self.norm_butter_gyro[crop_index:]
+    self.interpolated = self.interpolated[crop_index:]
+    self.out_of_bounds = self.out_of_bounds[crop_index:]
 
   def crop_back(self, exercise_end_timestamp):
     # exclusive
@@ -270,3 +282,5 @@ class PreprocessedDataSet:
     self.norm_gyro = self.norm_gyro[:crop_index]
     self.norm_avg_gyro = self.norm_avg_gyro[:crop_index]
     self.norm_butter_gyro = self.norm_butter_gyro[:crop_index]
+    self.interpolated = self.interpolated[:crop_index]
+    self.out_of_bounds = self.out_of_bounds[:crop_index]
