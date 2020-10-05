@@ -16,36 +16,39 @@ from modules.segmentation_kind import segmentation_kind_from_str
 
 def validate(csv_file_path, imu, segmentation_kind, window_size, filter_data):
   if not os.path.isfile(csv_file_path):
-    print(f"segment.py: \"{csv_file_path}\" is not a file.", file=sys.stderr)
+    print(f"preprocessed_segment.py: \"{csv_file_path}\" is not a file.",
+          file=sys.stderr)
     return False
 
   if imu not in [accelerometer_string(), gyroscope_string()]:
-    print(f"segment.py: {imu} is not a valid IMU.", file=sys.stderr)
+    print(f"preprocessed_segment.py: {imu} is not a valid IMU.",
+          file=sys.stderr)
     return False
 
   try:
     segmentation_kind_from_str(segmentation_kind)
   except Exception:
     print(
-        f"segment.py: \"{segmentation_kind}\" is not a valid segmentation kind.",
+        f"preprocessed_segment.py: \"{segmentation_kind}\" is not a valid segmentation kind.",
         file=sys.stderr)
     return False
 
   if window_size < 3:
     print(
-        f"segment.py: window size was {window_size}, but must be at least 3!",
+        f"preprocessed_segment.py: window size was {window_size}, but must be at least 3!",
         file=sys.stderr)
     return False
 
   if not window_size % 2 == 1:
     print(
-        f"segment.py: window size {window_size} is an even number, but an odd number is required.",
+        f"preprocessed_segment.py: window size {window_size} is an even number, but an odd number is required.",
         file=sys.stderr)
     return False
 
   if (filter_data != 'average') and (filter_data != 'butterworth'):
-    print(f"segment.py: filter {filter_data} must be average or butterworth!",
-          file=sys.stderr)
+    print(
+        f"preprocessed_segment.py: filter {filter_data} must be average or butterworth!",
+        file=sys.stderr)
     return False
 
   return True

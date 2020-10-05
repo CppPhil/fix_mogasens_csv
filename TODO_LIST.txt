@@ -14,17 +14,6 @@ skip_window         := true, false
 delete_too_close    := true, false
 delete_low_variance := true, false
 
-parameterization with
- skip_window         -- DONE
- delete_too_close    -- DONE
- delete_low_variance -- DONE
-
-parameterize which data shall be used for the preprocessed one
- -> Moving average
- -> Or Butterworth
-
-Fix I/O saying segment.py: in preprocessed_segment.py
-
 write script so that it writes to an appropriate file made up of the
 parameters (APPEND)
 
