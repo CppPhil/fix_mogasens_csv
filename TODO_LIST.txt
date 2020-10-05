@@ -17,7 +17,7 @@ delete_low_variance := true, false
 parameterization with
  skip_window         -- DONE
  delete_too_close    -- DONE
- delete_low_variance
+ delete_low_variance -- DONE
 
 parameterize which data shall be used for the preprocessd one
  -> Moving average
