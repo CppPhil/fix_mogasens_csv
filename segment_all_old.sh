@@ -34,30 +34,30 @@ readonly CSV_FILES=(
 )
 
 readonly SKIP_WINDOW_OPTIONS=(
-  "true"
   "false"
+  "true"
 )
 
 readonly DELETE_TOO_CLOSE_OPTIONS=(
-  "true"
   "false"
+  "true"
 )
 
 readonly DELETE_LOW_VARIANCE_OPTIONS=(
-  "true"
   "false"
+  "true"
 )
 
 readonly SEGMENTATION_KINDS=(
-  "min"
-  "max"
   "both"
+  "max"
+  "min"
 )
 
 readonly WINDOW_SIZES=(
-  "51"
   "101"
   "151"
+  "51"
 )
 
 readonly SENSORS=(

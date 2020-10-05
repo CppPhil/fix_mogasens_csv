@@ -14,12 +14,18 @@ skip_window         := true, false
 delete_too_close    := true, false
 delete_low_variance := true, false
 
+preprocessed butter
+preprocessed average
+old
+
 Adjust the LibreOffice Calc table.
 
 Get rid off Spam
  -> Only have FILENAME: SEGMENTATION POINT COUNT
 
----------------------------------------------------------------------------
+Don't actually plot
+
+-------------------------------------------------------------------------
 Sprung bei
  Felix/2020-07-02_11.17.39
    Zeile 4609 zu 4610
