@@ -181,6 +181,10 @@ def create_euclidean_norm(data_set, imu):
 
 def main(arguments):
   parser = argparse.ArgumentParser(description='Segment a MoGaSens CSV file.')
+  parser.add_argument('--skip_window', dest='skip_window', action='store_true')
+  parser.add_argument('--no-skip_window',
+                      dest='skip_window',
+                      action='store_false')
   parser.add_argument('--image_format',
                       type=str,
                       help='The image format to use e.g. svg',
@@ -212,6 +216,9 @@ def main(arguments):
   imu = args.imu
   segmentation_kind = args.segmentation_kind
   window_size = args.window_size
+  skip_window = args.skip_window  # Whether to skip the window used for segmentation when a segmentation point is found.
+
+  print(f"segment.py: skip_window is {skip_window}")
 
   if not validate(csv_file_path, sensor, imu, segmentation_kind, window_size):
     sys.exit(1)
@@ -235,7 +242,8 @@ def main(arguments):
   normed_data = create_euclidean_norm(desired_sensor_data_set, imu)
 
   segmentation_points = segment.segmentation_points(
-      normed_data, segmentation_kind_from_str(segmentation_kind), window_size)
+      normed_data, segmentation_kind_from_str(segmentation_kind), window_size,
+      skip_window)
 
   delete_too_close_segmenting_hardware_timestamps(desired_sensor_data_set,
                                                   segmentation_points)

@@ -5,6 +5,11 @@ require_relative 'modules/generate_images_module'
 options = {}
 
 OptionParser.new do |opt|
+  opt.on('--skip_window=BOOLEAN',
+         'Whether to skip over the remainder of the window when a segmentation point is found') do |o|
+    options[:skip_window] = o.equal?('true')
+  end
+
   opt.on('--image_format=IMAGE_FORMAT',
          'The image format to use e.g. svg; defaults to png') do |o|
     options[:image_format] = o
@@ -46,6 +51,12 @@ image_format = if options[:image_format].nil?
                  options[:image_format]
                end
 
+skip_window = if options[:skip_window]
+                '--skip_window'
+              else
+                '--no-skip_window'
+              end
+
 puts("segment.rb: Starting.\n"\
      "command line options: \"#{options}\"\n"\
      "image_format is \"#{image_format}\".")
@@ -54,6 +65,7 @@ SEGMENTOR = "\"#{Dir.pwd}/python/segment.py\"".freeze
 
 run_segment_py_string = \
   "#{Python.interpreter} #{SEGMENTOR} "\
+  "#{skip_window} "\
   "--image_format #{image_format} "\
   "--csv_file_path \"#{options[:csv_file_path]}\" "\
   "--sensor #{options[:sensor]} "\
