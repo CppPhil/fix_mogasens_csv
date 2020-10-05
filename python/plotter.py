@@ -288,8 +288,6 @@ def main_impl(arguments, segmenting_hwstamps):
                 format=image_format)
     plt.close()
 
-    print(f"plotter.py: Wrote \"{output_image_file_name}\".")
-
 
 if __name__ == "__main__":
   main(sys.argv[1:])
