@@ -14,7 +14,7 @@ from modules.preprocessed_data_set import PreprocessedDataSet
 from modules.segmentation_kind import segmentation_kind_from_str
 
 
-def validate(csv_file_path, imu, segmentation_kind, window_size):
+def validate(csv_file_path, imu, segmentation_kind, window_size, filter_data):
   if not os.path.isfile(csv_file_path):
     print(f"segment.py: \"{csv_file_path}\" is not a file.", file=sys.stderr)
     return False
@@ -41,6 +41,11 @@ def validate(csv_file_path, imu, segmentation_kind, window_size):
     print(
         f"segment.py: window size {window_size} is an even number, but an odd number is required.",
         file=sys.stderr)
+    return False
+
+  if (filter_data != 'average') and (filter_data != 'butterworth'):
+    print(f"segment.py: filter {filter_data} must be average or butterworth!",
+          file=sys.stderr)
     return False
 
   return True
@@ -199,6 +204,10 @@ def main(arguments):
                       type=int,
                       help='The window size to use for segmenting.',
                       required=True)
+  parser.add_argument('--filter',
+                      type=str,
+                      help='Which data to use (average | butterworth)',
+                      required=True)
   args = parser.parse_args(arguments)
   csv_file_path = args.csv_file_path
   imu = args.imu
@@ -207,8 +216,10 @@ def main(arguments):
   skip_window = args.skip_window  # Whether to skip the window used for segmentation when a segmentation point is found.
   delete_too_close = args.delete_too_close
   delete_low_variance = args.delete_low_variance
+  filter_data = args.filter
 
-  if not validate(csv_file_path, imu, segmentation_kind, window_size):
+  if not validate(csv_file_path, imu, segmentation_kind, window_size,
+                  filter_data):
     sys.exit(1)
 
   print(f"\npreprocessed_segment.py launched with \"{csv_file_path}\".")
@@ -226,12 +237,12 @@ def main(arguments):
   data_set.crop_front(exercise_begin)
   data_set.crop_back(exercise_end)
 
-  # Butterworth
-  normed_data = data_set.norm_butter_acc if imu == accelerometer_string(
-  ) else data_set.norm_butter_gyro
-  # Moving average
-  # normed_data = data_set.norm_avg_acc if imu == accelerometer_string(
-  # ) else data_set.norm_avg_gyro
+  if filter_data == 'butterworth':  # Butterworth filter
+    normed_data = data_set.norm_butter_acc if imu == accelerometer_string(
+    ) else data_set.norm_butter_gyro
+  else:  # Moving average filter
+    normed_data = data_set.norm_avg_acc if imu == accelerometer_string(
+    ) else data_set.norm_avg_gyro
 
   segmentation_points = segment.segmentation_points(
       normed_data, segmentation_kind_from_str(segmentation_kind), window_size,

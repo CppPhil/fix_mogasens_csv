@@ -73,7 +73,8 @@ for csv_file in "${CSV_FILES[@]}"; do
                             --csv_file_path="$csv_file" \
                             --imu=accelerometer \
                             --segmentation_kind=both \
-                            --window_size=51
+                            --window_size=51 \
+                            --filter=butterworth
 done
 
 cd "$PREV_DIR"

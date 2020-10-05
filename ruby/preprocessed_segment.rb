@@ -29,19 +29,24 @@ OptionParser.new do |opt|
     options[:csv_file_path] = o
   end
 
-  opt.on('--imu=IMU',\
+  opt.on('--imu=IMU',
          'The IMU to use (accelerometer | gyroscope)') do |o|
     options[:imu] = o
   end
 
-  opt.on('--segmentation_kind=KIND',\
+  opt.on('--segmentation_kind=KIND',
          'The segmentation kind to use (min | max | both)') do |o|
     options[:segmentation_kind] = o
   end
 
-  opt.on('--window_size=WINDOW_SIZE',\
+  opt.on('--window_size=WINDOW_SIZE',
          'The window size to use for segmenting') do |o|
     options[:window_size] = o
+  end
+
+  opt.on('--filter=FILTER',
+         'average of butterworth') do |o|
+    options[:filter] = o
   end
 
   opt.on_tail('-h', '--help', 'Show this message') do
@@ -89,7 +94,8 @@ run_string = \
   "--csv_file_path \"#{options[:csv_file_path]}\" "\
   "--imu #{options[:imu]} "\
   "--segmentation_kind #{options[:segmentation_kind]} "\
-  "--window_size #{options[:window_size]}"
+  "--window_size #{options[:window_size]} "\
+  "--filter #{options[:filter]}"
 
 unless system(run_string)
   STDERR.puts("\"#{run_string}\" failed, exiting.")
