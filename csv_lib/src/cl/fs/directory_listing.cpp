@@ -62,7 +62,7 @@ Expected<std::vector<Path>> directoryListing(
     return CL_UNEXPECTED(
       Error::Filesystem,
       fmt::format(
-        "\"{}\": GetFullPathNameW failed in line {}!", path, __LINE__));
+        "\"{}\": GetFullPathNameW failed, line: {}!", path, __LINE__));
   }
 
   std::wstring buffer(charactersNeeded, L' ');
@@ -77,7 +77,7 @@ Expected<std::vector<Path>> directoryListing(
     return CL_UNEXPECTED(
       Error::Filesystem,
       fmt::format(
-        "\"{}\": GetFullPathNameW failed in line {}!", path, __LINE__));
+        "\"{}\": GetFullPathNameW failed, line: {}!", path, __LINE__));
   }
 
   assert(
