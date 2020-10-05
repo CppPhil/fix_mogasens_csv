@@ -7,7 +7,7 @@ options = {}
 OptionParser.new do |opt|
   opt.on('--skip_window=BOOLEAN',
          'Whether to skip over the remainder of the window when a segmentation point is found') do |o|
-    options[:skip_window] = o.equal?('true')
+    options[:skip_window] = (o.casecmp 'true').zero?
   end
 
   opt.on('--image_format=IMAGE_FORMAT',

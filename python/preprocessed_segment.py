@@ -194,8 +194,6 @@ def main(arguments):
   window_size = args.window_size
   skip_window = args.skip_window  # Whether to skip the window used for segmentation when a segmentation point is found.
 
-  print(f"preprocessed_segment.py: skip_window is {skip_window}")
-
   if not validate(csv_file_path, imu, segmentation_kind, window_size):
     sys.exit(1)
 
