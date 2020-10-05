@@ -35,14 +35,14 @@ Expected<std::vector<Path>> directoryListing(
   std::vector<Path>  result{};
 
 #if PL_OS == PL_OS_LINUX
-  auto dir{opendir(path.c_str())};
+  DIR* dir{opendir(path.c_str())};
 
   if (dir == nullptr) {
     return CL_UNEXPECTED(
       Error::Filesystem, fmt::format("opendir failed with \"{}\"!", path));
   }
 
-  for (struct dirent* entry{nullptr}; (entry = readdir(dir)) != nullptr;) {
+  for (dirent* entry{nullptr}; (entry = readdir(dir)) != nullptr;) {
     result.emplace_back(std::string{entry->d_name});
   }
 
