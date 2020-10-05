@@ -229,10 +229,11 @@ def main(arguments):
   exercise_begin, exercise_end = exercise_range(csv_file_path)
 
   if exercise_begin == 0 and exercise_end == 0:
-    print(
-        f"preprocessed_segment.py: exercise_range returned the empty range for \"{csv_file_path}\", skipping file."
-    )
-    print(f"preprocessed_segment.py: Exiting.")
+    # TODO: HERE This is commented out temporarily.
+    #print(
+    #    f"preprocessed_segment.py: exercise_range returned the empty range for \"{csv_file_path}\", skipping file."
+    #)
+    #print(f"preprocessed_segment.py: Exiting.")
     sys.exit(0)
 
   data_set.crop_front(exercise_begin)

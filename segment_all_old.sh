@@ -92,7 +92,7 @@ for skip_window_option in "${SKIP_WINDOW_OPTIONS[@]}"; do
                 --imu=accelerometer \
                 --segmentation_kind="$segmentation_kind" \
                 --window_size="$window_size" \
-                  >> "$LOG_DIR/skip_window-${skip_window_option}_delete_too_close-${delete_too_close_option}_delete_low_variance-${delete_low_variance_option}sensor_${sensor}_kind-${segmentation_kind}_window${window_size}" 2>&1
+                  >> "$LOG_DIR/skip_window-${skip_window_option}_delete_too_close-${delete_too_close_option}_delete_low_variance-${delete_low_variance_option}sensor-${sensor}_kind-${segmentation_kind}_window-${window_size}.log" 2>&1
             done
           done
         done
@@ -100,6 +100,8 @@ for skip_window_option in "${SKIP_WINDOW_OPTIONS[@]}"; do
     done
   done
 done
+
+echo "DONE."
 
 cd "$PREV_DIR"
 exit 0
