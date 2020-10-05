@@ -14,11 +14,10 @@ skip_window         := true, false
 delete_too_close    := true, false
 delete_low_variance := true, false
 
+thingies:
 preprocessed butter
 preprocessed average
 old
-
-Adjust the LibreOffice Calc table.
 
 Get rid off Spam
  -> Only have FILENAME: SEGMENTATION POINT COUNT
