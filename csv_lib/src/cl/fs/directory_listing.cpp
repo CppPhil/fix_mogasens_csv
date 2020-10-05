@@ -50,8 +50,6 @@ Expected<std::vector<Path>> directoryListing(
   }
 #elif PL_OS == PL_OS_WINDOWS
   std::wstring utf16Path{utf8ToUtf16(path)};
-  pl::algo::replace(utf16Path, L'/', L'\\');
-
   WCHAR buffer[MAX_PATH]{};
 
   const DWORD statusCode{GetFullPathNameW(
@@ -60,14 +58,17 @@ Expected<std::vector<Path>> directoryListing(
     /* lpBuffer */ buffer,
     /* lpFilePart */ nullptr)};
 
+  buffer[MAX_PATH - 1] = L'\0';
+
   if (statusCode == 0) {
     return CL_UNEXPECTED(
       Error::Filesystem, fmt::format("\"{}\": GetFullPathNameW failed!", path));
   }
 
-  const wchar_t* const wszPath{buffer};
+  const std::wstring findFileInputWString{std::wstring{buffer} + L"\\*"};
+  const wchar_t* const findFileInput{findFileInputWString.c_str()};
   WIN32_FIND_DATAW     findData{};
-  HANDLE               hFind{FindFirstFileW(wszPath, &findData)};
+  HANDLE               hFind{FindFirstFileW(findFileInput, &findData)};
 
   if (hFind == INVALID_HANDLE_VALUE) {
     return CL_UNEXPECTED(

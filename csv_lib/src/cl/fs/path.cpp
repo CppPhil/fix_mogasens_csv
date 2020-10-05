@@ -4,6 +4,7 @@
 #include <ostream>
 #include <utility>
 
+#include <pl/algo/ranged_algorithms.hpp>
 #include <pl/os.hpp>
 
 #if PL_OS == PL_OS_LINUX
@@ -36,9 +37,7 @@ bool operator==(const Path& lhs, const Path& rhs) noexcept
 Path::Path(std::string path) : m_path{std::move(path)}
 {
 #if PL_OS == PL_OS_WINDOWS
-  for (char& character : m_path) {
-    if (character == '/') { character = '\\'; }
-  }
+  pl::algo::replace(m_path, '/', '\\');
 #endif
 }
 
