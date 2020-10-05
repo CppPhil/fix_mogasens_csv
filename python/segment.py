@@ -150,7 +150,7 @@ def exercise_range(csv_file_path):
   if is_felix_2(csv_file_path):
     return 16003, 63001
   if is_felix_3(csv_file_path):
-    return 27003, 62415
+    return 26999, 62415
   if is_marcelle_1(csv_file_path):
     return 74001, 100001
   if is_marcelle_2(csv_file_path):
