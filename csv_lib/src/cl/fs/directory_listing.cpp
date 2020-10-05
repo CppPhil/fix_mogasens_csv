@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
@@ -50,22 +52,43 @@ Expected<std::vector<Path>> directoryListing(
   }
 #elif PL_OS == PL_OS_WINDOWS
   std::wstring utf16Path{utf8ToUtf16(path)};
-  WCHAR buffer[MAX_PATH]{};
+  const DWORD  charactersNeeded{GetFullPathNameW(
+    /* lpFileName */ utf16Path.c_str(),
+    /* nBufferLength */ 0,
+    /* lpBuffer */ nullptr,
+    /* lpFilePart */ nullptr)};
+
+  if (charactersNeeded == 0) {
+    return CL_UNEXPECTED(
+      Error::Filesystem,
+      fmt::format(
+        "\"{}\": GetFullPathNameW failed in line {}!", path, __LINE__));
+  }
+
+  std::wstring buffer(charactersNeeded, L' ');
 
   const DWORD statusCode{GetFullPathNameW(
     /* lpFileName */ utf16Path.c_str(),
-    /* nBufferLength */ MAX_PATH,
-    /* lpBuffer */ buffer,
+    /* nBufferLength */ buffer.size(),
+    /* lpBuffer */ buffer.data(),
     /* lpFilePart */ nullptr)};
-
-  buffer[MAX_PATH - 1] = L'\0';
 
   if (statusCode == 0) {
     return CL_UNEXPECTED(
-      Error::Filesystem, fmt::format("\"{}\": GetFullPathNameW failed!", path));
+      Error::Filesystem,
+      fmt::format(
+        "\"{}\": GetFullPathNameW failed in line {}!", path, __LINE__));
   }
 
-  const std::wstring findFileInputWString{std::wstring{buffer} + L"\\*"};
+  assert(
+    (statusCode == (buffer.size() - 1U))
+    && "Invalid return value of GetFullPathNameW");
+
+  buffer.pop_back(); // Delete redundant trailing L'\0' character, the string is
+                     // already null-terminated.
+
+  // Appending \* makes Windows search IN the directory path given.
+  const std::wstring   findFileInputWString{buffer + L"\\*"};
   const wchar_t* const findFileInput{findFileInputWString.c_str()};
   WIN32_FIND_DATAW     findData{};
   HANDLE               hFind{FindFirstFileW(findFileInput, &findData)};
