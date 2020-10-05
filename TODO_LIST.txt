@@ -8,6 +8,25 @@ Varianz
 
 Distanz zwischen 2 Punkten zum rausschmeissen.
 
+kind                := minima, maxima, both
+window_size         := 51, 101, 151
+skip_window         := true, false 
+delete_too_close    := true, false
+delete_low_variance := true, false
+
+parameterization with
+ skip_window
+ delete_too_close
+ delete_low_variance
+
+write script so that it writes to an appropriate file made up of the
+parameters (APPEND)
+
+Adjust the LibreOffice Calc table.
+
+Get rid off Spam
+ -> Only have FILENAME: SEGMENTATION POINT COUNT
+
 ---------------------------------------------------------------------------
 Sprung bei
  Felix/2020-07-02_11.17.39
