@@ -75,8 +75,6 @@ readonly LOG_DIR="$DIR/segmentation_comparison/logs"
 ./fix_csvs.sh
 ./filter.sh --filter_sample_count=$FILTER_SAMPLE_COUNT
 
-echo "segment_all_old.sh: Starting."
-
 for skip_window_option in "${SKIP_WINDOW_OPTIONS[@]}"; do
   for delete_too_close_option in "${DELETE_TOO_CLOSE_OPTIONS[@]}"; do
     for delete_low_variance_option in "${DELETE_LOW_VARIANCE_OPTIONS[@]}"; do
