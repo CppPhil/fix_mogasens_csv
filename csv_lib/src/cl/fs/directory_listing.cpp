@@ -68,7 +68,7 @@ Expected<std::vector<Path>> directoryListing(
   }
 
   const wchar_t* const wszPath{buffer};
-  WIN32_FIND_DATA_W    findData{};
+  WIN32_FIND_DATAW     findData{};
   HANDLE               hFind{FindFirstFileW(wszPath, &findData)};
 
   if (hFind == INVALID_HANDLE_VALUE) {
