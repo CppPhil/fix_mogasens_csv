@@ -116,7 +116,7 @@ for skip_window_option in "${SKIP_WINDOW_OPTIONS[@]}"; do
                 --segmentation_kind="$segmentation_kind" \
                 --window_size="$window_size" \
                 --filter="$filter" \
-                  >> "$LOG_DIR/skip_window-${skip_window_option}_delete_too_close-${delete_too_close_option}_delete_low_variance-${delete_low_variance_option}_kind-${segmentation_kind}_window-${window_size}_filter-${filter}.log" 2>&1
+                  >> "$LOG_DIR/skip_window-${skip_window_option}_delete_too_close-${delete_too_close_option}_delete_low_variance-${delete_low_variance_option}_kind-${segmentation_kind}_window-${window_size}_filter-${filter}.log"
             done
           done
         done
