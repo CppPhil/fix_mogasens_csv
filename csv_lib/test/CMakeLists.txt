@@ -6,6 +6,7 @@ set(TEST_SOURCES
     channel_test.cpp
     column_test.cpp
     data_point_test.cpp
+    directory_listing_test.cpp
     error_test.cpp
     exception_test.cpp
     main.cpp

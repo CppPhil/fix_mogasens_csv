@@ -23,6 +23,16 @@ std::ostream& operator<<(std::ostream& os, const Path& path)
   return os << path.m_path;
 }
 
+bool operator<(const Path& lhs, const Path& rhs) noexcept
+{
+  return lhs.str() < rhs.str();
+}
+
+bool operator==(const Path& lhs, const Path& rhs) noexcept
+{
+  return lhs.str() == rhs.str();
+}
+
 Path::Path(std::string path) : m_path{std::move(path)}
 {
 #if PL_OS == PL_OS_WINDOWS

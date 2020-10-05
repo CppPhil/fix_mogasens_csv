@@ -2,6 +2,7 @@
 set(LIB_NAME csv_lib)
 
 set(LIB_HEADERS
+    include/cl/fs/directory_listing.hpp
     include/cl/fs/file.hpp
     include/cl/fs/file_stream.hpp
     include/cl/fs/path.hpp
@@ -20,6 +21,7 @@ set(LIB_HEADERS
     include/cl/use_unbuffered_io.hpp)
 
 set(LIB_SOURCES
+    src/cl/fs/directory_listing.cpp
     src/cl/fs/file.cpp
     src/cl/fs/file_stream.cpp
     src/cl/fs/path.cpp
