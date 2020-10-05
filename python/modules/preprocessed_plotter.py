@@ -282,5 +282,3 @@ def main(image_format, is_time_based_split_enabled, csv_file_path, imu,
                 bbox_inches='tight',
                 format=image_format)
     plt.close()
-
-    print(f"preprocessed_plotter.py: Wrote \"{output_image_file_name}\".")

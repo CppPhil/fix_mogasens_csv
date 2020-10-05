@@ -164,7 +164,8 @@ class PreprocessedDataSet:
             self.rz_acc[i], self.rx_acc_avg[i], self.ry_acc_avg[i],
             self.rz_acc_avg[i], self.rx_acc_butter[i], self.ry_acc_butter[i],
             self.rz_acc_butter[i], self.norm_gyro[i], self.norm_avg_gyro[i],
-            self.norm_butter_gyro[i], self.interpolated[i], self.out_of_bounds[i]
+            self.norm_butter_gyro[i], self.interpolated[i],
+            self.out_of_bounds[i]
         ])
 
   def segmenting_hardware_timestamps(self, segmentation_points):
