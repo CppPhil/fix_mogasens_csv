@@ -235,8 +235,6 @@ def main(arguments):
   if not validate(csv_file_path, sensor, imu, segmentation_kind, window_size):
     sys.exit(1)
 
-  print(f"\nsegment.py launched with \"{csv_file_path}\".")
-
   entire_data_set = DataSet.from_file(csv_file_path)
   desired_sensor_data_set = entire_data_set.filter_by_sensor(sensor)
   exercise_begin, exercise_end = exercise_range(csv_file_path)
@@ -288,7 +286,6 @@ def main(arguments):
           ],
           segmenting_hwstamps=segmenting_hardware_timestamps)
 
-  print("segment.py: Done.")
   sys.exit(0)
 
 

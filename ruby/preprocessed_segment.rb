@@ -79,10 +79,6 @@ delete_low_variance = if options[:delete_low_variance]
                         '--no-delete_low_variance'
                       end
 
-puts("preprocessed_segment.rb: Starting.\n"\
-     "command line options: \"#{options}\"\n"\
-     "image_format is \"#{image_format}\".")
-
 SEGMENTOR = "\"#{Dir.pwd}/python/preprocessed_segment.py\"".freeze
 
 run_string = \

@@ -225,8 +225,6 @@ def main(arguments):
                   filter_data):
     sys.exit(1)
 
-  print(f"\npreprocessed_segment.py launched with \"{csv_file_path}\".")
-
   data_set = PreprocessedDataSet.from_file(csv_file_path)
   exercise_begin, exercise_end = exercise_range(csv_file_path)
 
@@ -275,7 +273,6 @@ def main(arguments):
         imu=imu,
         segmenting_hwstamps=segmenting_hardware_timestamps)
 
-  print("preprocessed_segment.py: Done.")
   sys.exit(0)
 
 

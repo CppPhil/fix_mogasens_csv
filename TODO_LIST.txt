@@ -19,9 +19,6 @@ preprocessed butter
 preprocessed average
 old
 
-Get rid off Spam
- -> Only have FILENAME: SEGMENTATION POINT COUNT
-
 Don't actually plot
 
 -------------------------------------------------------------------------
