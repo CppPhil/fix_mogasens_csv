@@ -15,6 +15,11 @@ OptionParser.new do |opt|
     options[:delete_too_close] = (o.casecmp 'true').zero?
   end
 
+  opt.on('--delete_low_variance=BOOLEAN',
+         'Whether to delete segments with too low variance') do |o|
+    options[:delete_low_variance] = (o.casecmp 'true').zero?
+  end
+
   opt.on('--image_format=IMAGE_FORMAT',
          'The image format to use e.g. svg; defaults to png') do |o|
     options[:image_format] = o
@@ -63,6 +68,12 @@ delete_too_close = if options[:delete_too_close]
                      '--no-delete_too_close'
                    end
 
+delete_low_variance = if options[:delete_low_variance]
+                        '--delete_low_variance'
+                      else
+                        '--no-delete_low_variance'
+                      end
+
 puts("preprocessed_segment.rb: Starting.\n"\
      "command line options: \"#{options}\"\n"\
      "image_format is \"#{image_format}\".")
@@ -73,6 +84,7 @@ run_string = \
   "#{Python.interpreter} #{SEGMENTOR} "\
   "#{skip_window} "\
   "#{delete_too_close} "\
+  "#{delete_low_variance} "\
   "--image_format #{image_format} "\
   "--csv_file_path \"#{options[:csv_file_path]}\" "\
   "--imu #{options[:imu]} "\

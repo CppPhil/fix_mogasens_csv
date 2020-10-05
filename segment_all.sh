@@ -68,6 +68,7 @@ cd "$DIR"
 for csv_file in "${CSV_FILES[@]}"; do
   ./preprocessed_segment.sh --skip_window=true \
                             --delete_too_close=true \
+                            --delete_low_variance=true \
                             --image_format=png \
                             --csv_file_path="$csv_file" \
                             --imu=accelerometer \

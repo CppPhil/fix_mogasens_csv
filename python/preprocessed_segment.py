@@ -172,6 +172,12 @@ def main(arguments):
   parser.add_argument('--no-delete_too_close',
                       dest='delete_too_close',
                       action='store_false')
+  parser.add_argument('--delete_low_variance',
+                      dest='delete_low_variance',
+                      action='store_true')
+  parser.add_argument('--no-delete_low_variance',
+                      dest='delete_low_variance',
+                      action='store_false')
   parser.add_argument('--image_format',
                       type=str,
                       help='The image format to use e.g. svg',
@@ -200,6 +206,7 @@ def main(arguments):
   window_size = args.window_size
   skip_window = args.skip_window  # Whether to skip the window used for segmentation when a segmentation point is found.
   delete_too_close = args.delete_too_close
+  delete_low_variance = args.delete_low_variance
 
   if not validate(csv_file_path, imu, segmentation_kind, window_size):
     sys.exit(1)
@@ -234,7 +241,8 @@ def main(arguments):
     delete_too_close_segmenting_hardware_timestamps(data_set,
                                                     segmentation_points)
 
-  delete_low_variance_segmentation_points(normed_data, segmentation_points)
+  if delete_low_variance:
+    delete_low_variance_segmentation_points(normed_data, segmentation_points)
 
   segmenting_hardware_timestamps = data_set.segmenting_hardware_timestamps(
       segmentation_points)
