@@ -14,9 +14,6 @@ skip_window         := true, false
 delete_too_close    := true, false
 delete_low_variance := true, false
 
-write script so that it writes to an appropriate file made up of the
-parameters (APPEND)
-
 Adjust the LibreOffice Calc table.
 
 Get rid off Spam
