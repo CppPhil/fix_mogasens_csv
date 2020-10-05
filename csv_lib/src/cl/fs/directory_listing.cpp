@@ -30,16 +30,14 @@ Expected<std::vector<Path>> directoryListing(
   }
 
   const std::string& path{directoryPath.str()};
-  const char* const  szPath{path.c_str()};
-
-  std::vector<Path> result{};
+  std::vector<Path>  result{};
 
 #if PL_OS == PL_OS_LINUX
-  auto dir{opendir(szPath)};
+  auto dir{opendir(path.c_str())};
 
   if (dir == nullptr) {
     return CL_UNEXPECTED(
-      Error::Filesystem, fmt::format("opendir failed with \"{}\"!", szPath));
+      Error::Filesystem, fmt::format("opendir failed with \"{}\"!", path));
   }
 
   for (struct dirent* entry{nullptr}; (entry = readdir(dir)) != nullptr;) {
@@ -48,7 +46,7 @@ Expected<std::vector<Path>> directoryListing(
 
   if (closedir(dir) == EBADF) {
     return CL_UNEXPECTED(
-      Error::Filesystem, fmt::format("Could not close \"{}\"!", szPath));
+      Error::Filesystem, fmt::format("Could not close \"{}\"!", path));
   }
 #elif PL_OS == PL_OS_WINDOWS
   std::wstring utf16Path{utf8ToUtf16(path)};
@@ -77,9 +75,7 @@ Expected<std::vector<Path>> directoryListing(
   }
 
   do {
-    if (!(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-      result.emplace_back(utf16ToUtf8(findData.cFileName));
-    }
+    result.emplace_back(utf16ToUtf8(findData.cFileName));
   } while (FindNextFileW(hFind, &findData) != 0);
 
   if (GetLastError() != ERROR_NO_MORE_FILES) {
