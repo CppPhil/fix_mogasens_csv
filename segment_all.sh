@@ -66,7 +66,13 @@ readonly CSV_FILES=(
 cd "$DIR"
 
 for csv_file in "${CSV_FILES[@]}"; do
-  ./preprocessed_segment.sh --skip_window=true --image_format=png --csv_file_path="$csv_file" --imu=accelerometer --segmentation_kind=both --window_size=51
+  ./preprocessed_segment.sh --skip_window=true \
+                            --delete_too_close=true \
+                            --image_format=png \
+                            --csv_file_path="$csv_file" \
+                            --imu=accelerometer \
+                            --segmentation_kind=both \
+                            --window_size=51
 done
 
 cd "$PREV_DIR"

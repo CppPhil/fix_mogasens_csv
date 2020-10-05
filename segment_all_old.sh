@@ -40,7 +40,14 @@ cd "$DIR"
 ./filter.sh --filter_sample_count=$FILTER_SAMPLE_COUNT
 
 for csv_file in "${CSV_FILES[@]}"; do
-  ./segment.sh --skip_window=true --image_format=png --csv_file_path=$csv_file --sensor=770 --imu=accelerometer --segmentation_kind=both --window_size=51
+  ./segment.sh --skip_window=true \
+               --delete_too_close=true \
+               --image_format=png \
+               --csv_file_path=$csv_file \
+               --sensor=770 \
+               --imu=accelerometer \
+               --segmentation_kind=both \
+               --window_size=51
 done
 
 cd "$PREV_DIR"

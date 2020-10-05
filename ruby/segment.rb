@@ -10,6 +10,11 @@ OptionParser.new do |opt|
     options[:skip_window] = (o.casecmp 'true').zero?
   end
 
+  opt.on('--delete_too_close=BOOLEAN',
+         'Whether to delete too close segmentation points') do |o|
+    options[:delete_too_close] = (o.casecmp 'true').zero?
+  end
+
   opt.on('--image_format=IMAGE_FORMAT',
          'The image format to use e.g. svg; defaults to png') do |o|
     options[:image_format] = o
@@ -57,6 +62,12 @@ skip_window = if options[:skip_window]
                 '--no-skip_window'
               end
 
+delete_too_close = if options[:delete_too_close]
+                     '--delete_too_close'
+                   else
+                     '--no-delete_too_close'
+                   end
+
 puts("segment.rb: Starting.\n"\
      "command line options: \"#{options}\"\n"\
      "image_format is \"#{image_format}\".")
@@ -66,6 +77,7 @@ SEGMENTOR = "\"#{Dir.pwd}/python/segment.py\"".freeze
 run_segment_py_string = \
   "#{Python.interpreter} #{SEGMENTOR} "\
   "#{skip_window} "\
+  "#{delete_too_close} "\
   "--image_format #{image_format} "\
   "--csv_file_path \"#{options[:csv_file_path]}\" "\
   "--sensor #{options[:sensor]} "\

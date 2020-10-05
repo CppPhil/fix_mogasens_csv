@@ -15,9 +15,13 @@ delete_too_close    := true, false
 delete_low_variance := true, false
 
 parameterization with
- skip_window
+ skip_window         -- DONE
  delete_too_close
  delete_low_variance
+
+parameterize which data shall be used for the preprocessd one
+ -> Moving average
+ -> Or Butterworth
 
 write script so that it writes to an appropriate file made up of the
 parameters (APPEND)
