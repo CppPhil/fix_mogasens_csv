@@ -263,15 +263,16 @@ def main(arguments):
       f"preprocessed_segment.py: {len(segmenting_hardware_timestamps)} segmentation points found in \"{csv_file_path}\"."
   )
 
-  imus = [accelerometer_string(), gyroscope_string()]
+  # TODO: HERE This stuff is commented out temporarily.
+  #  imus = [accelerometer_string(), gyroscope_string()]
 
-  for imu in imus:
-    modules.preprocessed_plotter.main(
-        image_format=args.image_format,
-        is_time_based_split_enabled=True,
-        csv_file_path=csv_file_path,
-        imu=imu,
-        segmenting_hwstamps=segmenting_hardware_timestamps)
+  #  for imu in imus:
+  #    modules.preprocessed_plotter.main(
+  #        image_format=args.image_format,
+  #        is_time_based_split_enabled=True,
+  #        csv_file_path=csv_file_path,
+  #        imu=imu,
+  #        segmenting_hwstamps=segmenting_hardware_timestamps)
 
   sys.exit(0)
 

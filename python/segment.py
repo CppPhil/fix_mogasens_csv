@@ -269,22 +269,23 @@ def main(arguments):
       f"segment.py: {len(segmenting_hardware_timestamps)} segmentation points found in \"{csv_file_path}\"."
   )
 
-  imus = [accelerometer_string(), gyroscope_string()]
+  # TODO: HERE This stuff is commented out temporarily
+  #  imus = [accelerometer_string(), gyroscope_string()]
 
-  for sensor in sensors():
-    for imu in imus:
-      plotter_main(
-          arguments=[
-              '--image_format',
-              args.image_format,
-              '--no-moving_average_filter',  # Don't use a filter
-              '--time_based_split',  # Time based split setting
-              csv_file_path,  # Path to the entire CSV file
-              f'{sensor}',  # The sensor (left arm, belly, right arm, chest)
-              imu,  # The imu (accelerometer / gyroscope)
-              '0'  # Filter sample count (must be 0 if none is used)
-          ],
-          segmenting_hwstamps=segmenting_hardware_timestamps)
+  #  for sensor in sensors():
+  #    for imu in imus:
+  #      plotter_main(
+  #          arguments=[
+  #              '--image_format',
+  #              args.image_format,
+  #              '--no-moving_average_filter',  # Don't use a filter
+  #              '--time_based_split',  # Time based split setting
+  #              csv_file_path,  # Path to the entire CSV file
+  #              f'{sensor}',  # The sensor (left arm, belly, right arm, chest)
+  #              imu,  # The imu (accelerometer / gyroscope)
+  #              '0'  # Filter sample count (must be 0 if none is used)
+  #          ],
+  #          segmenting_hwstamps=segmenting_hardware_timestamps)
 
   sys.exit(0)
 
