@@ -63,19 +63,68 @@ readonly CSV_FILES=(
   "$PREPROCESSED_DIR/2020-07-02_15.39.22 (FalschausfБhrung)_RightArm.csv"
 )
 
+readonly SKIP_WINDOW_OPTIONS=(
+  "true"
+  "false"
+)
+
+readonly DELETE_TOO_CLOSE_OPTIONS=(
+  "true"
+  "false"
+)
+
+readonly DELETE_LOW_VARIANCE_OPTIONS=(
+  "true"
+  "false"
+)
+
+readonly SEGMENTATION_KINDS=(
+  "min"
+  "max"
+  "both"
+)
+
+readonly WINDOW_SIZES=(
+  "51"
+  "101"
+  "151"
+)
+
+readonly FILTERS=(
+  "butterworth"
+  "average"
+)
+
 cd "$DIR"
 
-for csv_file in "${CSV_FILES[@]}"; do
-  ./preprocessed_segment.sh --skip_window=true \
-                            --delete_too_close=true \
-                            --delete_low_variance=true \
-                            --image_format=png \
-                            --csv_file_path="$csv_file" \
-                            --imu=accelerometer \
-                            --segmentation_kind=both \
-                            --window_size=51 \
-                            --filter=butterworth
+readonly LOG_DIR="$DIR/segmentation_comparison/logs"
+
+for skip_window_option in "${SKIP_WINDOW_OPTIONS[@]}"; do
+  for delete_too_close_option in "${DELETE_TOO_CLOSE_OPTIONS[@]}"; do
+    for delete_low_variance_option in "${DELETE_LOW_VARIANCE_OPTIONS[@]}"; do
+      for segmentation_kind in "${SEGMENTATION_KINDS[@]}"; do
+        for window_size in "${WINDOW_SIZES[@]}"; do
+          for filter in "${FILTERS[@]}"; do
+            for csv_file in "${CSV_FILES[@]}"; do
+              ./preprocessed_segment.sh \
+                --skip_window="$skip_window_option" \
+                --delete_too_close="$delete_too_close_option" \
+                --delete_low_variance="$delete_low_variance_option" \
+                --image_format=png \
+                --csv_file_path="$csv_file" \
+                --imu=accelerometer \
+                --segmentation_kind="$segmentation_kind" \
+                --window_size="$window_size" \
+                --filter="$filter" \
+                  >> "$LOG_DIR/skip_window-${skip_window_option}_delete_too_close-${delete_too_close_option}_delete_low_variance-${delete_low_variance_option}_kind-${segmentation_kind}_window${window_size}_filter${filter}" 2>&1
+            done
+          done
+        done
+      done
+    done
+  done
 done
+
 
 cd "$PREV_DIR"
 exit 0
