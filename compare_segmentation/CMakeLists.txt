@@ -1,9 +1,9 @@
 # STATIC LIBRARY
 set(LIB_NAME compare_segmentation_lib)
 
-set(LIB_HEADERS include/f.hpp)
+set(LIB_HEADERS include/log_files.hpp include/paths.hpp)
 
-set(LIB_SOURCES src/f.cpp)
+set(LIB_SOURCES src/log_files.cpp)
 
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 
