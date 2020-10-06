@@ -1,7 +1,8 @@
 # STATIC LIBRARY
 set(LIB_NAME compare_segmentation_lib)
 
-set(LIB_HEADERS include/log_files.hpp include/paths.hpp)
+set(LIB_HEADERS include/log_files.hpp include/paths.hpp
+                include/data_set_info.hpp)
 
 set(LIB_SOURCES src/log_files.cpp)
 
