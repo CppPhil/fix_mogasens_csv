@@ -84,4 +84,6 @@ script:
   - ./count.sh --build_type=Release
   - ./filter.sh --filter_sample_count=125
   - ./segment.sh --csv_file_path=resources/Mike/2020-07-02_14.38.40_out_avg_filter_125.csv --sensor=770 --imu=accelerometer --segmentation_kind=both --window_size=51
+  # Other
+  - ./compare_segmentation.sh
 
