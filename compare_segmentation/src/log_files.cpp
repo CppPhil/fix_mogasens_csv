@@ -1,4 +1,5 @@
 #include <pl/algo/erase.hpp>
+#include <pl/algo/ranged_algorithms.hpp>
 
 #include <cl/fs/directory_listing.hpp>
 
@@ -20,6 +21,11 @@ cl::Expected<std::vector<cl::fs::Path>> logFiles(pl::string_view directoryPath)
     const pl::string_view stringView{currentPath.str()};
     return !stringView.ends_with(".log");
   });
+
+  pl::algo::transform(
+    listing, listing.begin(), [directoryPath](const cl::fs::Path& path) {
+      return cl::fs::Path{directoryPath.to_string() + "/" + path.str()};
+    });
 
   return listing;
 }
