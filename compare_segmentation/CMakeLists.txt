@@ -2,11 +2,16 @@
 set(LIB_NAME compare_segmentation_lib)
 
 set(LIB_HEADERS
-    include/data_set_info.hpp include/filter_kind.hpp include/log_files.hpp
-    include/log_info.hpp include/paths.hpp include/segmentation_kind.hpp)
+    include/data_set_info.hpp
+    include/filter_kind.hpp
+    include/log_files.hpp
+    include/log_info.hpp
+    include/log_line.hpp
+    include/paths.hpp
+    include/segmentation_kind.hpp)
 
 set(LIB_SOURCES src/filter_kind.cpp src/log_files.cpp src/log_info.cpp
-                src/segmentation_kind.cpp)
+                src/log_line.cpp src/segmentation_kind.cpp)
 
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 
