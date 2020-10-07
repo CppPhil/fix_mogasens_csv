@@ -21,7 +21,12 @@ TEST(error, shouldPrint)
   std::ostringstream oss{};
   oss << error;
   const std::string expected{
-    R"(Error{"kind": "Filesystem", "file": "test_file.cpp", "function": "bad_function", "line": 48, "message": "Couldn't initialize the flux capacitor."})"};
+    R"(Error{
+  "kind": "Filesystem",
+  "file": "test_file.cpp",
+  "function": "bad_function",
+  "line": 48,
+  "message": "Couldn't initialize the flux capacitor."})"};
   const std::string actual{oss.str()};
   EXPECT_EQ(expected, actual);
 }

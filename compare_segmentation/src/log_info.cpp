@@ -112,7 +112,7 @@ cl::Expected<LogInfo> LogInfo::create(cl::fs::Path logFilePath) noexcept
 
   constexpr std::size_t filterIndex{6}; // Only used by the new ones.
 
-  static const std::regex regularExpression{regularExpressionString};
+  const std::regex regularExpression{regularExpressionString};
 
   std::cmatch cmatch{};
 

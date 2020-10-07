@@ -28,7 +28,12 @@ TEST(to_string, test)
     R"(DataPoint{"fileName": "test.csv", time": 50.5, "sensor": "LeftArm", "channel": "AccelerometerZ", "value": 25.1123})",
     cl::to_string(dataPoint));
   EXPECT_EQ(
-    R"(Error{"kind": "Filesystem", "file": "test_file.cpp", "function": "a_function", "line": 5, "message": "Error message."})",
+    R"(Error{
+  "kind": "Filesystem",
+  "file": "test_file.cpp",
+  "function": "a_function",
+  "line": 5,
+  "message": "Error message."})",
     cl::to_string(error));
   EXPECT_EQ("RightArm", cl::to_string(sensor));
 }

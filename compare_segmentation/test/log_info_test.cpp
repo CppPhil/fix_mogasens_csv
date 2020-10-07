@@ -274,6 +274,32 @@ TEST(LogInfo, shouldWorkWithOldPath)
   EXPECT_EQ(cs::FilterKind::MovingAverage, logInfo.filterKind());
 }
 
+TEST(LogInfo, shouldWorkWithOldPath2)
+{
+  using namespace pl::literals::integer_literals;
+
+  const std::string path{
+    "segmentation_comparison/logs/old/"
+    "skip_window-false_delete_too_close-false_delete_low_variance-false_sensor-"
+    "769_kind-both_window-101.log"};
+
+  const cl::Expected<cs::LogInfo> expected{cs::LogInfo::create(path)};
+
+  ASSERT_TRUE(expected.has_value());
+
+  const cs::LogInfo& logInfo{*expected};
+
+  EXPECT_EQ(path, logInfo.logFilePath());
+  EXPECT_FALSE(logInfo.skipWindow());
+  EXPECT_FALSE(logInfo.deleteTooClose());
+  EXPECT_FALSE(logInfo.deleteLowVariance());
+  EXPECT_EQ(UINT64_C(769), logInfo.sensor());
+  EXPECT_EQ(cs::SegmentationKind::Both, logInfo.segmentationKind());
+  EXPECT_EQ(101_zu, logInfo.windowSize());
+
+  EXPECT_EQ(cs::FilterKind::MovingAverage, logInfo.filterKind());
+}
+
 TEST(logInfo, shouldResultInErrorIfLogFilePathIsTooShort)
 {
   const cl::Expected<cs::LogInfo> expected{cs::LogInfo::create(

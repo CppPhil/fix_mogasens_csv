@@ -5,6 +5,7 @@
 #include <fmt/ostream.h>
 
 #include "log_files.hpp"
+#include "log_info.hpp"
 #include "paths.hpp"
 
 int main()
@@ -36,16 +37,37 @@ int main()
 
   const std::vector<cl::fs::Path>& oldLogs{*expectedOldLogs};
 
-  // TODO: HERE: this will change BEGIN
-  fmt::print("logs:\n");
+  for (const cl::fs::Path& preprocessedPath : logs) {
+    const cl::Expected<cs::LogInfo> expectedLogInfo{
+      cs::LogInfo::create(preprocessedPath)};
 
-  for (const cl::fs::Path& path : logs) { fmt::print("{}\n", path); }
+    if (!expectedLogInfo.has_value()) {
+      fmt::print(
+        stderr,
+        "Couldn't fetch LogInfo for preprocessedPath: {}\n",
+        expectedLogInfo.error());
+      return EXIT_FAILURE;
+    }
 
-  fmt::print("\n");
-  fmt::print("old logs:\n");
+    // TODO: HERE
+    [[maybe_unused]] const cs::LogInfo& logInfo{*expectedLogInfo};
+  }
 
-  for (const cl::fs::Path& path : oldLogs) { fmt::print("{}\n", path); }
-  // TODO: HERE: this will change END
+  for (const cl::fs::Path& oldPath : oldLogs) {
+    const cl::Expected<cs::LogInfo> expectedLogInfo{
+      cs::LogInfo::create(oldPath)};
+
+    if (!expectedLogInfo.has_value()) {
+      fmt::print(
+        stderr,
+        "Couldn't fetch LogInfo for oldPath: {}\n",
+        expectedLogInfo.error());
+      return EXIT_FAILURE;
+    }
+
+    // TODO: HERE
+    [[maybe_unused]] const cs::LogInfo& logInfo{*expectedLogInfo};
+  }
 
   return EXIT_SUCCESS;
 }
