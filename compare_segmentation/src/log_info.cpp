@@ -12,6 +12,7 @@
 #include <pl/strcontains.hpp>
 #include <pl/string_view.hpp>
 
+#include "cl/fs/separator.hpp"
 #include "cl/s2n.hpp"
 
 #include "log_info.hpp"
@@ -77,7 +78,8 @@ cl::Expected<LogInfo> LogInfo::create(cl::fs::Path logFilePath) noexcept
 {
   using namespace pl::literals::integer_literals;
 
-  const bool isOld{pl::strcontains(logFilePath.str(), "/logs/old")};
+  const bool isOld{pl::strcontains(
+    logFilePath.str(), CL_FS_SEPARATOR "logs" CL_FS_SEPARATOR "old")};
 
   // + 1 for the directory separator (/ or \)
   const std::size_t minimumSize{

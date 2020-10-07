@@ -6,6 +6,7 @@ set(LIB_HEADERS
     include/cl/fs/file.hpp
     include/cl/fs/file_stream.hpp
     include/cl/fs/path.hpp
+    include/cl/fs/separator.hpp
     include/cl/fs/windows.hpp
     include/cl/channel.hpp
     include/cl/column.hpp
