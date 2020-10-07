@@ -7,6 +7,10 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
+#include <csv.hpp>
+
+#include "cl/fs/separator.hpp"
+
 #include "log_files.hpp"
 #include "log_info.hpp"
 #include "log_line.hpp"
@@ -41,6 +45,31 @@ int main()
 
   const std::vector<cl::fs::Path>& oldLogs{*expectedOldLogs};
 
+  constexpr char csvFilePath[]
+    = "segmentation_comparison" CL_FS_SEPARATOR "out.csv";
+
+  std::ofstream ofs{csvFilePath, std::ios_base::out | std::ios_base::trunc};
+
+  if (!ofs) {
+    fmt::print(stderr, "Could not open \"{}\" for writing!\n", csvFilePath);
+    return EXIT_FAILURE;
+  }
+
+  auto csvWriter = csv::make_csv_writer(ofs);
+
+  // Add column headers.
+  csvWriter << std::vector<std::string>{
+    "skip_window?",
+    "delete too close?",
+    "delete low variance?",
+    "kind",
+    "window size",
+    "filter",
+    "data set",
+    "sensor",
+    "push-ups",
+    "segmentation points"};
+
   // PREPROCESSED
   for (const cl::fs::Path& preprocessedPath : logs) {
     const cl::Expected<cs::LogInfo> expectedLogInfo{
@@ -58,6 +87,14 @@ int main()
 
     std::ifstream ifs{logInfo.logFilePath().str()};
 
+    if (!ifs) {
+      fmt::print(
+        stderr,
+        "Could not open file \"{}\" for reading!\n",
+        logInfo.logFilePath());
+      return EXIT_FAILURE;
+    }
+
     for (std::string line{}; std::getline(ifs, line);) {
       const cl::Expected<cs::LogLine> expectedLogLine{cs::LogLine::parse(line)};
 
@@ -72,8 +109,7 @@ int main()
       }
 
       [[maybe_unused]] const cs::LogLine& logLine{*expectedLogLine};
-
-      // TODO: Write to CSV.
+      // TODO: HERE: CONTINUE HERE>
     }
   }
 
@@ -93,6 +129,14 @@ int main()
     const cs::LogInfo& logInfo{*expectedLogInfo};
 
     std::ifstream ifs{logInfo.logFilePath().str()};
+
+    if (!ifs) {
+      fmt::print(
+        stderr,
+        "Could not open file \"{}\" for reading!\n",
+        logInfo.logFilePath());
+      return EXIT_FAILURE;
+    }
 
     for (std::string line{}; std::getline(ifs, line);) {
       const cl::Expected<cs::LogLine> expectedLogLine{cs::LogLine::parse(line)};
