@@ -8,6 +8,8 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
+#include <pl/size_t.hpp>
+#include <pl/strcontains.hpp>
 #include <pl/string_view.hpp>
 
 #include "cl/s2n.hpp"
@@ -17,6 +19,25 @@
 
 namespace cs {
 namespace {
+struct PathRegexMetaInfo {
+  const char* const regularExpressionString;
+  const std::size_t expectedSubmatches;
+};
+
+PathRegexMetaInfo metaInfo(bool isOld)
+{
+  if (isOld) {
+    return PathRegexMetaInfo{
+      R"(^skip_window-([[:alpha:]]{4,5})_delete_too_close-([[:alpha:]]{4,5})_delete_low_variance-([[:alpha:]]{4,5})_sensor-(\d{3,3})_kind-([[:alpha:]]{3,4})_window-(\d{2,3})\.log$)",
+      6};
+  }
+  else {
+    return PathRegexMetaInfo{
+      R"(^skip_window-([[:alpha:]]{4,5})_delete_too_close-([[:alpha:]]{4,5})_delete_low_variance-([[:alpha:]]{4,5})_kind-([[:alpha:]]{3,4})_window-(\d{2,3})_filter-([[:alpha:]]{7,11})\.log$)",
+      6};
+  }
+}
+
 /*
  * \brief Parses a boolean value from a std::csub_match.
  * \param csubMatch The std::csub_match to parse as a boolean value.
@@ -50,10 +71,17 @@ namespace {
 }
 } // namespace
 
+const std::uint64_t LogInfo::invalidSensor = UINT64_C(0xFFFFFFFFFFFFFFFF);
+
 cl::Expected<LogInfo> LogInfo::create(cl::fs::Path logFilePath) noexcept
 {
+  using namespace pl::literals::integer_literals;
+
+  const bool isOld{pl::strcontains(logFilePath.str(), "/logs/old")};
+
   // + 1 for the directory separator (/ or \)
-  const std::size_t minimumSize{logPath.size() + 1};
+  const std::size_t minimumSize{
+    (isOld ? oldLogPath.size() : logPath.size()) + 1};
 
   pl::string_view pathStringView{logFilePath.str()};
 
@@ -65,16 +93,25 @@ cl::Expected<LogInfo> LogInfo::create(cl::fs::Path logFilePath) noexcept
 
   pathStringView.remove_prefix(minimumSize);
 
-  static constexpr char regularExpressionString[]
-    = R"(^skip_window-([[:alpha:]]{4,5})_delete_too_close-([[:alpha:]]{4,5})_delete_low_variance-([[:alpha:]]{4,5})_kind-([[:alpha:]]{3,4})_window-(\d{2,3})_filter-([[:alpha:]]{7,11})\.log$)";
-  constexpr std::size_t   submatches{6};
-  constexpr std::size_t   expectedCmatchSize{submatches + 1};
-  constexpr std::size_t   skipWindowIndex{1};
-  constexpr std::size_t   deleteTooCloseIndex{2};
-  constexpr std::size_t   deleteLowVarianceIndex{3};
-  constexpr std::size_t   segmentationKindIndex{4};
-  constexpr std::size_t   windowSizeIndex{5};
-  constexpr std::size_t   filterIndex{6};
+  const PathRegexMetaInfo pathMetaInfo{metaInfo(isOld)};
+
+  const char* const regularExpressionString{
+    pathMetaInfo.regularExpressionString};
+  const std::size_t submatches{pathMetaInfo.expectedSubmatches};
+
+  const std::size_t     expectedCmatchSize{submatches + 1};
+  constexpr std::size_t skipWindowIndex{1};
+  constexpr std::size_t deleteTooCloseIndex{2};
+  constexpr std::size_t deleteLowVarianceIndex{3};
+
+  constexpr std::size_t sensorIndex{4}; // Only used by the old ones.
+
+  const std::size_t segmentationKindIndex{isOld ? 5_zu : 4_zu};
+
+  const std::size_t windowSizeIndex{segmentationKindIndex + 1};
+
+  constexpr std::size_t filterIndex{6}; // Only used by the new ones.
+
   static const std::regex regularExpression{regularExpressionString};
 
   std::cmatch cmatch{};
@@ -107,12 +144,16 @@ cl::Expected<LogInfo> LogInfo::create(cl::fs::Path logFilePath) noexcept
   const std::csub_match deleteTooCloseCsubMatch{cmatch[deleteTooCloseIndex]};
   const std::csub_match deleteLowVarianceCsubMatch{
     cmatch[deleteLowVarianceIndex]};
+  const std::csub_match sensorCsubMatch{
+    isOld ? cmatch[sensorIndex] : std::csub_match{}};
   const std::csub_match segmentationKindCsubMatch{
     cmatch[segmentationKindIndex]};
   const std::csub_match windowSizeCsubMatch{cmatch[windowSizeIndex]};
-  const std::csub_match filterCsubMatch{cmatch[filterIndex]};
+  const std::csub_match filterCsubMatch{
+    isOld ? std::csub_match{} : cmatch[filterIndex]};
 
   bool skipWindowValue{}, deleteTooCloseValue{}, deleteLowVarianceValue{};
+  std::uint64_t    sensorValue{invalidSensor};
   SegmentationKind segmentationKindValue{};
   std::uint64_t    windowSizeValue{};
   FilterKind       filterKindValue{};
@@ -134,6 +175,17 @@ cl::Expected<LogInfo> LogInfo::create(cl::fs::Path logFilePath) noexcept
   }
   catch (const std::runtime_error& ex) {
     return CL_UNEXPECTED(cl::Error::Parsing, ex.what());
+  }
+
+  if (isOld) {
+    const cl::Expected<std::uint64_t> expectedSensor{
+      cl::s2n<std::uint64_t>(sensorCsubMatch.str())};
+
+    if (!expectedSensor.has_value()) {
+      return CL_UNEXPECTED(cl::Error::Parsing, "Could not parse sensor!");
+    }
+
+    sensorValue = expectedSensor.value();
   }
 
   if (segmentationKindCsubMatch.compare("min") == 0) {
@@ -162,16 +214,20 @@ cl::Expected<LogInfo> LogInfo::create(cl::fs::Path logFilePath) noexcept
 
   windowSizeValue = parsedWindowSize.value();
 
-  if (filterCsubMatch.compare("average") == 0) {
-    filterKindValue = FilterKind::MovingAverage;
-  }
-  else if (filterCsubMatch.compare("butterworth") == 0) {
-    filterKindValue = FilterKind::Butterworth;
-  }
+  if (isOld) { filterKindValue = FilterKind::MovingAverage; }
   else {
-    return CL_UNEXPECTED(
-      cl::Error::Parsing,
-      fmt::format("\"{}\" is not a valid filter kind!", filterCsubMatch.str()));
+    if (filterCsubMatch.compare("average") == 0) {
+      filterKindValue = FilterKind::MovingAverage;
+    }
+    else if (filterCsubMatch.compare("butterworth") == 0) {
+      filterKindValue = FilterKind::Butterworth;
+    }
+    else {
+      return CL_UNEXPECTED(
+        cl::Error::Parsing,
+        fmt::format(
+          "\"{}\" is not a valid filter kind!", filterCsubMatch.str()));
+    }
   }
 
   return LogInfo{
@@ -181,7 +237,8 @@ cl::Expected<LogInfo> LogInfo::create(cl::fs::Path logFilePath) noexcept
     deleteLowVarianceValue,
     segmentationKindValue,
     windowSizeValue,
-    filterKindValue};
+    filterKindValue,
+    sensorValue};
 }
 
 bool operator==(const LogInfo& lhs, const LogInfo& rhs) noexcept
@@ -229,6 +286,8 @@ std::uint64_t LogInfo::windowSize() const noexcept { return m_windowSize; }
 
 FilterKind LogInfo::filterKind() const noexcept { return m_filterKind; }
 
+std::uint64_t LogInfo::sensor() const noexcept { return m_sensor; }
+
 LogInfo::LogInfo(
   cl::fs::Path&&   logFilePath,
   bool             skipWindow,
@@ -236,7 +295,8 @@ LogInfo::LogInfo(
   bool             deleteLowVariance,
   SegmentationKind segmentationKind,
   std::uint64_t    windowSize,
-  FilterKind       filterKind)
+  FilterKind       filterKind,
+  std::uint64_t    sensor)
   : m_logFilePath{std::move(logFilePath)}
   , m_skipWindow{skipWindow}
   , m_deleteTooClose{deleteTooClose}
@@ -244,6 +304,7 @@ LogInfo::LogInfo(
   , m_segmentationKind{segmentationKind}
   , m_windowSize{windowSize}
   , m_filterKind{filterKind}
+  , m_sensor{sensor}
 {
 }
 } // namespace cs

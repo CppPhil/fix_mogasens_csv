@@ -11,6 +11,8 @@
 namespace cs {
 class LogInfo {
 public:
+  static const std::uint64_t invalidSensor;
+
   static cl::Expected<LogInfo> create(cl::fs::Path logFilePath) noexcept;
 
   friend bool operator==(const LogInfo& lhs, const LogInfo& rhs) noexcept;
@@ -31,6 +33,8 @@ public:
 
   [[nodiscard]] FilterKind filterKind() const noexcept;
 
+  [[nodiscard]] std::uint64_t sensor() const noexcept;
+
 private:
   LogInfo(
     cl::fs::Path&&   logFilePath,
@@ -39,7 +43,8 @@ private:
     bool             deleteLowVariance,
     SegmentationKind segmentationKind,
     std::uint64_t    windowSize,
-    FilterKind       filterKind);
+    FilterKind       filterKind,
+    std::uint64_t    sensor);
 
   cl::fs::Path     m_logFilePath;
   bool             m_skipWindow;
@@ -48,6 +53,7 @@ private:
   SegmentationKind m_segmentationKind;
   std::uint64_t    m_windowSize;
   FilterKind       m_filterKind;
+  std::uint64_t    m_sensor;
 };
 } // namespace cs
 #endif // INCG_CS_LOG_INFO_HPP

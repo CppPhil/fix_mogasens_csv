@@ -28,6 +28,8 @@ TEST(logInfo, shouldWork)
   EXPECT_EQ(cs::SegmentationKind::Maxima, logInfo.segmentationKind());
   EXPECT_EQ(101_zu, logInfo.windowSize());
   EXPECT_EQ(cs::FilterKind::Butterworth, logInfo.filterKind());
+
+  EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
 }
 
 TEST(logInfo, shouldWork2)
@@ -53,6 +55,8 @@ TEST(logInfo, shouldWork2)
   EXPECT_EQ(cs::SegmentationKind::Maxima, logInfo.segmentationKind());
   EXPECT_EQ(101_zu, logInfo.windowSize());
   EXPECT_EQ(cs::FilterKind::Butterworth, logInfo.filterKind());
+
+  EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
 }
 
 TEST(logInfo, shouldWork3)
@@ -78,6 +82,8 @@ TEST(logInfo, shouldWork3)
   EXPECT_EQ(cs::SegmentationKind::Maxima, logInfo.segmentationKind());
   EXPECT_EQ(101_zu, logInfo.windowSize());
   EXPECT_EQ(cs::FilterKind::Butterworth, logInfo.filterKind());
+
+  EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
 }
 
 TEST(logInfo, shouldWork4)
@@ -103,6 +109,8 @@ TEST(logInfo, shouldWork4)
   EXPECT_EQ(cs::SegmentationKind::Maxima, logInfo.segmentationKind());
   EXPECT_EQ(101_zu, logInfo.windowSize());
   EXPECT_EQ(cs::FilterKind::Butterworth, logInfo.filterKind());
+
+  EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
 }
 
 TEST(logInfo, shouldWork5)
@@ -128,6 +136,8 @@ TEST(logInfo, shouldWork5)
   EXPECT_EQ(cs::SegmentationKind::Minima, logInfo.segmentationKind());
   EXPECT_EQ(101_zu, logInfo.windowSize());
   EXPECT_EQ(cs::FilterKind::Butterworth, logInfo.filterKind());
+
+  EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
 }
 
 TEST(logInfo, shouldWork6)
@@ -153,6 +163,8 @@ TEST(logInfo, shouldWork6)
   EXPECT_EQ(cs::SegmentationKind::Both, logInfo.segmentationKind());
   EXPECT_EQ(101_zu, logInfo.windowSize());
   EXPECT_EQ(cs::FilterKind::Butterworth, logInfo.filterKind());
+
+  EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
 }
 
 TEST(logInfo, shouldWork7)
@@ -178,6 +190,8 @@ TEST(logInfo, shouldWork7)
   EXPECT_EQ(cs::SegmentationKind::Both, logInfo.segmentationKind());
   EXPECT_EQ(51_zu, logInfo.windowSize());
   EXPECT_EQ(cs::FilterKind::Butterworth, logInfo.filterKind());
+
+  EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
 }
 
 TEST(logInfo, shouldWork8)
@@ -203,6 +217,8 @@ TEST(logInfo, shouldWork8)
   EXPECT_EQ(cs::SegmentationKind::Both, logInfo.segmentationKind());
   EXPECT_EQ(151_zu, logInfo.windowSize());
   EXPECT_EQ(cs::FilterKind::Butterworth, logInfo.filterKind());
+
+  EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
 }
 
 TEST(logInfo, shouldWork9)
@@ -227,6 +243,34 @@ TEST(logInfo, shouldWork9)
   EXPECT_TRUE(logInfo.deleteLowVariance());
   EXPECT_EQ(cs::SegmentationKind::Both, logInfo.segmentationKind());
   EXPECT_EQ(151_zu, logInfo.windowSize());
+  EXPECT_EQ(cs::FilterKind::MovingAverage, logInfo.filterKind());
+
+  EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
+}
+
+TEST(LogInfo, shouldWorkWithOldPath)
+{
+  using namespace pl::literals::integer_literals;
+
+  const std::string path{
+    "segmentation_comparison/logs/old/"
+    "skip_window-true_delete_too_close-true_delete_low_variance-true_sensor-"
+    "770_kind-both_window-151.log"};
+
+  const cl::Expected<cs::LogInfo> expected{cs::LogInfo::create(path)};
+
+  ASSERT_TRUE(expected.has_value());
+
+  const cs::LogInfo& logInfo{*expected};
+
+  EXPECT_EQ(path, logInfo.logFilePath());
+  EXPECT_TRUE(logInfo.skipWindow());
+  EXPECT_TRUE(logInfo.deleteTooClose());
+  EXPECT_TRUE(logInfo.deleteLowVariance());
+  EXPECT_EQ(UINT64_C(770), logInfo.sensor());
+  EXPECT_EQ(cs::SegmentationKind::Both, logInfo.segmentationKind());
+  EXPECT_EQ(151_zu, logInfo.windowSize());
+
   EXPECT_EQ(cs::FilterKind::MovingAverage, logInfo.filterKind());
 }
 
