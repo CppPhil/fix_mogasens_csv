@@ -1,11 +1,15 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include <fstream>
+#include <string>
+
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
 #include "log_files.hpp"
 #include "log_info.hpp"
+#include "log_line.hpp"
 #include "paths.hpp"
 
 int main()
@@ -37,6 +41,7 @@ int main()
 
   const std::vector<cl::fs::Path>& oldLogs{*expectedOldLogs};
 
+  // PREPROCESSED
   for (const cl::fs::Path& preprocessedPath : logs) {
     const cl::Expected<cs::LogInfo> expectedLogInfo{
       cs::LogInfo::create(preprocessedPath)};
@@ -49,10 +54,30 @@ int main()
       return EXIT_FAILURE;
     }
 
-    // TODO: HERE
-    [[maybe_unused]] const cs::LogInfo& logInfo{*expectedLogInfo};
+    const cs::LogInfo& logInfo{*expectedLogInfo};
+
+    std::ifstream ifs{logInfo.logFilePath().str()};
+
+    for (std::string line{}; std::getline(ifs, line);) {
+      const cl::Expected<cs::LogLine> expectedLogLine{cs::LogLine::parse(line)};
+
+      if (!expectedLogLine.has_value()) {
+        fmt::print(
+          stderr,
+          "Could not parse line \"{}\" from file \"{}\", line: {}\n",
+          line,
+          logInfo.logFilePath(),
+          __LINE__);
+        return EXIT_FAILURE;
+      }
+
+      [[maybe_unused]] const cs::LogLine& logLine{*expectedLogLine};
+
+      // TODO: Write to CSV.
+    }
   }
 
+  // OLD
   for (const cl::fs::Path& oldPath : oldLogs) {
     const cl::Expected<cs::LogInfo> expectedLogInfo{
       cs::LogInfo::create(oldPath)};
@@ -65,8 +90,27 @@ int main()
       return EXIT_FAILURE;
     }
 
-    // TODO: HERE
-    [[maybe_unused]] const cs::LogInfo& logInfo{*expectedLogInfo};
+    const cs::LogInfo& logInfo{*expectedLogInfo};
+
+    std::ifstream ifs{logInfo.logFilePath().str()};
+
+    for (std::string line{}; std::getline(ifs, line);) {
+      const cl::Expected<cs::LogLine> expectedLogLine{cs::LogLine::parse(line)};
+
+      if (!expectedLogLine.has_value()) {
+        fmt::print(
+          stderr,
+          "Could not parse line \"{}\" from file \"{}\", line: {}\n",
+          line,
+          logInfo.logFilePath(),
+          __LINE__);
+        return EXIT_FAILURE;
+      }
+
+      [[maybe_unused]] const cs::LogLine& logLine{*expectedLogLine};
+
+      // TODO: Write to CSV.
+    }
   }
 
   return EXIT_SUCCESS;
