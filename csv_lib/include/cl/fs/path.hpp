@@ -3,6 +3,7 @@
 #include <iosfwd>
 #include <string>
 
+#include <pl/annotations.hpp>
 #include <pl/total_order.hpp>
 
 namespace cl::fs {
@@ -14,7 +15,7 @@ public:
 
   friend bool operator==(const Path& lhs, const Path& rhs) noexcept;
 
-  explicit Path(std::string path);
+  PL_IMPLICIT Path(std::string path);
 
   [[nodiscard]] bool exists() const noexcept;
 

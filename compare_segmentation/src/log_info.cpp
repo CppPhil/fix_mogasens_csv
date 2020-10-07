@@ -1,6 +1,8 @@
 #include <cstddef>
+#include <cstring>
 
 #include <regex>
+#include <tuple>
 #include <utility>
 
 #include <fmt/format.h>
@@ -15,15 +17,36 @@
 
 namespace cs {
 namespace {
-[[nodiscard]] cl::Expected<bool> parseBool(const std::csub_match& csubMatch)
+/*
+ * \brief Parses a boolean value from a std::csub_match.
+ * \param csubMatch The std::csub_match to parse as a boolean value.
+ * \param success A pointer to a bool variable to indicate success of this
+ *                function.
+ * \return The value parsed.
+ * \warning The return value may only be observed if *success is true.
+ */
+[[nodiscard]] bool parseBool(const std::csub_match& csubMatch, bool* success)
 {
-  if (csubMatch.compare("true") == 0) { return true; }
+  // By default assume failure.
+  *success = false;
 
-  if (csubMatch.compare("false") == 0) { return false; }
+  if (csubMatch.compare("true") == 0) {
+    // It's true.
+    *success = true; // Indicate success.
+    return true;     // Return the value.
+  }
 
-  return CL_UNEXPECTED(
-    cl::Error::Parsing,
-    fmt::format("\"{}\" could not be parsed as bool!", csubMatch.str()));
+  if (csubMatch.compare("false") == 0) {
+    // It's false.
+    *success = true; // Indicate success.
+    return false;    // Return the value.
+  }
+
+  // Otherwise we have *success remain as false to indicate failure.
+  // and return an invalid bool of all 0xCC bytes.
+  bool v{};
+  std::memset(&v, 0xCC, sizeof(v));
+  return v;
 }
 } // namespace
 
@@ -89,33 +112,37 @@ cl::Expected<LogInfo> LogInfo::create(cl::fs::Path logFilePath) noexcept
   const std::csub_match windowSizeCsubMatch{cmatch[windowSizeIndex]};
   const std::csub_match filterCsubMatch{cmatch[filterIndex]};
 
-  bool             skipWindowValue, deleteTooCloseValue, deleteLowVarianceValue;
-  SegmentationKind segmentationKindValue;
-  std::uint64_t    windowSizeValue;
-  FilterKind       filterKindValue;
+  bool skipWindowValue{}, deleteTooCloseValue{}, deleteLowVarianceValue{};
+  SegmentationKind segmentationKindValue{};
+  std::uint64_t    windowSizeValue{};
+  FilterKind       filterKindValue{};
 
-#define CS_PARSE_BOOL(submatch, output)        \
-  do {                                         \
-    auto res = parseBool(submatch);            \
-    if (res.has_value()) {                     \
-      output = res.value();                    \
-      return tl::make_unexpected(res.error()); \
-    }                                          \
-  } while ((void)0, 0)
+  const auto doParseBool = [](const std::csub_match& csubMatch, bool* output) {
+    bool       status{false};
+    const bool resultValue{parseBool(csubMatch, &status)};
 
-  CS_PARSE_BOOL(skipWindowCsubMatch, skipWindowValue);
-  CS_PARSE_BOOL(deleteTooCloseCsubMatch, deleteTooCloseValue);
-  CS_PARSE_BOOL(deleteLowVarianceCsubMatch, deleteLowVarianceValue);
+    if (status) { *output = resultValue; }
+    else {
+      throw std::runtime_error{"Couldn't parse boolean value!"};
+    }
+  };
 
-#undef CS_PARSE_BOOL
+  try {
+    doParseBool(skipWindowCsubMatch, &skipWindowValue);
+    doParseBool(deleteTooCloseCsubMatch, &deleteTooCloseValue);
+    doParseBool(deleteLowVarianceCsubMatch, &deleteLowVarianceValue);
+  }
+  catch (const std::runtime_error& ex) {
+    return CL_UNEXPECTED(cl::Error::Parsing, ex.what());
+  }
 
-  if (segmentationKindCsubMatch.compare("min")) {
+  if (segmentationKindCsubMatch.compare("min") == 0) {
     segmentationKindValue = SegmentationKind::Minima;
   }
-  else if (segmentationKindCsubMatch.compare("max")) {
+  else if (segmentationKindCsubMatch.compare("max") == 0) {
     segmentationKindValue = SegmentationKind::Maxima;
   }
-  else if (segmentationKindCsubMatch.compare("both")) {
+  else if (segmentationKindCsubMatch.compare("both") == 0) {
     segmentationKindValue = SegmentationKind::Both;
   }
   else {
@@ -135,10 +162,10 @@ cl::Expected<LogInfo> LogInfo::create(cl::fs::Path logFilePath) noexcept
 
   windowSizeValue = parsedWindowSize.value();
 
-  if (filterCsubMatch.compare("average")) {
+  if (filterCsubMatch.compare("average") == 0) {
     filterKindValue = FilterKind::MovingAverage;
   }
-  else if (filterCsubMatch.compare("butterworth")) {
+  else if (filterCsubMatch.compare("butterworth") == 0) {
     filterKindValue = FilterKind::Butterworth;
   }
   else {
@@ -155,6 +182,31 @@ cl::Expected<LogInfo> LogInfo::create(cl::fs::Path logFilePath) noexcept
     segmentationKindValue,
     windowSizeValue,
     filterKindValue};
+}
+
+bool operator==(const LogInfo& lhs, const LogInfo& rhs) noexcept
+{
+  return std::tie(
+           lhs.m_logFilePath,
+           lhs.m_skipWindow,
+           lhs.m_deleteTooClose,
+           lhs.m_deleteLowVariance,
+           lhs.m_segmentationKind,
+           lhs.m_windowSize,
+           lhs.m_filterKind)
+         == std::tie(
+           rhs.m_logFilePath,
+           rhs.m_skipWindow,
+           rhs.m_deleteTooClose,
+           rhs.m_deleteLowVariance,
+           rhs.m_segmentationKind,
+           rhs.m_windowSize,
+           rhs.m_filterKind);
+}
+
+bool operator!=(const LogInfo& lhs, const LogInfo& rhs) noexcept
+{
+  return !(lhs == rhs);
 }
 
 const cl::fs::Path& LogInfo::logFilePath() const noexcept

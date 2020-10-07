@@ -13,6 +13,10 @@ class LogInfo {
 public:
   static cl::Expected<LogInfo> create(cl::fs::Path logFilePath) noexcept;
 
+  friend bool operator==(const LogInfo& lhs, const LogInfo& rhs) noexcept;
+
+  friend bool operator!=(const LogInfo& lhs, const LogInfo& rhs) noexcept;
+
   [[nodiscard]] const cl::fs::Path& logFilePath() const noexcept;
 
   [[nodiscard]] bool skipWindow() const noexcept;
