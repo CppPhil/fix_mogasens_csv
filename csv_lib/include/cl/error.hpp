@@ -14,7 +14,8 @@
 #define CL_ERROR_KIND              \
   CL_ERROR_KIND_X(Filesystem)      \
   CL_ERROR_KIND_X(InvalidArgument) \
-  CL_ERROR_KIND_X(OutOfRange)
+  CL_ERROR_KIND_X(OutOfRange)      \
+  CL_ERROR_KIND_X(Parsing)
 
 namespace cl {
 class [[nodiscard]] Error
