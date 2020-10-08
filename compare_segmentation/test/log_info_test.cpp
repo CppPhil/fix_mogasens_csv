@@ -5,7 +5,7 @@
 
 #include "log_info.hpp"
 
-TEST(logInfo, shouldWork)
+TEST(LogInfo, shouldWork)
 {
   using namespace pl::literals::integer_literals;
 
@@ -21,6 +21,8 @@ TEST(logInfo, shouldWork)
 
   const cs::LogInfo& logInfo{*expected};
 
+  ASSERT_TRUE(logInfo.isInitialized());
+
   EXPECT_EQ(std::string{validPath}, logInfo.logFilePath());
   EXPECT_FALSE(logInfo.skipWindow());
   EXPECT_TRUE(logInfo.deleteTooClose());
@@ -32,7 +34,7 @@ TEST(logInfo, shouldWork)
   EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
 }
 
-TEST(logInfo, shouldWork2)
+TEST(LogInfo, shouldWork2)
 {
   using namespace pl::literals::integer_literals;
 
@@ -48,6 +50,8 @@ TEST(logInfo, shouldWork2)
 
   const cs::LogInfo& logInfo{*expected};
 
+  ASSERT_TRUE(logInfo.isInitialized());
+
   EXPECT_EQ(std::string{validPath}, logInfo.logFilePath());
   EXPECT_TRUE(logInfo.skipWindow());
   EXPECT_TRUE(logInfo.deleteTooClose());
@@ -59,7 +63,7 @@ TEST(logInfo, shouldWork2)
   EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
 }
 
-TEST(logInfo, shouldWork3)
+TEST(LogInfo, shouldWork3)
 {
   using namespace pl::literals::integer_literals;
 
@@ -75,6 +79,8 @@ TEST(logInfo, shouldWork3)
 
   const cs::LogInfo& logInfo{*expected};
 
+  ASSERT_TRUE(logInfo.isInitialized());
+
   EXPECT_EQ(std::string{validPath}, logInfo.logFilePath());
   EXPECT_TRUE(logInfo.skipWindow());
   EXPECT_FALSE(logInfo.deleteTooClose());
@@ -86,7 +92,7 @@ TEST(logInfo, shouldWork3)
   EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
 }
 
-TEST(logInfo, shouldWork4)
+TEST(LogInfo, shouldWork4)
 {
   using namespace pl::literals::integer_literals;
 
@@ -102,6 +108,8 @@ TEST(logInfo, shouldWork4)
 
   const cs::LogInfo& logInfo{*expected};
 
+  ASSERT_TRUE(logInfo.isInitialized());
+
   EXPECT_EQ(std::string{validPath}, logInfo.logFilePath());
   EXPECT_TRUE(logInfo.skipWindow());
   EXPECT_FALSE(logInfo.deleteTooClose());
@@ -113,7 +121,7 @@ TEST(logInfo, shouldWork4)
   EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
 }
 
-TEST(logInfo, shouldWork5)
+TEST(LogInfo, shouldWork5)
 {
   using namespace pl::literals::integer_literals;
 
@@ -129,6 +137,8 @@ TEST(logInfo, shouldWork5)
 
   const cs::LogInfo& logInfo{*expected};
 
+  ASSERT_TRUE(logInfo.isInitialized());
+
   EXPECT_EQ(std::string{validPath}, logInfo.logFilePath());
   EXPECT_TRUE(logInfo.skipWindow());
   EXPECT_FALSE(logInfo.deleteTooClose());
@@ -140,7 +150,7 @@ TEST(logInfo, shouldWork5)
   EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
 }
 
-TEST(logInfo, shouldWork6)
+TEST(LogInfo, shouldWork6)
 {
   using namespace pl::literals::integer_literals;
 
@@ -156,6 +166,8 @@ TEST(logInfo, shouldWork6)
 
   const cs::LogInfo& logInfo{*expected};
 
+  ASSERT_TRUE(logInfo.isInitialized());
+
   EXPECT_EQ(std::string{validPath}, logInfo.logFilePath());
   EXPECT_TRUE(logInfo.skipWindow());
   EXPECT_FALSE(logInfo.deleteTooClose());
@@ -167,7 +179,7 @@ TEST(logInfo, shouldWork6)
   EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
 }
 
-TEST(logInfo, shouldWork7)
+TEST(LogInfo, shouldWork7)
 {
   using namespace pl::literals::integer_literals;
 
@@ -183,6 +195,8 @@ TEST(logInfo, shouldWork7)
 
   const cs::LogInfo& logInfo{*expected};
 
+  ASSERT_TRUE(logInfo.isInitialized());
+
   EXPECT_EQ(std::string{validPath}, logInfo.logFilePath());
   EXPECT_TRUE(logInfo.skipWindow());
   EXPECT_FALSE(logInfo.deleteTooClose());
@@ -194,7 +208,7 @@ TEST(logInfo, shouldWork7)
   EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
 }
 
-TEST(logInfo, shouldWork8)
+TEST(LogInfo, shouldWork8)
 {
   using namespace pl::literals::integer_literals;
 
@@ -210,6 +224,8 @@ TEST(logInfo, shouldWork8)
 
   const cs::LogInfo& logInfo{*expected};
 
+  ASSERT_TRUE(logInfo.isInitialized());
+
   EXPECT_EQ(std::string{validPath}, logInfo.logFilePath());
   EXPECT_TRUE(logInfo.skipWindow());
   EXPECT_FALSE(logInfo.deleteTooClose());
@@ -221,7 +237,7 @@ TEST(logInfo, shouldWork8)
   EXPECT_EQ(cs::LogInfo::invalidSensor, logInfo.sensor());
 }
 
-TEST(logInfo, shouldWork9)
+TEST(LogInfo, shouldWork9)
 {
   using namespace pl::literals::integer_literals;
 
@@ -236,6 +252,8 @@ TEST(logInfo, shouldWork9)
   ASSERT_TRUE(expected.has_value());
 
   const cs::LogInfo& logInfo{*expected};
+
+  ASSERT_TRUE(logInfo.isInitialized());
 
   EXPECT_EQ(std::string{validPath}, logInfo.logFilePath());
   EXPECT_TRUE(logInfo.skipWindow());
@@ -263,6 +281,8 @@ TEST(LogInfo, shouldWorkWithOldPath)
 
   const cs::LogInfo& logInfo{*expected};
 
+  ASSERT_TRUE(logInfo.isInitialized());
+
   EXPECT_EQ(path, logInfo.logFilePath());
   EXPECT_TRUE(logInfo.skipWindow());
   EXPECT_TRUE(logInfo.deleteTooClose());
@@ -289,6 +309,8 @@ TEST(LogInfo, shouldWorkWithOldPath2)
 
   const cs::LogInfo& logInfo{*expected};
 
+  ASSERT_TRUE(logInfo.isInitialized());
+
   EXPECT_EQ(path, logInfo.logFilePath());
   EXPECT_FALSE(logInfo.skipWindow());
   EXPECT_FALSE(logInfo.deleteTooClose());
@@ -300,14 +322,14 @@ TEST(LogInfo, shouldWorkWithOldPath2)
   EXPECT_EQ(cs::FilterKind::MovingAverage, logInfo.filterKind());
 }
 
-TEST(logInfo, shouldResultInErrorIfLogFilePathIsTooShort)
+TEST(LogInfo, shouldResultInErrorIfLogFilePathIsTooShort)
 {
   const cl::Expected<cs::LogInfo> expected{cs::LogInfo::create(
     cl::fs::Path{std::string{"segmentation_comparison/logs/"}})};
   EXPECT_FALSE(expected.has_value());
 }
 
-TEST(logInfo, shouldFailIfSkipWindowIsInvalid)
+TEST(LogInfo, shouldFailIfSkipWindowIsInvalid)
 {
   const cl::Expected<cs::LogInfo> expected{cs::LogInfo::create(cl::fs::Path{
     std::string{"segmentation_comparison/logs/"
@@ -316,7 +338,7 @@ TEST(logInfo, shouldFailIfSkipWindowIsInvalid)
   EXPECT_FALSE(expected.has_value());
 }
 
-TEST(logInfo, shouldFailIfDeleteTooCloseIsInvalid)
+TEST(LogInfo, shouldFailIfDeleteTooCloseIsInvalid)
 {
   const cl::Expected<cs::LogInfo> expected{cs::LogInfo::create(cl::fs::Path{
     std::string{"segmentation_comparison/logs/"
@@ -325,7 +347,7 @@ TEST(logInfo, shouldFailIfDeleteTooCloseIsInvalid)
   EXPECT_FALSE(expected.has_value());
 }
 
-TEST(logInfo, shouldFailIfDeleteTooLowVarianceIsInvalid)
+TEST(LogInfo, shouldFailIfDeleteTooLowVarianceIsInvalid)
 {
   const cl::Expected<cs::LogInfo> expected{cs::LogInfo::create(cl::fs::Path{
     std::string{"segmentation_comparison/logs/"
@@ -334,7 +356,7 @@ TEST(logInfo, shouldFailIfDeleteTooLowVarianceIsInvalid)
   EXPECT_FALSE(expected.has_value());
 }
 
-TEST(logInfo, shouldFailIfSegmentationKindIsInvalid)
+TEST(LogInfo, shouldFailIfSegmentationKindIsInvalid)
 {
   const cl::Expected<cs::LogInfo> expected{cs::LogInfo::create(cl::fs::Path{
     std::string{"segmentation_comparison/logs/"
@@ -343,7 +365,7 @@ TEST(logInfo, shouldFailIfSegmentationKindIsInvalid)
   EXPECT_FALSE(expected.has_value());
 }
 
-TEST(logInfo, shouldFailIfWindowSizeIsInvalid)
+TEST(LogInfo, shouldFailIfWindowSizeIsInvalid)
 {
   const cl::Expected<cs::LogInfo> expected{cs::LogInfo::create(cl::fs::Path{
     std::string{"segmentation_comparison/logs/"
@@ -354,11 +376,17 @@ TEST(logInfo, shouldFailIfWindowSizeIsInvalid)
     pl::strcontains(expected.error().message(), "did not match the regex"));
 }
 
-TEST(logInfo, shouldFailIfFilterIsInvalid)
+TEST(LogInfo, shouldFailIfFilterIsInvalid)
 {
   const cl::Expected<cs::LogInfo> expected{cs::LogInfo::create(cl::fs::Path{
     std::string{"segmentation_comparison/logs/"
                 "skip_window-true_delete_too_close-true_delete_low_variance-"
                 "false_kind-min_window-101_filter-abcdefgh.log"}})};
   EXPECT_FALSE(expected.has_value());
+}
+
+TEST(LogInfo, shouldCreateUninitialzedObjectWhenDefaultConstructorIsCalled)
+{
+  const cs::LogInfo logInfo{};
+  EXPECT_FALSE(logInfo.isInitialized());
 }
