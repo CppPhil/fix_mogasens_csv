@@ -1,5 +1,6 @@
 #ifndef INCG_CL_TO_STRING_HPP
 #define INCG_CL_TO_STRING_HPP
+#include <ios>
 #include <locale>
 #include <sstream>
 #include <string>
@@ -26,6 +27,7 @@ inline std::string to_string(const Ty& ty)
   else {
     std::ostringstream oss{};
     oss.imbue(std::locale::classic());
+    oss << std::boolalpha;
     oss << ty;
     return oss.str();
   }

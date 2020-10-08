@@ -1,3 +1,5 @@
+Check output
+Write tests
 Consider upgrading the git submodules.
 
 -------------------------------------------------------------------------

@@ -11,6 +11,8 @@
 
 #include "cl/fs/separator.hpp"
 
+#include "csv_line.hpp"
+#include "data_set_info.hpp"
 #include "log_files.hpp"
 #include "log_info.hpp"
 #include "log_line.hpp"
@@ -108,9 +110,23 @@ int main()
         return EXIT_FAILURE;
       }
 
-      [[maybe_unused]] const cs::LogLine& logLine{*expectedLogLine};
-      // TODO: HERE: CONTINUE HERE>
+      const cs::LogLine& logLine{*expectedLogLine};
+
+      csvWriter << cs::CsvLineBuilder{}
+                     .skipWindow(logInfo.skipWindow())
+                     .deleteTooClose(logInfo.deleteTooClose())
+                     .deleteLowVariance(logInfo.deleteLowVariance())
+                     .kind(logInfo.segmentationKind())
+                     .filter(logInfo.filterKind())
+                     .windowSize(logInfo.windowSize())
+                     .dataSet(logLine.shortFileName())
+                     .sensor(logLine.sensor())
+                     .pushUps(cs::pushUpCount(logLine.shortFileName()))
+                     .segmentationPoints(logLine.segmentationPointCount())
+                     .build();
     }
+
+    // TODO: Check for the best setting.
   }
 
   // OLD
@@ -151,10 +167,23 @@ int main()
         return EXIT_FAILURE;
       }
 
-      [[maybe_unused]] const cs::LogLine& logLine{*expectedLogLine};
+      const cs::LogLine& logLine{*expectedLogLine};
 
-      // TODO: Write to CSV.
+      csvWriter << cs::CsvLineBuilder{}
+                     .skipWindow(logInfo.skipWindow())
+                     .deleteTooClose(logInfo.deleteTooClose())
+                     .deleteLowVariance(logInfo.deleteLowVariance())
+                     .kind(logInfo.segmentationKind())
+                     .filter(logInfo.filterKind())
+                     .windowSize(logInfo.windowSize())
+                     .dataSet(logLine.shortFileName())
+                     .sensor(logInfo.sensor())
+                     .pushUps(cs::pushUpCount(logLine.shortFileName()))
+                     .segmentationPoints(logLine.segmentationPointCount())
+                     .build();
     }
+
+    // TODO: Check for the best setting.
   }
 
   return EXIT_SUCCESS;
