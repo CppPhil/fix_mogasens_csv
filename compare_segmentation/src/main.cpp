@@ -9,6 +9,8 @@
 
 #include <csv.hpp>
 
+#include <pl/unused.hpp>
+
 #include "cl/fs/separator.hpp"
 
 #include "csv_line.hpp"
@@ -18,8 +20,11 @@
 #include "log_line.hpp"
 #include "paths.hpp"
 
-int main()
+int main(int argc, char* argv[])
 {
+  PL_UNUSED(argc);
+  fmt::print("{}: starting\n", argv[0]);
+
   const cl::Expected<std::vector<cl::fs::Path>> expectedLogs{
     cs::logFiles(cs::logPath)};
 
@@ -186,5 +191,6 @@ int main()
     // TODO: Check for the best setting.
   }
 
+  fmt::print("{}: done\n", argv[0]);
   return EXIT_SUCCESS;
 }
