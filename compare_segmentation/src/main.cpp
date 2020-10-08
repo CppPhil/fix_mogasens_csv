@@ -126,10 +126,11 @@ int main(int argc, char* argv[])
       if (!expectedLogLine.has_value()) {
         fmt::print(
           stderr,
-          "Could not parse line \"{}\" from file \"{}\", line: {}\n",
+          "Could not parse line \"{}\" from file \"{}\", line: {}, error: {}\n",
           line,
           logInfo.logFilePath(),
-          __LINE__);
+          __LINE__,
+          expectedLogLine.error());
         return EXIT_FAILURE;
       }
 
@@ -212,10 +213,11 @@ int main(int argc, char* argv[])
       if (!expectedLogLine.has_value()) {
         fmt::print(
           stderr,
-          "Could not parse line \"{}\" from file \"{}\", line: {}\n",
+          "Could not parse line \"{}\" from file \"{}\", line: {}, error: {}\n",
           line,
           logInfo.logFilePath(),
-          __LINE__);
+          __LINE__,
+          expectedLogLine.error());
         return EXIT_FAILURE;
       }
 

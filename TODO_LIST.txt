@@ -1,4 +1,3 @@
-Write tests
 Consider upgrading the git submodules.
 
 Test with larger window sizes.
