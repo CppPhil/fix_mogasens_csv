@@ -2,6 +2,8 @@ Check output
 Write tests
 Consider upgrading the git submodules.
 
+Actually use the best segmentation settings.
+
 -------------------------------------------------------------------------
 Sprung bei
  Felix/2020-07-02_11.17.39
