@@ -2,6 +2,8 @@
 #define INCG_CS_LOG_INFO_HPP
 #include <cstdint>
 
+#include <iosfwd>
+
 #include <cl/error.hpp>
 #include <cl/fs/path.hpp>
 
@@ -18,6 +20,8 @@ public:
   friend bool operator==(const LogInfo& lhs, const LogInfo& rhs) noexcept;
 
   friend bool operator!=(const LogInfo& lhs, const LogInfo& rhs) noexcept;
+
+  friend std::ostream& operator<<(std::ostream& os, const LogInfo& logInfo);
 
   LogInfo();
 
@@ -36,6 +40,8 @@ public:
   [[nodiscard]] FilterKind filterKind() const noexcept;
 
   [[nodiscard]] std::uint64_t sensor() const noexcept;
+
+  [[nodiscard]] bool isInitialized() const noexcept;
 
 private:
   LogInfo(
@@ -56,6 +62,7 @@ private:
   std::uint64_t    m_windowSize;
   FilterKind       m_filterKind;
   std::uint64_t    m_sensor;
+  bool             m_isInitialized;
 };
 } // namespace cs
 #endif // INCG_CS_LOG_INFO_HPP

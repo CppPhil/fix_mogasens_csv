@@ -1,6 +1,7 @@
 #include <cstddef>
 #include <cstring>
 
+#include <ostream>
 #include <regex>
 #include <tuple>
 #include <utility>
@@ -252,7 +253,8 @@ bool operator==(const LogInfo& lhs, const LogInfo& rhs) noexcept
            lhs.m_deleteLowVariance,
            lhs.m_segmentationKind,
            lhs.m_windowSize,
-           lhs.m_filterKind)
+           lhs.m_filterKind,
+           lhs.m_isInitialized)
          == std::tie(
            rhs.m_logFilePath,
            rhs.m_skipWindow,
@@ -260,12 +262,25 @@ bool operator==(const LogInfo& lhs, const LogInfo& rhs) noexcept
            rhs.m_deleteLowVariance,
            rhs.m_segmentationKind,
            rhs.m_windowSize,
-           rhs.m_filterKind);
+           rhs.m_filterKind,
+           rhs.m_isInitialized);
 }
 
 bool operator!=(const LogInfo& lhs, const LogInfo& rhs) noexcept
 {
   return !(lhs == rhs);
+}
+
+std::ostream& operator<<(std::ostream& os, const LogInfo& logInfo)
+{
+  return os << fmt::format(
+           R"(LogInfo{{"skipWindow": "{}", "deleteTooClose": "{}", "deleteLowVariance": "{}", "segmentationKind": "{}", "windowSize": {}, "filterKind": "{}"}})",
+           logInfo.m_skipWindow,
+           logInfo.m_deleteTooClose,
+           logInfo.m_deleteLowVariance,
+           logInfo.m_segmentationKind,
+           logInfo.m_windowSize,
+           logInfo.m_filterKind);
 }
 
 LogInfo::LogInfo()
@@ -277,6 +292,7 @@ LogInfo::LogInfo()
   , m_windowSize{}
   , m_filterKind{}
   , m_sensor{}
+  , m_isInitialized{false}
 {
 }
 
@@ -302,6 +318,8 @@ FilterKind LogInfo::filterKind() const noexcept { return m_filterKind; }
 
 std::uint64_t LogInfo::sensor() const noexcept { return m_sensor; }
 
+bool LogInfo::isInitialized() const noexcept { return m_isInitialized; }
+
 LogInfo::LogInfo(
   cl::fs::Path&&   logFilePath,
   bool             skipWindow,
@@ -319,6 +337,7 @@ LogInfo::LogInfo(
   , m_windowSize{windowSize}
   , m_filterKind{filterKind}
   , m_sensor{sensor}
+  , m_isInitialized{true}
 {
 }
 } // namespace cs

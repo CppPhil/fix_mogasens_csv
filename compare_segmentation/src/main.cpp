@@ -1,17 +1,22 @@
+#include <cmath>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 
 #include <fstream>
 #include <string>
+#include <vector>
 
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
 #include <csv.hpp>
 
+#include <pl/algo/ranged_algorithms.hpp>
 #include <pl/unused.hpp>
 
 #include "cl/fs/separator.hpp"
+#include "cl/to_string.hpp"
 
 #include "csv_line.hpp"
 #include "data_set_info.hpp"
@@ -78,6 +83,17 @@ int main(int argc, char* argv[])
     "segmentation points",
     "old / preprocessed"};
 
+  // This shall be replaced with a proper value.
+  cs::LogInfo  bestOne{};
+  std::int64_t bestTotalDistance{};
+
+  struct LogInfoDistancePair {
+    cs::LogInfo  logInfo;
+    std::int64_t distanceScore;
+  };
+
+  std::vector<LogInfoDistancePair> logInfoDistancePairVector{};
+
   // PREPROCESSED
   for (const cl::fs::Path& preprocessedPath : logs) {
     const cl::Expected<cs::LogInfo> expectedLogInfo{
@@ -92,6 +108,7 @@ int main(int argc, char* argv[])
     }
 
     const cs::LogInfo& logInfo{*expectedLogInfo};
+    std::int64_t       currentLogInfoTotalDistance{};
 
     std::ifstream ifs{logInfo.logFilePath().str()};
 
@@ -118,6 +135,15 @@ int main(int argc, char* argv[])
 
       const cs::LogLine& logLine{*expectedLogLine};
 
+      const std::int64_t expectedPushUpCount{
+        static_cast<std::int64_t>(cs::pushUpCount(logLine.shortFileName()))};
+
+      const std::int64_t distance{std::abs(
+        static_cast<std::int64_t>(logLine.segmentationPointCount())
+        - expectedPushUpCount)};
+
+      currentLogInfoTotalDistance += distance;
+
       csvWriter << cs::CsvLineBuilder{}
                      .skipWindow(logInfo.skipWindow())
                      .deleteTooClose(logInfo.deleteTooClose())
@@ -127,14 +153,33 @@ int main(int argc, char* argv[])
                      .windowSize(logInfo.windowSize())
                      .dataSet(logLine.shortFileName())
                      .sensor(logLine.sensor())
-                     .pushUps(cs::pushUpCount(logLine.shortFileName()))
+                     .pushUps(static_cast<std::uint64_t>(expectedPushUpCount))
                      .segmentationPoints(logLine.segmentationPointCount())
                      .isOld(false)
                      .build();
     }
 
-    // TODO: Check for the best setting.
+    fmt::print("{}  distance: {}\n", logInfo, currentLogInfoTotalDistance);
+
+    csvWriter << std::vector<std::string>{
+      "score (lower is better): ", cl::to_string(currentLogInfoTotalDistance)};
+    csvWriter << std::vector<std::string>{""}; // Write empty line.
+
+    logInfoDistancePairVector.push_back(
+      LogInfoDistancePair{logInfo, currentLogInfoTotalDistance});
+
+    if (
+      !bestOne.isInitialized()
+      || (currentLogInfoTotalDistance < bestTotalDistance)) {
+      bestOne           = logInfo;
+      bestTotalDistance = currentLogInfoTotalDistance;
+    }
   }
+
+  fmt::print(
+    "\nBest configuration is\n  {}\n  with total distance {}\n",
+    bestOne,
+    bestTotalDistance);
 
   // OLD
   for (const cl::fs::Path& oldPath : oldLogs) {
@@ -191,8 +236,26 @@ int main(int argc, char* argv[])
                      .build();
     }
 
-    // TODO: Check for the best setting.
+    csvWriter << std::vector<std::string>{""}; // Write empty line.
   }
+
+  pl::algo::stable_sort(
+    logInfoDistancePairVector,
+    [](const LogInfoDistancePair& lhs, const LogInfoDistancePair& rhs) {
+      return lhs.distanceScore < rhs.distanceScore;
+    });
+
+  fmt::print("\nSorted by distance score (best first):\n");
+
+  for (const LogInfoDistancePair& currentLogInfoDistancePair :
+       logInfoDistancePairVector) {
+    fmt::print(
+      "{}, distance: {}\n",
+      currentLogInfoDistancePair.logInfo,
+      currentLogInfoDistancePair.distanceScore);
+  }
+
+  fmt::print("\n");
 
   fmt::print("{}: done\n", argv[0]);
   return EXIT_SUCCESS;
