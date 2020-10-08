@@ -2,8 +2,8 @@ include(GoogleTest)
 
 set(TEST_NAME compare_segmentation_test)
 
-set(TEST_SOURCES main.cpp log_files_test.cpp log_info_test.cpp
-                 log_line_test.cpp)
+set(TEST_SOURCES csv_line_test.cpp log_files_test.cpp log_info_test.cpp
+                 log_line_test.cpp main.cpp)
 
 add_executable(${TEST_NAME} ${TEST_SOURCES})
 

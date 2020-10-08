@@ -1,6 +1,8 @@
-Check output
 Write tests
 Consider upgrading the git submodules.
+
+Test with larger window sizes.
+  201, 251
 
 Actually use the best segmentation settings.
 
