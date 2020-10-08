@@ -75,7 +75,8 @@ int main(int argc, char* argv[])
     "data set",
     "sensor",
     "push-ups",
-    "segmentation points"};
+    "segmentation points",
+    "old / preprocessed"};
 
   // PREPROCESSED
   for (const cl::fs::Path& preprocessedPath : logs) {
@@ -128,6 +129,7 @@ int main(int argc, char* argv[])
                      .sensor(logLine.sensor())
                      .pushUps(cs::pushUpCount(logLine.shortFileName()))
                      .segmentationPoints(logLine.segmentationPointCount())
+                     .isOld(false)
                      .build();
     }
 
@@ -185,6 +187,7 @@ int main(int argc, char* argv[])
                      .sensor(logInfo.sensor())
                      .pushUps(cs::pushUpCount(logLine.shortFileName()))
                      .segmentationPoints(logLine.segmentationPointCount())
+                     .isOld(true)
                      .build();
     }
 

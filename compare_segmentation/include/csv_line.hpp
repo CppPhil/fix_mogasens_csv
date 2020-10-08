@@ -37,6 +37,8 @@ public:
 
   this_type& segmentationPoints(std::uint64_t value);
 
+  this_type& isOld(bool value);
+
   [[nodiscard]] std::vector<std::string> build() const;
 
 private:
@@ -50,6 +52,7 @@ private:
   tl::optional<std::uint64_t>    m_sensor;
   tl::optional<std::uint64_t>    m_pushUps;
   tl::optional<std::uint64_t>    m_segmentationPoints;
+  tl::optional<bool>             m_isOld;
 };
 } // namespace cs
 #endif // INCG_CS_CSV_LINE_HPP

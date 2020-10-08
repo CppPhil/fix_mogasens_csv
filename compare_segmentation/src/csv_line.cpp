@@ -106,6 +106,12 @@ CsvLineBuilder& CsvLineBuilder::segmentationPoints(std::uint64_t value)
   return *this;
 }
 
+CsvLineBuilder& CsvLineBuilder::isOld(bool value)
+{
+  m_isOld = value;
+  return *this;
+}
+
 std::vector<std::string> CsvLineBuilder::build() const
 {
   assert(m_skipWindow.has_value());
@@ -118,8 +124,9 @@ std::vector<std::string> CsvLineBuilder::build() const
   assert(m_sensor.has_value());
   assert(m_pushUps.has_value());
   assert(m_segmentationPoints.has_value());
+  assert(m_isOld.has_value());
 
-  constexpr std::size_t lineLength{10};
+  constexpr std::size_t lineLength{11};
 
   constexpr std::size_t skipWindowIndex{0};
   constexpr std::size_t deleteTooCloseIndex{1};
@@ -131,6 +138,7 @@ std::vector<std::string> CsvLineBuilder::build() const
   constexpr std::size_t sensorIndex{7};
   constexpr std::size_t pushUpsIndex{8};
   constexpr std::size_t segmentationPointsIndex{9};
+  constexpr std::size_t isOldIndex{10};
 
   std::vector<std::string> line(lineLength, "");
 
@@ -149,6 +157,7 @@ std::vector<std::string> CsvLineBuilder::build() const
   line[sensorIndex]             = std::move(sensorString);
   line[pushUpsIndex]            = cl::to_string(m_pushUps.value());
   line[segmentationPointsIndex] = cl::to_string(m_segmentationPoints.value());
+  line[isOldIndex]              = m_isOld.value() ? "old" : "preprocessed";
 
   return line;
 }
