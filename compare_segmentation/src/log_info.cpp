@@ -268,6 +268,18 @@ bool operator!=(const LogInfo& lhs, const LogInfo& rhs) noexcept
   return !(lhs == rhs);
 }
 
+LogInfo::LogInfo()
+  : m_logFilePath{""}
+  , m_skipWindow{}
+  , m_deleteTooClose{}
+  , m_deleteLowVariance{}
+  , m_segmentationKind{}
+  , m_windowSize{}
+  , m_filterKind{}
+  , m_sensor{}
+{
+}
+
 const cl::fs::Path& LogInfo::logFilePath() const noexcept
 {
   return m_logFilePath;

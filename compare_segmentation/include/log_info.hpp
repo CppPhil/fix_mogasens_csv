@@ -19,6 +19,8 @@ public:
 
   friend bool operator!=(const LogInfo& lhs, const LogInfo& rhs) noexcept;
 
+  LogInfo();
+
   [[nodiscard]] const cl::fs::Path& logFilePath() const noexcept;
 
   [[nodiscard]] bool skipWindow() const noexcept;
