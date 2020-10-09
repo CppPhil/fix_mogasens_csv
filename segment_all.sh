@@ -87,6 +87,8 @@ readonly SEGMENTATION_KINDS=(
 readonly WINDOW_SIZES=(
   "101"
   "151"
+  "201"
+  "251"
   "51"
 )
 
