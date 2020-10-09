@@ -1,3 +1,7 @@
+Gewuenschte Bildchen erzeugen
+
+Make the csv look more like Jan's
+
 Test with larger window sizes.
   201, 251
 
