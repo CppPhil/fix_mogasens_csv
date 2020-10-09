@@ -101,7 +101,9 @@ cd "$DIR"
 
 readonly LOG_DIR="$DIR/segmentation_comparison/logs"
 
-rm -f "$LOG_DIR/*.log"
+for file in "$LOG_DIR/*.log"; do
+  rm -f $file
+done
 
 for skip_window_option in "${SKIP_WINDOW_OPTIONS[@]}"; do
   for delete_too_close_option in "${DELETE_TOO_CLOSE_OPTIONS[@]}"; do

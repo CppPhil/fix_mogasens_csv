@@ -77,7 +77,9 @@ readonly LOG_DIR="$DIR/segmentation_comparison/logs"
 
 echo "segment_all_old.sh: Starting."
 
-rm -f "$LOG_DIR/*.log"
+for file in "$LOG_DIR/old/*.log"; do
+  rm -f $file
+done
 
 for skip_window_option in "${SKIP_WINDOW_OPTIONS[@]}"; do
   for delete_too_close_option in "${DELETE_TOO_CLOSE_OPTIONS[@]}"; do
