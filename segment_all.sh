@@ -97,6 +97,8 @@ readonly FILTERS=(
   "butterworth"
 )
 
+readonly skip_existing=true
+
 cd "$DIR"
 
 readonly LOG_DIR="$DIR/segmentation_comparison/logs"
@@ -109,6 +111,13 @@ for skip_window_option in "${SKIP_WINDOW_OPTIONS[@]}"; do
           for filter in "${FILTERS[@]}"; do
             
             file="$LOG_DIR/skip_window-${skip_window_option}_delete_too_close-${delete_too_close_option}_delete_low_variance-${delete_low_variance_option}_kind-${segmentation_kind}_window-${window_size}_filter-${filter}.log"
+
+            if [ "$skip_existing" = true ]; then
+              if [ -e "$file" ]; then
+                continue
+              fi
+            fi
+
             rm -f $file
 
             for csv_file in "${CSV_FILES[@]}"; do
