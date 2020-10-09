@@ -77,16 +77,17 @@ readonly LOG_DIR="$DIR/segmentation_comparison/logs"
 
 echo "segment_all_old.sh: Starting."
 
-for file in "$LOG_DIR/old/*.log"; do
-  rm -f $file
-done
-
 for skip_window_option in "${SKIP_WINDOW_OPTIONS[@]}"; do
   for delete_too_close_option in "${DELETE_TOO_CLOSE_OPTIONS[@]}"; do
     for delete_low_variance_option in "${DELETE_LOW_VARIANCE_OPTIONS[@]}"; do
       for segmentation_kind in "${SEGMENTATION_KINDS[@]}"; do
         for window_size in "${WINDOW_SIZES[@]}"; do
           for sensor in "${SENSORS[@]}"; do
+          
+            file="$LOG_DIR/old/skip_window-${skip_window_option}_delete_too_close-${delete_too_close_option}_delete_low_variance-${delete_low_variance_option}_sensor-${sensor}_kind-${segmentation_kind}_window-${window_size}.log"
+            
+            rm -f $file
+          
             for csv_file in "${CSV_FILES[@]}"; do
               ./segment.sh \
                 --skip_window="$skip_window_option" \
@@ -98,7 +99,7 @@ for skip_window_option in "${SKIP_WINDOW_OPTIONS[@]}"; do
                 --imu=accelerometer \
                 --segmentation_kind="$segmentation_kind" \
                 --window_size="$window_size" \
-                  >> "$LOG_DIR/old/skip_window-${skip_window_option}_delete_too_close-${delete_too_close_option}_delete_low_variance-${delete_low_variance_option}_sensor-${sensor}_kind-${segmentation_kind}_window-${window_size}.log"
+                  >> $file
             done
           done
         done
