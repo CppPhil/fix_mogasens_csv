@@ -1,3 +1,5 @@
+variance?
+
 Actually use the best segmentation settings.
 
 -------------------------------------------------------------------------
