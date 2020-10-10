@@ -12,7 +12,7 @@ TEST(logFiles, shouldFindLogFiles)
 
   const std::vector<cl::fs::Path>& paths{*expected};
 
-  EXPECT_EQ(336U, paths.size());
+  EXPECT_EQ(528U, paths.size());
 
   for (const cl::fs::Path& path : paths) {
     const pl::string_view stringView{path.str()};
