@@ -93,7 +93,9 @@ readonly WINDOW_SIZES=(
   "351"
   "401"
   "451"
+  "501"
   "51"
+  "551"
 )
 
 readonly FILTERS=(
