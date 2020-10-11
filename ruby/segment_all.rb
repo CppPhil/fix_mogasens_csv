@@ -82,9 +82,9 @@ LOG_DIR = 'segmentation_comparison/logs'.freeze
 
 def script
   if System.os == :windows
-    './preprocessed_segment.sh'
-  else
     'preprocessed_segment.bat'
+  else
+    './preprocessed_segment.sh'
   end
 end
 
@@ -103,20 +103,19 @@ SKIP_WINDOW_OPTIONS.each do |skip_window_option|
             File.delete(file)
 
             CSV_FILES.each do |csv_file|
-              next if system(
-                "#{script} "\
-                  "--skip_window=#{skip_window_option} "\
-                  "--delete_too_close=#{delete_too_close_option} "\
-                  "--delete_low_variance=#{delete_low_variance_option} "\
-                  '--image_format=png '\
-                  "--csv_file_path=#{csv_file} "\
-                  '--imu=accelerometer '\
-                  "--segmentation_kind=#{segmentation_kind} "\
-                  "--window_size=#{window_size} "\
-                  "--filter=#{filter} "\
-                  ">> #{file}"
-              )
-              STDERR.puts("Failure invoking #{script}!")
+              run_string = "#{script} "\
+                "--skip_window=\"#{skip_window_option}\" "\
+                "--delete_too_close=\"#{delete_too_close_option}\" "\
+                "--delete_low_variance=\"#{delete_low_variance_option}\" "\
+                '--image_format=png '\
+                "--csv_file_path=\"#{csv_file}\" "\
+                '--imu=accelerometer '\
+                "--segmentation_kind=\"#{segmentation_kind}\" "\
+                "--window_size=\"#{window_size}\" "\
+                "--filter=\"#{filter}\" "\
+                ">> \"#{file}\""
+              next if system(run_string)
+              STDERR.puts("Failure invoking #{run_string}!")
               exit(1)
             end
           end
