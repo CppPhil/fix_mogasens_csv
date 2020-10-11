@@ -8,7 +8,7 @@ cd "%dir%"
 
 call "%goto_ruby%" "%dir%\ruby\segment.rb" %*
 if errorlevel 1 (
-  cd %prev_dir%
+  cd "%prev_dir%"
   exit /B 1
 )
 

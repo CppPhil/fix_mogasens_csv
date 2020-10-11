@@ -6,7 +6,7 @@ set goto_ruby=%dir%\external\goto-ruby\goto-ruby.bat
 
 cd "%dir%"
 
-call "%goto_ruby%" "%dir%\ruby\preprocessed_segment.rb" %*
+call "%goto_ruby%" "%dir%\ruby\segment_all.rb" %*
 if errorlevel 1 (
   cd "%prev_dir%"
   exit /B 1
