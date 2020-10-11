@@ -100,10 +100,8 @@ SKIP_WINDOW_OPTIONS.each do |skip_window_option|
                    "window-#{window_size}_filter-#{filter}.log"
 
             next if skip_existing && File.file?(file)
-            
-			if File.file?(file)
-			  File.delete(file)
-			end
+
+            File.delete(file) if File.file?(file)
 
             CSV_FILES.each do |csv_file|
               run_string = "#{script} "\
