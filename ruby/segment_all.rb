@@ -83,10 +83,10 @@ SKIP_WINDOW_OPTIONS.each do |skip_window_option|
                 STDERR.puts("Failure invoking #{run_string}!")
                 exit(1)
               end
-
-              current_file_count += 1
-              puts("Done with log file #{current_file_count}/#{total_file_count} (\"#{file}\").")
             end
+
+            current_file_count += 1
+            puts("Done with log file #{current_file_count}/#{total_file_count} (\"#{file}\").")
           end
         end
       end
