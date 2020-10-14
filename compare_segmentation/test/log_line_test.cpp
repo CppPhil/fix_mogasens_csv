@@ -19,7 +19,6 @@ TEST(LogLine, shouldWorkWithPreprocessedLine)
   EXPECT_EQ(
     "resources/preprocessed/Interpolated/2020-07-02_14.07.33_Belly.csv"s,
     logLine.filePath());
-  EXPECT_EQ("14.07.33"s, logLine.shortFileName());
   EXPECT_EQ(UINT64_C(770), logLine.sensor());
 }
 
@@ -36,7 +35,6 @@ TEST(LogLine, shouldWorkWithOldLine)
   EXPECT_EQ(
     "resources/Marcelle/2020-07-02_15.31.36_out_avg_filter_125.csv"s,
     logLine.filePath());
-  EXPECT_EQ("15.31.36"s, logLine.shortFileName());
   EXPECT_EQ(cs::LogLine::invalidSensor, logLine.sensor());
 }
 

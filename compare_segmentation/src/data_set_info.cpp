@@ -6,7 +6,7 @@
 #include "data_set_info.hpp"
 
 namespace cs {
-std::uint64_t pushUpCount(pl::string_view dataSet)
+std::uint64_t repetitionCount(pl::string_view dataSet)
 {
   if (isFelix1(dataSet)) { return data_set_info<Felix1>::repetitions; }
   else if (isFelix2(dataSet)) {
