@@ -30,7 +30,7 @@ exit(exit_status) if exit_status != 0
 
 puts('Starting to visualize the interpolated data sets...')
 
-csvs = Dir['./resources/preprocessed/Interpolated/*.csv'].map { |p| File.expand_path(p) }
+csvs = Dir['./resources/preprocessed/Interpolated/*.csv']
 imus = %w[accelerometer gyroscope].freeze
 counter = 1
 threads = []
