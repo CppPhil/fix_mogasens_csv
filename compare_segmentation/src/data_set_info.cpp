@@ -1,4 +1,5 @@
 #include <cassert>
+#include <cstdio>
 
 #include <fmt/format.h>
 #include <fmt/ostream.h>
@@ -51,7 +52,7 @@ std::uint64_t repetitionCount(pl::string_view dataSet)
   else if (isAndre3(dataSet)) {
     return data_set_info<Andre3>::repetitions;
   }
-  else if (isAndreSquats1(dataSet)) {
+  else if (isAndreSquats1(dataSet) && !isAndreSquats2(dataSet)) {
     return data_set_info<AndreSquats1>::repetitions;
   }
   else if (isAndreSquats2(dataSet)) {
@@ -67,6 +68,7 @@ std::uint64_t repetitionCount(pl::string_view dataSet)
     return data_set_info<Lucas3>::repetitions;
   }
   else {
+    fmt::print(stderr, "repetitionCount: invalid data set \"{}\".\n", dataSet);
     assert(false && "invalid dataSet!");
     PL_THROW_WITH_SOURCE_INFO(
       NoSuchDataSetException,

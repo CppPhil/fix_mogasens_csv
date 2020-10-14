@@ -41,7 +41,7 @@ CS_SPECIALIZE_DATA_SET_INFO(Mike3, "14.20.28", 18);
 // TODO: Add short strings.
 CS_SPECIALIZE_DATA_SET_INFO(Andre1, "Andre_liegestuetzen1", 27);
 CS_SPECIALIZE_DATA_SET_INFO(Andre2, "Andre_liegestuetzen2", 20);
-CS_SPECIALIZE_DATA_SET_INFO(Andre3, "Andre_liegestuetzen2", 17);
+CS_SPECIALIZE_DATA_SET_INFO(Andre3, "Andre_liegestuetzen3", 17);
 CS_SPECIALIZE_DATA_SET_INFO(AndreSquats1, "Andre_Squats", 30);
 CS_SPECIALIZE_DATA_SET_INFO(AndreSquats2, "Andre_Squats2", 49);
 
