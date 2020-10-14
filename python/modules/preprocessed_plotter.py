@@ -6,6 +6,8 @@
 # 770 = belly
 # 771 = right arm
 # 772 = chest
+
+import argparse
 import sys
 
 import matplotlib.pyplot as plt

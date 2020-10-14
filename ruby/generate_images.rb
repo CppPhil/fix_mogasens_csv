@@ -44,12 +44,11 @@ total_count = csvs.size * imus.size
 csvs.each do |csv|
   imus.each do |imu|
     threads << Thread.new do
-      Dir.chdir('python/modules')
-
       run_string = \
-        "#{Python.interpreter} -c "\
-        "'import preprocessed_plotter; "\
-        "preprocessed_plotter.main('#{image_format}', True, '#{csv}', '#{imu}', [])' "\
+        "#{Python.interpreter} python/run_preprocessed_plotter.py "\
+        "--image_format #{image_format} "\
+        "\"#{csv}\" "\
+        "#{imu} "\
         "> #{GenerateImagesModule.dev_null}"
 
       unless system(run_string)
