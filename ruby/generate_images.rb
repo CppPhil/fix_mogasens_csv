@@ -49,7 +49,7 @@ csvs.each do |csv|
       run_string = \
         "#{Python.interpreter} -c "\
         "'import preprocessed_plotter; "\
-        "preprocessed_plotter.main('#{image_format}', True, #{csv}, #{imu}, [])' "\
+        "preprocessed_plotter.main('#{image_format}', True, '#{csv}', '#{imu}', [])' "\
         "> #{GenerateImagesModule.dev_null}"
 
       unless system(run_string)
