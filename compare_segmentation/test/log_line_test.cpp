@@ -45,13 +45,6 @@ TEST(LogLine, shouldNotMatchGarbage)
   EXPECT_FALSE(expected.has_value());
 }
 
-TEST(LogLine, shouldNotWorkIfThereIsNoUnderscore)
-{
-  const cl::Expected<cs::LogLine> expectedLogLine{cs::LogLine::parse(
-    R"(segment.py: 29 segmentation points found in "resources/Marcelle/2020-07-02-15.31.36-out-avg-filter-125.csv".)")};
-  EXPECT_FALSE(expectedLogLine.has_value());
-}
-
 TEST(LogLine, shouldNotParseGarbageSensor)
 {
   const cl::Expected<cs::LogLine> expectedLogLine{cs::LogLine::parse(
