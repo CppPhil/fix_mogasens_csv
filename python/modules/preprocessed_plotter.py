@@ -230,7 +230,7 @@ def main(image_format, is_time_based_split_enabled, csv_file_path, imu,
   if len(timestamp_ms_accumulator) != 0:
     append_accumulators()
 
-  for i in range(len(timestamp_ms_data)):  # TODO: HERE
+  for i in range(len(timestamp_ms_data)):
     df = pd.DataFrame({
         'timestamp_ms': timestamp_ms_data[i],
         'x_acc': x_acc_data[i],

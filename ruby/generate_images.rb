@@ -25,4 +25,56 @@ exit_status = GenerateImagesModule.main(\
   GenerateImagesModule.default_directory,\
   true
 )
-exit(exit_status)
+
+exit(exit_status) if exit_status != 0
+
+csvs = Dir['./resources/preprocessed/Interpolated/*.csv']
+imus = %w[accelerometer gyroscope].freeze
+counter = 1
+threads = []
+image_format = if options[:image_format].nil?
+                 'png'
+               else
+                 options[:image_format]
+               end
+total_count = csvs.size * imus.size
+
+# TODO: HERE: PRINT CSVS
+csvs.each do |file|
+  puts(file)
+end
+exit(0)
+
+csvs.each do |csv|
+  imus.each do |imu|
+    threads << Thread.new do
+      Dir.chdir('python/modules')
+
+      run_string = \
+        "#{Python.interpreter} -c "\
+        "'import preprocessed_plotter; "\
+        "preprocessed_plotter.main('#{image_format}', True, #{csv}, #{imu}, [])' "\
+        "> #{GenerateImagesModule.dev_null}"
+
+      unless system(run_string)
+        STDERR.puts("\"#{run_string}\" failed, exiting.")
+        exit(1)
+      end
+    end
+
+    if (counter % Etc.nprocessors).zero?
+      threads.each(&:join)
+      threads.clear
+    end
+
+    printf("%.2f%%\r", counter.to_f / total_count.to_f * 100.0)
+    $stdout.flush
+    counter += 1
+  end
+end
+
+threads.each(&:join)
+puts('100.00%')
+$stdout.flush
+puts('Done.')
+exit(0)
