@@ -35,7 +35,6 @@ CS_SPECIALIZE_DATA_SET_INFO(Mike1, "14.07.33", 26);
 CS_SPECIALIZE_DATA_SET_INFO(Mike2, "14.14.32", 22);
 CS_SPECIALIZE_DATA_SET_INFO(Mike3, "14.20.28", 18);
 
-// TODO: Check the repitionCounts in the images.
 // TODO: Add short strings.
 CS_SPECIALIZE_DATA_SET_INFO(Jan1, "????", 25);
 CS_SPECIALIZE_DATA_SET_INFO(Jan2, "?L??", 19);
