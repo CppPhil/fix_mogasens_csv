@@ -1,4 +1,5 @@
 require 'optparse'
+require 'etc'
 require_relative 'modules/system'
 
 options = {}
