@@ -9,7 +9,7 @@ using namespace std::string_literals;
 TEST(LogLine, shouldWorkWithPreprocessedLine)
 {
   const cl::Expected<cs::LogLine> expectedLogLine{cs::LogLine::parse(
-    R"(preprocessed_segment.py: 62 segmentation points found in "resources/preprocessed/2020-07-02_14.07.33_Belly.csv".)")};
+    R"(preprocessed_segment.py: 62 segmentation points found in "resources/preprocessed/Interpolated/2020-07-02_14.07.33_Belly.csv".)")};
 
   ASSERT_TRUE(expectedLogLine.has_value());
 
@@ -17,7 +17,7 @@ TEST(LogLine, shouldWorkWithPreprocessedLine)
 
   EXPECT_EQ(UINT64_C(62), logLine.segmentationPointCount());
   EXPECT_EQ(
-    "resources/preprocessed/2020-07-02_14.07.33_Belly.csv"s,
+    "resources/preprocessed/Interpolated/2020-07-02_14.07.33_Belly.csv"s,
     logLine.filePath());
   EXPECT_EQ("14.07.33"s, logLine.shortFileName());
   EXPECT_EQ(UINT64_C(770), logLine.sensor());
@@ -57,6 +57,6 @@ TEST(LogLine, shouldNotWorkIfThereIsNoUnderscore)
 TEST(LogLine, shouldNotParseGarbageSensor)
 {
   const cl::Expected<cs::LogLine> expectedLogLine{cs::LogLine::parse(
-    R"(preprocessed_segment.py: 62 segmentation points found in "resources/preprocessed/2020-07-02_14.07.33_GarbageSensor.csv".)")};
+    R"(preprocessed_segment.py: 62 segmentation points found in "resources/preprocessed/Interpolated/2020-07-02_14.07.33_GarbageSensor.csv".)")};
   EXPECT_FALSE(expectedLogLine.has_value());
 }

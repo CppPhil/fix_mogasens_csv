@@ -141,6 +141,66 @@ def is_mike_4(csv_file_path):
   return "2020-07-02_14.38.40" in csv_file_path
 
 
+def is_jan_push_up_1(csv_file_path):
+  return "Jan_liegestuetzen1" in csv_file_path
+
+
+def is_jan_push_up_2(csv_file_path):
+  return "Jan_liegestuetzen2" in csv_file_path
+
+
+def is_jan_push_up_3(csv_file_path):
+  return "Jan_liegestuetzen3" in csv_file_path
+
+
+def is_jan_plank_4(csv_file_path):
+  return "Jan_Plank4" in csv_file_path
+
+
+def is_andre_idle_7(csv_file_path):
+  return "Andre_Idle7" in csv_file_path
+
+
+def is_andre_push_up_1(csv_file_path):
+  return "Andre_liegestuetzen1" in csv_file_path
+
+
+def is_andre_push_up_2(csv_file_path):
+  return "Andre_liegestuetzen2" in csv_file_path
+
+
+def is_andre_push_up_3(csv_file_path):
+  return "Andre_liegestuetzen3" in csv_file_path
+
+
+def is_andre_plank_4(csv_file_path):
+  return "Andre_Plank4" in csv_file_path
+
+
+def is_andre_squats_1(csv_file_path):
+  return "Andre_Squats" in csv_file_path
+
+
+def is_andre_squats_2(csv_file_path):
+  return "Andre_Squats2" in csv_file_path
+
+
+def is_lukas_push_up_1(csv_file_path):
+  return "Lukas_liegestuetzen1" in csv_file_path
+
+
+def is_lukas_push_up_2(csv_file_path):
+  return "Lukas_liegestuetzen2" in csv_file_path
+
+
+def is_lukas_push_up_3(csv_file_path):
+  return "Lukas_liegestuetzen3" in csv_file_path
+
+
+def is_lukas_plank_4(csv_file_path):
+  return "Lukas_Plank4" in csv_file_path
+
+
 def exercise_range(csv_file_path):
   # [begin;end)
   if is_felix_1(csv_file_path):
@@ -230,10 +290,10 @@ def main(arguments):
 
   if exercise_begin == 0 and exercise_end == 0:
     # TODO: HERE This is commented out temporarily.
-    #print(
+    # print(
     #    f"preprocessed_segment.py: exercise_range returned the empty range for \"{csv_file_path}\", skipping file."
-    #)
-    #print(f"preprocessed_segment.py: Exiting.")
+    # )
+    # print(f"preprocessed_segment.py: Exiting.")
     sys.exit(0)
 
   data_set.crop_front(exercise_begin)

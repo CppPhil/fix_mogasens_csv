@@ -22,54 +22,9 @@ skip_existing = if options[:skip_existing].nil?
                 end
 
 RESOURCE_DIR = 'resources'.freeze
-PREPROCESSED_DIR = "#{RESOURCE_DIR}/preprocessed".freeze
+PREPROCESSED_DIR = "#{RESOURCE_DIR}/preprocessed/Interpolated".freeze
 
-CSV_FILES = [
-  "#{PREPROCESSED_DIR}/2020-07-02_11.17.39_Belly.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_11.17.39_Chest.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_11.17.39_LeftArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_11.17.39_RightArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_12.50.00_Belly.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_12.50.00_Chest.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_12.50.00_LeftArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_12.50.00_RightArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_13.00.09_Belly.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_13.00.09_Chest.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_13.00.09_LeftArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_13.00.09_RightArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.07.33_Belly.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.07.33_Chest.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.07.33_LeftArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.07.33_RightArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.14.32_Belly.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.14.32_Chest.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.14.32_LeftArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.14.32_RightArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.20.28_Belly.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.20.28_Chest.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.20.28_LeftArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.20.28_RightArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.38.40 (FalschausfБhrung)_Belly.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.38.40 (FalschausfБhrung)_Chest.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.38.40 (FalschausfБhrung)_LeftArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.38.40 (FalschausfБhrung)_RightArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.59.59_Belly.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.59.59_Chest.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.59.59_LeftArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_14.59.59_RightArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_15.13.22_Belly.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_15.13.22_Chest.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_15.13.22_LeftArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_15.13.22_RightArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_15.31.36_Belly.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_15.31.36_Chest.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_15.31.36_LeftArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_15.31.36_RightArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_15.39.22 (FalschausfБhrung)_Belly.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_15.39.22 (FalschausfБhrung)_Chest.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_15.39.22 (FalschausfБhrung)_LeftArm.csv",
-  "#{PREPROCESSED_DIR}/2020-07-02_15.39.22 (FalschausfБhrung)_RightArm.csv"
-].freeze
+CSV_FILES = Dir["#{PREPROCESSED_DIR}/*.csv"]
 
 SKIP_WINDOW_OPTIONS = %w[false true].freeze
 DELETE_TOO_CLOSE_OPTIONS = %w[false true].freeze

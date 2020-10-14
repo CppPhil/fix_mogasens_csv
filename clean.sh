@@ -19,8 +19,8 @@ rm -f ./resources/Mike/*.svg
 rm -f ./resources/Felix/*.png
 rm -f ./resources/Marcelle/*.png
 rm -f ./resources/Mike/*.png
-rm -f ./resources/preprocessed/*.png
-rm -f ./resources/preprocessed/*.svg
+rm -f ./resources/preprocessed/Interpolated/*.png
+rm -f ./resources/preprocessed/Interpolated/*.svg
 rm -f ./log.txt
 rm -rf ./python/__pycache__
 rm -rf ./python/modules/__pycache__
