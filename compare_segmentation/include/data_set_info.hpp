@@ -2,39 +2,25 @@
 #define INCG_CS_DATA_SET_INFO_HPP
 #include <cstdint>
 
+#include <stdexcept>
+
+#include <pl/except.hpp>
 #include <pl/string_view.hpp>
 
 namespace cs {
-struct Felix1 {
-};
-struct Felix2 {
-};
-struct Felix3 {
-};
-
-struct Marcelle1 {
-};
-struct Marcelle2 {
-};
-struct Marcelle3 {
-};
-
-struct Mike1 {
-};
-struct Mike2 {
-};
-struct Mike3 {
-};
+PL_DEFINE_EXCEPTION_TYPE(NoSuchDataSetException, std::logic_error);
 
 template<typename Tag>
 struct data_set_info;
 
-#define CS_SPECIALIZE_DATA_SET_INFO(tag, string, pushUpCount)               \
-  constexpr bool is##tag(pl::string_view other) { return other == string; } \
-  template<>                                                                \
-  struct data_set_info<tag> {                                               \
-    static constexpr pl::string_view text    = string;                      \
-    static constexpr std::uint64_t   pushUps = UINT64_C(pushUpCount);       \
+#define CS_SPECIALIZE_DATA_SET_INFO(tag, string, repetitionCount)             \
+  struct tag {                                                                \
+  };                                                                          \
+  constexpr bool is##tag(pl::string_view other) { return other == string; }   \
+  template<>                                                                  \
+  struct data_set_info<tag> {                                                 \
+    static constexpr pl::string_view text        = string;                    \
+    static constexpr std::uint64_t   repetitions = UINT64_C(repetitionCount); \
   }
 
 CS_SPECIALIZE_DATA_SET_INFO(Felix1, "11.17.39", 24);
@@ -49,8 +35,24 @@ CS_SPECIALIZE_DATA_SET_INFO(Mike1, "14.07.33", 26);
 CS_SPECIALIZE_DATA_SET_INFO(Mike2, "14.14.32", 22);
 CS_SPECIALIZE_DATA_SET_INFO(Mike3, "14.20.28", 18);
 
+// TODO: Check the repitionCounts in the images.
+// TODO: Add short strings.
+CS_SPECIALIZE_DATA_SET_INFO(Jan1, "????", 25);
+CS_SPECIALIZE_DATA_SET_INFO(Jan2, "?L??", 19);
+CS_SPECIALIZE_DATA_SET_INFO(Jan3, "", 13);
+
+CS_SPECIALIZE_DATA_SET_INFO(Andre1, "", 27);
+CS_SPECIALIZE_DATA_SET_INFO(Andre2, "", 20);
+CS_SPECIALIZE_DATA_SET_INFO(Andre3, "", 17);
+CS_SPECIALIZE_DATA_SET_INFO(AndreSquats1, "", 30);
+CS_SPECIALIZE_DATA_SET_INFO(AndreSquats2, "", 49);
+
+CS_SPECIALIZE_DATA_SET_INFO(Lucas1, "", 24);
+CS_SPECIALIZE_DATA_SET_INFO(Lucas2, "", 19);
+CS_SPECIALIZE_DATA_SET_INFO(Lucas3, "", 11);
+
 #undef CS_SPECIALIZE_DATA_SET_INFO
 
-[[nodiscard]] std::uint64_t pushUpCount(pl::string_view dataSet);
+[[nodiscard]] std::uint64_t repetitionCount(pl::string_view dataSet);
 } // namespace cs
 #endif // INCG_CS_DATA_SET_INFO_HPP
