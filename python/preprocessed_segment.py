@@ -178,7 +178,8 @@ def is_andre_plank_4(csv_file_path):
 
 
 def is_andre_squats_1(csv_file_path):
-  return "Andre_Squats" in csv_file_path
+  return "Andre_Squats" in csv_file_path and not is_andre_squats_2(
+      csv_file_path)
 
 
 def is_andre_squats_2(csv_file_path):
