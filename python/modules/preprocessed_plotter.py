@@ -68,19 +68,16 @@ def plot(the_imu, data_frame, segmenting_hwstamps):
 
 
 # noinspection SpellCheckingInspection
-def yticks(y_ticks, imu):
+def yticks(y_ticks, minimum_value, maximum_value):
   ticks = list(y_ticks[0])
   lowest = ticks[0]
   highest = ticks[-1]
 
-  minimum = minimum_plotting_value(imu)
-  maximum = maximum_plotting_value(imu)
+  if lowest > minimum_value:
+    ticks.insert(0, minimum_value)
 
-  if lowest > minimum:
-    ticks.insert(0, minimum)
-
-  if highest < maximum:
-    ticks.append(maximum)
+  if highest < maximum_value:
+    ticks.append(maximum_value)
 
   return ticks
 
@@ -232,6 +229,13 @@ def main(image_format, is_time_based_split_enabled, csv_file_path, imu,
   if len(timestamp_ms_accumulator) != 0:
     append_accumulators()
 
+  if imu == accelerometer_string():
+    minimum_value = min(data_set.norm_avg_acc + data_set.norm_butter_acc)
+    maximum_value = max(data_set.norm_avg_acc + data_set.norm_butter_acc)
+  else:
+    minimum_value = min(data_set.norm_avg_gyro + data_set.norm_butter_gyro)
+    maximum_value = max(data_set.norm_avg_gyro + data_set.norm_butter_gyro)
+
   for i in range(len(timestamp_ms_data)):
     df = pd.DataFrame({
         'timestamp_ms': timestamp_ms_data[i],
@@ -277,7 +281,7 @@ def main(image_format, is_time_based_split_enabled, csv_file_path, imu,
     plt.xlabel(f'{hardware_timestamp_string()} (in milliseconds)')
     plt.gca().xaxis.set_major_locator(plt.MultipleLocator(1000))  # A second
 
-    plt.yticks(yticks(plt.yticks(), imu))
+    plt.yticks(yticks(plt.yticks(), minimum_value, maximum_value))
 
     plt.grid()
     plt.savefig(output_image_file_name,
