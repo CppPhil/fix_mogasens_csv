@@ -18,20 +18,16 @@ public:
 
   const cl::fs::Path& filePath() const noexcept;
 
-  const std::string& shortFileName() const noexcept;
-
   std::uint64_t sensor() const noexcept;
 
 private:
   LogLine(
     std::uint64_t  segmentationPointCount,
     cl::fs::Path&& filePath,
-    std::string&&  shortFileName,
     std::uint64_t  sensor);
 
   std::uint64_t m_segmentationPointCount;
   cl::fs::Path  m_filePath;
-  std::string   m_shortFileName;
   std::uint64_t m_sensor;
 };
 } // namespace cs

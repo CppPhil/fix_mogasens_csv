@@ -16,7 +16,10 @@ struct data_set_info;
 #define CS_SPECIALIZE_DATA_SET_INFO(tag, string, repetitionCount)             \
   struct tag {                                                                \
   };                                                                          \
-  constexpr bool is##tag(pl::string_view other) { return other == string; }   \
+  constexpr bool is##tag(pl::string_view other)                               \
+  {                                                                           \
+    return other.contains(string);                                            \
+  }                                                                           \
   template<>                                                                  \
   struct data_set_info<tag> {                                                 \
     static constexpr pl::string_view text        = string;                    \

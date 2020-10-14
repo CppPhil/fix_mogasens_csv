@@ -8,6 +8,7 @@
 #include <fmt/ostream.h>
 
 #include <pl/strcontains.hpp>
+#include <pl/string_view.hpp>
 
 #include "cl/s2n.hpp"
 
@@ -76,64 +77,36 @@ cl::Expected<LogLine> LogLine::parse(const std::string& line)
   const std::uint64_t segmentationPointCountValue{
     *expectedSegmentationPointCountValue};
 
-  const auto index{filePathString.find_first_of('_')};
-
-  if (index == std::string::npos) {
-    return CL_UNEXPECTED(
-      cl::Error::InvalidArgument,
-      fmt::format("No underscore in \"{}\"!", filePathString));
+  if (isOld) {
+    return LogLine{segmentationPointCountValue, filePathString, invalidSensor};
   }
+  else {
+    // preprocessed
+    const auto endsWith = [&filePathString](pl::string_view needle) {
+      const pl::string_view sv{filePathString};
+      return sv.ends_with(needle);
+    };
 
-  constexpr std::size_t shortStringLength{8};
+    using namespace pl::literals::string_view_literals;
+    std::uint64_t sensorValue{invalidSensor};
 
-  try {
-    std::string shortString{filePathString.substr(
-      index + 1, /* skip the _ */
-      shortStringLength)};
-
-    constexpr std::size_t sensorOffset{10};
-
-    if (isOld) {
-      return LogLine{
-        segmentationPointCountValue,
-        filePathString,
-        std::move(shortString),
-        invalidSensor};
+    if (endsWith("Belly.csv"_sv)) { sensorValue = 770; }
+    else if (endsWith("Chest.csv"_sv)) {
+      sensorValue = 772;
+    }
+    else if (endsWith("LeftArm.csv"_sv)) {
+      sensorValue = 769;
+    }
+    else if (endsWith("RightArm.csv"_sv)) {
+      sensorValue = 771;
     }
     else {
-      // preprocessed
-      const std::string sensorString{
-        filePathString.substr(index + sensorOffset)};
-
-      std::uint64_t sensorValue{invalidSensor};
-
-      if (sensorString == "Belly.csv") { sensorValue = 770; }
-      else if (sensorString == "Chest.csv") {
-        sensorValue = 772;
-      }
-      else if (sensorString == "LeftArm.csv") {
-        sensorValue = 769;
-      }
-      else if (sensorString == "RightArm.csv") {
-        sensorValue = 771;
-      }
-      else {
-        return CL_UNEXPECTED(
-          cl::Error::Parsing,
-          fmt::format("Invalid sensorString: \"{}\"", sensorString));
-      }
-
-      return LogLine{
-        segmentationPointCountValue,
-        filePathString,
-        std::move(shortString),
-        sensorValue};
+      return CL_UNEXPECTED(
+        cl::Error::Parsing,
+        fmt::format("Invalid sensor in: \"{}\"", filePathString));
     }
-  }
-  catch (const std::out_of_range& ex) {
-    return CL_UNEXPECTED(
-      cl::Error::Parsing,
-      fmt::format("Couldn't extract substring from \"{}\".", filePathString));
+
+    return LogLine{segmentationPointCountValue, filePathString, sensorValue};
   }
 }
 
@@ -144,21 +117,14 @@ std::uint64_t LogLine::segmentationPointCount() const noexcept
 
 const cl::fs::Path& LogLine::filePath() const noexcept { return m_filePath; }
 
-const std::string& LogLine::shortFileName() const noexcept
-{
-  return m_shortFileName;
-}
-
 std::uint64_t LogLine::sensor() const noexcept { return m_sensor; }
 
 LogLine::LogLine(
   std::uint64_t  segmentationPointCount,
   cl::fs::Path&& filePath,
-  std::string&&  shortFileName,
   std::uint64_t  sensor)
   : m_segmentationPointCount{segmentationPointCount}
   , m_filePath{std::move(filePath)}
-  , m_shortFileName{std::move(shortFileName)}
   , m_sensor{sensor}
 {
 }

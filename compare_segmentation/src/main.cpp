@@ -137,7 +137,7 @@ int main(int argc, char* argv[])
       const cs::LogLine& logLine{*expectedLogLine};
 
       const std::int64_t expectedPushUpCount{static_cast<std::int64_t>(
-        cs::repetitionCount(logLine.shortFileName()))};
+        cs::repetitionCount(logLine.filePath().str()))};
 
       const std::int64_t distance{std::abs(
         static_cast<std::int64_t>(logLine.segmentationPointCount())
@@ -152,7 +152,7 @@ int main(int argc, char* argv[])
                      .kind(logInfo.segmentationKind())
                      .filter(logInfo.filterKind())
                      .windowSize(logInfo.windowSize())
-                     .dataSet(logLine.shortFileName())
+                     .dataSet(logLine.filePath().str())
                      .sensor(logLine.sensor())
                      .pushUps(static_cast<std::uint64_t>(expectedPushUpCount))
                      .segmentationPoints(logLine.segmentationPointCount())
@@ -230,9 +230,9 @@ int main(int argc, char* argv[])
                      .kind(logInfo.segmentationKind())
                      .filter(logInfo.filterKind())
                      .windowSize(logInfo.windowSize())
-                     .dataSet(logLine.shortFileName())
+                     .dataSet(logLine.filePath().str())
                      .sensor(logInfo.sensor())
-                     .pushUps(cs::pushUpCount(logLine.shortFileName()))
+                     .pushUps(cs::repetitionCount(logLine.filePath().str()))
                      .segmentationPoints(logLine.segmentationPointCount())
                      .isOld(true)
                      .build();
