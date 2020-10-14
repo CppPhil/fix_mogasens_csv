@@ -43,6 +43,10 @@ def script
   end
 end
 
+total_file_count = SKIP_WINDOW_OPTIONS.size * DELETE_TOO_CLOSE_OPTIONS.size\
+ * DELETE_LOW_VARIANCE_OPTIONS.size * SEGMENTATION_KINDS.size * WINDOW_SIZES.size * FILTERS.size
+current_file_count = 0
+
 SKIP_WINDOW_OPTIONS.each do |skip_window_option|
   DELETE_TOO_CLOSE_OPTIONS.each do |delete_too_close_option|
     DELETE_LOW_VARIANCE_OPTIONS.each do |delete_low_variance_option|
@@ -54,7 +58,11 @@ SKIP_WINDOW_OPTIONS.each do |skip_window_option|
                    "#{delete_low_variance_option}_kind-#{segmentation_kind}_"\
                    "window-#{window_size}_filter-#{filter}.log"
 
-            next if skip_existing && File.file?(file)
+            if skip_existing && File.file?(file)
+              current_file_count += 1
+              puts("Skipping log file #{current_file_count}/#{total_file_count} (\"#{file}\").")
+              next
+            end
 
             File.delete(file) if File.file?(file)
 
@@ -70,9 +78,14 @@ SKIP_WINDOW_OPTIONS.each do |skip_window_option|
                 "--window_size=\"#{window_size}\" "\
                 "--filter=\"#{filter}\" "\
                 ">> \"#{file}\""
-              next if system(run_string)
-              STDERR.puts("Failure invoking #{run_string}!")
-              exit(1)
+
+              unless system(run_string)
+                STDERR.puts("Failure invoking #{run_string}!")
+                exit(1)
+              end
+
+              current_file_count += 1
+              puts("Done with log file #{current_file_count}/#{total_file_count} (\"#{file}\").")
             end
           end
         end
