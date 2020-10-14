@@ -132,7 +132,17 @@ cl::Expected<std::string> LogLine::fileName() const
   }
 
   try {
-    return filePath().str().substr(lastSeparatorIndex + 1U);
+    const std::string fullFileName{
+      filePath().str().substr(lastSeparatorIndex + 1U)};
+    const std::string::size_type index{fullFileName.find_last_of('_')};
+
+    if (index == std::string::npos) {
+      return CL_UNEXPECTED(
+        cl::Error::Parsing,
+        fmt::format("\"{}\" did not contain a _ character!", fullFileName));
+    }
+
+    return fullFileName.substr(0, index);
   }
   catch (const std::out_of_range& ex) {
     return CL_UNEXPECTED(
