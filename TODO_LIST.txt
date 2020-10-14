@@ -1,5 +1,7 @@
 Put crop timestamps into preprocessed_segment.py for the new data sets.
 
+Count the repititions.
+
 Make it work with the new data sets.
 
 Test everything.
