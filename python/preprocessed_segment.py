@@ -225,36 +225,34 @@ def exercise_range(csv_file_path):
     return 61995, 84011
   if is_mike_4(csv_file_path):
     return 0, 0  # TODO: HERE
-  # TODO: HERE: NEW ONES BELOW
-  # TIMEPOINTS NEED TO BE MADE INTO REAL ONES THAT ACTUALLY EXIST
   if is_jan_push_up_1(csv_file_path):
-    return 84900, 184000  # TODO: HERE
+    return 84900, 184000
   if is_jan_push_up_2(csv_file_path):
-    return 17000, 51000  # TODO: HERE
+    return 16996, 51001
   if is_jan_push_up_3(csv_file_path):
-    return 34000, 57000  # TODO: HERE
+    return 34000, 57000
   if is_jan_plank_4(csv_file_path):
     return 0, 0  # TODO: HERE
   if is_andre_idle_7(csv_file_path):
     return 0, 0  # TODO: HERE
   if is_andre_push_up_1(csv_file_path):
-    return 17000, 67000  # TODO: HERE
+    return 16996, 67001
   if is_andre_push_up_2(csv_file_path):
-    return 40000, 80000  # TODO: HERE
+    return 39996, 80001
   if is_andre_push_up_3(csv_file_path):
-    return 31000, 65500  # TODO: HERE
+    return 30998, 65503
   if is_andre_plank_4(csv_file_path):
     return 0, 0  # TODO: HERE
   if is_andre_squats_1(csv_file_path):
-    return 61000, 159000  # TODO: HERE
+    return 60996, 159001
   if is_andre_squats_2(csv_file_path):
-    return 47500, 214000  # TODO: HERE
+    return 47500, 214000
   if is_lucas_push_up_1(csv_file_path):
-    return 38000, 84000  # TODO: HERE
+    return 38000, 84000
   if is_lucas_push_up_2(csv_file_path):
-    return 36000, 74000  # TODO: HERE
+    return 36000, 74000
   if is_lucas_push_up_3(csv_file_path):
-    return 11000, 28800  # TODO: HERE
+    return 10996, 28801
   if is_lucas_plank_4(csv_file_path):
     return 0, 0  # TODO: HERE
   raise Exception(f'"{csv_file_path}" is not a known CSV file.')
