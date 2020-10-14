@@ -28,7 +28,9 @@ exit_status = GenerateImagesModule.main(\
 
 exit(exit_status) if exit_status != 0
 
-csvs = Dir['./resources/preprocessed/Interpolated/*.csv']
+puts('Starting to visualize the interpolated data sets...')
+
+csvs = Dir['./resources/preprocessed/Interpolated/*.csv'].map { |p| File.expand_path(p) }
 imus = %w[accelerometer gyroscope].freeze
 counter = 1
 threads = []
@@ -38,12 +40,6 @@ image_format = if options[:image_format].nil?
                  options[:image_format]
                end
 total_count = csvs.size * imus.size
-
-# TODO: HERE: PRINT CSVS
-csvs.each do |file|
-  puts(file)
-end
-exit(0)
 
 csvs.each do |csv|
   imus.each do |imu|
@@ -76,5 +72,5 @@ end
 threads.each(&:join)
 puts('100.00%')
 $stdout.flush
-puts('Done.')
+puts('Done visualizing the interpolated data sets.')
 exit(0)
