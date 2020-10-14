@@ -185,19 +185,19 @@ def is_andre_squats_2(csv_file_path):
   return "Andre_Squats2" in csv_file_path
 
 
-def is_lukas_push_up_1(csv_file_path):
+def is_lucas_push_up_1(csv_file_path):
   return "Lukas_liegestuetzen1" in csv_file_path
 
 
-def is_lukas_push_up_2(csv_file_path):
+def is_lucas_push_up_2(csv_file_path):
   return "Lukas_liegestuetzen2" in csv_file_path
 
 
-def is_lukas_push_up_3(csv_file_path):
+def is_lucas_push_up_3(csv_file_path):
   return "Lukas_liegestuetzen3" in csv_file_path
 
 
-def is_lukas_plank_4(csv_file_path):
+def is_lucas_plank_4(csv_file_path):
   return "Lukas_Plank4" in csv_file_path
 
 
@@ -224,6 +224,36 @@ def exercise_range(csv_file_path):
   if is_mike_3(csv_file_path):
     return 61995, 84011
   if is_mike_4(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_jan_push_up_1(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_jan_push_up_2(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_jan_push_up_3(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_jan_plank_4(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_andre_idle_7(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_andre_push_up_1(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_andre_push_up_2(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_andre_push_up_3(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_andre_plank_4(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_andre_squats_1(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_andre_squats_2(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_lucas_push_up_1(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_lucas_push_up_2(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_lucas_push_up_3(csv_file_path):
+    return 0, 0  # TODO: HERE
+  if is_lucas_plank_4(csv_file_path):
     return 0, 0  # TODO: HERE
   raise Exception(f'"{csv_file_path}" is not a known CSV file.')
 
