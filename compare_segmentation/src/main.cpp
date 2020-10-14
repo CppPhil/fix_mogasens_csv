@@ -120,6 +120,8 @@ int main(int argc, char* argv[])
       return EXIT_FAILURE;
     }
 
+    std::vector<cs::LogLine> logLines{};
+
     for (std::string line{}; std::getline(ifs, line);) {
       const cl::Expected<cs::LogLine> expectedLogLine{cs::LogLine::parse(line)};
 
@@ -134,8 +136,15 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
       }
 
-      const cs::LogLine& logLine{*expectedLogLine};
+      logLines.push_back(*expectedLogLine);
+    }
 
+    pl::algo::stable_sort(
+      logLines, [](const cs::LogLine& lhs, const cs::LogLine& rhs) {
+        return lhs.filePath() < rhs.filePath();
+      });
+
+    for (const cs::LogLine& logLine : logLines) {
       const std::int64_t expectedPushUpCount{static_cast<std::int64_t>(
         cs::repetitionCount(logLine.filePath().str()))};
 
