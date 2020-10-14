@@ -18,6 +18,8 @@ public:
 
   const cl::fs::Path& filePath() const noexcept;
 
+  cl::Expected<std::string> fileName() const;
+
   std::uint64_t sensor() const noexcept;
 
 private:

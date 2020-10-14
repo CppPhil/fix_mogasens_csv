@@ -117,6 +117,30 @@ std::uint64_t LogLine::segmentationPointCount() const noexcept
 
 const cl::fs::Path& LogLine::filePath() const noexcept { return m_filePath; }
 
+cl::Expected<std::string> LogLine::fileName() const
+{
+  constexpr const char* searchString{R"(/\)"};
+
+  const std::string::size_type lastSeparatorIndex{
+    filePath().str().find_last_of(searchString)};
+
+  if (lastSeparatorIndex == std::string::npos) {
+    return CL_UNEXPECTED(
+      cl::Error::Logic,
+      fmt::format(
+        "\"{}\" does not contain any of \"{}\"!", filePath(), searchString));
+  }
+
+  try {
+    return filePath().str().substr(lastSeparatorIndex + 1U);
+  }
+  catch (const std::out_of_range& ex) {
+    return CL_UNEXPECTED(
+      cl::Error::Parsing,
+      fmt::format("Could not extract file name out of \"{}\".", filePath()));
+  }
+}
+
 std::uint64_t LogLine::sensor() const noexcept { return m_sensor; }
 
 LogLine::LogLine(
