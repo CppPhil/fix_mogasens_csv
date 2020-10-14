@@ -45,7 +45,8 @@ end
 
 total_file_count = SKIP_WINDOW_OPTIONS.size * DELETE_TOO_CLOSE_OPTIONS.size\
  * DELETE_LOW_VARIANCE_OPTIONS.size * SEGMENTATION_KINDS.size * WINDOW_SIZES.size * FILTERS.size
-current_file_count = 0
+counter = 1
+threads = []
 
 SKIP_WINDOW_OPTIONS.each do |skip_window_option|
   DELETE_TOO_CLOSE_OPTIONS.each do |delete_too_close_option|
@@ -59,34 +60,41 @@ SKIP_WINDOW_OPTIONS.each do |skip_window_option|
                    "window-#{window_size}_filter-#{filter}.log"
 
             if skip_existing && File.file?(file)
-              current_file_count += 1
-              puts("Skipping log file #{current_file_count}/#{total_file_count} (\"#{file}\").")
+              counter += 1
               next
             end
 
             File.delete(file) if File.file?(file)
 
-            CSV_FILES.each do |csv_file|
-              run_string = "#{script} "\
-                "--skip_window=\"#{skip_window_option}\" "\
-                "--delete_too_close=\"#{delete_too_close_option}\" "\
-                "--delete_low_variance=\"#{delete_low_variance_option}\" "\
-                '--image_format=png '\
-                "--csv_file_path=\"#{csv_file}\" "\
-                '--imu=accelerometer '\
-                "--segmentation_kind=\"#{segmentation_kind}\" "\
-                "--window_size=\"#{window_size}\" "\
-                "--filter=\"#{filter}\" "\
-                ">> \"#{file}\""
+            threads << Thread.new do
+              CSV_FILES.each do |csv_file|
+                run_string = "#{script} "\
+                  "--skip_window=\"#{skip_window_option}\" "\
+                  "--delete_too_close=\"#{delete_too_close_option}\" "\
+                  "--delete_low_variance=\"#{delete_low_variance_option}\" "\
+                  '--image_format=png '\
+                  "--csv_file_path=\"#{csv_file}\" "\
+                  '--imu=accelerometer '\
+                  "--segmentation_kind=\"#{segmentation_kind}\" "\
+                  "--window_size=\"#{window_size}\" "\
+                  "--filter=\"#{filter}\" "\
+                  ">> \"#{file}\""
 
-              unless system(run_string)
-                STDERR.puts("Failure invoking #{run_string}!")
-                exit(1)
+                unless system(run_string)
+                  STDERR.puts("Failure invoking #{run_string}!")
+                  exit(1)
+                end
               end
             end
 
-            current_file_count += 1
-            puts("Done with log file #{current_file_count}/#{total_file_count} (\"#{file}\").")
+            if (counter % Etc.nprocessors).zero?
+              threads.each(&:join)
+              threads.clear
+            end
+
+            printf("%.2f%%\r", counter.to_f / total_file_count.to_f * 100.0)
+            $stdout.flush
+            counter += 1
           end
         end
       end
@@ -94,5 +102,8 @@ SKIP_WINDOW_OPTIONS.each do |skip_window_option|
   end
 end
 
+threads.each(&:join)
+puts('100.00%')
+$stdout.flush
 puts('Done.')
 exit(0)
