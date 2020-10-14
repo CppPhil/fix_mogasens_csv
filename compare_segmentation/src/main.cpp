@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
     "filter",
     "data set",
     "sensor",
-    "push-ups",
+    "repetitions",
     "segmentation points",
     "old / preprocessed"};
 
