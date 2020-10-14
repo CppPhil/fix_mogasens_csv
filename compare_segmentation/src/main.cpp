@@ -136,8 +136,8 @@ int main(int argc, char* argv[])
 
       const cs::LogLine& logLine{*expectedLogLine};
 
-      const std::int64_t expectedPushUpCount{
-        static_cast<std::int64_t>(cs::pushUpCount(logLine.shortFileName()))};
+      const std::int64_t expectedPushUpCount{static_cast<std::int64_t>(
+        cs::repetitionCount(logLine.shortFileName()))};
 
       const std::int64_t distance{std::abs(
         static_cast<std::int64_t>(logLine.segmentationPointCount())
