@@ -145,12 +145,12 @@ int main(int argc, char* argv[])
       });
 
     for (const cs::LogLine& logLine : logLines) {
-      const std::int64_t expectedPushUpCount{static_cast<std::int64_t>(
+      const std::int64_t expectedRepetitionCount{static_cast<std::int64_t>(
         cs::repetitionCount(logLine.filePath().str()))};
 
       const std::int64_t distance{std::abs(
         static_cast<std::int64_t>(logLine.segmentationPointCount())
-        - expectedPushUpCount)};
+        - expectedRepetitionCount)};
 
       currentLogInfoTotalDistance += distance;
 
@@ -164,7 +164,8 @@ int main(int argc, char* argv[])
                      .dataSet(
                        logLine.fileName().value_or(logLine.filePath().str()))
                      .sensor(logLine.sensor())
-                     .pushUps(static_cast<std::uint64_t>(expectedPushUpCount))
+                     .pushUps(
+                       static_cast<std::uint64_t>(expectedRepetitionCount))
                      .segmentationPoints(logLine.segmentationPointCount())
                      .isOld(false)
                      .build();
@@ -269,7 +270,6 @@ int main(int argc, char* argv[])
   }
 
   fmt::print("\n");
-
   fmt::print("{}: done\n", argv[0]);
   return EXIT_SUCCESS;
 }
