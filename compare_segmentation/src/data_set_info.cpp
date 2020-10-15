@@ -9,62 +9,62 @@
 namespace cs {
 std::uint64_t repetitionCount(pl::string_view dataSet)
 {
-  if (isFelix1(dataSet)) { return data_set_info<Felix1>::repetitions; }
-  else if (isFelix2(dataSet)) {
+  if (containsFelix1(dataSet)) { return data_set_info<Felix1>::repetitions; }
+  else if (containsFelix2(dataSet)) {
     return data_set_info<Felix2>::repetitions;
   }
-  else if (isFelix3(dataSet)) {
+  else if (containsFelix3(dataSet)) {
     return data_set_info<Felix3>::repetitions;
   }
-  else if (isMarcelle1(dataSet)) {
+  else if (containsMarcelle1(dataSet)) {
     return data_set_info<Marcelle1>::repetitions;
   }
-  else if (isMarcelle2(dataSet)) {
+  else if (containsMarcelle2(dataSet)) {
     return data_set_info<Marcelle2>::repetitions;
   }
-  else if (isMarcelle3(dataSet)) {
+  else if (containsMarcelle3(dataSet)) {
     return data_set_info<Marcelle3>::repetitions;
   }
-  else if (isMike1(dataSet)) {
+  else if (containsMike1(dataSet)) {
     return data_set_info<Mike1>::repetitions;
   }
-  else if (isMike2(dataSet)) {
+  else if (containsMike2(dataSet)) {
     return data_set_info<Mike2>::repetitions;
   }
-  else if (isMike3(dataSet)) {
+  else if (containsMike3(dataSet)) {
     return data_set_info<Mike3>::repetitions;
   }
-  else if (isJan1(dataSet)) {
+  else if (containsJan1(dataSet)) {
     return data_set_info<Jan1>::repetitions;
   }
-  else if (isJan2(dataSet)) {
+  else if (containsJan2(dataSet)) {
     return data_set_info<Jan2>::repetitions;
   }
-  else if (isJan3(dataSet)) {
+  else if (containsJan3(dataSet)) {
     return data_set_info<Jan3>::repetitions;
   }
-  else if (isAndre1(dataSet)) {
+  else if (containsAndre1(dataSet)) {
     return data_set_info<Andre1>::repetitions;
   }
-  else if (isAndre2(dataSet)) {
+  else if (containsAndre2(dataSet)) {
     return data_set_info<Andre2>::repetitions;
   }
-  else if (isAndre3(dataSet)) {
+  else if (containsAndre3(dataSet)) {
     return data_set_info<Andre3>::repetitions;
   }
-  else if (isAndreSquats1(dataSet) && !isAndreSquats2(dataSet)) {
+  else if (containsAndreSquats1(dataSet) && !containsAndreSquats2(dataSet)) {
     return data_set_info<AndreSquats1>::repetitions;
   }
-  else if (isAndreSquats2(dataSet)) {
+  else if (containsAndreSquats2(dataSet)) {
     return data_set_info<AndreSquats2>::repetitions;
   }
-  else if (isLucas1(dataSet)) {
+  else if (containsLucas1(dataSet)) {
     return data_set_info<Lucas1>::repetitions;
   }
-  else if (isLucas2(dataSet)) {
+  else if (containsLucas2(dataSet)) {
     return data_set_info<Lucas2>::repetitions;
   }
-  else if (isLucas3(dataSet)) {
+  else if (containsLucas3(dataSet)) {
     return data_set_info<Lucas3>::repetitions;
   }
   else {

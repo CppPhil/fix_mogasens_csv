@@ -16,7 +16,7 @@ struct data_set_info;
 #define CS_SPECIALIZE_DATA_SET_INFO(tag, string, repetitionCount)             \
   struct tag {                                                                \
   };                                                                          \
-  constexpr bool is##tag(pl::string_view other)                               \
+  constexpr bool contains##tag(pl::string_view other)                         \
   {                                                                           \
     return other.contains(string);                                            \
   }                                                                           \
@@ -38,7 +38,6 @@ CS_SPECIALIZE_DATA_SET_INFO(Mike1, "14.07.33", 26);
 CS_SPECIALIZE_DATA_SET_INFO(Mike2, "14.14.32", 22);
 CS_SPECIALIZE_DATA_SET_INFO(Mike3, "14.20.28", 18);
 
-// TODO: Add short strings.
 CS_SPECIALIZE_DATA_SET_INFO(Andre1, "Andre_liegestuetzen1", 27);
 CS_SPECIALIZE_DATA_SET_INFO(Andre2, "Andre_liegestuetzen2", 20);
 CS_SPECIALIZE_DATA_SET_INFO(Andre3, "Andre_liegestuetzen3", 17);
