@@ -7,14 +7,12 @@
 # 771 = right arm
 # 772 = chest
 
-import argparse
 import sys
 
 import matplotlib.pyplot as plt
 import pandas as pd
 
 from modules.constants import hardware_timestamp_string, accelerometer_string, gyroscope_string
-from modules.imu_constants import minimum_plotting_value, maximum_plotting_value
 from modules.imu_unit import imu_unit
 from modules.preprocessed_data_set import PreprocessedDataSet
 
