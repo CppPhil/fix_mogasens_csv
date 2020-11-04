@@ -21,13 +21,25 @@
 
 namespace cs {
 namespace {
+/*!
+ * \brief Regex meta info about a log file path.
+ **/
 struct PathRegexMetaInfo {
-  const char* const regularExpressionString;
-  const std::size_t expectedSubmatches;
+  const char* const regularExpressionString; /*!< The regular expression to use
+                                                  to parse the log file path */
+  const std::size_t
+    expectedSubmatches; /*!< The expected amount of regex submatches */
 };
 
+/*!
+ * \brief Fetches the regex meta info for the kind of log file path given.
+ * \param isOld Shall be true if the log file path is old; otherwise false.
+ * \return The corresponding PathRegexMetaInfo.
+ **/
 PathRegexMetaInfo metaInfo(bool isOld)
 {
+  // For both kinds we expect 6 regex submatches.
+  // This includes the full match as well.
   if (isOld) {
     return PathRegexMetaInfo{
       R"(^skip_window-([[:alpha:]]{4,5})_delete_too_close-([[:alpha:]]{4,5})_delete_low_variance-([[:alpha:]]{4,5})_sensor-(\d{3,3})_kind-([[:alpha:]]{3,4})_window-(\d{2,3})\.log$)",
@@ -94,6 +106,7 @@ cl::Expected<LogInfo> LogInfo::create(cl::fs::Path logFilePath) noexcept
       fmt::format("\"{}\" is too short to be valid!", pathStringView));
   }
 
+  // Remove the path part; keeping only the file name.
   pathStringView.remove_prefix(minimumSize);
 
   const PathRegexMetaInfo pathMetaInfo{metaInfo(isOld)};
@@ -161,6 +174,8 @@ cl::Expected<LogInfo> LogInfo::create(cl::fs::Path logFilePath) noexcept
   std::uint64_t    windowSizeValue{};
   FilterKind       filterKindValue{};
 
+  // Lambda to parse a bool out of a csub_match.
+  // Throws on error.
   const auto doParseBool = [](const std::csub_match& csubMatch, bool* output) {
     bool       status{false};
     const bool resultValue{parseBool(csubMatch, &status)};
@@ -180,6 +195,7 @@ cl::Expected<LogInfo> LogInfo::create(cl::fs::Path logFilePath) noexcept
     return CL_UNEXPECTED(cl::Error::Parsing, ex.what());
   }
 
+  // Old ones contain the sensor in their file name.
   if (isOld) {
     const cl::Expected<std::uint64_t> expectedSensor{
       cl::s2n<std::uint64_t>(sensorCsubMatch.str())};
@@ -217,6 +233,7 @@ cl::Expected<LogInfo> LogInfo::create(cl::fs::Path logFilePath) noexcept
 
   windowSizeValue = parsedWindowSize.value();
 
+  // Old ones can only be MovingAverage
   if (isOld) { filterKindValue = FilterKind::MovingAverage; }
   else {
     if (filterCsubMatch.compare("average") == 0) {
@@ -246,6 +263,7 @@ cl::Expected<LogInfo> LogInfo::create(cl::fs::Path logFilePath) noexcept
 
 bool operator==(const LogInfo& lhs, const LogInfo& rhs) noexcept
 {
+  // The tie idiom: https://en.cppreference.com/w/cpp/utility/tuple/tie#Example
   return std::tie(
            lhs.m_logFilePath,
            lhs.m_skipWindow,
@@ -291,7 +309,7 @@ LogInfo::LogInfo()
   , m_segmentationKind{}
   , m_windowSize{}
   , m_filterKind{}
-  , m_sensor{}
+  , m_sensor{invalidSensor}
   , m_isInitialized{false}
 {
 }
