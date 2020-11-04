@@ -57,6 +57,7 @@ int main(int argc, char* argv[])
 
   const std::vector<cl::fs::Path>& oldLogs{*expectedOldLogs};
 
+  // The CSV file to write to.
   constexpr char csvFilePath[]
     = "segmentation_comparison" CL_FS_SEPARATOR "out.csv";
 
