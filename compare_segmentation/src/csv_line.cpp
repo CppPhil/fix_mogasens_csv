@@ -15,6 +15,15 @@
 
 namespace cs {
 namespace {
+/*
+ * \brief Attempts to convert a sensor ID encoded as an ExtractId to a string.
+ * \param sensorId The sensor ID encoded as an ExtractId to convert.
+ * \param ok Output parameter for the status code of this function.
+ * \return The resulting string
+ * \warning The return value will be an empty string if *ok == false;
+ *          it will only contain a valid value if *ok == true.
+ * \note Will only succeed if `sensorId` is 769, 770, 771 or 772.
+ **/
 [[nodiscard]] std::string sensorIdToString(std::uint64_t sensorId, bool* ok)
 {
   *ok = false;
@@ -41,7 +50,7 @@ CsvLineBuilder::CsvLineBuilder()
   , m_filter{tl::nullopt}
   , m_dataSet{tl::nullopt}
   , m_sensor{tl::nullopt}
-  , m_pushUps{tl::nullopt}
+  , m_repetitions{tl::nullopt}
   , m_segmentationPoints{tl::nullopt}
 {
 }
@@ -94,9 +103,9 @@ CsvLineBuilder& CsvLineBuilder::sensor(std::uint64_t value)
   return *this;
 }
 
-CsvLineBuilder& CsvLineBuilder::pushUps(std::uint64_t value)
+CsvLineBuilder& CsvLineBuilder::repetitions(std::uint64_t value)
 {
-  m_pushUps = value;
+  m_repetitions = value;
   return *this;
 }
 
@@ -122,7 +131,7 @@ std::vector<std::string> CsvLineBuilder::build() const
   assert(m_filter.has_value());
   assert(m_dataSet.has_value());
   assert(m_sensor.has_value());
-  assert(m_pushUps.has_value());
+  assert(m_repetitions.has_value());
   assert(m_segmentationPoints.has_value());
   assert(m_isOld.has_value());
 
@@ -136,7 +145,7 @@ std::vector<std::string> CsvLineBuilder::build() const
   constexpr std::size_t filterIndex{5};
   constexpr std::size_t dataSetIndex{6};
   constexpr std::size_t sensorIndex{7};
-  constexpr std::size_t pushUpsIndex{8};
+  constexpr std::size_t repetitionsIndex{8};
   constexpr std::size_t segmentationPointsIndex{9};
   constexpr std::size_t isOldIndex{10};
 
@@ -155,7 +164,7 @@ std::vector<std::string> CsvLineBuilder::build() const
   line[filterIndex]             = cl::to_string(m_filter.value());
   line[dataSetIndex]            = m_dataSet.value();
   line[sensorIndex]             = std::move(sensorString);
-  line[pushUpsIndex]            = cl::to_string(m_pushUps.value());
+  line[repetitionsIndex]        = cl::to_string(m_repetitions.value());
   line[segmentationPointsIndex] = cl::to_string(m_segmentationPoints.value());
   line[isOldIndex]              = m_isOld.value() ? "old" : "preprocessed";
 

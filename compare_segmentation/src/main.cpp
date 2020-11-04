@@ -164,7 +164,7 @@ int main(int argc, char* argv[])
                      .dataSet(
                        logLine.fileName().value_or(logLine.filePath().str()))
                      .sensor(logLine.sensor())
-                     .pushUps(
+                     .repetitions(
                        static_cast<std::uint64_t>(expectedRepetitionCount))
                      .segmentationPoints(logLine.segmentationPointCount())
                      .isOld(false)
@@ -244,7 +244,7 @@ int main(int argc, char* argv[])
                      .dataSet(
                        logLine.fileName().value_or(logLine.filePath().str()))
                      .sensor(logInfo.sensor())
-                     .pushUps(cs::repetitionCount(logLine.filePath().str()))
+                     .repetitions(cs::repetitionCount(logLine.filePath().str()))
                      .segmentationPoints(logLine.segmentationPointCount())
                      .isOld(true)
                      .build();

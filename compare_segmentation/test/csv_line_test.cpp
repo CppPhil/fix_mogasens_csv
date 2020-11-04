@@ -20,7 +20,7 @@ namespace {
     .filter(cs::FilterKind::Butterworth)
     .dataSet("DATASET")
     .sensor(sensorId)
-    .pushUps(55)
+    .repetitions(55)
     .segmentationPoints(60)
     .isOld(isOld)
     .build();
