@@ -7,8 +7,19 @@
 #include <cl/fs/path.hpp>
 
 namespace cl::fs {
-enum class DirectoryListingOption { None, ExcludeDotAndDotDot };
+/*!
+ * \brief Options for directoryListing.
+ **/
+enum class DirectoryListingOption {
+  None,               /*!< No option */
+  ExcludeDotAndDotDot /*!< Exclude the . and .. directories */
+};
 
+/*!
+ * \brief Creates a listing of the contents of a directory.
+ * \param directoryPath The directory to list.
+ * \param directoryListingOption The option to use.
+ **/
 [[nodiscard]] Expected<std::vector<Path>> directoryListing(
   const Path&            directoryPath,
   DirectoryListingOption directoryListingOption

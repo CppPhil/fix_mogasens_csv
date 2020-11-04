@@ -51,8 +51,15 @@ Expected<std::vector<Path>> directoryListing(
       Error::Filesystem, fmt::format("Could not close \"{}\"!", path));
   }
 #elif PL_OS == PL_OS_WINDOWS
+  // The directory contents will be found using FindFirstFileW.
+  // FindFirstFileW requires an absolute filesystem path.
+  // GetFullPathNameW is used to convert to an absolute
+  // filesystem path.
+
   std::wstring utf16Path{utf8ToUtf16(path)};
-  const DWORD  charactersNeeded{GetFullPathNameW(
+
+  // Determine how many characters are needed.
+  const DWORD charactersNeeded{GetFullPathNameW(
     /* lpFileName */ utf16Path.c_str(),
     /* nBufferLength */ 0,
     /* lpBuffer */ nullptr,
@@ -65,8 +72,10 @@ Expected<std::vector<Path>> directoryListing(
         "\"{}\": GetFullPathNameW failed, line: {}!", path, __LINE__));
   }
 
+  // Allocate enough memory.
   std::wstring buffer(charactersNeeded, L' ');
 
+  // Get the absolute filesystem path.
   const DWORD statusCode{GetFullPathNameW(
     /* lpFileName */ utf16Path.c_str(),
     /* nBufferLength */ buffer.size(),
@@ -98,10 +107,12 @@ Expected<std::vector<Path>> directoryListing(
       Error::Filesystem, fmt::format("\"{}\": FindFirstFileW failed.", path));
   }
 
+  // Find all the contents of the directory.
   do {
     result.emplace_back(utf16ToUtf8(findData.cFileName));
   } while (FindNextFileW(hFind, &findData) != 0);
 
+  // We expect the "error" NO_MORE_FILES to occur.
   if (GetLastError() != ERROR_NO_MORE_FILES) {
     FindClose(hFind);
     return CL_UNEXPECTED(
@@ -116,6 +127,7 @@ Expected<std::vector<Path>> directoryListing(
   }
 #endif
 
+  // Delete . and .. if the option is set.
   if (directoryListingOption == DirectoryListingOption::ExcludeDotAndDotDot) {
     pl::algo::erase_if(result, [](const Path& currentPath) {
       return (currentPath.str() == ".") || (currentPath.str() == "..");

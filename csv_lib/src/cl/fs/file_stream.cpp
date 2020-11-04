@@ -15,6 +15,12 @@
 
 namespace cl::fs {
 namespace {
+/*!
+ * \brief Maps the open mode enumerators to the corresponding strings.
+ * \param openMode The open mode to map.
+ * \return The resulting strings.
+ * \warning `openMode` may not be invalid!
+ **/
 const char* mapOpenMode(FileStream::OpenMode openMode)
 {
   switch (openMode) {
