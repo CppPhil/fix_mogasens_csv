@@ -16,6 +16,10 @@
 
 namespace cs {
 namespace {
+/*!
+ * \brief Checks if the line given indicates an old path.
+ * \return true if `line` indicates an old path; false otherwise.
+ **/
 [[nodiscard]] bool isOldPath(const std::string& line)
 {
   return !pl::strcontains(line, "preprocessed");
@@ -82,6 +86,8 @@ cl::Expected<LogLine> LogLine::parse(const std::string& line)
   }
   else {
     // preprocessed
+
+    // Lambda to check if filePathString ends with a given string.
     const auto endsWith = [&filePathString](pl::string_view needle) {
       const pl::string_view sv{filePathString};
       return sv.ends_with(needle);
@@ -119,6 +125,7 @@ const cl::fs::Path& LogLine::filePath() const noexcept { return m_filePath; }
 
 cl::Expected<std::string> LogLine::fileName() const
 {
+  // Forward slash or backslash
   constexpr const char* searchString{R"(/\)"};
 
   const std::string::size_type lastSeparatorIndex{
@@ -132,8 +139,10 @@ cl::Expected<std::string> LogLine::fileName() const
   }
 
   try {
+    // Remove the file path prefix
     const std::string fullFileName{
       filePath().str().substr(lastSeparatorIndex + 1U)};
+
     const std::string::size_type index{fullFileName.find_last_of('_')};
 
     if (index == std::string::npos) {
@@ -142,6 +151,7 @@ cl::Expected<std::string> LogLine::fileName() const
         fmt::format("\"{}\" did not contain a _ character!", fullFileName));
     }
 
+    // Keep until the last _
     return fullFileName.substr(0, index);
   }
   catch (const std::out_of_range& ex) {
