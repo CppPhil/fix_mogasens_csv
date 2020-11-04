@@ -10,6 +10,13 @@
 namespace cs {
 PL_DEFINE_EXCEPTION_TYPE(NoSuchDataSetException, std::logic_error);
 
+/*!
+ * \brief Meta function for data set tags.
+ * \tparam Tag The data set tag to use.
+ *
+ * Meta function for data set tags.
+ * Contains a text for the data set tag and its repetition count.
+ **/
 template<typename Tag>
 struct data_set_info;
 
@@ -54,6 +61,13 @@ CS_SPECIALIZE_DATA_SET_INFO(Lucas3, "Lukas_liegestuetzen3", 11);
 
 #undef CS_SPECIALIZE_DATA_SET_INFO
 
+/*!
+ * \brief Fetches the repetition count for a given data set identified by its
+ *        string.
+ * \param dataSet The data set to fetch the repetition count of.
+ * \return The repetition count of `dataSet`.
+ * \warning `dataSet` may not be invalid!
+ **/
 [[nodiscard]] std::uint64_t repetitionCount(pl::string_view dataSet);
 } // namespace cs
 #endif // INCG_CS_DATA_SET_INFO_HPP
