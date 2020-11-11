@@ -2,6 +2,8 @@ See in source TODOs
 
 Import the manual segmentation points from the CSV file.
 
+XyXyXy
+
 Figure out a way to export the actual segmentation points found from
 Python
 
@@ -9,8 +11,11 @@ Import the actual segmentation points found that were exported from
 Python
 
 Compare them based on distance score (create that distance score)
+ (they might not be the same amount of segmentation points
+  compare with the one that is the closest)
 
 Create confusion matrix
+ (compare with the closest one as well)
 
 Have a way to visualize a segmentation result in Python so that both
 the found (actual) segmentation points are visualized as well as the
