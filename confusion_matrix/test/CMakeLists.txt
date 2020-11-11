@@ -2,7 +2,7 @@ include(GoogleTest)
 
 set(TEST_NAME confusion_matrix_test)
 
-set(TEST_SOURCES main.cpp sample_test.cpp)
+set(TEST_SOURCES main.cpp manual_segmentation_point_test.cpp)
 
 add_executable(${TEST_NAME} ${TEST_SOURCES})
 

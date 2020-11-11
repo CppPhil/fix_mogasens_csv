@@ -1,9 +1,9 @@
 # STATIC LIBRARY
 set(LIB_NAME confusion_matrix_lib)
 
-set(LIB_HEADERS include/example.hpp)
+set(LIB_HEADERS include/manual_segmentation_point.hpp)
 
-set(LIB_SOURCES src/example.cpp)
+set(LIB_SOURCES src/manual_segmentation_point.cpp)
 
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 
