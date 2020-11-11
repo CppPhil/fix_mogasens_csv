@@ -28,6 +28,9 @@ inline Expected<Integer> s2n(
     else if constexpr (std::is_same_v<Integer, long long>) {
       return std::stoll(str, pos, base);
     }
+    else if constexpr (std::is_same_v<Integer, unsigned>) {
+      return std::stoul(str, pos, base);
+    }
     else if constexpr (std::is_same_v<Integer, unsigned long>) {
       return std::stoul(str, pos, base);
     }
