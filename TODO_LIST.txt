@@ -1,5 +1,3 @@
-Create a C++ project for the segmentation thingie (confusion matrix)
-
 Import the manual segmentation points from the CSV file.
 
 Figure out a way to export the actual segmentation points found from

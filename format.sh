@@ -70,11 +70,12 @@ done
 format_cmake $DIR/CMakeLists.txt
 
 # Format the source files.
-format "$DIR/fix_csv"
 format "$DIR/compare_segmentation"
-format "$DIR/feature_extraction"
-format "$DIR/csv_lib"
+format "$DIR/confusion_matrix"
 format "$DIR/counting"
+format "$DIR/csv_lib"
+format "$DIR/feature_extraction"
+format "$DIR/fix_csv"
 
 cd $PREV_DIR
 
