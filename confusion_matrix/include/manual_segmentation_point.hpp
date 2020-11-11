@@ -2,7 +2,12 @@
 #define INCG_CM_MANUAL_SEGMENTATION_POINT_HPP
 #include <cstdint>
 
+#include <unordered_map>
+#include <vector>
+
 #include <cl/exception.hpp>
+
+#include "data_set_identifier.hpp"
 
 namespace cm {
 // TODO: HERE
@@ -15,7 +20,9 @@ namespace cm {
  */
 class ManualSegmentationPoint {
 public:
-  // TODO: Add a function to import the CSV file.
+  static std::
+    unordered_map<DataSetIdentifier, std::vector<ManualSegmentationPoint>>
+    readCsvFile();
 
   /*!
    * Creates a ManualSegmentationPoint.

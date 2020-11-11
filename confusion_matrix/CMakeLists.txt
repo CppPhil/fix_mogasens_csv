@@ -1,7 +1,8 @@
 # STATIC LIBRARY
 set(LIB_NAME confusion_matrix_lib)
 
-set(LIB_HEADERS include/manual_segmentation_point.hpp)
+set(LIB_HEADERS include/data_set_identifier.hpp
+                include/manual_segmentation_point.hpp)
 
 set(LIB_SOURCES src/manual_segmentation_point.cpp)
 
