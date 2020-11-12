@@ -1,6 +1,5 @@
-Mit Repetition-ID herausschreiben
-
 Mit allen Liegestuetz die beste Konfiguration finden
+Mit Repetition-ID herausschreiben
 
 +-+-+-+-+--++-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-++-
 
