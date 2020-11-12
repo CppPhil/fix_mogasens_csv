@@ -1,8 +1,3 @@
-Mit allen Liegestuetz die beste Konfiguration finden -- DONE
-Mit Repetition-ID herausschreiben
-
-+-+-+-+-+--++-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-++-
-
 See in source TODOs
 
 Import the manual segmentation points from the CSV file.
