@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf8 -*-
 import csv
+import sys
 
 
 def create_repetition_ids(preprocessed_data_set,
@@ -9,7 +10,10 @@ def create_repetition_ids(preprocessed_data_set,
   repetition_id = 0  # Index into segmenting_hardware_timestamps
 
   for hardware_timestamp in preprocessed_data_set.timestamp_ms:
-    segmentation_point = segmenting_hardware_timestamps[repetition_id]
+    try:
+      segmentation_point = segmenting_hardware_timestamps[repetition_id]
+    except IndexError:
+      segmentation_point = sys.maxsize
 
     if hardware_timestamp >= segmentation_point:
       repetition_id += 1
