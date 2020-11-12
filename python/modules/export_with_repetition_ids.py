@@ -8,7 +8,7 @@ def create_repetition_ids(preprocessed_data_set,
   repetition_ids = []
   repetition_id = 0  # Index into segmenting_hardware_timestamps
 
-  for hardware_timestamp in preprocessed_data_set.hardware_timestamp:
+  for hardware_timestamp in preprocessed_data_set.timestamp_ms:
     segmentation_point = segmenting_hardware_timestamps[repetition_id]
 
     if hardware_timestamp >= segmentation_point:

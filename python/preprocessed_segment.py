@@ -356,6 +356,10 @@ def main(arguments):
       f"preprocessed_segment.py: {len(segmenting_hardware_timestamps)} segmentation points found in \"{csv_file_path}\"."
   )
 
+  print(
+      f"preprocessed_segment.py: \"{csv_file_path}\" contains the following segmentation points:\n{segmenting_hardware_timestamps}",
+      file=sys.stderr)
+
   file_name, file_extension = os.path.splitext(csv_file_path)
 
   export_with_repetition_ids(
