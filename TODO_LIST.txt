@@ -1,4 +1,4 @@
-Mit allen Liegestuetz die beste Konfiguration finden
+Mit allen Liegestuetz die beste Konfiguration finden -- DONE
 Mit Repetition-ID herausschreiben
 
 +-+-+-+-+--++-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-++-

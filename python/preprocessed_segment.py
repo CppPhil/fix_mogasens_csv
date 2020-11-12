@@ -12,6 +12,7 @@ import modules.preprocessed_plotter
 from modules.constants import accelerometer_string, gyroscope_string
 from modules.preprocessed_data_set import PreprocessedDataSet
 from modules.segmentation_kind import segmentation_kind_from_str
+from modules.export_with_repetition_ids import export_with_repetition_ids
 
 
 def validate(csv_file_path, imu, segmentation_kind, window_size, filter_data):
@@ -354,6 +355,12 @@ def main(arguments):
   print(
       f"preprocessed_segment.py: {len(segmenting_hardware_timestamps)} segmentation points found in \"{csv_file_path}\"."
   )
+
+  file_name, file_extension = os.path.splitext(csv_file_path)
+
+  export_with_repetition_ids(
+      data_set, segmenting_hardware_timestamps,
+      f"{file_name}_with_repetition_ids.{file_extension}")
 
   # TODO: HERE This stuff is commented out temporarily.
   #  imus = [accelerometer_string(), gyroscope_string()]
