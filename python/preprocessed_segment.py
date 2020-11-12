@@ -357,14 +357,14 @@ def main(arguments):
   )
 
   print(
-      f"preprocessed_segment.py: \"{csv_file_path}\" contains the following segmentation points:\n{segmenting_hardware_timestamps}",
+      f"preprocessed_segment.py: \"{csv_file_path}\" contains the following {len(segmenting_hardware_timestamps)} segmentation points:\n{segmenting_hardware_timestamps}",
       file=sys.stderr)
 
   file_name, file_extension = os.path.splitext(csv_file_path)
 
   export_with_repetition_ids(
       data_set, segmenting_hardware_timestamps,
-      f"{file_name}_with_repetition_ids.{file_extension}")
+      f"{file_name}_with_repetition_ids{file_extension}")
 
   # TODO: HERE This stuff is commented out temporarily.
   #  imus = [accelerometer_string(), gyroscope_string()]
