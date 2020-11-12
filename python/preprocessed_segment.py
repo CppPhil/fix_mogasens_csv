@@ -357,7 +357,7 @@ def main(arguments):
   )
 
   print(
-      f"preprocessed_segment.py: \"{csv_file_path}\" contains the following {len(segmenting_hardware_timestamps)} segmentation points:\n{segmenting_hardware_timestamps}",
+      f"preprocessed_segment.py: \"{csv_file_path}\" contains the following {len(segmenting_hardware_timestamps)} segmentation points:\n{segmenting_hardware_timestamps}\n",
       file=sys.stderr)
 
   file_name, file_extension = os.path.splitext(csv_file_path)
