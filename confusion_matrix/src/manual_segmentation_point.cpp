@@ -1,3 +1,4 @@
+#include <cassert>
 #include <cmath>
 
 #include <csv.hpp>
@@ -10,20 +11,30 @@
 #include "manual_segmentation_point.hpp"
 
 // TODO: Write tests for the CSV file parsing.
-
-// TODO: HANDLE / document Exceptions.
 namespace cm {
 namespace {
+/*!
+ * \brief Converts hours, minutes or seconds from a time string
+ *        such as "00:00:09"
+ * \param time The time string to parse a time component out of.
+ * \param startIndex The (0 based) index that the time component (hour, minute
+ *                   or second) starts at.
+ * \return The time component extracted as an integer.
+ * \throws cl::Exception if parsing fails.
+ **/
 [[nodiscard]] std::uint32_t parseTimeComponent(
   const std::string& time,
   std::size_t        startIndex)
 {
+  // Buffer of 2 bytes for the two characters of the time component.
   std::string buffer(2U, ' ');
 
   try {
+    // Extract the two characters representing the time component.
     buffer[0] = time.at(startIndex);
     buffer[1] = time.at(startIndex + 1);
 
+    // Convert the string to an integer.
     const cl::Expected<std::uint32_t> expected{cl::s2n<std::uint32_t>(buffer)};
 
     if (!expected.has_value()) { expected.error().raise(); }
@@ -35,34 +46,60 @@ namespace {
   }
 }
 
+/*!
+ * \brief A time point comprised of hour, minute and second values.
+ **/
 struct TimePoint {
+  /*!
+   * \brief Creates a `TimePoint` struct from a time string such as "00:00:09".
+   * \param time The time string to parse.
+   * \return The resulting `TimePoint` struct.
+   * \throws cl::Exception if parsing `time` fails.
+   **/
   static TimePoint parse(const std::string& time)
   {
     constexpr std::size_t hourStartIndex{0};
     constexpr std::size_t minuteStartIndex{3};
     constexpr std::size_t secondStartIndex{6};
-    TimePoint             result{0, 0, 0};
-    result.hour   = parseTimeComponent(time, hourStartIndex);
-    result.minute = parseTimeComponent(time, minuteStartIndex);
-    result.second = parseTimeComponent(time, secondStartIndex);
-    return result;
+    return TimePoint{
+      parseTimeComponent(time, hourStartIndex),
+      parseTimeComponent(time, minuteStartIndex),
+      parseTimeComponent(time, secondStartIndex)};
   }
 
-  std::uint32_t hour;
-  std::uint32_t minute;
-  std::uint32_t second;
+  std::uint32_t hour;   /*!< The hour */
+  std::uint32_t minute; /*!< The minute */
+  std::uint32_t second; /*!< The second */
 };
 
+/*!
+ * \brief Parses a `ManualSegmentationPoint` from a row from the CSV file.
+ * \param row The row to parse.
+ * \param timeIndex Index at which a time string is to be found in `row`.
+ * \param frameIndex Index at which the corresponding frame string is to be
+ *        found in `row`.
+ * \return The `ManualSegmentationPoint` parsed out of the `row`.
+ * \note `frameIndex` shall be 1 larger than `timeIndex`.
+ * \throws cl::Exception if parsing fails.
+ **/
 [[nodiscard]] ManualSegmentationPoint parse(
   const std::vector<std::string>& row,
   std::size_t                     timeIndex,
   std::size_t                     frameIndex)
 {
+  assert(
+    (frameIndex == (timeIndex + 1U))
+    && "frameIndex must be 1 larger than the timeIndex!");
+
   try {
+    // Fetch the strings.
     const std::string& timeString{row.at(timeIndex)};
     const std::string& frameString{row.at(frameIndex)};
 
-    const TimePoint                   timePoint{TimePoint::parse(timeString)};
+    // Parse the TimePoint.
+    const TimePoint timePoint{TimePoint::parse(timeString)};
+
+    // Parse the frame.
     const cl::Expected<std::uint32_t> expectedFrame{
       cl::s2n<std::uint32_t>(frameString)};
 
@@ -113,7 +150,6 @@ ManualSegmentationPoint::readCsvFile()
     const std::vector<std::vector<std::string>> matrix(
       csvReader.begin(), csvReader.end());
 
-    // TODO: Check if these column indices are correct.
     constexpr std::size_t felix_11_17_39_timeColumn{1};
     constexpr std::size_t felix_11_17_39_frameColumn{2};
     constexpr std::size_t felix_12_50_00_timeColumn{5};
@@ -167,7 +203,6 @@ ManualSegmentationPoint::readCsvFile()
             result[dsi].push_back(parse(row, timeCol, frameCol));
           };
 
-      // TODO: Check these for correctness.
       append(
         DSI::Felix_11_17_39,
         felix_11_17_39_timeColumn,

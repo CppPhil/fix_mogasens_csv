@@ -18,15 +18,26 @@ namespace cm {
  * aus den Videos W die Distanz zu U berechnen. Diese Distanz (DIST U,W) auf Y
  * addieren ergiebt W in echt (Wreal = Y + DIST U,W)
  */
+
+/*!
+ * \brief Type used to represent a manual segmentation point.
+ **/
 class ManualSegmentationPoint {
 public:
+  /*!
+   * \brief Reads the CSV file of the manual segmentation points.
+   * \return A map that maps the `DataSetIdentifier` enumerators to vectors of
+   *         the corresponding manual segmentation points extracted from the CSV
+   *         file.
+   * \throws cl::Exception if parsing fails, CSV processing fails or the CSV
+   *                       file is missing.
+   **/
   static std::
     unordered_map<DataSetIdentifier, std::vector<ManualSegmentationPoint>>
     readCsvFile();
 
   /*!
-   * Creates a ManualSegmentationPoint.
-   *
+   * \brief Creates a ManualSegmentationPoint.
    * \param hour The hour to use. Must be within [0,59].
    * \param minute The minute to use. Must be within [0,59].
    * \param second The second to use. Must be within [0,59].
@@ -39,14 +50,35 @@ public:
     std::uint32_t second,
     std::uint32_t frame);
 
+  /*!
+   * \brief Read accessor for the hour property.
+   * \return The hour.
+   **/
   [[nodiscard]] std::uint32_t hour() const noexcept;
 
+  /*!
+   * \brief Read accessor for the minute property.
+   * \return The minute.
+   **/
   [[nodiscard]] std::uint32_t minute() const noexcept;
 
+  /*!
+   * \brief Read accessor for the second property.
+   * \return The second.
+   **/
   [[nodiscard]] std::uint32_t second() const noexcept;
 
+  /*!
+   * \brief Read accessor for the frame property.
+   * \return The frame within the second of this manual segmentation point.
+   **/
   [[nodiscard]] std::uint32_t frame() const noexcept;
 
+  /*!
+   * \brief Converts this manual segmentation point into a millisecond
+   *        representation.
+   * \return This manual segmentation point converted to milliseconds.
+   **/
   [[nodiscard]] std::uint64_t asMilliseconds() const noexcept;
 
 private:
