@@ -1,9 +1,3 @@
-See in source TODOs
-
-Import the manual segmentation points from the CSV file.
-
-XyXyXy
-
 Figure out a way to export the actual segmentation points found from
 Python
 
