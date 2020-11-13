@@ -1,6 +1,11 @@
 #include <cassert>
 #include <cmath>
 
+#include <ostream>
+
+#include <fmt/format.h>
+#include <fmt/ostream.h>
+
 #include <csv.hpp>
 
 #include <pl/numeric.hpp>
@@ -10,7 +15,6 @@
 
 #include "manual_segmentation_point.hpp"
 
-// TODO: Write tests for the CSV file parsing.
 namespace cm {
 namespace {
 /*!
@@ -123,6 +127,35 @@ struct TimePoint {
   }
 }
 } // namespace
+
+bool operator==(
+  const ManualSegmentationPoint& lhs,
+  const ManualSegmentationPoint& rhs) noexcept
+{
+  return (lhs.hour() == rhs.hour()) && (lhs.minute() == rhs.minute())
+         && (lhs.second() == rhs.second()) && (lhs.frame() == rhs.frame());
+}
+
+bool operator!=(
+  const ManualSegmentationPoint& lhs,
+  const ManualSegmentationPoint& rhs) noexcept
+{
+  return !(lhs == rhs);
+}
+
+std::ostream& operator<<(
+  std::ostream&                  os,
+  const ManualSegmentationPoint& manualSegmentationPoint)
+{
+  return os << fmt::format(
+           "ManualSegmentationPoint{{\"hour\": {}, \"minute\": {}, \"second\": "
+           "{}, "
+           "\"frame\": {}}}",
+           manualSegmentationPoint.hour(),
+           manualSegmentationPoint.minute(),
+           manualSegmentationPoint.second(),
+           manualSegmentationPoint.frame());
+}
 
 std::unordered_map<DataSetIdentifier, std::vector<ManualSegmentationPoint>>
 ManualSegmentationPoint::readCsvFile()

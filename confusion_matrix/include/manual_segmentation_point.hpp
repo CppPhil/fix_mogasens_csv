@@ -2,6 +2,7 @@
 #define INCG_CM_MANUAL_SEGMENTATION_POINT_HPP
 #include <cstdint>
 
+#include <iosfwd>
 #include <unordered_map>
 #include <vector>
 
@@ -24,6 +25,36 @@ namespace cm {
  **/
 class ManualSegmentationPoint {
 public:
+  /*!
+   * \brief Compares two manual segmentation points for equality.
+   * \param lhs The first operand.
+   * \param rhs The second operand.
+   * \return true if `lhs` is considered equal to `rhs`; false otherwise.
+   **/
+  friend bool operator==(
+    const ManualSegmentationPoint& lhs,
+    const ManualSegmentationPoint& rhs) noexcept;
+
+  /*!
+   * \brief Compares two manual segmentation points for inequality.
+   * \param lhs The first operand.
+   * \param rhs The second operand.
+   * \return true if `lhs` is considered not equal to `rhs`; false otherwise.
+   **/
+  friend bool operator!=(
+    const ManualSegmentationPoint& lhs,
+    const ManualSegmentationPoint& rhs) noexcept;
+
+  /*!
+   * \brief Prints `manualSegmentationPoint` to `os`.
+   * \param os The ostream to print to
+   * \param manualSegmentationPoint The `ManualSegmentationPoint` to print.
+   * \return `os`
+   **/
+  friend std::ostream& operator<<(
+    std::ostream&                  os,
+    const ManualSegmentationPoint& manualSegmentationPoint);
+
   /*!
    * \brief Reads the CSV file of the manual segmentation points.
    * \return A map that maps the `DataSetIdentifier` enumerators to vectors of
