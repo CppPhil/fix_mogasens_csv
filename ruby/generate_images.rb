@@ -30,7 +30,10 @@ exit(exit_status) if exit_status != 0
 
 puts('Starting to visualize the interpolated data sets...')
 
-csvs = Dir['./resources/preprocessed/Interpolated/*.csv']
+csvs = Dir['./resources/preprocessed/Interpolated/*.csv'].reject do |file|
+  file.include?('_with_repetition_ids')
+end
+
 imus = %w[accelerometer gyroscope].freeze
 counter = 1
 threads = []
