@@ -15,6 +15,7 @@ set(LIB_HEADERS
     include/cl/dos2unix.hpp
     include/cl/error.hpp
     include/cl/exception.hpp
+    include/cl/process.hpp
     include/cl/read_csv_file.hpp
     include/cl/s2n.hpp
     include/cl/sensor.hpp
@@ -33,6 +34,7 @@ set(LIB_SOURCES
     src/cl/dos2unix.cpp
     src/cl/error.cpp
     src/cl/exception.cpp
+    src/cl/process.cpp
     src/cl/read_csv_file.cpp
     src/cl/sensor.cpp
     src/cl/use_unbuffered_io.cpp)

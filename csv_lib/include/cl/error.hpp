@@ -16,7 +16,8 @@
   CL_ERROR_KIND_X(InvalidArgument) \
   CL_ERROR_KIND_X(OutOfRange)      \
   CL_ERROR_KIND_X(Parsing)         \
-  CL_ERROR_KIND_X(Logic)
+  CL_ERROR_KIND_X(Logic)           \
+  CL_ERROR_KIND_X(OperatingSystem)
 
 namespace cl {
 class [[nodiscard]] Error
