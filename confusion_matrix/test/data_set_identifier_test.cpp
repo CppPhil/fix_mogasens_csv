@@ -1,4 +1,8 @@
+#include <array>
+
 #include "gtest/gtest.h"
+
+#include <cl/fs/path.hpp>
 
 #include "data_set_identifier.hpp"
 
