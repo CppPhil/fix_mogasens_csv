@@ -188,6 +188,9 @@ resources/Marcelle/*.png
 resources/Mike/*.png
 resources/preprocessed/Interpolated/*.png
 
+# CSV files with repetition IDs
+resources/preprocessed/Interpolated/*_with_repetition_ids.csv
+
 # .vscode directory
 .vscode
 

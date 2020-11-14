@@ -5,16 +5,17 @@
 #include <unordered_map>
 #include <vector>
 
-#include "data_set_identifier.hpp"
+#include <cl/fs/path.hpp>
 
 namespace cm {
 /*!
- *
- * \return
- * \throws cl::Exception if the interpolated data set paths could not be
- *                       fetched.
+ * Invokes Python to segment the interpolated data sets.
+ * \return A map that maps the paths to the interpolated data sets to vectors
+ *         of the hardware timestamps (in milliseconds) that are segmentation
+ *         points.
+ * \throws cl::Exception if an error occurs.
  **/
-[[nodiscard]] std::unordered_map<DataSetIdentifier, std::vector<std::uint64_t>>
+[[nodiscard]] std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>
 segment();
 } // namespace cm
 #endif // INCG_CM_SEGMENT_HPP

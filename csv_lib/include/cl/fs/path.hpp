@@ -1,5 +1,6 @@
 #ifndef INCG_CL_FS_PATH_HPP
 #define INCG_CL_FS_PATH_HPP
+#include <functional>
 #include <iosfwd>
 #include <string>
 
@@ -78,4 +79,14 @@ private:
 
 PL_TOTAL_ORDER(Path)
 } // namespace cl::fs
+
+namespace std {
+template<>
+struct hash<::cl::fs::Path> {
+  size_t operator()(const ::cl::fs::Path& path) const
+  {
+    return hash<string>{}(path.str());
+  }
+};
+} // namespace std
 #endif // INCG_CL_FS_PATH_HPP

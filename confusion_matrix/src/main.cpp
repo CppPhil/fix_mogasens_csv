@@ -1,3 +1,8 @@
+#include <cstdlib>
+
+#include <fmt/format.h>
+#include <fmt/ostream.h>
+
 #include "manual_segmentation_point.hpp"
 #include "segment.hpp"
 
@@ -10,8 +15,16 @@ int main()
     std::vector<cm::ManualSegmentationPoint>>
     manualSegmentationPointsMap{cm::ManualSegmentationPoint::readCsvFile()};
 
-  auto res = cm::segment();
+  const std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>> res
+    = cm::segment();
 
   (void)manualSegmentationPointsMap;
   (void)res;
+
+  for (const auto& [path, segmentationPoints] : res) {
+    fmt::print("\"{}\": \"{}\"\n", path, fmt::join(segmentationPoints, ", "));
+  }
+
+  fmt::print("DONE.\n");
+  return EXIT_SUCCESS;
 }
