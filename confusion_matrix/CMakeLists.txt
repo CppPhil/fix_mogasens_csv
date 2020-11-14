@@ -5,7 +5,7 @@ set(LIB_HEADERS
     include/data_set_identifier.hpp include/interpolated_data_set_paths.hpp
     include/manual_segmentation_point.hpp include/segment.hpp)
 
-set(LIB_SOURCES src/interpolated_data_set_paths.cpp
+set(LIB_SOURCES src/data_set_identifier.cpp src/interpolated_data_set_paths.cpp
                 src/manual_segmentation_point.cpp src/segment.cpp)
 
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
