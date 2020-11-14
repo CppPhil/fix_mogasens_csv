@@ -43,6 +43,12 @@ public:
   PL_IMPLICIT Path(std::string path);
 
   /*!
+   * \brief Creates a path.
+   * \param path The string to construct from.
+   **/
+  PL_IMPLICIT Path(const char* path);
+
+  /*!
    * \brief Checks if the path exists.
    * \return true if the path exists; otherwise false.
    **/

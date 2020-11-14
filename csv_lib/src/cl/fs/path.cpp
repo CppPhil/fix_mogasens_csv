@@ -41,6 +41,8 @@ Path::Path(std::string path) : m_path{std::move(path)}
 #endif
 }
 
+Path::Path(const char* path) : Path(std::string{path}) {}
+
 bool Path::exists() const noexcept
 {
 #if PL_OS == PL_OS_LINUX
