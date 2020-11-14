@@ -21,6 +21,7 @@ rm -f ./resources/Marcelle/*.png
 rm -f ./resources/Mike/*.png
 rm -f ./resources/preprocessed/Interpolated/*.png
 rm -f ./resources/preprocessed/Interpolated/*.svg
+rm -f ./resources/preprocessed/Interpolated/*_with_repetition_ids.csv
 rm -f ./log.txt
 rm -rf ./python/__pycache__
 rm -rf ./python/modules/__pycache__
