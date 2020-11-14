@@ -1,7 +1,7 @@
 #!/bin/bash
 
 catch_errors() {
-  printf "\ncompare_segmentation.sh failed!\n" >&2
+  printf "\nconfusion_matrix.sh failed!\n" >&2
   exit 1
 }
 
