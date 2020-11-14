@@ -3,7 +3,7 @@ include(GoogleTest)
 set(TEST_NAME confusion_matrix_test)
 
 set(TEST_SOURCES interpolated_data_set_paths_test.cpp main.cpp
-                 manual_segmentation_point_test.cpp)
+                 manual_segmentation_point_test.cpp segment_test.cpp)
 
 add_executable(${TEST_NAME} ${TEST_SOURCES})
 

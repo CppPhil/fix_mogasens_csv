@@ -25,6 +25,8 @@ namespace {
 {
   constexpr pl::string_view readMode{"r"};
 
+  // TODO: We might want to allow for different configurations here in order
+  // TODO: to be able to compare them with each other.
   const std::string command{fmt::format(
     "./preprocessed_segment.sh --skip_window=false --delete_too_close=false "
     "--delete_low_variance=false --image_format=png --csv_file_path=\"{}\" "

@@ -1,5 +1,3 @@
-Write a test to see if the segmentation points exported are correct.
-
 Compare them based on distance score (create that distance score)
  (they might not be the same amount of segmentation points
   compare with the one that is the closest)
