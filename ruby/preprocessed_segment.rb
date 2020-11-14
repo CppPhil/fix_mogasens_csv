@@ -45,7 +45,7 @@ OptionParser.new do |opt|
   end
 
   opt.on('--filter=FILTER',
-         'average of butterworth') do |o|
+         'average or butterworth') do |o|
     options[:filter] = o
   end
 

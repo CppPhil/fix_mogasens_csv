@@ -1,4 +1,5 @@
 #include "manual_segmentation_point.hpp"
+#include "segment.hpp"
 
 int main()
 {
@@ -7,12 +8,10 @@ int main()
   const std::unordered_map<
     cm::DataSetIdentifier,
     std::vector<cm::ManualSegmentationPoint>>
-    map{cm::ManualSegmentationPoint::readCsvFile()};
+    manualSegmentationPointsMap{cm::ManualSegmentationPoint::readCsvFile()};
 
-  (void)map;
+  auto res = cm::segment();
 
-  for (volatile long i = 1; i < 10; ++i) {
-    ++i;
-    --i;
-  }
+  (void)manualSegmentationPointsMap;
+  (void)res;
 }
