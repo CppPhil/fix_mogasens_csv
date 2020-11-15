@@ -31,8 +31,6 @@ template<typename Iterator, typename Ty>
     return currentValue == value;
   });
 }
-
-inline constexpr std::array<bool, 2> booleans{{false, true}};
 } // namespace
 
 Configuration::Builder::Builder() noexcept
@@ -141,40 +139,47 @@ Configuration Configuration::Builder::build() const
     *m_filterKind};
 }
 
-const std::array<bool, 2>& Configuration::skipWindowOptions() noexcept
+const std::vector<bool>& Configuration::skipWindowOptions() noexcept
 {
-  return booleans;
+  static const std::vector<bool> options{false, true};
+  return options;
 }
 
-const std::array<bool, 2>& Configuration::deleteTooCloseOptions() noexcept
+const std::vector<bool>& Configuration::deleteTooCloseOptions() noexcept
 {
-  return booleans;
+  static const std::vector<bool> options{false, true};
+  return options;
 }
 
-const std::array<bool, 2>& Configuration::deleteTooLowVarianceOptions() noexcept
+const std::vector<bool>& Configuration::deleteTooLowVarianceOptions() noexcept
 {
-  return booleans;
+  static const std::vector<bool> options{false, true};
+  return options;
 }
 
-const std::array<Imu, 2>& Configuration::imuOptions() noexcept { return imus; }
+const std::vector<Imu>& Configuration::imuOptions() noexcept
+{
+  static const std::vector<Imu> options{Imu::Accelerometer, Imu::Gyroscope};
+  return options;
+}
 
-const std::array<std::string, 3>&
+const std::vector<std::string>&
 Configuration::segmentationKindOptions() noexcept
 {
-  static const std::array<std::string, 3> values{{"both", "max", "min"}};
+  static const std::vector<std::string> values{{"both", "max", "min"}};
   return values;
 }
 
-const std::array<std::size_t, 11>& Configuration::windowSizeOptions() noexcept
+const std::vector<std::size_t>& Configuration::windowSizeOptions() noexcept
 {
-  static constexpr std::array<std::size_t, 11> values{
+  static const std::vector<std::size_t> values{
     {101, 151, 201, 251, 301, 351, 401, 451, 501, 51, 551}};
   return values;
 }
 
-const std::array<std::string, 2>& Configuration::filterKindOptions() noexcept
+const std::vector<std::string>& Configuration::filterKindOptions() noexcept
 {
-  static const std::array<std::string, 2> values{{"average", "butterworth"}};
+  static const std::vector<std::string> values{{"average", "butterworth"}};
   return values;
 }
 

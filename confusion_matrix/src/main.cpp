@@ -3,11 +3,16 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
+#include <pl/unused.hpp>
+
 #include "create_segmentation_results.hpp"
 #include "manual_segmentation_point.hpp"
 
-int main()
+int main(int argc, char* argv[])
 {
+  PL_UNUSED(argc);
+  fmt::print("{}: Starting.\n", argv[0]);
+
   try { // TODO: HERE
     // TODO: This is just experimental.
     [[maybe_unused]] const std::unordered_map<

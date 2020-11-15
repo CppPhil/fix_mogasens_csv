@@ -2,9 +2,9 @@
 #define INCG_CM_CONFIGURATION_HPP
 #include <cstddef>
 
-#include <array>
 #include <iosfwd>
 #include <string>
+#include <vector>
 
 #include <tl/optional.hpp>
 
@@ -112,43 +112,43 @@ public:
    * \brief Returns the possible skipWindow options.
    * \return The skipWindow options.
    **/
-  static const std::array<bool, 2>& skipWindowOptions() noexcept;
+  static const std::vector<bool>& skipWindowOptions() noexcept;
 
   /*!
    * \brief Returns the possible deleteTooClose options.
    * \return The deleteTooClose options.
    **/
-  static const std::array<bool, 2>& deleteTooCloseOptions() noexcept;
+  static const std::vector<bool>& deleteTooCloseOptions() noexcept;
 
   /*!
    * \brief Returns the possible deleteTooLowVariance options.
    * \return The deleteTooLowVariance options.
    **/
-  static const std::array<bool, 2>& deleteTooLowVarianceOptions() noexcept;
+  static const std::vector<bool>& deleteTooLowVarianceOptions() noexcept;
 
   /*!
    * \brief Returns the possible imu options.
    * \return The imu options.
    **/
-  static const std::array<Imu, 2>& imuOptions() noexcept;
+  static const std::vector<Imu>& imuOptions() noexcept;
 
   /*!
    * \brief Returns the possible segmentationKind options.
    * \return The segmentationKind options.
    **/
-  static const std::array<std::string, 3>& segmentationKindOptions() noexcept;
+  static const std::vector<std::string>& segmentationKindOptions() noexcept;
 
   /*!
    * \brief Returns the possible windowSize options.
    * \return The windowSize options.
    **/
-  static const std::array<std::size_t, 11>& windowSizeOptions() noexcept;
+  static const std::vector<std::size_t>& windowSizeOptions() noexcept;
 
   /*!
    * \brief Returns the possible filterKind options.
    * \return The filterKind options.
    **/
-  static const std::array<std::string, 2>& filterKindOptions() noexcept;
+  static const std::vector<std::string>& filterKindOptions() noexcept;
 
   /*!
    * \brief Compares two Configurations for equality.
