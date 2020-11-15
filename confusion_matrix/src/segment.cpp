@@ -61,60 +61,19 @@ namespace {
 }
 } // namespace
 
-// TODO: map<Config, map<path, segmentationPoints>>
-std::unordered_map<
-  Configuration,
-  std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
-segment()
+std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>> segment(
+  const Configuration& segmentorConfiguration)
 {
   const std::vector<cl::fs::Path> csvFiles{interpolatedDataSetPaths()};
 
-  std::unordered_map<
-    Configuration,
-    std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
-    result{};
+  std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>> result{};
 
-  for (bool skipWindowOption : Configuration::skipWindowOptions()) {
-    for (bool deleteTooCloseOption : Configuration::deleteTooCloseOptions()) {
-      for (bool deleteTooLowVarianceOption :
-           Configuration::deleteTooLowVarianceOptions()) {
-        for (Imu imuOption : Configuration::imuOptions()) {
-          for (const std::string& segmentationKindOption :
-               Configuration::segmentationKindOptions()) {
-            for (std::size_t windowSizeOption :
-                 Configuration::windowSizeOptions()) {
-              for (const std::string& filterKindOption :
-                   Configuration::filterKindOptions()) {
-                const Configuration configuration{
-                  Configuration::Builder{}
-                    .skipWindow(skipWindowOption)
-                    .deleteTooClose(deleteTooCloseOption)
-                    .deleteTooLowVariance(deleteTooLowVarianceOption)
-                    .imu(imuOption)
-                    .segmentationKind(segmentationKindOption)
-                    .windowSize(windowSizeOption)
-                    .filterKind(filterKindOption)
-                    .build()};
-
-                result[configuration] = std::
-                  unordered_map<cl::fs::Path, std::vector<std::uint64_t>>{
-
-                  };
-
-                for (const cl::fs::Path& csvFile : csvFiles) {
-                  const std::string pythonResult{
-                    pythonOutput(csvFile, configuration)};
-                  std::vector<std::uint64_t> segmentationPoints{
-                    extractTimestamps(pythonResult)};
-                  result[configuration][csvFile]
-                    = std::move(segmentationPoints);
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+  for (const cl::fs::Path& csvFile : csvFiles) {
+    const std::string pythonResult{
+      pythonOutput(csvFile, segmentorConfiguration)};
+    std::vector<std::uint64_t> segmentationPoints{
+      extractTimestamps(pythonResult)};
+    result[csvFile] = std::move(segmentationPoints);
   }
 
   return result;

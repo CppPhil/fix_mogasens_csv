@@ -15,17 +15,41 @@ int main()
       std::vector<cm::ManualSegmentationPoint>>
       manualSegmentationPointsMap{cm::ManualSegmentationPoint::readCsvFile()};
 
-    const std::unordered_map<
+    std::unordered_map<
       cm::Configuration,
       std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
-      res{cm::segment()};
+      segmentationResults{};
 
-    (void)manualSegmentationPointsMap;
-    (void)res;
-
-    // TODO: HERE
-    for (const auto& [path, segmentationPoints] : res) {
-      fmt::print("\"{}\": \"{}\"\n", path, fmt::join(segmentationPoints, ", "));
+    for (bool skipWindowOption : cm::Configuration::skipWindowOptions()) {
+      for (bool deleteTooCloseOption :
+           cm::Configuration::deleteTooCloseOptions()) {
+        for (bool deleteTooLowVarianceOption :
+             cm::Configuration::deleteTooLowVarianceOptions()) {
+          for (cm::Imu imuOption : cm::Configuration::imuOptions()) {
+            for (const std::string& segmentationKindOption :
+                 cm::Configuration::segmentationKindOptions()) {
+              for (std::size_t windowSizeOption :
+                   cm::Configuration::windowSizeOptions()) {
+                for (const std::string& filterKindOption :
+                     cm::Configuration::filterKindOptions()) {
+                  const cm::Configuration configuration{
+                    cm::Configuration::Builder{}
+                      .skipWindow(skipWindowOption)
+                      .deleteTooClose(deleteTooCloseOption)
+                      .deleteTooLowVariance(deleteTooLowVarianceOption)
+                      .imu(imuOption)
+                      .segmentationKind(segmentationKindOption)
+                      .windowSize(windowSizeOption)
+                      .filterKind(filterKindOption)
+                      .build()};
+                  segmentationResults[configuration]
+                    = cm::segment(configuration);
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
   catch (const cl::Exception& ex) {
