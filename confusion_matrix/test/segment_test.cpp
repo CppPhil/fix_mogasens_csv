@@ -10,16 +10,18 @@
 #if PL_OS == PL_OS_LINUX
 TEST(segment, shouldGetExpectedSegmentationPointsFromPython)
 {
+  cm::Configuration::Builder builder{};
+  builder.skipWindow(false)
+    .deleteTooClose(false)
+    .deleteTooLowVariance(false)
+    .imu(cm::Imu::Accelerometer)
+    .segmentationKind("max")
+    .windowSize(501)
+    .filterKind("butterworth");
+  const cm::Configuration config{builder.build()};
+
   const std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>> map{
-    cm::segment(cm::Configuration::Builder{}
-                  .skipWindow(false)
-                  .deleteTooClose(false)
-                  .deleteTooLowVariance(false)
-                  .imu(cm::Imu::Accelerometer)
-                  .segmentationKind("max")
-                  .windowSize(501)
-                  .filterKind("butterworth")
-                  .build())};
+    cm::segment(config)};
 
   const auto fetch = [&map](const char* path) {
     auto it{map.find(cl::fs::Path{std::string{path}})};

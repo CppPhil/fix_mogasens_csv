@@ -106,13 +106,14 @@ Configuration Configuration::Builder::build() const
   CM_ENSURE_HAS_VALUE(m_filterKind);
 #undef CM_ENSURE_HAS_VALUE
 
-// Check contains valid value
-#define CM_CONTAINS(container, value) \
-  contains(container.begin(), container.end(), value)
+  // Check contains valid value
+  const auto contains = [](const auto& container, const auto& value) {
+    return ::cm::contains(container.begin(), container.end(), value);
+  };
 
 #define CM_ENSURE_CONTAINS(container, dataMember)                           \
   PL_BEGIN_MACRO                                                            \
-  if (!CM_CONTAINS(container, dataMember)) {                                \
+  if (!contains(container, dataMember)) {                                   \
     CL_THROW_FMT(                                                           \
       "\"{}\" is not a valid option for \"{}\"", *dataMember, #dataMember); \
   }                                                                         \
@@ -166,20 +167,20 @@ const std::vector<Imu>& Configuration::imuOptions() noexcept
 const std::vector<std::string>&
 Configuration::segmentationKindOptions() noexcept
 {
-  static const std::vector<std::string> values{{"both", "max", "min"}};
+  static const std::vector<std::string> values{"both", "max", "min"};
   return values;
 }
 
 const std::vector<std::size_t>& Configuration::windowSizeOptions() noexcept
 {
   static const std::vector<std::size_t> values{
-    {101, 151, 201, 251, 301, 351, 401, 451, 501, 51, 551}};
+    101, 151, 201, 251, 301, 351, 401, 451, 501, 51, 551};
   return values;
 }
 
 const std::vector<std::string>& Configuration::filterKindOptions() noexcept
 {
-  static const std::vector<std::string> values{{"average", "butterworth"}};
+  static const std::vector<std::string> values{"average", "butterworth"};
   return values;
 }
 
