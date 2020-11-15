@@ -150,6 +150,26 @@ public:
   static const std::array<std::string, 2>& filterKindOptions() noexcept;
 
   /*!
+   * \brief Compares two Configurations for equality.
+   * \param lhs The first operand.
+   * \param rhs The second operand.
+   * \return true if `lhs` and `rhs` are considered to be equal.
+   **/
+  friend bool operator==(
+    const Configuration& lhs,
+    const Configuration& rhs) noexcept;
+
+  /*!
+   * \brief Compares two Configurations for inequality.
+   * \param lhs The first operand.
+   * \param rhs The second operand.
+   * \return true if `lhs` and `rhs` are considered not to be equal.
+   **/
+  friend bool operator!=(
+    const Configuration& lhs,
+    const Configuration& rhs) noexcept;
+
+  /*!
    * \brief Read accessor for the skipWindow property.
    * \return The skipWindow option.
    **/

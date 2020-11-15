@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <tuple>
 #include <utility>
 
 #include <pl/begin_end_macro.hpp>
@@ -171,6 +172,31 @@ const std::array<std::string, 2>& Configuration::filterKindOptions() noexcept
 {
   static const std::array<std::string, 2> values{{"average", "butterworth"}};
   return values;
+}
+
+bool operator==(const Configuration& lhs, const Configuration& rhs) noexcept
+{
+  return std::tie(
+           lhs.m_skipWindow,
+           lhs.m_deleteTooClose,
+           lhs.m_deleteTooLowVariance,
+           lhs.m_imu,
+           lhs.m_segmentationKind,
+           lhs.m_windowSize,
+           lhs.m_filterKind)
+         == std::tie(
+           rhs.m_skipWindow,
+           rhs.m_deleteTooClose,
+           rhs.m_deleteTooLowVariance,
+           rhs.m_imu,
+           rhs.m_segmentationKind,
+           rhs.m_windowSize,
+           rhs.m_filterKind);
+}
+
+bool operator!=(const Configuration& lhs, const Configuration& rhs) noexcept
+{
+  return !(lhs == rhs);
 }
 
 bool Configuration::skipWindow() const noexcept { return m_skipWindow; }
