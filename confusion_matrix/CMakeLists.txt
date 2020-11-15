@@ -7,6 +7,7 @@ set(LIB_HEADERS
     include/imu.hpp
     include/interpolated_data_set_paths.hpp
     include/manual_segmentation_point.hpp
+    include/python_output.hpp
     include/segment.hpp
     include/split_string.hpp)
 
@@ -16,6 +17,7 @@ set(LIB_SOURCES
     src/imu.cpp
     src/interpolated_data_set_paths.cpp
     src/manual_segmentation_point.cpp
+    src/python_output.cpp
     src/segment.cpp
     src/split_string.cpp)
 

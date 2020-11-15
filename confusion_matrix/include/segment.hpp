@@ -7,6 +7,8 @@
 
 #include <cl/fs/path.hpp>
 
+#include "configuration.hpp"
+
 namespace cm {
 /*!
  * Invokes Python to segment the interpolated data sets.
@@ -15,7 +17,9 @@ namespace cm {
  *         points.
  * \throws cl::Exception if an error occurs.
  **/
-[[nodiscard]] std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>
+[[nodiscard]] std::unordered_map<
+  Configuration,
+  std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
 segment();
 } // namespace cm
 #endif // INCG_CM_SEGMENT_HPP

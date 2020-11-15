@@ -1,54 +1,13 @@
-#include <cstdio>
-#include <cstring>
-
-#include <string>
-
-#include <fmt/format.h>
-#include <fmt/ostream.h>
-
 #include <cl/exception.hpp>
-#include <cl/process.hpp>
 #include <cl/s2n.hpp>
 
 #include "interpolated_data_set_paths.hpp"
+#include "python_output.hpp"
 #include "segment.hpp"
 #include "split_string.hpp"
 
 namespace cm {
 namespace {
-/*!
- * \brief Runs the Python segmentor on `path`.
- * \param path The path to the CSV file to segment.
- * \return The output of the Python application.
- * \throws cl::Exception if creating the process failed.
- **/
-[[nodiscard]] std::string pythonOutput(const cl::fs::Path& path)
-{
-  constexpr pl::string_view readMode{"r"};
-
-  // TODO: We might want to allow for different configurations here in order
-  // TODO: to be able to compare them with each other.
-  const std::string command{fmt::format(
-    "./preprocessed_segment.sh --skip_window=false --delete_too_close=false "
-    "--delete_low_variance=false --image_format=png --csv_file_path=\"{}\" "
-    "--imu=accelerometer --segmentation_kind=max --window_size=501 "
-    "--filter=butterworth 2>&1 >/dev/null",
-    path)};
-
-  cl::Expected<cl::Process> expectedProcess{
-    cl::Process::create(command, readMode)};
-
-  if (!expectedProcess.has_value()) { expectedProcess.error().raise(); }
-
-  std::string buffer{};
-
-  for (int c{EOF}; (c = std::fgetc(expectedProcess->file())) != EOF;) {
-    buffer.push_back(static_cast<char>(c));
-  }
-
-  return buffer;
-}
-
 /*!
  * \brief Converts a vector of strings to a vector of unsigned 64-bit integers.
  * \param vector The input vector.
@@ -102,18 +61,60 @@ namespace {
 }
 } // namespace
 
-std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>> segment()
+// TODO: map<Config, map<path, segmentationPoints>>
+std::unordered_map<
+  Configuration,
+  std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
+segment()
 {
   const std::vector<cl::fs::Path> csvFiles{interpolatedDataSetPaths()};
 
-  std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>> result{};
+  std::unordered_map<
+    Configuration,
+    std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
+    result{};
 
-  for (const cl::fs::Path& path : csvFiles) {
-    const std::string          pythonResult{pythonOutput(path)};
-    std::vector<std::uint64_t> segmentationPoints{
-      extractTimestamps(pythonResult)};
+  for (bool skipWindowOption : Configuration::skipWindowOptions()) {
+    for (bool deleteTooCloseOption : Configuration::deleteTooCloseOptions()) {
+      for (bool deleteTooLowVarianceOption :
+           Configuration::deleteTooLowVarianceOptions()) {
+        for (Imu imuOption : Configuration::imuOptions()) {
+          for (const std::string& segmentationKindOption :
+               Configuration::segmentationKindOptions()) {
+            for (std::size_t windowSizeOption :
+                 Configuration::windowSizeOptions()) {
+              for (const std::string& filterKindOption :
+                   Configuration::filterKindOptions()) {
+                const Configuration configuration{
+                  Configuration::Builder{}
+                    .skipWindow(skipWindowOption)
+                    .deleteTooClose(deleteTooCloseOption)
+                    .deleteTooLowVariance(deleteTooLowVarianceOption)
+                    .imu(imuOption)
+                    .segmentationKind(segmentationKindOption)
+                    .windowSize(windowSizeOption)
+                    .filterKind(filterKindOption)
+                    .build()};
 
-    result[path] = std::move(segmentationPoints);
+                result[configuration] = std::
+                  unordered_map<cl::fs::Path, std::vector<std::uint64_t>>{
+
+                  };
+
+                for (const cl::fs::Path& csvFile : csvFiles) {
+                  const std::string pythonResult{
+                    pythonOutput(csvFile, configuration)};
+                  std::vector<std::uint64_t> segmentationPoints{
+                    extractTimestamps(pythonResult)};
+                  result[configuration][csvFile]
+                    = std::move(segmentationPoints);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   return result;

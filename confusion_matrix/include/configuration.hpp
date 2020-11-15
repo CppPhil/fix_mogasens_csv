@@ -7,7 +7,18 @@
 
 #include <tl/optional.hpp>
 
+#include <pl/hash.hpp>
+
 #include "imu.hpp"
+
+namespace cm {
+class Configuration;
+} // namespace cm
+
+namespace std {
+template<>
+struct hash<::cm::Configuration>;
+} // namespace std
 
 namespace cm {
 /*!
@@ -17,6 +28,7 @@ namespace cm {
 class Configuration {
 public:
   friend class Builder;
+  friend struct std::hash<Configuration>;
 
   /*!
    * \brief Builder type for `Configuration`.
@@ -198,4 +210,21 @@ private:
   std::string m_filterKind;
 };
 } // namespace cm
+
+namespace std {
+template<>
+struct hash<::cm::Configuration> {
+  size_t operator()(const ::cm::Configuration& configuration) const
+  {
+    return ::pl::hash(
+      configuration.m_skipWindow,
+      configuration.m_deleteTooClose,
+      configuration.m_deleteTooLowVariance,
+      configuration.m_imu,
+      configuration.m_segmentationKind,
+      configuration.m_windowSize,
+      configuration.m_filterKind);
+  }
+};
+} // namespace std
 #endif // INCG_CM_CONFIGURATION_HPP
