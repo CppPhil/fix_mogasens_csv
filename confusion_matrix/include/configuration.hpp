@@ -2,6 +2,7 @@
 #define INCG_CM_CONFIGURATION_HPP
 #include <cstddef>
 
+#include <deque>
 #include <iosfwd>
 #include <string>
 #include <vector>
@@ -112,19 +113,19 @@ public:
    * \brief Returns the possible skipWindow options.
    * \return The skipWindow options.
    **/
-  static const std::vector<bool>& skipWindowOptions() noexcept;
+  static const std::deque<bool>& skipWindowOptions() noexcept;
 
   /*!
    * \brief Returns the possible deleteTooClose options.
    * \return The deleteTooClose options.
    **/
-  static const std::vector<bool>& deleteTooCloseOptions() noexcept;
+  static const std::deque<bool>& deleteTooCloseOptions() noexcept;
 
   /*!
    * \brief Returns the possible deleteTooLowVariance options.
    * \return The deleteTooLowVariance options.
    **/
-  static const std::vector<bool>& deleteTooLowVarianceOptions() noexcept;
+  static const std::deque<bool>& deleteTooLowVarianceOptions() noexcept;
 
   /*!
    * \brief Returns the possible imu options.

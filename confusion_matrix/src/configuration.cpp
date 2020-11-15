@@ -139,21 +139,21 @@ Configuration Configuration::Builder::build() const
     *m_filterKind};
 }
 
-const std::vector<bool>& Configuration::skipWindowOptions() noexcept
+const std::deque<bool>& Configuration::skipWindowOptions() noexcept
 {
-  static const std::vector<bool> options{false, true};
+  static const std::deque<bool> options{false, true};
   return options;
 }
 
-const std::vector<bool>& Configuration::deleteTooCloseOptions() noexcept
+const std::deque<bool>& Configuration::deleteTooCloseOptions() noexcept
 {
-  static const std::vector<bool> options{false, true};
+  static const std::deque<bool> options{false, true};
   return options;
 }
 
-const std::vector<bool>& Configuration::deleteTooLowVarianceOptions() noexcept
+const std::deque<bool>& Configuration::deleteTooLowVarianceOptions() noexcept
 {
-  static const std::vector<bool> options{false, true};
+  static const std::deque<bool> options{false, true};
   return options;
 }
 
