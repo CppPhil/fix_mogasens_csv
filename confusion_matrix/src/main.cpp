@@ -3,53 +3,32 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
+#include "create_segmentation_results.hpp"
 #include "manual_segmentation_point.hpp"
-#include "segment.hpp"
 
 int main()
 {
   try { // TODO: HERE
     // TODO: This is just experimental.
-    const std::unordered_map<
+    [[maybe_unused]] const std::unordered_map<
       cm::DataSetIdentifier,
       std::vector<cm::ManualSegmentationPoint>>
       manualSegmentationPointsMap{cm::ManualSegmentationPoint::readCsvFile()};
 
-    std::unordered_map<
+    [[maybe_unused]] const std::unordered_map<
       cm::Configuration,
       std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
-      segmentationResults{};
+      segmentationResults{cm::createSegmentationResults()};
 
-    for (bool skipWindowOption : cm::Configuration::skipWindowOptions()) {
-      for (bool deleteTooCloseOption :
-           cm::Configuration::deleteTooCloseOptions()) {
-        for (bool deleteTooLowVarianceOption :
-             cm::Configuration::deleteTooLowVarianceOptions()) {
-          for (cm::Imu imuOption : cm::Configuration::imuOptions()) {
-            for (const std::string& segmentationKindOption :
-                 cm::Configuration::segmentationKindOptions()) {
-              for (std::size_t windowSizeOption :
-                   cm::Configuration::windowSizeOptions()) {
-                for (const std::string& filterKindOption :
-                     cm::Configuration::filterKindOptions()) {
-                  const cm::Configuration configuration{
-                    cm::Configuration::Builder{}
-                      .skipWindow(skipWindowOption)
-                      .deleteTooClose(deleteTooCloseOption)
-                      .deleteTooLowVariance(deleteTooLowVarianceOption)
-                      .imu(imuOption)
-                      .segmentationKind(segmentationKindOption)
-                      .windowSize(windowSizeOption)
-                      .filterKind(filterKindOption)
-                      .build()};
-                  segmentationResults[configuration]
-                    = cm::segment(configuration);
-                }
-              }
-            }
-          }
-        }
+    for (const auto& [config, map] : segmentationResults) {
+      fmt::print("{}\n", config);
+
+      for (const auto& [csvFilePath, segmentationPoints] : map) {
+        fmt::print(
+          "{}: [{}]\n", csvFilePath, fmt::join(segmentationPoints, ", "));
       }
+
+      fmt::print("\n\n");
     }
   }
   catch (const cl::Exception& ex) {

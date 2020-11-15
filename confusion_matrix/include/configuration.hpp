@@ -3,6 +3,7 @@
 #include <cstddef>
 
 #include <array>
+#include <iosfwd>
 #include <string>
 
 #include <tl/optional.hpp>
@@ -168,6 +169,16 @@ public:
   friend bool operator!=(
     const Configuration& lhs,
     const Configuration& rhs) noexcept;
+
+  /*!
+   * \brief Prints `config` to `os`.
+   * \param os The ostream to print to.
+   * \param config The `Configuration` to print.
+   * \return `os`
+   **/
+  friend std::ostream& operator<<(
+    std::ostream&        os,
+    const Configuration& config);
 
   /*!
    * \brief Read accessor for the skipWindow property.

@@ -1,6 +1,10 @@
 #include <algorithm>
+#include <ostream>
 #include <tuple>
 #include <utility>
+
+#include <fmt/format.h>
+#include <fmt/ostream.h>
 
 #include <pl/begin_end_macro.hpp>
 
@@ -197,6 +201,27 @@ bool operator==(const Configuration& lhs, const Configuration& rhs) noexcept
 bool operator!=(const Configuration& lhs, const Configuration& rhs) noexcept
 {
   return !(lhs == rhs);
+}
+
+std::ostream& operator<<(std::ostream& os, const Configuration& config)
+{
+  return os << fmt::format(
+           "Configuration{{\n"
+           "\t\"skipWindow\": {},\n"
+           "\t\"deleteTooClose\": {},\n"
+           "\t\"deleteTooLowVariance\": {},\n"
+           "\t\"imu\": \"{}\",\n"
+           "\t\"segmentationKind\": \"{}\",\n"
+           "\t\"windowSize\": {},\n"
+           "\t\"filterKind\": \"{}\"\n"
+           "}}",
+           config.m_skipWindow,
+           config.m_deleteTooClose,
+           config.m_deleteTooLowVariance,
+           config.m_imu,
+           config.m_segmentationKind,
+           config.m_windowSize,
+           config.m_filterKind);
 }
 
 bool Configuration::skipWindow() const noexcept { return m_skipWindow; }

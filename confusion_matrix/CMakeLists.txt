@@ -3,6 +3,7 @@ set(LIB_NAME confusion_matrix_lib)
 
 set(LIB_HEADERS
     include/configuration.hpp
+    include/create_segmentation_results.hpp
     include/data_set_identifier.hpp
     include/imu.hpp
     include/interpolated_data_set_paths.hpp
@@ -13,6 +14,7 @@ set(LIB_HEADERS
 
 set(LIB_SOURCES
     src/configuration.cpp
+    src/create_segmentation_results.cpp
     src/data_set_identifier.cpp
     src/imu.cpp
     src/interpolated_data_set_paths.cpp
