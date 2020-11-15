@@ -4,7 +4,7 @@ set(TEST_NAME confusion_matrix_test)
 
 set(TEST_SOURCES
     data_set_identifier_test.cpp interpolated_data_set_paths_test.cpp main.cpp
-    manual_segmentation_point_test.cpp segment_test.cpp)
+    manual_segmentation_point_test.cpp segment_test.cpp split_string_test.cpp)
 
 add_executable(${TEST_NAME} ${TEST_SOURCES})
 

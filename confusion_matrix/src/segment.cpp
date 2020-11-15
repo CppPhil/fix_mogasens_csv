@@ -12,6 +12,7 @@
 
 #include "interpolated_data_set_paths.hpp"
 #include "segment.hpp"
+#include "split_string.hpp"
 
 namespace cm {
 namespace {
@@ -46,25 +47,6 @@ namespace {
   }
 
   return buffer;
-}
-
-/*!
- * \brief Splits a string by comma and space characters.
- * \param subString The string to split.
- * \return The resulting strings.
- **/
-[[nodiscard]] std::vector<std::string> splitString(std::string subString)
-{
-  char* pch{std::strtok(subString.data(), " ,")};
-
-  std::vector<std::string> result{};
-
-  while (pch != nullptr) {
-    result.push_back(pch);
-    pch = std::strtok(nullptr, " ,");
-  }
-
-  return result;
 }
 
 /*!
@@ -113,7 +95,8 @@ namespace {
 
   const std::string subString{
     pythonResult.substr(arrayBegin + 1U, arrayEnd - arrayBegin - 1U)};
-  const std::vector<std::string> parts{splitString(subString)};
+  constexpr pl::string_view      splitBy{" ,"};
+  const std::vector<std::string> parts{splitString(subString, splitBy)};
 
   return toVecU64(parts);
 }
