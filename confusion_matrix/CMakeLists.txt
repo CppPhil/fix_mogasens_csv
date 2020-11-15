@@ -2,13 +2,22 @@
 set(LIB_NAME confusion_matrix_lib)
 
 set(LIB_HEADERS
-    include/data_set_identifier.hpp include/interpolated_data_set_paths.hpp
-    include/manual_segmentation_point.hpp include/segment.hpp
+    include/configuration.hpp
+    include/data_set_identifier.hpp
+    include/imu.hpp
+    include/interpolated_data_set_paths.hpp
+    include/manual_segmentation_point.hpp
+    include/segment.hpp
     include/split_string.hpp)
 
 set(LIB_SOURCES
-    src/data_set_identifier.cpp src/interpolated_data_set_paths.cpp
-    src/manual_segmentation_point.cpp src/segment.cpp src/split_string.cpp)
+    src/configuration.cpp
+    src/data_set_identifier.cpp
+    src/imu.cpp
+    src/interpolated_data_set_paths.cpp
+    src/manual_segmentation_point.cpp
+    src/segment.cpp
+    src/split_string.cpp)
 
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})
 
