@@ -1,3 +1,4 @@
+#include <future>
 #include <thread>
 
 #include <fmt/format.h>
@@ -13,6 +14,13 @@ namespace {
 [[nodiscard]] long double percentageOf(std::size_t x, std::size_t y)
 {
   return (static_cast<long double>(x) / static_cast<long double>(y)) * 100.0L;
+}
+
+[[nodiscard]] unsigned hardwareThreads()
+{
+  unsigned result{std::thread::hardware_concurrency()};
+  if (result == 0) { result = 4; }
+  return result;
 }
 } // namespace
 
@@ -37,6 +45,11 @@ createSegmentationResults()
   std::size_t i{0};
 
   fmt::print("{} / {} ({:.2f}%)\r", i, totalCount, percentageOf(i, totalCount));
+
+  std::vector<std::future<std::pair<
+    Configuration,
+    std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>>>
+    futures{};
 
   for (bool skipWindowOption : Configuration::skipWindowOptions()) {
     for (bool deleteTooCloseOption : Configuration::deleteTooCloseOptions()) {
@@ -66,16 +79,30 @@ createSegmentationResults()
                   segmentationResults[configuration] = std::move(fromFile);
                 }
                 else {
-                  std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>
-                    map{segment(configuration)};
+                  futures.push_back(
+                    std::async(std::launch::async, [configuration] {
+                      auto map{segment(configuration)};
 
-                  if (!configuration.serializeSegmentationPoints(map)) {
-                    CL_THROW_FMT(
-                      "Could not serialize to \"{}\"!",
-                      configuration.createFilePath());
+                      if (!configuration.serializeSegmentationPoints(map)) {
+                        CL_THROW_FMT(
+                          "Could not serialize to \"{}\"!",
+                          configuration.createFilePath());
+                      }
+
+                      return std::make_pair(configuration, std::move(map));
+                    }));
+
+                  if ((i % hardwareThreads()) == 0U) {
+                    for (std::future<std::pair<
+                           Configuration,
+                           std::unordered_map<
+                             cl::fs::Path,
+                             std::vector<std::uint64_t>>>>& future : futures) {
+                      segmentationResults.insert(future.get());
+                    }
+
+                    futures.clear();
                   }
-
-                  segmentationResults[configuration] = std::move(map);
                 }
 
                 ++i;
@@ -91,6 +118,15 @@ createSegmentationResults()
       }
     }
   }
+
+  for (std::future<std::pair<
+         Configuration,
+         std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>>&
+         future : futures) {
+    segmentationResults.insert(future.get());
+  }
+
+  futures.clear();
 
   fmt::print(
     "{} / {} ({:.2f}%)\n",
