@@ -5,6 +5,8 @@
 
 #include <pl/thd/thread_pool.hpp>
 
+#include <cl/exception.hpp>
+
 #include "create_segmentation_results.hpp"
 #include "segment.hpp"
 
@@ -23,10 +25,6 @@ namespace {
 }
 } // namespace
 
-// TODO: Add caching to files for the segmentation points read from python.
-// TODO: With the configuration and file and segmentation points in that file
-// for
-// TODO: the configuration.
 std::unordered_map<
   Configuration,
   std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
@@ -36,6 +34,11 @@ createSegmentationResults()
 
   fmt::print(
     "Created thread pool with {} threads.\n", threadPool.thread_count());
+
+  std::unordered_map<
+    Configuration,
+    std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
+    segmentationResults{};
 
   std::vector<std::future<std::pair<
     Configuration,
@@ -64,9 +67,23 @@ createSegmentationResults()
                     .filterKind(filterKindOption)
                     .build()};
 
-                futures.push_back(threadPool.add_task([configuration] {
-                  return std::make_pair(configuration, segment(configuration));
-                }));
+                if (configuration.createFilePath().isFile()) {
+                  fmt::print(
+                    "\"{}\" exists, importing segmentation points.\n",
+                    configuration.createFilePath());
+                  std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>
+                    fromFile{configuration.importSegmentationPoints()};
+                  segmentationResults[configuration] = std::move(fromFile);
+                }
+                else {
+                  fmt::print(
+                    "\"{}\" doesn't exist, adding task to thread pool.\n",
+                    configuration.createFilePath());
+                  futures.push_back(threadPool.add_task([configuration] {
+                    return std::make_pair(
+                      configuration, segment(configuration));
+                  }));
+                }
               }
             }
           }
@@ -79,11 +96,6 @@ createSegmentationResults()
 
   fmt::print("Thread pool has {} tasks.\n", futureCount);
 
-  std::unordered_map<
-    Configuration,
-    std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
-    segmentationResults{};
-
   std::size_t i{0};
   fmt::print(
     "{} / {} ({:.2f}%)\r", i, futureCount, percentageOf(i, futureCount));
@@ -92,7 +104,20 @@ createSegmentationResults()
          Configuration,
          std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>>&
          future : futures) {
-    segmentationResults.insert(future.get());
+    std::pair<
+      Configuration,
+      std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
+                         futureResult{future.get()};
+    const Configuration& configuration{futureResult.first};
+    const std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>& map{
+      futureResult.second};
+
+    if (!configuration.serializeSegmentationPoints(map)) {
+      CL_THROW_FMT(
+        "Could not serialize to \"{}\"!", configuration.createFilePath());
+    }
+
+    segmentationResults.insert(std::move(futureResult));
     ++i;
 
     fmt::print(

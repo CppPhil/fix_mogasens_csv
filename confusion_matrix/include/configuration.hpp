@@ -246,7 +246,7 @@ public:
    *        `Configuration`.
    * \return The imported segmentation points.
    * \throws cl::Exception if the file path for this `Configuration` does not
-   *                       exist.
+   *                       exist or an error occurs while reading / parsing.
    **/
   [[nodiscard]] std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>
   importSegmentationPoints() const;
