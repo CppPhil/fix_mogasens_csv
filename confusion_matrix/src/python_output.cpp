@@ -40,6 +40,8 @@ std::string pythonOutput(
     segmentorConfiguration.windowSize(),
     segmentorConfiguration.filterKind())};
 
+  fmt::print("Invoking \"{}\".\n", command);
+
   cl::Expected<cl::Process> expectedProcess{
     cl::Process::create(command, readMode)};
 
