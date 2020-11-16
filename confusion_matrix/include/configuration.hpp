@@ -184,6 +184,14 @@ public:
     const Configuration& config);
 
   /*!
+   * \brief Default constructor.
+   * \warning This constructor is only there to work around Microsoft
+   *          buggedness, don't use.
+   * \note Creates an uninitialized object!
+   **/
+  Configuration();
+
+  /*!
    * \brief Read accessor for the skipWindow property.
    * \return The skipWindow option.
    **/
@@ -224,6 +232,17 @@ public:
    * \return The filterKind option.
    **/
   [[nodiscard]] const std::string& filterKind() const noexcept;
+
+  /*!
+   * \brief Checks if this object is initialized and thus valid.
+   * \return true if this object is initialized; false otherwise.
+   * \warning If you use the Builder to construct (as you should)
+   *          this member function will always return true.
+   *          false will only be returned if you use the (invalid)
+   *          default constructor that servers as a workaround
+   *          for MSVC bugs.
+   **/
+  [[nodiscard]] bool isInitialized() const noexcept;
 
   /*!
    * \brief Create a file path for this kind of `Configuration`.
@@ -268,6 +287,7 @@ private:
   std::string m_segmentationKind;
   std::size_t m_windowSize;
   std::string m_filterKind;
+  bool        m_isInitialized;
 };
 } // namespace cm
 

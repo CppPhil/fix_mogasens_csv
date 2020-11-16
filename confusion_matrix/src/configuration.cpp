@@ -233,6 +233,18 @@ std::ostream& operator<<(std::ostream& os, const Configuration& config)
            config.m_filterKind);
 }
 
+Configuration::Configuration()
+  : m_skipWindow{false}
+  , m_deleteTooClose{false}
+  , m_deleteTooLowVariance{false}
+  , m_imu{Imu::Gyroscope}
+  , m_segmentationKind{"error segementation kind"}
+  , m_windowSize{0}
+  , m_filterKind{"error filter kind"}
+  , m_isInitialized{false}
+{
+}
+
 bool Configuration::skipWindow() const noexcept { return m_skipWindow; }
 
 bool Configuration::deleteTooClose() const noexcept { return m_deleteTooClose; }
@@ -255,6 +267,8 @@ const std::string& Configuration::filterKind() const noexcept
 {
   return m_filterKind;
 }
+
+bool Configuration::isInitialized() const noexcept { return m_isInitialized; }
 
 cl::fs::Path Configuration::createFilePath() const
 {
@@ -382,6 +396,7 @@ Configuration::Configuration(
   , m_segmentationKind{std::move(segmentationKind)}
   , m_windowSize{windowSize}
   , m_filterKind{std::move(filterKind)}
+  , m_isInitialized{true}
 {
 }
 } // namespace cm

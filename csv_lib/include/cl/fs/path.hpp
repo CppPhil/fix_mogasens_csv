@@ -38,6 +38,11 @@ public:
   friend bool operator==(const Path& lhs, const Path& rhs) noexcept;
 
   /*!
+   * \brief Default constructs an (empty) path.
+   **/
+  Path();
+
+  /*!
    * \brief Creates a path.
    * \param path The string to construct from.
    **/

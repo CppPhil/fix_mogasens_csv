@@ -34,6 +34,8 @@ bool operator==(const Path& lhs, const Path& rhs) noexcept
   return lhs.str() == rhs.str();
 }
 
+Path::Path() : Path("") {}
+
 Path::Path(std::string path) : m_path{std::move(path)}
 {
 #if PL_OS == PL_OS_WINDOWS
