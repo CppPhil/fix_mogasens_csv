@@ -9,7 +9,7 @@ std::vector<std::string> splitString(
   std::string     string,
   pl::string_view splitBy)
 {
-  // Lock a mutex because strtox is stateful.
+  // Lock a mutex because strtok is stateful.
   static std::mutex                            mutex{};
   [[maybe_unused]] std::lock_guard<std::mutex> lockGuard{mutex};
 

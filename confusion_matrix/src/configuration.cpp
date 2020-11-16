@@ -372,7 +372,7 @@ Configuration::importSegmentationPoints() const
     result[csvFilePath] = segmentationPoints;
   }
 
-  // We expect EOF, sets both the eofbit and the failbit.
+  // We expect EOF, which sets both the eofbit and the failbit.
   // If badbit is set, that's still an error.
   if (ifs.bad()) {
     CL_THROW_FMT("ifs was bad for file \"{}\".", configurationPath);
