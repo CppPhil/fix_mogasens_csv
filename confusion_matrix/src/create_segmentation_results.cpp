@@ -23,12 +23,19 @@ namespace {
 }
 } // namespace
 
+// TODO: Add caching to files for the segmentation points read from python.
+// TODO: With the configuration and file and segmentation points in that file
+// for
+// TODO: the configuration.
 std::unordered_map<
   Configuration,
   std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
 createSegmentationResults()
 {
   pl::thd::thread_pool threadPool{hardwareThreads()};
+
+  fmt::print(
+    "Created thread pool with {} threads.\n", threadPool.thread_count());
 
   std::vector<std::future<std::pair<
     Configuration,
@@ -70,12 +77,16 @@ createSegmentationResults()
 
   const std::size_t futureCount{futures.size()};
 
+  fmt::print("Thread pool has {} tasks.\n", futureCount);
+
   std::unordered_map<
     Configuration,
     std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
     segmentationResults{};
 
   std::size_t i{0};
+  fmt::print(
+    "{} / {} ({:.2f}%)\r", i, futureCount, percentageOf(i, futureCount));
 
   for (std::future<std::pair<
          Configuration,
@@ -85,7 +96,7 @@ createSegmentationResults()
     ++i;
 
     fmt::print(
-      "{} / {} ({:.2f}%)\n", i, futureCount, percentageOf(i, futureCount));
+      "{} / {} ({:.2f}%)\r", i, futureCount, percentageOf(i, futureCount));
   }
 
   fmt::print("{} / {} ({:.2f}%)\n", futureCount, futureCount, 100.0L);

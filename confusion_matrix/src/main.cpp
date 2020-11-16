@@ -5,12 +5,15 @@
 
 #include <pl/unused.hpp>
 
+#include <cl/use_unbuffered_io.hpp>
+
 #include "create_segmentation_results.hpp"
 #include "manual_segmentation_point.hpp"
 
 int main(int argc, char* argv[])
 {
   PL_UNUSED(argc);
+  cl::useUnbufferedIo();
   fmt::print("{}: Starting.\n", argv[0]);
 
   try { // TODO: HERE
@@ -25,6 +28,7 @@ int main(int argc, char* argv[])
       std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
       segmentationResults{cm::createSegmentationResults()};
 
+    /*
     for (const auto& [config, map] : segmentationResults) {
       fmt::print("{}\n", config);
 
@@ -35,6 +39,7 @@ int main(int argc, char* argv[])
 
       fmt::print("\n\n");
     }
+    */
   }
   catch (const cl::Exception& ex) {
     fmt::print(stderr, "{}: caught cl::Exception\n", PL_CURRENT_FUNCTION);
