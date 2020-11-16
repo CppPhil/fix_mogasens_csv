@@ -61,17 +61,11 @@ createSegmentationResults()
                     .build()};
 
                 if (configuration.createFilePath().isFile()) {
-                  fmt::print(
-                    "\"{}\" exists, importing segmentation points.\n",
-                    configuration.createFilePath());
                   std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>
                     fromFile{configuration.importSegmentationPoints()};
                   segmentationResults[configuration] = std::move(fromFile);
                 }
                 else {
-                  fmt::print(
-                    "\"{}\" doesn't exist, running it.\n",
-                    configuration.createFilePath());
                   std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>
                     map{segment(configuration)};
 
