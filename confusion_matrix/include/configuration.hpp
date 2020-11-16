@@ -11,6 +11,8 @@
 
 #include <pl/hash.hpp>
 
+#include <cl/fs/path.hpp>
+
 #include "imu.hpp"
 
 namespace cm {
@@ -222,6 +224,12 @@ public:
    * \return The filterKind option.
    **/
   [[nodiscard]] const std::string& filterKind() const noexcept;
+
+  /*!
+   * \brief Create a file path for this kind of `Configuration`.
+   * \return The file path for this kind of `Configuration`.
+   **/
+  [[nodiscard]] cl::fs::Path createFilePath() const;
 
 private:
   Configuration(

@@ -253,6 +253,24 @@ const std::string& Configuration::filterKind() const noexcept
   return m_filterKind;
 }
 
+cl::fs::Path Configuration::createFilePath() const
+{
+  static const std::string prefix{
+    "confusion_matrix/data/segmentation_points_imported_from_python/"};
+
+  return cl::fs::Path{fmt::format(
+    "{}skipWindow-{}_deleteTooClose-{}_deleteTooLowVariance-{}_imu-{}_"
+    "segmentationKind-{}_windowSize-{}_filterKind-{}.txt",
+    prefix,
+    m_skipWindow,
+    m_deleteTooClose,
+    m_deleteTooLowVariance,
+    m_imu,
+    m_segmentationKind,
+    m_windowSize,
+    m_filterKind)};
+}
+
 Configuration::Configuration(
   bool        skipWindow,
   bool        deleteTooClose,
