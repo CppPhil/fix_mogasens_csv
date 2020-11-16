@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <fstream>
 #include <ostream>
 #include <tuple>
 #include <utility>
@@ -9,8 +10,10 @@
 #include <pl/begin_end_macro.hpp>
 
 #include <cl/exception.hpp>
+#include <cl/s2n.hpp>
 
 #include "configuration.hpp"
+#include "split_string.hpp"
 
 namespace cm {
 namespace {
@@ -269,6 +272,99 @@ cl::fs::Path Configuration::createFilePath() const
     m_segmentationKind,
     m_windowSize,
     m_filterKind)};
+}
+
+bool Configuration::serializeSegmentationPoints(
+  const std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>&
+    segmentationPointsMap) const
+{
+  const cl::fs::Path configurationPath{createFilePath()};
+
+  if (configurationPath.exists()) { return true; }
+
+  std::ofstream ofs{configurationPath.str()};
+
+  if (!ofs) { return false; }
+
+  for (const auto& [csvFilePath, segmentationPoints] : segmentationPointsMap) {
+    fmt::print(
+      ofs, "{}:[{}]\n", csvFilePath, fmt::join(segmentationPoints, ","));
+  }
+
+  return static_cast<bool>(ofs);
+}
+
+std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>
+Configuration::importSegmentationPoints() const
+{
+  // Check if the file exists.
+  const cl::fs::Path configurationPath{createFilePath()};
+  if (!configurationPath.exists()) {
+    CL_THROW_FMT("Path \"{}\" does not exist!", configurationPath);
+  }
+
+  // Open the file.
+  std::ifstream ifs{configurationPath.str()};
+  if (!ifs) { CL_THROW_FMT("Could not open \"{}\"!", configurationPath); }
+
+  std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>> result{};
+
+  for (std::string line{}; std::getline(ifs, line);) {
+    // Split the line into CSV file path and segmentation points.
+    const std::vector<std::string> parts{splitString(line, ":")};
+    static constexpr std::size_t   expectedPartCount{2U};
+    if (parts.size() != expectedPartCount) {
+      CL_THROW_FMT(
+        "Splitting \"{}\" resulted in \"{}\", which is nonsense!",
+        line,
+        fmt::join(parts, ", "));
+    }
+
+    // Fetch the 2 parts.
+    const std::string& csvFilePathString{parts.at(0)};
+    std::string        segmentationPointsString{parts.at(1)};
+
+    // Check if the CSV file path is a file.
+    const cl::fs::Path csvFilePath{csvFilePathString};
+    if (!csvFilePath.isFile()) {
+      CL_THROW_FMT("\"{}\" is not a file!", csvFilePath);
+    }
+
+    // Check if the segmentation point string is reasonable.
+    if (segmentationPointsString.size() < 2U) {
+      CL_THROW_FMT("\"{}\" is too short!", segmentationPointsString);
+    }
+    if (segmentationPointsString.front() != '[') {
+      CL_THROW_FMT("\"{}\" does not start with '['!", segmentationPointsString);
+    }
+    if (segmentationPointsString.back() != ']') {
+      CL_THROW_FMT("\"{}\" does not end with ']'!", segmentationPointsString);
+    }
+
+    // Remove the surrounding [ & ]
+    segmentationPointsString.pop_back();
+    segmentationPointsString.erase(0, 1); // pop_front
+
+    // Parse the segmentation points out of the segmentation point string.
+    const std::vector<std::string> segmentationPointsAsStrings{
+      splitString(segmentationPointsString, ",")};
+    std::vector<std::uint64_t> segmentationPoints{};
+    for (const std::string& string : segmentationPointsAsStrings) {
+      const auto exp{cl::s2n<std::uint64_t>(string)};
+      if (!exp.has_value()) { exp.error().raise(); }
+      segmentationPoints.push_back(*exp);
+    }
+
+    result[csvFilePath] = segmentationPoints;
+  }
+
+  // We expect EOF, sets both the eofbit and the failbit.
+  // If badbit is set, that's still an error.
+  if (ifs.bad()) {
+    CL_THROW_FMT("ifs was bad for file \"{}\".", configurationPath);
+  }
+
+  return result;
 }
 
 Configuration::Configuration(

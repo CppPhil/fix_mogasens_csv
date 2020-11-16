@@ -231,6 +231,26 @@ public:
    **/
   [[nodiscard]] cl::fs::Path createFilePath() const;
 
+  /*!
+   * \brief Serializes a map of segmentation points to the file path for this
+   *        `Configuration`.
+   * \param segmentationPointsMap The map to serialize.
+   * \return true on success; false otherwise.
+   **/
+  [[nodiscard]] bool serializeSegmentationPoints(
+    const std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>&
+      segmentationPointsMap) const;
+
+  /*!
+   * \brief Imports segmentation points from the file path for this
+   *        `Configuration`.
+   * \return The imported segmentation points.
+   * \throws cl::Exception if the file path for this `Configuration` does not
+   *                       exist.
+   **/
+  [[nodiscard]] std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>
+  importSegmentationPoints() const;
+
 private:
   Configuration(
     bool        skipWindow,
