@@ -3,8 +3,6 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
-#include <pl/thd/thread_pool.hpp>
-
 #include <cl/exception.hpp>
 
 #include "create_segmentation_results.hpp"
@@ -12,13 +10,6 @@
 
 namespace cm {
 namespace {
-[[nodiscard]] unsigned hardwareThreads()
-{
-  const unsigned value{std::thread::hardware_concurrency()};
-  if (value == 0U) { return 4U; }
-  return value;
-}
-
 [[nodiscard]] long double percentageOf(std::size_t x, std::size_t y)
 {
   return (static_cast<long double>(x) / static_cast<long double>(y)) * 100.0L;
@@ -30,20 +21,22 @@ std::unordered_map<
   std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
 createSegmentationResults()
 {
-  pl::thd::thread_pool threadPool{hardwareThreads()};
-
-  fmt::print(
-    "Created thread pool with {} threads.\n", threadPool.thread_count());
-
   std::unordered_map<
     Configuration,
     std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
     segmentationResults{};
 
-  std::vector<std::future<std::pair<
-    Configuration,
-    std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>>>
-    futures{};
+  const std::size_t totalCount{
+    Configuration::skipWindowOptions().size()
+    * Configuration::deleteTooCloseOptions().size()
+    * Configuration::deleteTooLowVarianceOptions().size()
+    * Configuration::imuOptions().size()
+    * Configuration::segmentationKindOptions().size()
+    * Configuration::windowSizeOptions().size()
+    * Configuration::filterKindOptions().size()};
+  std::size_t i{0};
+
+  fmt::print("{} / {} ({:.2f}%)\r", i, totalCount, percentageOf(i, totalCount));
 
   for (bool skipWindowOption : Configuration::skipWindowOptions()) {
     for (bool deleteTooCloseOption : Configuration::deleteTooCloseOptions()) {
@@ -77,13 +70,26 @@ createSegmentationResults()
                 }
                 else {
                   fmt::print(
-                    "\"{}\" doesn't exist, adding task to thread pool.\n",
+                    "\"{}\" doesn't exist, running it.\n",
                     configuration.createFilePath());
-                  futures.push_back(threadPool.add_task([configuration] {
-                    return std::make_pair(
-                      configuration, segment(configuration));
-                  }));
+                  std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>
+                    map{segment(configuration)};
+
+                  if (!configuration.serializeSegmentationPoints(map)) {
+                    CL_THROW_FMT(
+                      "Could not serialize to \"{}\"!",
+                      configuration.createFilePath());
+                  }
+
+                  segmentationResults[configuration] = std::move(map);
                 }
+
+                ++i;
+                fmt::print(
+                  "{} / {} ({:.2f}%)\r",
+                  i,
+                  totalCount,
+                  percentageOf(i, totalCount));
               }
             }
           }
@@ -92,39 +98,11 @@ createSegmentationResults()
     }
   }
 
-  const std::size_t futureCount{futures.size()};
-
-  fmt::print("Thread pool has {} tasks.\n", futureCount);
-
-  std::size_t i{0};
   fmt::print(
-    "{} / {} ({:.2f}%)\r", i, futureCount, percentageOf(i, futureCount));
-
-  for (std::future<std::pair<
-         Configuration,
-         std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>>&
-         future : futures) {
-    std::pair<
-      Configuration,
-      std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
-                         futureResult{future.get()};
-    const Configuration& configuration{futureResult.first};
-    const std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>& map{
-      futureResult.second};
-
-    if (!configuration.serializeSegmentationPoints(map)) {
-      CL_THROW_FMT(
-        "Could not serialize to \"{}\"!", configuration.createFilePath());
-    }
-
-    segmentationResults.insert(std::move(futureResult));
-    ++i;
-
-    fmt::print(
-      "{} / {} ({:.2f}%)\r", i, futureCount, percentageOf(i, futureCount));
-  }
-
-  fmt::print("{} / {} ({:.2f}%)\n", futureCount, futureCount, 100.0L);
+    "{} / {} ({:.2f}%)\n",
+    totalCount,
+    totalCount,
+    percentageOf(totalCount, totalCount));
 
   return segmentationResults;
 }
