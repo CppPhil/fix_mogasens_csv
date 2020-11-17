@@ -9,7 +9,9 @@
 #include <cl/use_unbuffered_io.hpp>
 
 #include "create_segmentation_results.hpp"
+#include "csv_file_info.hpp"
 #include "fetch.hpp"
+#include "interpolated_data_set_paths.hpp"
 #include "manual_segmentation_point.hpp"
 #include "order_configurations_by_quality.hpp"
 

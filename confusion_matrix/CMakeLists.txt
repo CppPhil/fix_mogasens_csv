@@ -6,6 +6,7 @@ set(LIB_HEADERS
     include/configuration.hpp
     include/confusion_matrix.hpp
     include/create_segmentation_results.hpp
+    include/csv_file_info.hpp
     include/data_set_identifier.hpp
     include/distance.hpp
     include/distance_score.hpp
@@ -23,6 +24,7 @@ set(LIB_SOURCES
     src/configuration.cpp
     src/confusion_matrix.cpp
     src/create_segmentation_results.cpp
+    src/csv_file_info.cpp
     src/data_set_identifier.cpp
     src/distance.cpp
     src/distance_score.cpp
