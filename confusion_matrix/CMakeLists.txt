@@ -5,6 +5,7 @@ set(LIB_HEADERS
     include/configuration.hpp
     include/create_segmentation_results.hpp
     include/data_set_identifier.hpp
+    include/fetch.hpp
     include/imu.hpp
     include/interpolated_data_set_paths.hpp
     include/manual_segmentation_point.hpp
