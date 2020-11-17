@@ -1,6 +1,7 @@
 #include <cassert>
 #include <cmath>
 
+#include <functional>
 #include <ostream>
 
 #include <fmt/format.h>
@@ -8,8 +9,12 @@
 
 #include <csv.hpp>
 
+#include <pl/algo/erase.hpp>
+#include <pl/algo/ranged_algorithms.hpp>
 #include <pl/numeric.hpp>
+#include <pl/strcontains.hpp>
 
+#include "cl/exception.hpp"
 #include "cl/fs/path.hpp"
 #include "cl/s2n.hpp"
 
@@ -125,6 +130,69 @@ struct TimePoint {
       ex.what(),
       fmt::join(row, ", "));
   }
+}
+
+[[nodiscard]] std::unordered_map<DataSetIdentifier, std::vector<std::uint64_t>>
+convertToMilliseconds(
+  const std::unordered_map<
+    DataSetIdentifier,
+    std::vector<ManualSegmentationPoint>>& manualSegmentationPoints)
+{
+  std::unordered_map<DataSetIdentifier, std::vector<std::uint64_t>> result{};
+
+  for (const auto& [dsi, segmentationPoints] : manualSegmentationPoints) {
+    std::vector<std::uint64_t> milliseconds(segmentationPoints.size());
+
+    pl::algo::transform(
+      segmentationPoints,
+      milliseconds.begin(),
+      std::mem_fn(&ManualSegmentationPoint::asMilliseconds));
+
+    result[dsi] = std::move(milliseconds);
+  }
+
+  return result;
+}
+
+[[nodiscard]] std::unordered_map<DataSetIdentifier, std::vector<std::uint64_t>>
+filterPythonResult(
+  std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>> pythonResult)
+{
+  // Only consider the Belly sensor.
+  pl::algo::erase_if(
+    pythonResult,
+    [](const std::pair<cl::fs::Path, std::vector<std::uint64_t>>& pair) {
+      const cl::fs::Path& path{pair.first};
+      return !pl::strcontains(path.str(), "Belly");
+    });
+
+  std::unordered_map<DataSetIdentifier, std::vector<std::uint64_t>> result{};
+
+  for (const auto& [path, segmentationPoints] : pythonResult) {
+    result[toDataSetIdentifier(path)] = segmentationPoints;
+  }
+
+  return result;
+}
+
+/*!
+ * \brief Fetches a value from a map for a given key.
+ * \tparam Map The type of the map.
+ * \tparam Key The type of the Key.
+ * \param map The map to fetch from.
+ * \param key The key to find the value for in `map`.
+ * \return The value for `key` in `map`.
+ * \throws cl::Exception if `key` is not found in `map`.
+ **/
+template<typename Map, typename Key>
+auto fetch(const Map& map, const Key& key)
+{
+  const auto it{map.find(key)};
+
+  if (it == map.end()) { CL_THROW_FMT("Could not find \"{}\" in map!", key); }
+
+  // Return the value associated with the key.
+  return it->second;
 }
 } // namespace
 
@@ -296,6 +364,70 @@ ManualSegmentationPoint::readCsvFile()
       "Failure reading CSV file \"{}\": \"{}\"", csvFilePath, ex.what());
   }
 #undef DSI
+
+  return result;
+}
+
+/*  Videozeit in (Fake)-Millisekunden umrechnen.
+ *  Den ersten Segmentierungspunkt von den Videos in (Fake)-Millisekunden
+ * nehmen (U). Den ersten Segmentierungspunkt von Python in
+ * (Real)-Millisekunden nehmen (Y). Fuer jeden weiteren Segmentierungspunkt
+ * aus den Videos W die Distanz zu U berechnen. Diese Distanz (DIST U,W) auf Y
+ * addieren ergiebt W in echt (Wreal = Y + DIST U,W)
+ */
+std::unordered_map<DataSetIdentifier, std::vector<std::uint64_t>>
+ManualSegmentationPoint::convertToHardwareTimestamps(
+  const std::unordered_map<
+    DataSetIdentifier,
+    std::vector<ManualSegmentationPoint>>& manualSegmentationPoints,
+  const std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>&
+    pythonResult)
+{
+  // Convert the manual segmentation points to (fake) milliseconds.
+  const std::unordered_map<DataSetIdentifier, std::vector<std::uint64_t>>
+    milliseconds{convertToMilliseconds(manualSegmentationPoints)};
+
+  // Only keep Belly sensor ones.
+  const std::unordered_map<DataSetIdentifier, std::vector<std::uint64_t>>
+    filteredPythonResult{filterPythonResult(pythonResult)};
+
+  // Result buffer.
+  std::unordered_map<DataSetIdentifier, std::vector<std::uint64_t>> result{};
+
+  for (const auto& [dsi, videoMs] : milliseconds) {
+    // The first manual segmentation point of the current data set.
+    const std::uint64_t u{videoMs.front()};
+
+    // The first algorithmically determined segmentation point from Python
+    // of the current data set.
+    const std::uint64_t y{
+      fetch(/* map */ filteredPythonResult, /* key */ dsi).front()};
+
+    // Create a copy of the (fake) milliseconds of the manual segmentation
+    // points for the video for the current data set.
+    // The milliseconds will be adjusted in here so that they're actual
+    // hardware timestamps.
+    std::vector<std::uint64_t> videoMsCopy(videoMs);
+
+    // Replace u (the first one) in the copy with y, because they're the same.
+    videoMsCopy.front() = y;
+
+    // Calculate the (real) hardware timestamp for the other ones.
+    for (std::size_t i{1}; i < videoMsCopy.size(); ++i) {
+      // Determine the distance to the first manual segmentation point.
+      const std::uint64_t distance{videoMsCopy[i] - u};
+
+      // Add that distance to the first algorithmically determined value.
+      const std::uint64_t actualValue{y + distance};
+
+      // Replace the value in the copy with the actual hardware timestamp
+      // calculated.
+      videoMsCopy[i] = actualValue;
+    }
+
+    // Store the (now proper) hardware timestamps in the result buffer.
+    result[dsi] = videoMsCopy;
+  }
 
   return result;
 }

@@ -11,15 +11,6 @@
 #include "data_set_identifier.hpp"
 
 namespace cm {
-// TODO: HERE
-/*  Videozeit in (Fake)-Millisekunden umrechnen.
- *  Den ersten Segmentierungspunkt von den Videos in (Fake)-Millisekunden
- * nehmen (U). Den ersten Segmentierungspunkt von Python in
- * (Real)-Millisekunden nehmen (Y). Fuer jeden weiteren Segmentierungspunkt
- * aus den Videos W die Distanz zu U berechnen. Diese Distanz (DIST U,W) auf Y
- * addieren ergiebt W in echt (Wreal = Y + DIST U,W)
- */
-
 /*!
  * \brief Type used to represent a manual segmentation point.
  **/
@@ -66,6 +57,26 @@ public:
   static std::
     unordered_map<DataSetIdentifier, std::vector<ManualSegmentationPoint>>
     readCsvFile();
+
+  /*!
+   * \brief Converts `manualSegmentationPoints` imported from the CSV file
+   *        to hardware timestamps.
+   * \param manualSegmentationPoints The manual segmentation points that
+   *                                 were read from the CSV file.
+   * \param pythonResult The result from Python of a (good) `Configuration`
+   *                     to use for the first segmentation point in order
+   *                     to convert the manual segmentation points to
+   *                     ones that are based on hardware timestamps.
+   * \return The resulting hardware timestamp based manual segementation points.
+   * \throws cl::Exception on error.
+   **/
+  static std::unordered_map<DataSetIdentifier, std::vector<std::uint64_t>>
+  convertToHardwareTimestamps(
+    const std::unordered_map<
+      DataSetIdentifier,
+      std::vector<ManualSegmentationPoint>>& manualSegmentationPoints,
+    const std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>&
+      pythonResult);
 
   /*!
    * \brief Creates a ManualSegmentationPoint.
