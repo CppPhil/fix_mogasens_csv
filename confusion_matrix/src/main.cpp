@@ -8,6 +8,7 @@
 
 #include <cl/use_unbuffered_io.hpp>
 
+#include "confusion_matrix_best_configs.hpp"
 #include "create_segmentation_results.hpp"
 #include "csv_file_info.hpp"
 #include "fetch.hpp"
@@ -53,6 +54,7 @@ int main(int argc, char* argv[])
           /* manualSegmentationPoints */ manualSegmentationPointsMap,
           /* pythonResult */ cm::fetch(segmentationResults, exampleConfig))};
 
+    /*
     const std::vector<cm::ConfigWithDistanceScore> bestConfigurations{
       cm::orderConfigurationsByQuality(
         manualSegmentationPoints, segmentationResults)};
@@ -65,6 +67,18 @@ int main(int argc, char* argv[])
     }
 
     fmt::print("\nBest configuration: {}\n", bestConfigurations.front());
+    */
+
+    const std::vector<cm::ConfigWithTotalConfusionMatrix> bestConfigs{
+      cm::confusionMatrixBestConfigs(
+        manualSegmentationPoints, segmentationResults)};
+    constexpr std::size_t configurationsToPrint{20};
+    for (std::size_t i{0};
+         (i < configurationsToPrint) && (i < bestConfigs.size());
+         ++i) {
+      fmt::print("{}: {}\n", i, bestConfigs[i]);
+    }
+    fmt::print("\nBest configuration: {}\n", bestConfigs.front());
   }
   catch (const cl::Exception& ex) {
     fmt::print(stderr, "{}: caught cl::Exception\n", PL_CURRENT_FUNCTION);

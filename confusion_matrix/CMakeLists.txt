@@ -5,6 +5,7 @@ set(LIB_HEADERS
     include/closest_one.hpp
     include/configuration.hpp
     include/confusion_matrix.hpp
+    include/confusion_matrix_best_configs.hpp
     include/create_segmentation_results.hpp
     include/csv_file_info.hpp
     include/data_set_identifier.hpp
@@ -23,6 +24,7 @@ set(LIB_SOURCES
     src/closest_one.cpp
     src/configuration.cpp
     src/confusion_matrix.cpp
+    src/confusion_matrix_best_configs.cpp
     src/create_segmentation_results.cpp
     src/csv_file_info.cpp
     src/data_set_identifier.cpp

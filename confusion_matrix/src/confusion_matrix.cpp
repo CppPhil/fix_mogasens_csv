@@ -62,4 +62,16 @@ ConfusionMatrix& ConfusionMatrix::incrementFalseNegatives() noexcept
   ++m_totalCount;
   return *this;
 }
+
+ConfusionMatrix& ConfusionMatrix::operator+=(
+  const ConfusionMatrix& other) noexcept
+{
+  m_truePositives += other.m_truePositives;
+  m_trueNegatives += other.m_trueNegatives;
+  m_falsePositives += other.m_falsePositives;
+  m_falseNegatives += other.m_falseNegatives;
+  m_totalCount += other.m_totalCount;
+
+  return *this;
+}
 } // namespace cm

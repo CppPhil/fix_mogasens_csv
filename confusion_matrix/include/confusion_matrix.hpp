@@ -31,6 +31,8 @@ public:
 
   this_type& incrementFalseNegatives() noexcept;
 
+  this_type& operator+=(const ConfusionMatrix& other) noexcept;
+
 private:
   // If a given fake one exists within the range of a real one.
   std::uint64_t m_truePositives;
