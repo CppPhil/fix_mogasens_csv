@@ -9,10 +9,10 @@ set(LIB_HEADERS
     include/distance.hpp
     include/distance_score.hpp
     include/fetch.hpp
-    include/find_best_configuration.hpp
     include/imu.hpp
     include/interpolated_data_set_paths.hpp
     include/manual_segmentation_point.hpp
+    include/order_configurations_by_quality.hpp
     include/python_output.hpp
     include/segment.hpp
     include/split_string.hpp)
@@ -24,10 +24,10 @@ set(LIB_SOURCES
     src/data_set_identifier.cpp
     src/distance.cpp
     src/distance_score.cpp
-    src/find_best_configuration.cpp
     src/imu.cpp
     src/interpolated_data_set_paths.cpp
     src/manual_segmentation_point.cpp
+    src/order_configurations_by_quality.cpp
     src/python_output.cpp
     src/segment.cpp
     src/split_string.cpp)

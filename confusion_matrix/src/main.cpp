@@ -10,8 +10,8 @@
 
 #include "create_segmentation_results.hpp"
 #include "fetch.hpp"
-#include "find_best_configuration.hpp"
 #include "manual_segmentation_point.hpp"
+#include "order_configurations_by_quality.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -51,35 +51,18 @@ int main(int argc, char* argv[])
           /* manualSegmentationPoints */ manualSegmentationPointsMap,
           /* pythonResult */ cm::fetch(segmentationResults, exampleConfig))};
 
-    std::uint64_t           bestConfigDistScore{};
-    const cm::Configuration bestConfig{cm::findBestConfiguration(
-      manualSegmentationPoints, segmentationResults, &bestConfigDistScore)};
+    const std::vector<cm::ConfigWithDistanceScore> bestConfigurations{
+      cm::orderConfigurationsByQuality(
+        manualSegmentationPoints, segmentationResults)};
 
-    fmt::print(
-      "\nbest config supposedly is:\n{}\ndistance score: {}\n",
-      bestConfig,
-      bestConfigDistScore);
-
-    /*
-    for (const auto& [path, segmentationPoints] :
-         cm::fetch(segmentationResults, exampleConfig)) {
-      const cm::DataSetIdentifier dsi{cm::toDataSetIdentifier(path)};
-
-      constexpr pl::string_view prefix{"resources/preprocessed/Interpolated/"};
-      pl::string_view           pathSv{path.str()};
-      pathSv.remove_prefix(prefix.size());
-
-      fmt::print(
-        "Python: \"{:<45}\": [{}]\n",
-        pathSv,
-        fmt::join(segmentationPoints, ", "));
-      fmt::print(
-        "Manual: \"{:<45}\": [{}]\n",
-        dsi,
-        fmt::join(cm::fetch(manualSegmentationPoints, dsi), ", "));
-      fmt::print("\n");
+    constexpr std::size_t configurationsToPrint{20};
+    for (std::size_t i{0};
+         (i < configurationsToPrint) && (i < bestConfigurations.size());
+         ++i) {
+      fmt::print("{}: {}\n", i, bestConfigurations[i]);
     }
-*/
+
+    fmt::print("\nBest configuration: {}\n", bestConfigurations.front());
   }
   catch (const cl::Exception& ex) {
     fmt::print(stderr, "{}: caught cl::Exception\n", PL_CURRENT_FUNCTION);
