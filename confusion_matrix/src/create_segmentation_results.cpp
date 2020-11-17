@@ -45,7 +45,11 @@ createSegmentationResults()
     * Configuration::filterKindOptions().size()};
   std::size_t i{0};
 
-  fmt::print("{} / {} ({:.2f}%)\r", i, totalCount, percentageOf(i, totalCount));
+  fmt::print(
+    "Importing segmentation points {} / {} ({:.2f}%) from Python...\r",
+    i,
+    totalCount,
+    percentageOf(i, totalCount));
 
   std::vector<std::future<std::pair<
     Configuration,
@@ -107,7 +111,8 @@ createSegmentationResults()
 
                 ++i;
                 fmt::print(
-                  "{} / {} ({:.2f}%)\r",
+                  "Importing segmentation points {} / {} ({:.2f}%) from "
+                  "Python...\r",
                   i,
                   totalCount,
                   percentageOf(i, totalCount));
@@ -129,7 +134,7 @@ createSegmentationResults()
   futures.clear();
 
   fmt::print(
-    "{} / {} ({:.2f}%)\n",
+    "Importing segmentation points {} / {} ({:.2f}%) from Python...\n",
     totalCount,
     totalCount,
     percentageOf(totalCount, totalCount));

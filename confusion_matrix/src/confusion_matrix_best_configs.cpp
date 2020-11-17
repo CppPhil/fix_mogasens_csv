@@ -60,7 +60,7 @@ std::ostream& operator<<(
   const ConfigWithTotalConfusionMatrix& obj)
 {
   return os << fmt::format(
-           "tp: {}, tn: {}, fp: {}, fn: {}, config: {}",
+           "tp: {}, tn: {}, fp: {}, fn: {},\nconfig: {}",
            obj.matrix.truePositives(),
            obj.matrix.trueNegatives(),
            obj.matrix.falsePositives(),
@@ -78,6 +78,7 @@ std::vector<ConfigWithTotalConfusionMatrix> confusionMatrixBestConfigs(
 {
   std::vector<ConfigWithTotalConfusionMatrix> result{};
 
+  std::size_t i{0};
   for (const auto& [config, map] :
        algorithmicallyDeterminedSegmentationPoints) {
     ConfusionMatrix configMatrix{};
@@ -113,10 +114,22 @@ std::vector<ConfigWithTotalConfusionMatrix> confusionMatrixBestConfigs(
       configMatrix += pathConfusionMatrix;
     }
 
+    ++i;
+    fmt::print(
+      "confusion matrix for config {} / {} ({:.2f}%) created.\r",
+      i,
+      algorithmicallyDeterminedSegmentationPoints.size(),
+      static_cast<long double>(i)
+        / algorithmicallyDeterminedSegmentationPoints.size() * 100.0L);
     result.emplace_back(config, configMatrix);
   }
 
   pl::algo::sort(result);
+
+  fmt::print(
+    "                                                                   \r");
+  fmt::print("Confusion matrices created.\n");
+
   return result;
 }
 } // namespace cm

@@ -72,11 +72,8 @@ int main(int argc, char* argv[])
     const std::vector<cm::ConfigWithTotalConfusionMatrix> bestConfigs{
       cm::confusionMatrixBestConfigs(
         manualSegmentationPoints, segmentationResults)};
-    constexpr std::size_t configurationsToPrint{20};
-    for (std::size_t i{0};
-         (i < configurationsToPrint) && (i < bestConfigs.size());
-         ++i) {
-      fmt::print("{}: {}\n", i, bestConfigs[i]);
+    for (const cm::ConfigWithTotalConfusionMatrix& cur : bestConfigs) {
+      fmt::print("{}\n", cur);
     }
     fmt::print("\nBest configuration: {}\n", bestConfigs.front());
   }
