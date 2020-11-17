@@ -34,12 +34,13 @@ createSegmentationResults()
     std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
     segmentationResults{};
 
+  const std::vector<std::string> segmentationKinds{"both"};
+
   const std::size_t totalCount{
     Configuration::skipWindowOptions().size()
     * Configuration::deleteTooCloseOptions().size()
     * Configuration::deleteTooLowVarianceOptions().size()
-    * Configuration::imuOptions().size()
-    * Configuration::segmentationKindOptions().size()
+    * Configuration::imuOptions().size() * segmentationKinds.size()
     * Configuration::windowSizeOptions().size()
     * Configuration::filterKindOptions().size()};
   std::size_t i{0};
@@ -56,8 +57,7 @@ createSegmentationResults()
       for (bool deleteTooLowVarianceOption :
            Configuration::deleteTooLowVarianceOptions()) {
         for (Imu imuOption : Configuration::imuOptions()) {
-          for (const std::string& segmentationKindOption :
-               Configuration::segmentationKindOptions()) {
+          for (const std::string& segmentationKindOption : segmentationKinds) {
             for (std::size_t windowSizeOption :
                  Configuration::windowSizeOptions()) {
               for (const std::string& filterKindOption :

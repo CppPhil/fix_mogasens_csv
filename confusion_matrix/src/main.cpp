@@ -10,6 +10,7 @@
 
 #include "create_segmentation_results.hpp"
 #include "fetch.hpp"
+#include "find_best_configuration.hpp"
 #include "manual_segmentation_point.hpp"
 
 int main(int argc, char* argv[])
@@ -50,6 +51,16 @@ int main(int argc, char* argv[])
           /* manualSegmentationPoints */ manualSegmentationPointsMap,
           /* pythonResult */ cm::fetch(segmentationResults, exampleConfig))};
 
+    std::uint64_t           bestConfigDistScore{};
+    const cm::Configuration bestConfig{cm::findBestConfiguration(
+      manualSegmentationPoints, segmentationResults, &bestConfigDistScore)};
+
+    fmt::print(
+      "\nbest config supposedly is:\n{}\ndistance score: {}\n",
+      bestConfig,
+      bestConfigDistScore);
+
+    /*
     for (const auto& [path, segmentationPoints] :
          cm::fetch(segmentationResults, exampleConfig)) {
       const cm::DataSetIdentifier dsi{cm::toDataSetIdentifier(path)};
@@ -68,6 +79,7 @@ int main(int argc, char* argv[])
         fmt::join(cm::fetch(manualSegmentationPoints, dsi), ", "));
       fmt::print("\n");
     }
+*/
   }
   catch (const cl::Exception& ex) {
     fmt::print(stderr, "{}: caught cl::Exception\n", PL_CURRENT_FUNCTION);
@@ -78,10 +90,12 @@ int main(int argc, char* argv[])
       ex.line(),
       ex.function());
     fmt::print(stderr, "Message: \"{}\"\n", ex.what());
+    return EXIT_FAILURE;
   }
   catch (const std::exception& ex) {
     fmt::print(stderr, "{}: caught std::exception\n", PL_CURRENT_FUNCTION);
     fmt::print(stderr, "Message: \"{}\"\n", ex.what());
+    return EXIT_FAILURE;
   }
 
   fmt::print("DONE.\n");

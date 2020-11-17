@@ -2,10 +2,14 @@
 set(LIB_NAME confusion_matrix_lib)
 
 set(LIB_HEADERS
+    include/closest_one.hpp
     include/configuration.hpp
     include/create_segmentation_results.hpp
     include/data_set_identifier.hpp
+    include/distance.hpp
+    include/distance_score.hpp
     include/fetch.hpp
+    include/find_best_configuration.hpp
     include/imu.hpp
     include/interpolated_data_set_paths.hpp
     include/manual_segmentation_point.hpp
@@ -14,9 +18,13 @@ set(LIB_HEADERS
     include/split_string.hpp)
 
 set(LIB_SOURCES
+    src/closest_one.cpp
     src/configuration.cpp
     src/create_segmentation_results.cpp
     src/data_set_identifier.cpp
+    src/distance.cpp
+    src/distance_score.cpp
+    src/find_best_configuration.cpp
     src/imu.cpp
     src/interpolated_data_set_paths.cpp
     src/manual_segmentation_point.cpp
