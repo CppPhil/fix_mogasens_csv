@@ -29,12 +29,10 @@ std::ostream& operator<<(
   const ConfigWithDistanceScore& configWithDistScore)
 {
   return os << fmt::format(
-           "ConfigWithDistanceScore{{\n"
-           "\t\"config\": {},\n"
-           "\t\"distScore\": {}\n"
-           "}}",
-           configWithDistScore.config,
-           configWithDistScore.distScore);
+           "distScore: {},"
+           "\nconfig: {}",
+           configWithDistScore.distScore,
+           configWithDistScore.config);
 }
 
 [[nodiscard]] std::vector<ConfigWithDistanceScore> orderConfigurationsByQuality(

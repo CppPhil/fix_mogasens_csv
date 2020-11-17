@@ -2,8 +2,7 @@ Compare them based on distance score (create that distance score)
  (they might not be the same amount of segmentation points
    compare with the one that is the closest)
 
-Fuer den besten according to distance score:
- Create confusion matrix
+Create confusion matrix for all of 'em
   (compare with the closest one as well)
 
 Have a way to visualize a segmentation result in Python so that both
