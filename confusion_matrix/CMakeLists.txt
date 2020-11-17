@@ -4,6 +4,7 @@ set(LIB_NAME confusion_matrix_lib)
 set(LIB_HEADERS
     include/closest_one.hpp
     include/configuration.hpp
+    include/confusion_matrix.hpp
     include/create_segmentation_results.hpp
     include/data_set_identifier.hpp
     include/distance.hpp
@@ -20,6 +21,7 @@ set(LIB_HEADERS
 set(LIB_SOURCES
     src/closest_one.cpp
     src/configuration.cpp
+    src/confusion_matrix.cpp
     src/create_segmentation_results.cpp
     src/data_set_identifier.cpp
     src/distance.cpp
