@@ -192,7 +192,7 @@ const std::vector<std::size_t>& Configuration::windowSizeOptions() noexcept
     651,
     701,
     751,
-    800,
+    801,
     851,
     901};
   return values;
