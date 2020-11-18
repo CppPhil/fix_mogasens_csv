@@ -20,6 +20,21 @@ struct ConfigWithTotalConfusionMatrix {
   ConfusionMatrix matrix;
 };
 
+#define CM_SORTER(criterion, op)                                \
+  inline constexpr struct {                                     \
+    bool operator()(                                            \
+      const ConfigWithTotalConfusionMatrix& lhs,                \
+      const ConfigWithTotalConfusionMatrix& rhs) const noexcept \
+    {                                                           \
+      return lhs.matrix.criterion() op rhs.matrix.criterion();  \
+    }                                                           \
+  } criterion##Sorter
+
+CM_SORTER(truePositives, >);
+CM_SORTER(trueNegatives, >);
+CM_SORTER(falsePositives, <);
+CM_SORTER(falseNegatives, <);
+
 [[nodiscard]] bool operator<(
   const ConfigWithTotalConfusionMatrix& lhs,
   const ConfigWithTotalConfusionMatrix& rhs) noexcept;

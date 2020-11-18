@@ -30,7 +30,7 @@ template<typename Container, typename Value>
   const Value&     value)
 {
   // TODO: This might need to change.
-  constexpr std::uint64_t deltaMs{150};
+  constexpr std::uint64_t deltaMs{450};
 
   return pl::algo::any_of(container, [value](std::uint64_t element) {
     return pl::is_between(value, element - deltaMs, element + deltaMs);

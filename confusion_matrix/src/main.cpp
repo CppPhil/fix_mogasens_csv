@@ -1,11 +1,15 @@
 #include <cstdlib>
 
+#include <fstream>
+
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
+#include <pl/algo/ranged_algorithms.hpp>
 #include <pl/string_view.hpp>
 #include <pl/unused.hpp>
 
+#include <cl/fs/file.hpp>
 #include <cl/use_unbuffered_io.hpp>
 
 #include "confusion_matrix_best_configs.hpp"
@@ -15,6 +19,19 @@
 #include "interpolated_data_set_paths.hpp"
 #include "manual_segmentation_point.hpp"
 #include "order_configurations_by_quality.hpp"
+
+namespace {
+constexpr char outfile[] = "output.txt";
+
+std::ofstream ofs{outfile, std::ios_base::out | std::ios_base::trunc};
+
+template<typename... Args>
+decltype(auto) print(Args&&... args)
+{
+  fmt::print(args...);
+  fmt::print(ofs, std::forward<Args>(args)...);
+}
+} // namespace
 
 int main(int argc, char* argv[])
 {
@@ -69,13 +86,26 @@ int main(int argc, char* argv[])
     fmt::print("\nBest configuration: {}\n", bestConfigurations.front());
     */
 
-    const std::vector<cm::ConfigWithTotalConfusionMatrix> bestConfigs{
+    std::vector<cm::ConfigWithTotalConfusionMatrix> bestConfigs{
       cm::confusionMatrixBestConfigs(
         manualSegmentationPoints, segmentationResults)};
     for (const cm::ConfigWithTotalConfusionMatrix& cur : bestConfigs) {
-      fmt::print("{}\n", cur);
+      print("{}\n", cur);
     }
-    fmt::print("\nBest configuration: {}\n", bestConfigs.front());
+    print("\nBest configuration: {}\n", bestConfigs.front());
+
+#define SORT_PRINT(kind)                                              \
+  pl::algo::sort(bestConfigs, cm::kind##Sorter);                      \
+  print("{}\n", #kind);                                               \
+  for (const cm::ConfigWithTotalConfusionMatrix& cur : bestConfigs) { \
+    print("{}\n", cur);                                               \
+  }                                                                   \
+  print("\nBest configuration (" #kind "): {}\n", bestConfigs.front())
+
+    SORT_PRINT(truePositives);
+    SORT_PRINT(trueNegatives);
+    SORT_PRINT(falsePositives);
+    SORT_PRINT(falseNegatives);
   }
   catch (const cl::Exception& ex) {
     fmt::print(stderr, "{}: caught cl::Exception\n", PL_CURRENT_FUNCTION);
