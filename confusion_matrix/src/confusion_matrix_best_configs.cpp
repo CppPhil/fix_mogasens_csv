@@ -63,12 +63,23 @@ std::ostream& operator<<(
   std::ostream&                         os,
   const ConfigWithTotalConfusionMatrix& obj)
 {
+  const auto& mat{obj.matrix};
+
+  const auto percent = [&mat](std::uint64_t val) {
+    return static_cast<long double>(val) / mat.totalCount() * 100.0L;
+  };
+
   return os << fmt::format(
-           "tp: {}, tn: {}, fp: {}, fn: {},\nconfig: {}",
-           obj.matrix.truePositives(),
-           obj.matrix.trueNegatives(),
-           obj.matrix.falsePositives(),
-           obj.matrix.falseNegatives(),
+           "tp: {} ({:.2f}%), tn: {} ({:.2f}%), fp: {} ({:.2f}%), fn: {} "
+           "({:.2f}%),\nconfig: {}",
+           mat.truePositives(),
+           percent(mat.truePositives()),
+           mat.trueNegatives(),
+           percent(mat.trueNegatives()),
+           mat.falsePositives(),
+           percent(mat.falsePositives()),
+           mat.falseNegatives(),
+           percent(mat.falseNegatives()),
            obj.config);
 }
 
