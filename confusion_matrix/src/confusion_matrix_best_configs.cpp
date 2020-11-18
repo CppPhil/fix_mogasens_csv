@@ -85,7 +85,6 @@ std::vector<ConfigWithTotalConfusionMatrix> confusionMatrixBestConfigs(
   std::vector<std::future<ConfigWithTotalConfusionMatrix>> futures{};
 
   std::atomic_size_t i{0};
-  std::uint16_t      taskPriority{UINT8_MAX + 1};
   for (const std::pair<
          const Configuration,
          std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>& pair :
@@ -93,15 +92,12 @@ std::vector<ConfigWithTotalConfusionMatrix> confusionMatrixBestConfigs(
     const Configuration& config{pair.first};
     const std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>& map{
       pair.second};
-    futures.push_back(threadPool.add_task(
-      std::min(
-        static_cast<std::uint8_t>(0U),
-        static_cast<std::uint8_t>(taskPriority - 1U)),
-      [&map,
-       &manualSegmentationPoints,
-       &config,
-       &algorithmicallyDeterminedSegmentationPoints,
-       &i] {
+    futures.push_back(
+      threadPool.add_task([&map,
+                           &manualSegmentationPoints,
+                           &config,
+                           &algorithmicallyDeterminedSegmentationPoints,
+                           &i] {
         ConfusionMatrix configMatrix{};
 
         for (const auto& [csvFilePath, pythonSegmentationPoints] : map) {
