@@ -1,4 +1,7 @@
+#include <algorithm>
+#include <atomic>
 #include <ostream>
+#include <thread>
 #include <utility>
 
 #include <fmt/format.h>
@@ -6,6 +9,7 @@
 
 #include <pl/algo/ranged_algorithms.hpp>
 #include <pl/numeric.hpp>
+#include <pl/thd/thread_pool.hpp>
 
 #include "confusion_matrix_best_configs.hpp"
 #include "csv_file_info.hpp"
@@ -76,53 +80,76 @@ std::vector<ConfigWithTotalConfusionMatrix> confusionMatrixBestConfigs(
     std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>&
     algorithmicallyDeterminedSegmentationPoints)
 {
-  std::vector<ConfigWithTotalConfusionMatrix> result{};
+  pl::thd::thread_pool threadPool{
+    std::max(std::thread::hardware_concurrency(), 4U)};
+  std::vector<std::future<ConfigWithTotalConfusionMatrix>> futures{};
 
-  std::size_t i{0};
-  for (const auto& [config, map] :
+  std::atomic_size_t i{0};
+  std::uint16_t      taskPriority{UINT8_MAX + 1};
+  for (const std::pair<
+         const Configuration,
+         std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>& pair :
        algorithmicallyDeterminedSegmentationPoints) {
-    ConfusionMatrix configMatrix{};
+    const Configuration& config{pair.first};
+    const std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>& map{
+      pair.second};
+    futures.push_back(threadPool.add_task(
+      std::min(
+        static_cast<std::uint8_t>(0U),
+        static_cast<std::uint8_t>(taskPriority - 1U)),
+      [&map,
+       &manualSegmentationPoints,
+       &config,
+       &algorithmicallyDeterminedSegmentationPoints,
+       &i] {
+        ConfusionMatrix configMatrix{};
 
-    for (const auto& [csvFilePath, pythonSegmentationPoints] : map) {
-      const DataSetIdentifier           dsi{toDataSetIdentifier(csvFilePath)};
-      const std::vector<std::uint64_t>& manualSegPoints{
-        fetch(manualSegmentationPoints, dsi)};
-      const CsvFileInfo csvFileInfo{csvFilePath};
-      ConfusionMatrix   pathConfusionMatrix{};
+        for (const auto& [csvFilePath, pythonSegmentationPoints] : map) {
+          const DataSetIdentifier dsi{toDataSetIdentifier(csvFilePath)};
+          const std::vector<std::uint64_t>& manualSegPoints{
+            fetch(manualSegmentationPoints, dsi)};
+          const CsvFileInfo csvFileInfo{csvFilePath};
+          ConfusionMatrix   pathConfusionMatrix{};
 
-      for (std::uint64_t timestamp{csvFileInfo.hardwareTimestampBegin()};
-           timestamp <= csvFileInfo.hardwareTimestampEnd();
-           timestamp += csvFileInfo.hardwareTimestampStepSize()) {
-        if (contains(pythonSegmentationPoints, timestamp)) {
-          if (existsWithinDelta(manualSegPoints, timestamp)) {
-            pathConfusionMatrix.incrementTruePositives();
+          for (std::uint64_t timestamp{csvFileInfo.hardwareTimestampBegin()};
+               timestamp <= csvFileInfo.hardwareTimestampEnd();
+               timestamp += csvFileInfo.hardwareTimestampStepSize()) {
+            if (contains(pythonSegmentationPoints, timestamp)) {
+              if (existsWithinDelta(manualSegPoints, timestamp)) {
+                pathConfusionMatrix.incrementTruePositives();
+              }
+              else {
+                pathConfusionMatrix.incrementFalsePositives();
+              }
+            }
+            else if (
+              contains(manualSegPoints, timestamp)
+              && !existsWithinDelta(pythonSegmentationPoints, timestamp)) {
+              pathConfusionMatrix.incrementFalseNegatives();
+            }
+            else {
+              pathConfusionMatrix.incrementTrueNegatives();
+            }
           }
-          else {
-            pathConfusionMatrix.incrementFalsePositives();
-          }
-        }
-        else if (
-          contains(manualSegPoints, timestamp)
-          && !existsWithinDelta(pythonSegmentationPoints, timestamp)) {
-          pathConfusionMatrix.incrementFalseNegatives();
-        }
-        else {
-          pathConfusionMatrix.incrementTrueNegatives();
-        }
-      }
 
-      configMatrix += pathConfusionMatrix;
-    }
+          configMatrix += pathConfusionMatrix;
+        }
 
-    ++i;
-    fmt::print(
-      "confusion matrix for config {} / {} ({:.2f}%) created.\r",
-      i,
-      algorithmicallyDeterminedSegmentationPoints.size(),
-      static_cast<long double>(i)
-        / algorithmicallyDeterminedSegmentationPoints.size() * 100.0L);
-    result.emplace_back(config, configMatrix);
+        ++i;
+        fmt::print(
+          "confusion matrix for config {} / {} ({:.2f}%) created.\r",
+          i,
+          algorithmicallyDeterminedSegmentationPoints.size(),
+          static_cast<long double>(i)
+            / algorithmicallyDeterminedSegmentationPoints.size() * 100.0L);
+
+        return ConfigWithTotalConfusionMatrix{config, configMatrix};
+      }));
   }
+
+  std::vector<ConfigWithTotalConfusionMatrix> result(futures.size());
+  pl::algo::transform(
+    futures, result.begin(), [](auto& fut) { return fut.get(); });
 
   pl::algo::sort(result);
 

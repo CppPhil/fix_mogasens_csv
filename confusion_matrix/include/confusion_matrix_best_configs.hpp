@@ -10,6 +10,8 @@
 
 namespace cm {
 struct ConfigWithTotalConfusionMatrix {
+  ConfigWithTotalConfusionMatrix() = default;
+
   ConfigWithTotalConfusionMatrix(
     Configuration   p_config,
     ConfusionMatrix p_matrix);
