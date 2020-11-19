@@ -3,10 +3,6 @@
 #include <cstdint>
 
 namespace cm {
-// TODO:
-// TODO: Iterate over all the valid hardware timestamps for each Path thingie
-//       and check if the current timestamp is a true positive, true negative
-//       false positive or false negative
 class ConfusionMatrix {
 public:
   using this_type = ConfusionMatrix;
