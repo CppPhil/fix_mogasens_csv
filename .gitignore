@@ -181,15 +181,18 @@ resources/Felix/*.svg
 resources/Marcelle/*.svg
 resources/Mike/*.svg
 resources/preprocessed/Interpolated/*.svg
+resources/preprocessed/Interpolated-Revised/*.svg
 
 # automatically generated png images
 resources/Felix/*.png
 resources/Marcelle/*.png
 resources/Mike/*.png
 resources/preprocessed/Interpolated/*.png
+resources/preprocessed/Interpolated-Revised/*.png
 
 # CSV files with repetition IDs
 resources/preprocessed/Interpolated/*_with_repetition_ids.csv
+resources/preprocessed/Interpolated-Revised/*_with_repetition_ids.csv
 
 # .vscode directory
 .vscode

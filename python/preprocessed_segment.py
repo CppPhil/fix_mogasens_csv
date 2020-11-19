@@ -228,7 +228,7 @@ def exercise_range(csv_file_path):
   if is_mike_4(csv_file_path):
     return 0, 0  # TODO: HERE
   if is_jan_push_up_1(csv_file_path):
-    return 84900, 184000
+    return 72001, 114999
   if is_jan_push_up_2(csv_file_path):
     return 16996, 51001
   if is_jan_push_up_3(csv_file_path):

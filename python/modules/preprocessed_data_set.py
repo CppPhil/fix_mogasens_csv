@@ -82,35 +82,41 @@ class PreprocessedDataSet:
           if row_count == 0:  # Skip the header row
             continue
 
+          if "Interpolated-Revised" in csv_file_name:
+            offset = 1
+          else:
+            offset = 0
+
           try:
             obj.time_s.append(float(row[0]))
             obj.timestamp_ms.append(int(row[1]))
-            obj.x_acc.append(float(row[2]))
-            obj.y_acc.append(float(row[3]))
-            obj.z_acc.append(float(row[4]))
-            obj.x_acc_avg.append(float(row[5]))
-            obj.y_acc_avg.append(float(row[6]))
-            obj.z_acc_avg.append(float(row[7]))
-            obj.x_acc_butter.append(float(row[8]))
-            obj.y_acc_butter.append(float(row[9]))
-            obj.z_acc_butter.append(float(row[10]))
-            obj.norm_acc.append(float(row[11]))
-            obj.norm_avg_acc.append(float(row[12]))
-            obj.norm_butter_acc.append(float(row[13]))
-            obj.rx_acc.append(float(row[14]))
-            obj.ry_acc.append(float(row[15]))
-            obj.rz_acc.append(float(row[16]))
-            obj.rx_acc_avg.append(float(row[17]))
-            obj.ry_acc_avg.append(float(row[18]))
-            obj.rz_acc_avg.append(float(row[19]))
-            obj.rx_acc_butter.append(float(row[20]))
-            obj.ry_acc_butter.append(float(row[21]))
-            obj.rz_acc_butter.append(float(row[22]))
-            obj.norm_gyro.append(float(row[23]))
-            obj.norm_avg_gyro.append(float(row[24]))
-            obj.norm_butter_gyro.append(float(row[25]))
-            obj.interpolated.append(int(row[26]))
-            obj.out_of_bounds.append(int(row[27]))
+            # If the file is Revised then column 2 is the hw_timestamp_ms column
+            obj.x_acc.append(float(row[2 + offset]))
+            obj.y_acc.append(float(row[3 + offset]))
+            obj.z_acc.append(float(row[4 + offset]))
+            obj.x_acc_avg.append(float(row[5 + offset]))
+            obj.y_acc_avg.append(float(row[6 + offset]))
+            obj.z_acc_avg.append(float(row[7 + offset]))
+            obj.x_acc_butter.append(float(row[8 + offset]))
+            obj.y_acc_butter.append(float(row[9 + offset]))
+            obj.z_acc_butter.append(float(row[10 + offset]))
+            obj.norm_acc.append(float(row[11 + offset]))
+            obj.norm_avg_acc.append(float(row[12 + offset]))
+            obj.norm_butter_acc.append(float(row[13 + offset]))
+            obj.rx_acc.append(float(row[14 + offset]))
+            obj.ry_acc.append(float(row[15 + offset]))
+            obj.rz_acc.append(float(row[16 + offset]))
+            obj.rx_acc_avg.append(float(row[17 + offset]))
+            obj.ry_acc_avg.append(float(row[18 + offset]))
+            obj.rz_acc_avg.append(float(row[19 + offset]))
+            obj.rx_acc_butter.append(float(row[20 + offset]))
+            obj.ry_acc_butter.append(float(row[21 + offset]))
+            obj.rz_acc_butter.append(float(row[22 + offset]))
+            obj.norm_gyro.append(float(row[23 + offset]))
+            obj.norm_avg_gyro.append(float(row[24 + offset]))
+            obj.norm_butter_gyro.append(float(row[25 + offset]))
+            obj.interpolated.append(int(row[26 + offset]))
+            obj.out_of_bounds.append(int(row[27 + offset]))
           except IndexError as err:
             print(
                 f"preprocessed_data_set.py: PreprocessedDataSet.from_file: IndexError for file \"{csv_file_name}\": \"{err}\", row_count: {row_count}, row: {row}",

@@ -33,6 +33,9 @@ puts('Starting to visualize the interpolated data sets...')
 csvs = Dir['./resources/preprocessed/Interpolated/*.csv'].reject do |file|
   file.include?('_with_repetition_ids')
 end
+csvs += Dir['./resources/preprocessed/Interpolated-Revised/*.csv'].reject do |file|
+  file.include?('_with_repetition_ids')
+end
 
 imus = %w[accelerometer gyroscope].freeze
 counter = 1
