@@ -6,7 +6,7 @@ options = {}
 
 OptionParser.new do |opt|
   opt.on('--skip_existing=BOOLEAN',
-         'Whether to skip already existing log files') do |o|
+         'Whether to skip already existing log files (defaults to true)') do |o|
     options[:skip_existing] = (o.casecmp 'true').zero?
   end
 
