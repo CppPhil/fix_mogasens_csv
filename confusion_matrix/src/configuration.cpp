@@ -194,7 +194,8 @@ const std::vector<std::size_t>& Configuration::windowSizeOptions() noexcept
     751,
     801,
     851,
-    901};
+    901,
+    951};
   return values;
 }
 

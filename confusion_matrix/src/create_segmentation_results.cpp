@@ -4,6 +4,8 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
+#include <pl/unreachable.hpp>
+
 #include <cl/exception.hpp>
 
 #include "create_segmentation_results.hpp"
@@ -21,6 +23,16 @@ namespace {
   unsigned result{std::thread::hardware_concurrency()};
   if (result == 0) { result = 4; }
   return result;
+}
+
+[[nodiscard]] std::string makeDots(std::size_t i)
+{
+  switch (i % 3U) {
+  case 0U: return ".  ";
+  case 1U: return ".. ";
+  case 2U: return "...";
+  }
+  PL_UNREACHABLE();
 }
 } // namespace
 
@@ -46,7 +58,8 @@ createSegmentationResults()
   std::size_t i{0};
 
   fmt::print(
-    "Importing segmentation points {} / {} ({:.2f}%) from Python...\r",
+    "Importing segmentation points from Python. Configuration {} "
+    "/ {} ({:.2f}%)...\r",
     i,
     totalCount,
     percentageOf(i, totalCount));
@@ -111,11 +124,12 @@ createSegmentationResults()
 
                 ++i;
                 fmt::print(
-                  "Importing segmentation points {} / {} ({:.2f}%) from "
-                  "Python...\r",
+                  "Importing segmentation points from Python. Configuration {} "
+                  "/ {} ({:.2f}%){}\r",
                   i,
                   totalCount,
-                  percentageOf(i, totalCount));
+                  percentageOf(i, totalCount),
+                  makeDots(i));
               }
             }
           }
@@ -134,7 +148,8 @@ createSegmentationResults()
   futures.clear();
 
   fmt::print(
-    "Importing segmentation points {} / {} ({:.2f}%) from Python...\n",
+    "Importing segmentation points from Python. Configuration {} "
+    "/ {} ({:.2f}%)...\n",
     totalCount,
     totalCount,
     percentageOf(totalCount, totalCount));

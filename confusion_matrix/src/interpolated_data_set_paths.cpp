@@ -41,7 +41,7 @@ std::vector<cl::fs::Path> revisedJan1()
 void append(std::vector<cl::fs::Path>& out, std::vector<cl::fs::Path>&& in)
 {
   out.insert(
-    out.begin(),
+    out.end(),
     std::make_move_iterator(in.begin()),
     std::make_move_iterator(in.end()));
 }
