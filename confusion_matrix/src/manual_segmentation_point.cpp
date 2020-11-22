@@ -348,8 +348,8 @@ ManualSegmentationPoint::readCsvFile()
   return result;
 }
 
-/*  Videozeit in (Fake)-Millisekunden umrechnen.
- *  Den ersten Segmentierungspunkt von den Videos in (Fake)-Millisekunden
+/* Videozeit in (Fake)-Millisekunden umrechnen.
+ * Den ersten Segmentierungspunkt von den Videos in (Fake)-Millisekunden
  * nehmen (U). Den ersten Segmentierungspunkt von Python in
  * (Real)-Millisekunden nehmen (Y). Fuer jeden weiteren Segmentierungspunkt
  * aus den Videos W die Distanz zu U berechnen. Diese Distanz (DIST U,W) auf Y

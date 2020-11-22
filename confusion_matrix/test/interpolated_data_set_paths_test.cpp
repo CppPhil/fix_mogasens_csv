@@ -2,13 +2,15 @@
 
 #include "gtest/gtest.h"
 
+#include <pl/algo/ranged_algorithms.hpp>
+
 #include "interpolated_data_set_paths.hpp"
 
 TEST(interpolatedDataSetPaths, shouldFetchPaths)
 {
   using namespace std::literals::string_literals;
 
-  const std::vector<cl::fs::Path> expectedPaths{
+  std::vector<cl::fs::Path> expectedPaths{
     "resources/preprocessed/Interpolated/2020-07-02_11.17.39_Belly.csv"s,
     "resources/preprocessed/Interpolated/2020-07-02_11.17.39_Chest.csv"s,
     "resources/preprocessed/Interpolated/2020-07-02_11.17.39_LeftArm.csv"s,
@@ -65,10 +67,10 @@ TEST(interpolatedDataSetPaths, shouldFetchPaths)
     "resources/preprocessed/Interpolated/Andre_liegestuetzen3_13_10_2020_Chest.csv"s,
     "resources/preprocessed/Interpolated/Andre_liegestuetzen3_13_10_2020_LeftArm.csv"s,
     "resources/preprocessed/Interpolated/Andre_liegestuetzen3_13_10_2020_RightArm.csv"s,
-    "resources/preprocessed/Interpolated/Jan_liegestuetzen1_13_10_2020_Belly.csv"s,
-    "resources/preprocessed/Interpolated/Jan_liegestuetzen1_13_10_2020_Chest.csv"s,
-    "resources/preprocessed/Interpolated/Jan_liegestuetzen1_13_10_2020_LeftArm.csv"s,
-    "resources/preprocessed/Interpolated/Jan_liegestuetzen1_13_10_2020_RightArm.csv"s,
+    "resources/preprocessed/Interpolated-Revised/Jan_liegestuetzen1_13_10_2020_edited_Belly.csv"s,
+    "resources/preprocessed/Interpolated-Revised/Jan_liegestuetzen1_13_10_2020_edited_Chest.csv"s,
+    "resources/preprocessed/Interpolated-Revised/Jan_liegestuetzen1_13_10_2020_edited_LeftArm.csv"s,
+    "resources/preprocessed/Interpolated-Revised/Jan_liegestuetzen1_13_10_2020_edited_RightArm.csv"s,
     "resources/preprocessed/Interpolated/Jan_liegestuetzen2_13_10_2020_Belly.csv"s,
     "resources/preprocessed/Interpolated/Jan_liegestuetzen2_13_10_2020_Chest.csv"s,
     "resources/preprocessed/Interpolated/Jan_liegestuetzen2_13_10_2020_LeftArm.csv"s,
@@ -90,7 +92,10 @@ TEST(interpolatedDataSetPaths, shouldFetchPaths)
     "resources/preprocessed/Interpolated/Lukas_liegestuetzen3_13_10_2020_LeftArm.csv"s,
     "resources/preprocessed/Interpolated/Lukas_liegestuetzen3_13_10_2020_RightArm.csv"s};
 
-  const std::vector<cl::fs::Path> actual{cm::interpolatedDataSetPaths()};
+  std::vector<cl::fs::Path> actual{cm::interpolatedDataSetPaths()};
+
+  pl::algo::sort(expectedPaths);
+  pl::algo::sort(actual);
 
   EXPECT_EQ(expectedPaths, actual);
 }

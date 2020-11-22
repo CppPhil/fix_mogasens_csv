@@ -47,6 +47,7 @@ std::string pythonOutput(
 
   std::string buffer{};
 
+  // Read
   for (int c{EOF}; (c = std::fgetc(expectedProcess->file())) != EOF;) {
     buffer.push_back(static_cast<char>(c));
   }

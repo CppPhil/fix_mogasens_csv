@@ -616,8 +616,8 @@ TEST(segment, shouldGetExpectedSegmentationPointsFromPython)
     42937);
 
   EXPECT_SEGMENTATION_POINTS(
-    "resources/preprocessed/Interpolated/"
-    "Jan_liegestuetzen1_13_10_2020_RightArm.csv",
+    "resources/preprocessed/Interpolated-Revised/"
+    "Jan_liegestuetzen1_13_10_2020_edited_RightArm.csv",
     86150,
     88785,
     92390,
@@ -726,8 +726,8 @@ TEST(segment, shouldGetExpectedSegmentationPointsFromPython)
     63075);
 
   EXPECT_SEGMENTATION_POINTS(
-    "resources/preprocessed/Interpolated/"
-    "Jan_liegestuetzen1_13_10_2020_LeftArm.csv",
+    "resources/preprocessed/Interpolated-Revised/"
+    "Jan_liegestuetzen1_13_10_2020_edited_LeftArm.csv",
     85600,
     88695,
     92450,
@@ -986,8 +986,8 @@ TEST(segment, shouldGetExpectedSegmentationPointsFromPython)
     99995);
 
   EXPECT_SEGMENTATION_POINTS(
-    "resources/preprocessed/Interpolated/"
-    "Jan_liegestuetzen1_13_10_2020_Chest.csv",
+    "resources/preprocessed/Interpolated-Revised/"
+    "Jan_liegestuetzen1_13_10_2020_edited_Chest.csv",
     86065,
     88680,
     92395,
@@ -1664,8 +1664,8 @@ TEST(segment, shouldGetExpectedSegmentationPointsFromPython)
     212640);
 
   EXPECT_SEGMENTATION_POINTS(
-    "resources/preprocessed/Interpolated/"
-    "Jan_liegestuetzen1_13_10_2020_Belly.csv",
+    "resources/preprocessed/Interpolated-Revised/"
+    "Jan_liegestuetzen1_13_10_2020_edited_Belly.csv",
     86080,
     88770,
     92415,

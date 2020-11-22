@@ -118,9 +118,8 @@ std::vector<ConfigWithTotalConfusionMatrix> confusionMatrixBestConfigs(
           const CsvFileInfo csvFileInfo{csvFilePath};
           ConfusionMatrix   pathConfusionMatrix{};
 
-          for (std::uint64_t timestamp{csvFileInfo.hardwareTimestampBegin()};
-               timestamp <= csvFileInfo.hardwareTimestampEnd();
-               timestamp += csvFileInfo.hardwareTimestampStepSize()) {
+          for (const std::uint64_t timestamp :
+               csvFileInfo.hardwareTimestamps()) {
             if (contains(pythonSegmentationPoints, timestamp)) {
               if (existsWithinDelta(manualSegPoints, timestamp)) {
                 pathConfusionMatrix.incrementTruePositives();

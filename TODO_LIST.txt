@@ -1,7 +1,3 @@
-use the new Jan1 data set
-
-read all the timestamps from the file
-
 Have a way to visualize a segmentation result in Python so that both
 the found (actual) segmentation points are visualized as well as the
 manuel ones.
