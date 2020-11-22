@@ -7,13 +7,23 @@
 
 namespace cm {
 namespace {
+/*!
+ * \brief Turns an ASCII character into lower case.
+ * \param inputCharacter The ASCII character get the lower case variant for.
+ * \return The lower case ASCII character of `inputCharacter`.
+ **/
 char toLower(char inputCharacter)
 {
   unsigned char character{static_cast<unsigned char>(inputCharacter)};
-  character |= 0b0010'0000;
+  character |= 0b0010'0000; /* Make it lower case */
   return static_cast<char>(character);
 }
 
+/*!
+ * \brief Creates a lower case ASCII string of `string`.
+ * \param string An ASCII string to lower case.
+ * \return The lower case variant of `string`.
+ **/
 std::string toLower(std::string string)
 {
   pl::algo::transform(

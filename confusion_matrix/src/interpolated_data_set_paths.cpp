@@ -12,6 +12,11 @@
 
 namespace cm {
 namespace {
+/*!
+ * \brief Fetches the revised data set paths.
+ * \return The revised data set paths.
+ * \throws cl::Exception on error.
+ **/
 std::vector<cl::fs::Path> revisedJan1()
 {
   static const std::string relativePath{
@@ -38,12 +43,18 @@ std::vector<cl::fs::Path> revisedJan1()
   return paths;
 }
 
+/*!
+ * \brief Appends a vector to another.
+ * \param out The vector to append to.
+ * \param in The vector to append (will be moved from).
+ **/
 void append(std::vector<cl::fs::Path>& out, std::vector<cl::fs::Path>&& in)
 {
   out.insert(
     out.end(),
     std::make_move_iterator(in.begin()),
     std::make_move_iterator(in.end()));
+  in = std::vector<cl::fs::Path>{};
 }
 } // namespace
 
