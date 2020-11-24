@@ -8,7 +8,6 @@
 #include "distance.hpp"
 
 namespace cm {
-
 std::uint64_t closestOne(
   std::uint64_t                     algorithmicallyDeterminedSegmentationPoint,
   const std::vector<std::uint64_t>& manualSegmentationPoints)

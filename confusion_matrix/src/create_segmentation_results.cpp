@@ -21,7 +21,7 @@ namespace {
 [[nodiscard]] unsigned hardwareThreads()
 {
   unsigned result{std::thread::hardware_concurrency()};
-  if (result == 0) { result = 4; }
+  if (result == 0) { result = 4; } // Just use 4 threads on error.
   return result;
 }
 

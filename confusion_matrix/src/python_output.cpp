@@ -9,6 +9,16 @@
 #include "python_output.hpp"
 
 namespace cm {
+/*!
+ * \def CM_SEGMENTOR
+ * \brief Object like macro for the segmentor script.
+ **/
+
+/*!
+ * \def CM_DEV_NULL
+ * \brief Object like macro for /dev/null.
+ **/
+
 #if PL_OS == PL_OS_LINUX
 #define CM_SEGMENTOR "./preprocessed_segment.sh"
 #define CM_DEV_NULL "/dev/null"

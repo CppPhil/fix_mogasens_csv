@@ -100,6 +100,7 @@ Configuration Configuration::Builder::build() const
   }                                                   \
   PL_END_MACRO
 
+  // Ensure all optionals are set.
   CM_ENSURE_HAS_VALUE(m_skipWindow);
   CM_ENSURE_HAS_VALUE(m_deleteTooClose);
   CM_ENSURE_HAS_VALUE(m_deleteTooLowVariance);
@@ -122,6 +123,7 @@ Configuration Configuration::Builder::build() const
   }                                                                         \
   PL_END_MACRO
 
+  // Ensure all optionals are set with allowable values.
   CM_ENSURE_CONTAINS(skipWindowOptions(), m_skipWindow);
   CM_ENSURE_CONTAINS(deleteTooCloseOptions(), m_deleteTooClose);
   CM_ENSURE_CONTAINS(deleteTooLowVarianceOptions(), m_deleteTooLowVariance);

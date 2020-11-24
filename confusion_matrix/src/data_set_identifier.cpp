@@ -12,16 +12,21 @@
 
 namespace cm {
 namespace {
+/*!
+ * \brief Turns a `DataSetIdentifier` into a pl::string_view.
+ * \param dsi The input `DataSetIdentifier`.
+ * \return The pl::string_view corresponding to the `DataSetIdentifier` given.
+ **/
 pl::string_view toString(DataSetIdentifier dsi)
 {
   switch (dsi) {
 #define CM_DATA_SET_IDENTIFIER_X(enm) \
-  case DataSetIdentifier::enm: return #enm;
+  case DataSetIdentifier::enm: return #enm; /* stringify */
     CM_DATA_SET_IDENTIFIER
 #undef CM_DATA_SET_IDENTIFIER
   }
 
-  PL_UNREACHABLE();
+  PL_UNREACHABLE(); // unreachable, X Macro should cover all cases.
 }
 } // namespace
 
