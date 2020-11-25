@@ -110,6 +110,8 @@ std::vector<ConfigWithTotalConfusionMatrix> confusionMatrixBestConfigs(
 {
   if (!sorter) { CL_THROW("sorter did not contain a valid target!"); }
 
+  // std::thread::hardware_concurrency returns 0 on error, in that case we just
+  // use 4 threads.
   pl::thd::thread_pool threadPool{
     std::max(std::thread::hardware_concurrency(), 4U)};
   std::vector<std::future<ConfigWithTotalConfusionMatrix>> futures{};
