@@ -99,7 +99,7 @@ int main(int argc, char* argv[])
       "\nBest configuration (disregardTrueNegativesSorter): {}\n",
       bestConfigs.front());
 
-    pl::algo::sort(bestConfigs, cm::addTrueSubtractFalseSorter);
+    pl::algo::stable_sort(bestConfigs, cm::addTrueSubtractFalseSorter);
     print("addTrueSubtractFalse\n");
     for (const cm::ConfigWithTotalConfusionMatrix& cur : bestConfigs) {
       print("{}\n", cur);
@@ -108,7 +108,7 @@ int main(int argc, char* argv[])
       "\nBest configuration (addTrueSubtractFalse): {}\n", bestConfigs.front());
 
 #define SORT_PRINT(kind)                                              \
-  pl::algo::sort(bestConfigs, cm::kind##Sorter);                      \
+  pl::algo::stable_sort(bestConfigs, cm::kind##Sorter);               \
   print("{}\n", #kind);                                               \
   for (const cm::ConfigWithTotalConfusionMatrix& cur : bestConfigs) { \
     print("{}\n", cur);                                               \

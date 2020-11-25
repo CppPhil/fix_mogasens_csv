@@ -178,7 +178,7 @@ std::vector<ConfigWithTotalConfusionMatrix> confusionMatrixBestConfigs(
     result.begin(),
     [](auto& fut) { return fut.get(); });
 
-  pl::algo::sort(result, sorter);
+  pl::algo::stable_sort(result, sorter);
 
   fmt::print(
     "                                                                   \r");
