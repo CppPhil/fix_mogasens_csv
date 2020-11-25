@@ -9,20 +9,57 @@
 #include "data_set_identifier.hpp"
 
 namespace cm {
+/*!
+ * \brief A `Configuration` with a `ConfusionMatrix`.
+ **/
 struct ConfigWithTotalConfusionMatrix {
+  /*!
+   * \brief Less than comparison for `ConfigWithTotalConfusionMatrix` objects.
+   * \param lhs The first operand.
+   * \param rhs The second operand.
+   * \return true if `lhs` is considered less than `rhs`; false otherwise.
+   * \note uses `disregardTrueNegativesSorter`.
+   **/
+  friend bool operator<(
+    const ConfigWithTotalConfusionMatrix& lhs,
+    const ConfigWithTotalConfusionMatrix& rhs) noexcept;
+
+  /*!
+   * \brief Prints a `ConfigWithTotalConfusionMatrix` to `os`.
+   * \param os The ostream to print to.
+   * \param obj The `ConfigWithTotalConfusionMatrix` to print.
+   * \return `os`
+   **/
+  friend std::ostream& operator<<(
+    std::ostream&                         os,
+    const ConfigWithTotalConfusionMatrix& obj);
+
+  /*!
+   * \brief Default constructor
+   **/
   ConfigWithTotalConfusionMatrix() = default;
 
+  /*!
+   * \brief Constructor.
+   * \param p_config The `Configuration` to use.
+   * \param p_matrix The `ConfusionMatrix` to use.
+   **/
   ConfigWithTotalConfusionMatrix(
     Configuration   p_config,
     ConfusionMatrix p_matrix);
 
-  Configuration   config;
-  ConfusionMatrix matrix;
+  Configuration   config; /*!< The `Configuration` */
+  ConfusionMatrix matrix; /*!< The associated `ConfusionMatrix` */
 };
 
+/*!
+ * \def CM_SORTER
+ * \brief Macro to define a sorter based on a single criterion for
+ *        `ConfigWithTotalConfusionMatrix` objects.
+ **/
 #define CM_SORTER(criterion, op)                                \
   inline constexpr struct {                                     \
-    bool operator()(                                            \
+    [[nodiscard]] bool operator()(                              \
       const ConfigWithTotalConfusionMatrix& lhs,                \
       const ConfigWithTotalConfusionMatrix& rhs) const noexcept \
     {                                                           \
@@ -30,19 +67,82 @@ struct ConfigWithTotalConfusionMatrix {
     }                                                           \
   } criterion##Sorter
 
+/*!
+ * \brief Sorts `ConfigWithTotalConfusionMatrix` objects by true positives
+ *        (highest first)
+ **/
 CM_SORTER(truePositives, >);
+
+/*!
+ * \brief Sorts `ConfigWithTotalConfusionMatrix` objects by true negatives
+ *        (highest first)
+ **/
 CM_SORTER(trueNegatives, >);
+
+/*!
+ * \brief Sorts `ConfigWithTotalConfusionMatrix` objects by false positives
+ *        (lowest first)
+ **/
 CM_SORTER(falsePositives, <);
+
+/*!
+ * \brief Sorts `ConfigWithTotalConfusionMatrix` objects by false negatives
+ *        (lowest first)
+ **/
 CM_SORTER(falseNegatives, <);
 
-[[nodiscard]] bool operator<(
-  const ConfigWithTotalConfusionMatrix& lhs,
-  const ConfigWithTotalConfusionMatrix& rhs) noexcept;
+/*!
+ * \brief Sorter to sort `ConfigWithTotalConfusionMatrix` objects by the
+ *        count of true positives minus the count of false positives
+ *        minus the count of false negatives.
+ **/
+inline constexpr struct {
+  [[nodiscard]] bool operator()(
+    const ConfigWithTotalConfusionMatrix& lhs,
+    const ConfigWithTotalConfusionMatrix& rhs) const noexcept
+  {
+    const std::uint64_t lhsValue{
+      lhs.matrix.truePositives() - lhs.matrix.falsePositives()
+      - lhs.matrix.falseNegatives()};
+    const std::uint64_t rhsValue{
+      rhs.matrix.truePositives() - rhs.matrix.falsePositives()
+      - rhs.matrix.falseNegatives()};
 
-std::ostream& operator<<(
-  std::ostream&                         os,
-  const ConfigWithTotalConfusionMatrix& obj);
+    return lhsValue < rhsValue;
+  }
+} disregardTrueNegativesSorter;
 
+/*!
+ * \brief Sorter to sort `ConfigWithTotalConfusionMatrix` objects by the
+ *        sum of true positives and true negatives minus the false positives
+ *        minus the false negatives.
+ **/
+inline constexpr struct {
+  [[nodiscard]] bool operator()(
+    const ConfigWithTotalConfusionMatrix& lhs,
+    const ConfigWithTotalConfusionMatrix& rhs) const noexcept
+  {
+    const std::uint64_t lhsValue{
+      lhs.matrix.truePositives() + lhs.matrix.trueNegatives()
+      - lhs.matrix.falsePositives() - lhs.matrix.falseNegatives()};
+    const std::uint64_t rhsValue{
+      rhs.matrix.truePositives() + rhs.matrix.trueNegatives()
+      - rhs.matrix.falsePositives() - rhs.matrix.falseNegatives()};
+
+    return lhsValue < rhsValue;
+  }
+} addTrueSubtractFalseSorter;
+
+/*!
+ * \brief Determines the 'best' configurations.
+ * \param manualSegmentationPoints The manual segmentation points (ground
+ *                                 truth).
+ * \param algorithmicallyDeterminedSegmentationPoints The segmentation
+ *                                                    points found by the Python
+ *                                                    application.
+ * \return A vector of `ConfigWithTotalConfusionMatrix` objects sorted by
+ *         operator<.
+ **/
 [[nodiscard]] std::vector<ConfigWithTotalConfusionMatrix>
 confusionMatrixBestConfigs(
   const std::unordered_map<DataSetIdentifier, std::vector<std::uint64_t>>&

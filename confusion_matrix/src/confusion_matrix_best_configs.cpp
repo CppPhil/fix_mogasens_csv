@@ -2,12 +2,15 @@
 #include <atomic>
 #include <ostream>
 #include <thread>
+#include <type_traits>
 #include <utility>
 
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
 #include <pl/algo/ranged_algorithms.hpp>
+#include <pl/meta/nested_types.hpp>
+#include <pl/meta/remove_cvref.hpp>
 #include <pl/numeric.hpp>
 #include <pl/thd/thread_pool.hpp>
 
@@ -17,6 +20,14 @@
 
 namespace cm {
 namespace {
+/*!
+ * \brief Checks if `container` contains `value`.
+ * \tparam Container type of `container`.
+ * \tparam Value type of `value`.
+ * \param container The container to find `value` in.
+ * \param value The value to look for.
+ * \return true if `container` contains `vaule`; otherwise false.
+ **/
 template<typename Container, typename Value>
 [[nodiscard]] bool contains(const Container& container, const Value& value)
 {
@@ -24,13 +35,28 @@ template<typename Container, typename Value>
   return it != std::end(container);
 }
 
-template<typename Container, typename Value>
+/*!
+ * \brief Checks if a uint64_t exists in `container` within a given delta.
+ * \tparam Container The type of `container`.
+ * \param container A container of uint64_t objects.
+ * \param value The value to find in `container` within a delta.
+ * return true if `value` exists in `container` within a delte; false otherwise.
+ **/
+template<typename Container>
 [[nodiscard]] bool existsWithinDelta(
   const Container& container,
-  const Value&     value)
+  std::uint64_t    value)
 {
-  // TODO: This might need to change.
-  static constexpr std::uint64_t deltaMs{450};
+  static_assert(
+    std::is_same_v<
+      pl::meta::value_type<pl::meta::remove_cvref_t<Container>>,
+      std::uint64_t>,
+    "Container in function template existsWithinDelta in file "
+    "confusion_matrix_best_configs.cpp did not have std::uint64_t as its "
+    "value_type.");
+
+  // TODO: This delta might need to change.
+  static constexpr std::uint64_t deltaMs{450}; /* milliseconds */
 
   return pl::algo::any_of(container, [value](std::uint64_t element) {
     return pl::is_between(value, element - deltaMs, element + deltaMs);
@@ -38,25 +64,11 @@ template<typename Container, typename Value>
 }
 } // namespace
 
-ConfigWithTotalConfusionMatrix::ConfigWithTotalConfusionMatrix(
-  Configuration   p_config,
-  ConfusionMatrix p_matrix)
-  : config{std::move(p_config)}, matrix{std::move(p_matrix)}
-{
-}
-
 bool operator<(
   const ConfigWithTotalConfusionMatrix& lhs,
   const ConfigWithTotalConfusionMatrix& rhs) noexcept
 {
-  const std::uint64_t lhsValue{
-    lhs.matrix.truePositives() + lhs.matrix.trueNegatives()
-    - lhs.matrix.falsePositives() - lhs.matrix.falseNegatives()};
-  const std::uint64_t rhsValue{
-    rhs.matrix.truePositives() + rhs.matrix.trueNegatives()
-    - rhs.matrix.falsePositives() - rhs.matrix.falseNegatives()};
-
-  return lhsValue < rhsValue;
+  return disregardTrueNegativesSorter(lhs, rhs);
 }
 
 std::ostream& operator<<(
@@ -81,6 +93,13 @@ std::ostream& operator<<(
            mat.falseNegatives(),
            percent(mat.falseNegatives()),
            obj.config);
+}
+
+ConfigWithTotalConfusionMatrix::ConfigWithTotalConfusionMatrix(
+  Configuration   p_config,
+  ConfusionMatrix p_matrix)
+  : config{std::move(p_config)}, matrix{std::move(p_matrix)}
+{
 }
 
 std::vector<ConfigWithTotalConfusionMatrix> confusionMatrixBestConfigs(
@@ -109,7 +128,7 @@ std::vector<ConfigWithTotalConfusionMatrix> confusionMatrixBestConfigs(
                            &config,
                            &algorithmicallyDeterminedSegmentationPoints,
                            &i] {
-        ConfusionMatrix configMatrix{};
+        ConfusionMatrix configMatrix{}; // Buffer to accumulate into
 
         for (const auto& [csvFilePath, pythonSegmentationPoints] : map) {
           const DataSetIdentifier dsi{toDataSetIdentifier(csvFilePath)};
@@ -154,8 +173,10 @@ std::vector<ConfigWithTotalConfusionMatrix> confusionMatrixBestConfigs(
   }
 
   std::vector<ConfigWithTotalConfusionMatrix> result(futures.size());
-  pl::algo::transform(
-    futures, result.begin(), [](auto& fut) { return fut.get(); });
+  pl::algo::transform( // join
+    futures,
+    result.begin(),
+    [](auto& fut) { return fut.get(); });
 
   pl::algo::sort(result);
 
