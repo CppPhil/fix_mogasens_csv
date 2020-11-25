@@ -23,7 +23,7 @@ namespace {
  * \tparam Ty The type of the value.
  * \param begin The start of the iterator range.
  * \param end The end iterator of the iterator range.
- * \param value The vaule to search for.
+ * \param value The value to search for.
  * \return true if [begin;end) contains `value`; false otherwise.
  * \note Uses a half open range.
  **/

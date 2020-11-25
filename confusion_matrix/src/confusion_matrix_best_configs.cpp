@@ -26,7 +26,7 @@ namespace {
  * \tparam Value type of `value`.
  * \param container The container to find `value` in.
  * \param value The value to look for.
- * \return true if `container` contains `vaule`; otherwise false.
+ * \return true if `container` contains `value`; otherwise false.
  **/
 template<typename Container, typename Value>
 [[nodiscard]] bool contains(const Container& container, const Value& value)
