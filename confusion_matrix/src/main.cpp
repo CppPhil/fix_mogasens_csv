@@ -88,12 +88,16 @@ int main(int argc, char* argv[])
 
     std::vector<cm::ConfigWithTotalConfusionMatrix> bestConfigs{
       cm::confusionMatrixBestConfigs(
-        manualSegmentationPoints, segmentationResults)};
-    print("operator<\n");
+        manualSegmentationPoints,
+        segmentationResults,
+        cm::disregardTrueNegativesSorter)};
+    print("disregardTrueNegativesSorter\n");
     for (const cm::ConfigWithTotalConfusionMatrix& cur : bestConfigs) {
       print("{}\n", cur);
     }
-    print("\nBest configuration (operator<): {}\n", bestConfigs.front());
+    print(
+      "\nBest configuration (disregardTrueNegativesSorter): {}\n",
+      bestConfigs.front());
 
     pl::algo::sort(bestConfigs, cm::addTrueSubtractFalseSorter);
     print("addTrueSubtractFalse\n");

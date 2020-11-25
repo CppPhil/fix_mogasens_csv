@@ -14,6 +14,8 @@
 #include <pl/numeric.hpp>
 #include <pl/thd/thread_pool.hpp>
 
+#include <cl/exception.hpp>
+
 #include "confusion_matrix_best_configs.hpp"
 #include "csv_file_info.hpp"
 #include "fetch.hpp"
@@ -64,13 +66,6 @@ template<typename Container>
 }
 } // namespace
 
-bool operator<(
-  const ConfigWithTotalConfusionMatrix& lhs,
-  const ConfigWithTotalConfusionMatrix& rhs) noexcept
-{
-  return disregardTrueNegativesSorter(lhs, rhs);
-}
-
 std::ostream& operator<<(
   std::ostream&                         os,
   const ConfigWithTotalConfusionMatrix& obj)
@@ -108,8 +103,13 @@ std::vector<ConfigWithTotalConfusionMatrix> confusionMatrixBestConfigs(
   const std::unordered_map<
     Configuration,
     std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>&
-    algorithmicallyDeterminedSegmentationPoints)
+                                             algorithmicallyDeterminedSegmentationPoints,
+  const std::function<bool(
+    const ConfigWithTotalConfusionMatrix&,
+    const ConfigWithTotalConfusionMatrix&)>& sorter)
 {
+  if (!sorter) { CL_THROW("sorter did not contain a valid target!"); }
+
   pl::thd::thread_pool threadPool{
     std::max(std::thread::hardware_concurrency(), 4U)};
   std::vector<std::future<ConfigWithTotalConfusionMatrix>> futures{};
@@ -178,7 +178,7 @@ std::vector<ConfigWithTotalConfusionMatrix> confusionMatrixBestConfigs(
     result.begin(),
     [](auto& fut) { return fut.get(); });
 
-  pl::algo::sort(result);
+  pl::algo::sort(result, sorter);
 
   fmt::print(
     "                                                                   \r");

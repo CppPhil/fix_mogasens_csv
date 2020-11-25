@@ -1,5 +1,6 @@
 #ifndef INCG_CM_CONFUSION_MATRIX_BEST_CONFIGS_HPP
 #define INCG_CM_CONFUSION_MATRIX_BEST_CONFIGS_HPP
+#include <functional>
 #include <iosfwd>
 #include <unordered_map>
 #include <vector>
@@ -13,17 +14,6 @@ namespace cm {
  * \brief A `Configuration` with a `ConfusionMatrix`.
  **/
 struct ConfigWithTotalConfusionMatrix {
-  /*!
-   * \brief Less than comparison for `ConfigWithTotalConfusionMatrix` objects.
-   * \param lhs The first operand.
-   * \param rhs The second operand.
-   * \return true if `lhs` is considered less than `rhs`; false otherwise.
-   * \note uses `disregardTrueNegativesSorter`.
-   **/
-  friend bool operator<(
-    const ConfigWithTotalConfusionMatrix& lhs,
-    const ConfigWithTotalConfusionMatrix& rhs) noexcept;
-
   /*!
    * \brief Prints a `ConfigWithTotalConfusionMatrix` to `os`.
    * \param os The ostream to print to.
@@ -140,8 +130,10 @@ inline constexpr struct {
  * \param algorithmicallyDeterminedSegmentationPoints The segmentation
  *                                                    points found by the Python
  *                                                    application.
+ * \param sorter The sorter to use.
  * \return A vector of `ConfigWithTotalConfusionMatrix` objects sorted by
- *         operator<.
+ *         `sorter`.
+ * \throws cl::Exception if `sorter` does not contain a valid target.
  **/
 [[nodiscard]] std::vector<ConfigWithTotalConfusionMatrix>
 confusionMatrixBestConfigs(
@@ -150,6 +142,9 @@ confusionMatrixBestConfigs(
   const std::unordered_map<
     Configuration,
     std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>&
-    algorithmicallyDeterminedSegmentationPoints);
+                                             algorithmicallyDeterminedSegmentationPoints,
+  const std::function<bool(
+    const ConfigWithTotalConfusionMatrix&,
+    const ConfigWithTotalConfusionMatrix&)>& sorter);
 } // namespace cm
 #endif // INCG_CM_CONFUSION_MATRIX_BEST_CONFIGS_HPP

@@ -179,25 +179,8 @@ Configuration::segmentationKindOptions() noexcept
 const std::vector<std::size_t>& Configuration::windowSizeOptions() noexcept
 {
   static const std::vector<std::size_t> values{
-    101,
-    151,
-    201,
-    251,
-    301,
-    351,
-    401,
-    451,
-    501,
-    51,
-    551,
-    601,
-    651,
-    701,
-    751,
-    801,
-    851,
-    901,
-    951};
+    3,   51,  101, 151, 201, 251, 301, 351, 401, 451,
+    501, 551, 601, 651, 701, 751, 801, 851, 901, 951};
   return values;
 }
 
