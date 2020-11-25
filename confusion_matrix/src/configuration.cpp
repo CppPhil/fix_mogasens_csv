@@ -210,9 +210,24 @@ bool operator==(const Configuration& lhs, const Configuration& rhs) noexcept
            rhs.m_filterKind);
 }
 
-bool operator!=(const Configuration& lhs, const Configuration& rhs) noexcept
+bool operator<(const Configuration& lhs, const Configuration& rhs) noexcept
 {
-  return !(lhs == rhs);
+  return std::tie(
+           lhs.m_skipWindow,
+           lhs.m_deleteTooClose,
+           lhs.m_deleteTooLowVariance,
+           lhs.m_imu,
+           lhs.m_segmentationKind,
+           lhs.m_windowSize,
+           lhs.m_filterKind)
+         < std::tie(
+           rhs.m_skipWindow,
+           rhs.m_deleteTooClose,
+           rhs.m_deleteTooLowVariance,
+           rhs.m_imu,
+           rhs.m_segmentationKind,
+           rhs.m_windowSize,
+           rhs.m_filterKind);
 }
 
 std::ostream& operator<<(std::ostream& os, const Configuration& config)

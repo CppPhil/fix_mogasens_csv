@@ -10,6 +10,7 @@
 #include <tl/optional.hpp>
 
 #include <pl/hash.hpp>
+#include <pl/total_order.hpp>
 
 #include <cl/fs/path.hpp>
 
@@ -164,12 +165,12 @@ public:
     const Configuration& rhs) noexcept;
 
   /*!
-   * \brief Compares two Configurations for inequality.
+   * \brief Less than compares two Configurations.
    * \param lhs The first operand.
    * \param rhs The second operand.
-   * \return true if `lhs` and `rhs` are considered not to be equal.
+   * \return true if `lhs` is considered less than `rhs`; otherwise false.
    **/
-  friend bool operator!=(
+  friend bool operator<(
     const Configuration& lhs,
     const Configuration& rhs) noexcept;
 
@@ -289,6 +290,8 @@ private:
   std::string m_filterKind;
   bool        m_isInitialized;
 };
+
+PL_TOTAL_ORDER(Configuration)
 } // namespace cm
 
 namespace std {

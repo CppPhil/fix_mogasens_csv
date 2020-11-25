@@ -47,14 +47,20 @@ struct ConfigWithTotalConfusionMatrix {
  * \brief Macro to define a sorter based on a single criterion for
  *        `ConfigWithTotalConfusionMatrix` objects.
  **/
-#define CM_SORTER(criterion, op)                                \
-  inline constexpr struct {                                     \
-    [[nodiscard]] bool operator()(                              \
-      const ConfigWithTotalConfusionMatrix& lhs,                \
-      const ConfigWithTotalConfusionMatrix& rhs) const noexcept \
-    {                                                           \
-      return lhs.matrix.criterion() op rhs.matrix.criterion();  \
-    }                                                           \
+#define CM_SORTER(criterion, op)                                  \
+  inline constexpr struct {                                       \
+    [[nodiscard]] bool operator()(                                \
+      const ConfigWithTotalConfusionMatrix& lhs,                  \
+      const ConfigWithTotalConfusionMatrix& rhs) const noexcept   \
+    {                                                             \
+      if (                                                        \
+        !(lhs.matrix.criterion() op rhs.matrix.criterion())       \
+        && !(rhs.matrix.criterion() op lhs.matrix.criterion())) { \
+        return lhs.config < rhs.config;                           \
+      }                                                           \
+                                                                  \
+      return lhs.matrix.criterion() op rhs.matrix.criterion();    \
+    }                                                             \
   } criterion##Sorter
 
 /*!
@@ -98,6 +104,8 @@ inline constexpr struct {
       rhs.matrix.truePositives() - rhs.matrix.falsePositives()
       - rhs.matrix.falseNegatives()};
 
+    if (lhsValue == rhsValue) { return lhs.config < rhs.config; }
+
     return lhsValue < rhsValue;
   }
 } disregardTrueNegativesSorter;
@@ -118,6 +126,8 @@ inline constexpr struct {
     const std::uint64_t rhsValue{
       rhs.matrix.truePositives() + rhs.matrix.trueNegatives()
       - rhs.matrix.falsePositives() - rhs.matrix.falseNegatives()};
+
+    if (lhsValue == rhsValue) { return lhs.config < rhs.config; }
 
     return lhsValue < rhsValue;
   }
