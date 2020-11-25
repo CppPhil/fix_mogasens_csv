@@ -97,16 +97,22 @@ inline constexpr struct {
     const ConfigWithTotalConfusionMatrix& lhs,
     const ConfigWithTotalConfusionMatrix& rhs) const noexcept
   {
-    const std::uint64_t lhsValue{
-      lhs.matrix.truePositives() - lhs.matrix.falsePositives()
-      - lhs.matrix.falseNegatives()};
-    const std::uint64_t rhsValue{
-      rhs.matrix.truePositives() - rhs.matrix.falsePositives()
-      - rhs.matrix.falseNegatives()};
+    const auto points = [](const ConfusionMatrix& matrix) -> std::uint64_t {
+      const std::uint64_t positivePoints{matrix.truePositives()};
+      const std::uint64_t negativePoints{
+        matrix.falseNegatives() + matrix.falsePositives()};
 
-    if (lhsValue == rhsValue) { return lhs.config < rhs.config; }
+      if (negativePoints > positivePoints) { return 0U; }
 
-    return lhsValue < rhsValue;
+      return positivePoints - negativePoints;
+    };
+
+    const std::uint64_t lhsPoints{points(lhs.matrix)};
+    const std::uint64_t rhsPoints{points(rhs.matrix)};
+
+    if (lhsPoints == rhsPoints) { return lhs.config < rhs.config; }
+
+    return lhsPoints > rhsPoints;
   }
 } disregardTrueNegativesSorter;
 
@@ -120,16 +126,23 @@ inline constexpr struct {
     const ConfigWithTotalConfusionMatrix& lhs,
     const ConfigWithTotalConfusionMatrix& rhs) const noexcept
   {
-    const std::uint64_t lhsValue{
-      lhs.matrix.truePositives() + lhs.matrix.trueNegatives()
-      - lhs.matrix.falsePositives() - lhs.matrix.falseNegatives()};
-    const std::uint64_t rhsValue{
-      rhs.matrix.truePositives() + rhs.matrix.trueNegatives()
-      - rhs.matrix.falsePositives() - rhs.matrix.falseNegatives()};
+    const auto points = [](const ConfusionMatrix& matrix) -> std::uint64_t {
+      const std::uint64_t positivePoints{
+        matrix.truePositives() + matrix.trueNegatives()};
+      const std::uint64_t negativePoints{
+        matrix.falseNegatives() + matrix.falsePositives()};
 
-    if (lhsValue == rhsValue) { return lhs.config < rhs.config; }
+      if (negativePoints > positivePoints) { return 0U; }
 
-    return lhsValue < rhsValue;
+      return positivePoints - negativePoints;
+    };
+
+    const std::uint64_t lhsPoints{points(lhs.matrix)};
+    const std::uint64_t rhsPoints{points(rhs.matrix)};
+
+    if (lhsPoints == rhsPoints) { return lhs.config < rhs.config; }
+
+    return lhsPoints > rhsPoints;
   }
 } addTrueSubtractFalseSorter;
 
