@@ -23,9 +23,12 @@ skip_existing = if options[:skip_existing].nil?
                 end
 
 RESOURCE_DIR = 'resources'.freeze
-PREPROCESSED_DIR = "#{RESOURCE_DIR}/preprocessed/Interpolated".freeze
+INTERPOLATED_DIR = "#{RESOURCE_DIR}/preprocessed/Interpolated".freeze
 
-CSV_FILES = Dir["#{PREPROCESSED_DIR}/*.csv"]
+csv_files = Dir["#{INTERPOLATED_DIR}/*.csv"].reject do |file|
+  file.include?('Jan_liegestuetzen1')
+end
+csv_files += Dir["#{RESOURCE_DIR}/preprocessed/Interpolated-Revised/*.csv"]
 
 SKIP_WINDOW_OPTIONS = %w[false true].freeze
 DELETE_TOO_CLOSE_OPTIONS = %w[false true].freeze
@@ -68,7 +71,7 @@ SKIP_WINDOW_OPTIONS.each do |skip_window_option|
             File.delete(file) if File.file?(file)
 
             threads << Thread.new do
-              CSV_FILES.each do |csv_file|
+              csv_files.each do |csv_file|
                 run_string = "#{script} "\
                   "--skip_window=\"#{skip_window_option}\" "\
                   "--delete_too_close=\"#{delete_too_close_option}\" "\
