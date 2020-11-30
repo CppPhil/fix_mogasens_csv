@@ -145,7 +145,7 @@ int main(int argc, char* argv[])
 
     pl::algo::stable_sort(
       logLines, [](const cs::LogLine& lhs, const cs::LogLine& rhs) {
-        return lhs.filePath() < rhs.filePath();
+        return lhs.fileName().value() < rhs.fileName().value();
       });
 
     for (const cs::LogLine& logLine : logLines) {
