@@ -137,6 +137,9 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
       }
 
+      // TODO: Consider filtering by something here
+      // TODO: e.g. only squats etc.
+
       logLines.push_back(*expectedLogLine);
     }
 

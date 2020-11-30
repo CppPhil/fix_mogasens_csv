@@ -1,6 +1,7 @@
 require 'optparse'
 require 'etc'
 require_relative 'modules/system'
+require_relative 'modules/generate_images_module'
 
 options = {}
 
@@ -26,9 +27,11 @@ RESOURCE_DIR = 'resources'.freeze
 INTERPOLATED_DIR = "#{RESOURCE_DIR}/preprocessed/Interpolated".freeze
 
 csv_files = Dir["#{INTERPOLATED_DIR}/*.csv"].reject do |file|
-  file.include?('Jan_liegestuetzen1')
+  file.include?('Jan_liegestuetzen1') || file.include?('_with_repetition_ids')
 end
-csv_files += Dir["#{RESOURCE_DIR}/preprocessed/Interpolated-Revised/*.csv"]
+csv_files += Dir["#{RESOURCE_DIR}/preprocessed/Interpolated-Revised/*.csv"].reject do |file|
+  file.include?('_with_repetition_ids')
+end
 
 SKIP_WINDOW_OPTIONS = %w[false true].freeze
 DELETE_TOO_CLOSE_OPTIONS = %w[false true].freeze
@@ -82,7 +85,7 @@ SKIP_WINDOW_OPTIONS.each do |skip_window_option|
                   "--segmentation_kind=\"#{segmentation_kind}\" "\
                   "--window_size=\"#{window_size}\" "\
                   "--filter=\"#{filter}\" "\
-                  ">> \"#{file}\""
+                  ">> \"#{file}\" 2>#{GenerateImagesModule.dev_null}"
 
                 unless system(run_string)
                   STDERR.puts("Failure invoking #{run_string}!")

@@ -20,12 +20,10 @@ preprocessed_segment.py: 39 segmentation points found in "resources/preprocessed
 preprocessed_segment.py: 56 segmentation points found in "resources/preprocessed/Interpolated/Andre_liegestuetzen1_13_10_2020_Belly.csv".
 preprocessed_segment.py: 28 segmentation points found in "resources/preprocessed/Interpolated/Jan_liegestuetzen3_13_10_2020_Chest.csv".
 preprocessed_segment.py: 53 segmentation points found in "resources/preprocessed/Interpolated/2020-07-02_14.07.33_RightArm.csv".
-preprocessed_segment.py: 64 segmentation points found in "resources/preprocessed/Interpolated/Jan_liegestuetzen1_13_10_2020_RightArm.csv".
 preprocessed_segment.py: 44 segmentation points found in "resources/preprocessed/Interpolated/Lukas_liegestuetzen2_13_10_2020_Chest.csv".
 preprocessed_segment.py: 38 segmentation points found in "resources/preprocessed/Interpolated/2020-07-02_15.31.36_Belly.csv".
 preprocessed_segment.py: 23 segmentation points found in "resources/preprocessed/Interpolated/Lukas_liegestuetzen3_13_10_2020_Belly.csv".
 preprocessed_segment.py: 46 segmentation points found in "resources/preprocessed/Interpolated/2020-07-02_14.14.32_RightArm.csv".
-preprocessed_segment.py: 66 segmentation points found in "resources/preprocessed/Interpolated/Jan_liegestuetzen1_13_10_2020_LeftArm.csv".
 preprocessed_segment.py: 23 segmentation points found in "resources/preprocessed/Interpolated/2020-07-02_14.59.59_Chest.csv".
 preprocessed_segment.py: 44 segmentation points found in "resources/preprocessed/Interpolated/Lukas_liegestuetzen2_13_10_2020_Belly.csv".
 preprocessed_segment.py: 23 segmentation points found in "resources/preprocessed/Interpolated/Lukas_liegestuetzen3_13_10_2020_Chest.csv".
@@ -36,7 +34,6 @@ preprocessed_segment.py: 28 segmentation points found in "resources/preprocessed
 preprocessed_segment.py: 42 segmentation points found in "resources/preprocessed/Interpolated/Andre_liegestuetzen2_13_10_2020_Belly.csv".
 preprocessed_segment.py: 38 segmentation points found in "resources/preprocessed/Interpolated/2020-07-02_15.13.22_LeftArm.csv".
 preprocessed_segment.py: 23 segmentation points found in "resources/preprocessed/Interpolated/2020-07-02_14.59.59_LeftArm.csv".
-preprocessed_segment.py: 65 segmentation points found in "resources/preprocessed/Interpolated/Jan_liegestuetzen1_13_10_2020_Chest.csv".
 preprocessed_segment.py: 23 segmentation points found in "resources/preprocessed/Interpolated/Lukas_liegestuetzen3_13_10_2020_LeftArm.csv".
 preprocessed_segment.py: 40 segmentation points found in "resources/preprocessed/Interpolated/2020-07-02_15.31.36_LeftArm.csv".
 preprocessed_segment.py: 33 segmentation points found in "resources/preprocessed/Interpolated/2020-07-02_13.00.09_Belly.csv".
@@ -64,7 +61,6 @@ preprocessed_segment.py: 24 segmentation points found in "resources/preprocessed
 preprocessed_segment.py: 36 segmentation points found in "resources/preprocessed/Interpolated/2020-07-02_15.13.22_Belly.csv".
 preprocessed_segment.py: 51 segmentation points found in "resources/preprocessed/Interpolated/Lukas_liegestuetzen1_13_10_2020_LeftArm.csv".
 preprocessed_segment.py: 121 segmentation points found in "resources/preprocessed/Interpolated/Andre_Squats2_13_10_2020_LeftArm.csv".
-preprocessed_segment.py: 69 segmentation points found in "resources/preprocessed/Interpolated/Jan_liegestuetzen1_13_10_2020_Belly.csv".
 preprocessed_segment.py: 36 segmentation points found in "resources/preprocessed/Interpolated/Andre_liegestuetzen3_13_10_2020_Chest.csv".
 preprocessed_segment.py: 34 segmentation points found in "resources/preprocessed/Interpolated/2020-07-02_14.20.28_RightArm.csv".
 preprocessed_segment.py: 42 segmentation points found in "resources/preprocessed/Interpolated/2020-07-02_12.50.00_Chest.csv".
@@ -78,3 +74,7 @@ preprocessed_segment.py: 117 segmentation points found in "resources/preprocesse
 preprocessed_segment.py: 52 segmentation points found in "resources/preprocessed/Interpolated/2020-07-02_11.17.39_Belly.csv".
 preprocessed_segment.py: 43 segmentation points found in "resources/preprocessed/Interpolated/Andre_liegestuetzen2_13_10_2020_RightArm.csv".
 preprocessed_segment.py: 33 segmentation points found in "resources/preprocessed/Interpolated/2020-07-02_14.20.28_LeftArm.csv".
+preprocessed_segment.py: 58 segmentation points found in "resources/preprocessed/Interpolated-Revised/Jan_liegestuetzen1_13_10_2020_edited_LeftArm.csv".
+preprocessed_segment.py: 57 segmentation points found in "resources/preprocessed/Interpolated-Revised/Jan_liegestuetzen1_13_10_2020_edited_RightArm.csv".
+preprocessed_segment.py: 58 segmentation points found in "resources/preprocessed/Interpolated-Revised/Jan_liegestuetzen1_13_10_2020_edited_Chest.csv".
+preprocessed_segment.py: 59 segmentation points found in "resources/preprocessed/Interpolated-Revised/Jan_liegestuetzen1_13_10_2020_edited_Belly.csv".
