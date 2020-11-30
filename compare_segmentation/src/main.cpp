@@ -52,6 +52,7 @@ int main(int argc, char* argv[])
   }
 
   const cs::Mode mode{*expectedMode};
+  fmt::print("{}: Mode is \"{}\".\n", thisApplication, mode);
 
   const cl::Expected<std::vector<cl::fs::Path>> expectedLogs{
     cs::logFiles(cs::logPath)};
