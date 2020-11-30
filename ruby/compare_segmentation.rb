@@ -43,7 +43,9 @@ def compare_segmentation_app(build_type, compiler)
   end
 end
 
-run_string = "#{compare_segmentation_app(build_type, compiler)} #{mode}"
+out_file = 'segmentation_comparison/out.txt'
+puts("Redirecting stdout to \"#{out_file}\".")
+run_string = "#{compare_segmentation_app(build_type, compiler)} #{mode} > #{out_file}"
 unless system(run_string)
   STDERR.puts("Failure running \"#{run_string}\", exiting.")
   exit(1)

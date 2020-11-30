@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 
   const pl::string_view thisApplication{argv[thisApplicationIndex]};
 
-  fmt::print("{}: starting\n", thisApplication);
+  fmt::print(stderr, "{}: starting\n", thisApplication);
 
   if (argc != expectedArgc) {
     fmt::print(
@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
   }
 
   const cs::Mode mode{*expectedMode};
-  fmt::print("{}: Mode is \"{}\".\n", thisApplication, mode);
+  fmt::print(stderr, "{}: Mode is \"{}\".\n", thisApplication, mode);
 
   const cl::Expected<std::vector<cl::fs::Path>> expectedLogs{
     cs::logFiles(cs::logPath)};
@@ -333,7 +333,6 @@ int main(int argc, char* argv[])
       currentLogInfoDistancePair.distanceScore);
   }
 
-  fmt::print("\n");
-  fmt::print("{}: done\n", argv[0]);
+  fmt::print(stderr, "{}: done\n", argv[0]);
   return EXIT_SUCCESS;
 }
