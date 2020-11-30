@@ -6,8 +6,12 @@ require_relative 'modules/command_line'
 MINGW_COMPILER = 'MinGW'.freeze
 MSVC_COMPILER = 'MSVC'.freeze
 
-options = CommandLine.parse([CommandLine.build_type_option, \
+options = CommandLine.parse([CommandLine.compare_segmentation_mode_option, \
+                             CommandLine.build_type_option, \
                              CommandLine.compiler_option])
+
+mode = options[:mode]
+mode = 'AllDataSets' if mode.nil?
 
 build_type = Util.build_type(options)
 
@@ -15,6 +19,7 @@ compiler = options[:compiler]
 compiler = MINGW_COMPILER if compiler.nil?
 
 puts("compare_segmentation.rb: Starting.\n"\
+     "mode is \"#{mode}\".\n"\
      "build_type is \"#{build_type}\".\n"\
      "compiler is \"#{compiler}\".")
 
@@ -38,7 +43,7 @@ def compare_segmentation_app(build_type, compiler)
   end
 end
 
-run_string = compare_segmentation_app(build_type, compiler)
+run_string = "#{compare_segmentation_app(build_type, compiler)} #{mode}"
 unless system(run_string)
   STDERR.puts("Failure running \"#{run_string}\", exiting.")
   exit(1)

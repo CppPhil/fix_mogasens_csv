@@ -13,7 +13,6 @@
 #include <csv.hpp>
 
 #include <pl/algo/ranged_algorithms.hpp>
-#include <pl/unused.hpp>
 
 #include "cl/fs/separator.hpp"
 #include "cl/to_string.hpp"
@@ -23,12 +22,36 @@
 #include "log_files.hpp"
 #include "log_info.hpp"
 #include "log_line.hpp"
+#include "mode.hpp"
 #include "paths.hpp"
 
 int main(int argc, char* argv[])
 {
-  PL_UNUSED(argc);
-  fmt::print("{}: starting\n", argv[0]);
+  constexpr int thisApplicationIndex{0};
+  constexpr int modeIndex{1};
+  constexpr int expectedArgc{2};
+
+  const pl::string_view thisApplication{argv[thisApplicationIndex]};
+
+  fmt::print("{}: starting\n", thisApplication);
+
+  if (argc != expectedArgc) {
+    fmt::print(
+      stderr,
+      "argc was {}, but it was expected to be {}! Exiting.",
+      argc,
+      expectedArgc);
+    return EXIT_FAILURE;
+  }
+
+  const cl::Expected<cs::Mode> expectedMode{cs::parseMode(argv[modeIndex])};
+
+  if (!expectedMode.has_value()) {
+    fmt::print(stderr, "Could not parse mode out of \"{}\"!", argv[modeIndex]);
+    return EXIT_FAILURE;
+  }
+
+  const cs::Mode mode{*expectedMode};
 
   const cl::Expected<std::vector<cl::fs::Path>> expectedLogs{
     cs::logFiles(cs::logPath)};
@@ -137,10 +160,46 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
       }
 
-      // TODO: Consider filtering by something here
-      // TODO: e.g. only squats etc.
+      const cs::LogLine& logLine{*expectedLogLine};
 
-      logLines.push_back(*expectedLogLine);
+      switch (mode) {
+      case cs::Mode::AllDataSets:
+        // No filter, keep all LogLines.
+        logLines.push_back(logLine);
+        break;
+      case cs::Mode::AllPushUps:
+        // All push-ups: Do not add Squats.
+        if (!pl::strcontains(logLine.filePath().str(), "Squats")) {
+          logLines.push_back(logLine);
+        }
+        break;
+      case cs::Mode::PushUps200Hz:
+        // Only add those that contain "liegestuetzen".
+        // The new (200Hz) ones all contain "liegestuetzen" as part of their
+        // file name.
+        if (pl::strcontains(logLine.filePath().str(), "liegestuetzen")) {
+          logLines.push_back(logLine);
+        }
+        break;
+      case cs::Mode::PushUps250Hz:
+        // Only add those that are "old" push-up data sets.
+        // -> Add anything that does not contain "liegestuetzen" and
+        //    also does not contain "Squats", as to keep only the "old"
+        //    push-up data sets (sampled at 250Hz).
+        if (
+          !pl::strcontains(logLine.filePath().str(), "liegestuetzen")
+          && !pl::strcontains(logLine.filePath().str(), "Squats")) {
+          logLines.push_back(logLine);
+        }
+        break;
+      case cs::Mode::Squats:
+        // Only keep the Squats:
+        // -> Only add LogLines that contain "Squats".
+        if (pl::strcontains(logLine.filePath().str(), "Squats")) {
+          logLines.push_back(logLine);
+        }
+        break;
+      }
     }
 
     pl::algo::stable_sort(

@@ -8,6 +8,7 @@ set(LIB_HEADERS
     include/log_files.hpp
     include/log_info.hpp
     include/log_line.hpp
+    include/mode.hpp
     include/paths.hpp
     include/segmentation_kind.hpp)
 
@@ -18,6 +19,7 @@ set(LIB_SOURCES
     src/log_files.cpp
     src/log_info.cpp
     src/log_line.cpp
+    src/mode.cpp
     src/segmentation_kind.cpp)
 
 add_library(${LIB_NAME} STATIC ${LIB_HEADERS} ${LIB_SOURCES})

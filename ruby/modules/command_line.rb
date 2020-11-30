@@ -17,6 +17,10 @@ module CommandLine
     'image_format'.freeze
   end
 
+  def self.compare_segmentation_mode_option
+    'mode'.freeze
+  end
+
   def self.parse(opts)
     options = {}
 
@@ -48,6 +52,13 @@ module CommandLine
         opt.on('--image_format=IMAGE_FORMAT',
                'The image format to use e.g. svg; defaults to png') do |o|
           options[:image_format] = o
+        end
+      end
+
+      if opts.include?(compare_segmentation_mode_option)
+        opt.on('--mode=MODE',
+               'The mode to use (AllDataSets | AllPushUps | PushUps250Hz | PushUps200Hz | Squats)') do |o|
+          options[:mode] = o
         end
       end
 
