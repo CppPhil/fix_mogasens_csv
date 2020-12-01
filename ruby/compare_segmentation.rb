@@ -11,12 +11,16 @@ options = CommandLine.parse([CommandLine.compare_segmentation_mode_option, \
                              CommandLine.compiler_option])
 
 mode = options[:mode]
-mode = 'AllDataSets' if mode.nil?
+if mode.nil?
+  mode = 'AllDataSets'
+end
 
 build_type = Util.build_type(options)
 
 compiler = options[:compiler]
-compiler = MINGW_COMPILER if compiler.nil?
+if compiler.nil?
+  compiler = MINGW_COMPILER
+end
 
 puts("compare_segmentation.rb: Starting.\n"\
      "mode is \"#{mode}\".\n"\
@@ -25,16 +29,16 @@ puts("compare_segmentation.rb: Starting.\n"\
 
 RESOURCES_DIR = 'resources'.freeze
 
-def compare_segmentation_app(build_type, compiler)
+def compare_segmentation_app(the_build_type, the_compiler)
   if System.os == :linux
     './build/compare_segmentation/compare_segmentation_app'
   elsif System.os == :windows
-    if compiler == MINGW_COMPILER
-      'build/compare_segmentation/compare_segmentation_app.exe'
-    elsif compiler == MSVC_COMPILER
-      "build/compare_segmentation/#{build_type}/compare_segmentation_app.exe"
+    if the_compiler == MINGW_COMPILER
+      "build\\compare_segmentation\\compare_segmentation_app.exe"
+    elsif the_compiler == MSVC_COMPILER
+      "build\\compare_segmentation\\#{the_build_type}\\compare_segmentation_app.exe"
     else
-      STDERR.puts("Unsupported compiler: \"#{compiler}\", exiting.")
+      STDERR.puts("Unsupported compiler: \"#{the_compiler}\", exiting.")
       exit(1)
     end
   else
