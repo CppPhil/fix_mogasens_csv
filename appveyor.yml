@@ -39,5 +39,5 @@ build_script:
   - cmd: count.bat --build_type=Release --compiler=%gen%
   - cmd: filter.bat --filter_sample_count=125
   - cmd: segment.bat --csv_file_path=resources/Mike/2020-07-02_14.38.40_out_avg_filter_125.csv --sensor=770 --imu=accelerometer --segmentation_kind=both --window_size=51
-  - cmd: compare_segmentation.bat --build_type=Release --compiler=%gen%
+  - cmd: compare_segmentation.bat --build_type=Release --compiler=%gen% --mode=AllDataSets
 
