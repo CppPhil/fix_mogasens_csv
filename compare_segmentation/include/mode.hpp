@@ -30,6 +30,12 @@ enum class Mode {
  **/
 std::ostream& operator<<(std::ostream& os, Mode mode);
 
+/*!
+ * \brief Parses a null-terminated byte character string as a `Mode`.
+ * \param szCmdArg A null-terminated byte character string containing
+ *                 a textual representation of a `Mode`.
+ * \return The mode parsed out of `szCmdArg` or an error.
+ **/
 [[nodiscard]] cl::Expected<Mode> parseMode(const char* szCmdArg);
 } // namespace cs
 #endif // INCG_CS_MODE_HPP
