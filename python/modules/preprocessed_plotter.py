@@ -46,7 +46,7 @@ def plot(the_imu, data_frame, segmenting_hwstamps):
     # plot_channel('x_acc_butter', 'orange', 'x butter')
     # plot_channel('y_acc_butter', 'lime', 'y butter')
     # plot_channel('z_acc_butter', 'aqua', 'z butter')
-    plot_channel('norm_avg_acc', 'navy', 'norm avg')
+    plot_channel('norm_avg_acc', 'saddlebrown', 'norm avg')
     plot_channel('norm_butter_acc', 'teal', 'norm butter')
   elif the_imu == gyroscope_string():
     # plot_channel('rx_acc_avg', 'red', 'x avg')
@@ -55,7 +55,7 @@ def plot(the_imu, data_frame, segmenting_hwstamps):
     # plot_channel('rx_acc_butter', 'orange', 'x butter')
     # plot_channel('ry_acc_butter', 'lime', 'y butter')
     # plot_channel('rz_acc_butter', 'aqua', 'z butter')
-    plot_channel('norm_avg_gyro', 'navy', 'norm avg')
+    plot_channel('norm_avg_gyro', 'saddlebrown', 'norm avg')
     plot_channel('norm_butter_acc', 'teal', 'norm butter')
   else:
     print(
