@@ -11,16 +11,12 @@ options = CommandLine.parse([CommandLine.compare_segmentation_mode_option, \
                              CommandLine.compiler_option])
 
 mode = options[:mode]
-if mode.nil?
-  mode = 'AllDataSets'
-end
+mode = 'AllDataSets' if mode.nil?
 
 build_type = Util.build_type(options)
 
 compiler = options[:compiler]
-if compiler.nil?
-  compiler = MINGW_COMPILER
-end
+compiler = MINGW_COMPILER if compiler.nil?
 
 puts("compare_segmentation.rb: Starting.\n"\
      "mode is \"#{mode}\".\n"\
@@ -34,7 +30,7 @@ def compare_segmentation_app(the_build_type, the_compiler)
     './build/compare_segmentation/compare_segmentation_app'
   elsif System.os == :windows
     if the_compiler == MINGW_COMPILER
-      "build\\compare_segmentation\\compare_segmentation_app.exe"
+      'build\\compare_segmentation\\compare_segmentation_app.exe'
     elsif the_compiler == MSVC_COMPILER
       "build\\compare_segmentation\\#{the_build_type}\\compare_segmentation_app.exe"
     else
