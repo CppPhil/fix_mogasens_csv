@@ -121,11 +121,32 @@ TEST(DataSetIdentifier, shouldConvertPaths)
      DSI::Lucas_2,        DSI::Lucas_2,        DSI::Lucas_2,
      DSI::Lucas_2,        DSI::Lucas_3,        DSI::Lucas_3,
      DSI::Lucas_3,        DSI::Lucas_3}};
-#undef DSI
 
   ASSERT_EQ(expected.size(), paths.size());
 
   for (std::size_t i{0}; i < expected.size(); ++i) {
     EXPECT_EQ(expected[i], cm::toDataSetIdentifier(paths[i]));
   }
+
+  // Test Interpolated-Revised
+  EXPECT_EQ(
+    DSI::Jan_1,
+    cm::toDataSetIdentifier("resources/preprocessed/Interpolated-Revised/"
+                            "Jan_liegestuetzen1_13_10_2020_edited_Belly.csv"));
+  EXPECT_EQ(
+    DSI::Jan_1,
+    cm::toDataSetIdentifier("resources/preprocessed/Interpolated-Revised/"
+                            "Jan_liegestuetzen1_13_10_2020_edited_Chest.csv"));
+  EXPECT_EQ(
+    DSI::Jan_1,
+    cm::toDataSetIdentifier(
+      "resources/preprocessed/Interpolated-Revised/"
+      "Jan_liegestuetzen1_13_10_2020_edited_LeftArm.csv"));
+  EXPECT_EQ(
+    DSI::Jan_1,
+    cm::toDataSetIdentifier(
+      "resources/preprocessed/Interpolated-Revised/"
+      "Jan_liegestuetzen1_13_10_2020_edited_RightArm.csv"));
+
+#undef DSI
 }
