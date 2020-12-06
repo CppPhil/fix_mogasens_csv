@@ -27,6 +27,9 @@ namespace cm {
   CM_DATA_SET_IDENTIFIER_X(Lucas_2)        \
   CM_DATA_SET_IDENTIFIER_X(Lucas_3)
 
+/*!
+ * \brief Scoped enum type for the data set identifiers.
+ **/
 enum class DataSetIdentifier {
 #define CM_DATA_SET_IDENTIFIER_X(enm) enm,
   CM_DATA_SET_IDENTIFIER
