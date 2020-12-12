@@ -21,10 +21,22 @@
 #include "order_configurations_by_quality.hpp"
 
 namespace {
+/*!
+ * \brief Constant for the output file to write to.
+ **/
 constexpr char outfile[] = "output.txt";
 
+/*!
+ * \brief Output file stream to write to `outfile`.
+ **/
 std::ofstream ofs{outfile, std::ios_base::out | std::ios_base::trunc};
 
+/*!
+ * \brief Prints the arguments given to stdout and `ofs`.
+ * \tparam Args The types of the arguments given.
+ * \param args The arguments
+ * \return void
+ **/
 template<typename... Args>
 decltype(auto) print(Args&&... args)
 {
@@ -33,6 +45,12 @@ decltype(auto) print(Args&&... args)
 }
 } // namespace
 
+/*!
+ * \brief Entry point.
+ * \param argc Argument count.
+ * \param argv Argument values.
+ * \return EXIT_SUCCESS on success; otherwise EXIT_FAILURE.
+ **/
 int main(int argc, char* argv[])
 {
   PL_UNUSED(argc);
@@ -71,6 +89,7 @@ int main(int argc, char* argv[])
           /* manualSegmentationPoints */ manualSegmentationPointsMap,
           /* pythonResult */ cm::fetch(segmentationResults, exampleConfig))};
 
+    // This old code is based on the distance scores and doesn't work too well.
     /*
     const std::vector<cm::ConfigWithDistanceScore> bestConfigurations{
       cm::orderConfigurationsByQuality(
