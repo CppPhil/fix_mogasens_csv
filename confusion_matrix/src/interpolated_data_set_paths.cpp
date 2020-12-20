@@ -25,6 +25,7 @@ std::vector<cl::fs::Path> revisedJan1()
   cl::Expected<std::vector<cl::fs::Path>> expectedPaths{
     cl::fs::directoryListing(relativePath)};
 
+  // On error: throw exception.
   if (!expectedPaths.has_value()) { expectedPaths.error().raise(); }
 
   std::vector<cl::fs::Path> paths{*std::move(expectedPaths)};
@@ -66,6 +67,7 @@ std::vector<cl::fs::Path> interpolatedDataSetPaths()
   cl::Expected<std::vector<cl::fs::Path>> expectedPaths{
     cl::fs::directoryListing(relativeInterpolatedPath)};
 
+  // On error: throw exception.
   if (!expectedPaths.has_value()) { expectedPaths.error().raise(); }
 
   std::vector<cl::fs::Path> paths{*std::move(expectedPaths)};

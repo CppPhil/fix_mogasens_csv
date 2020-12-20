@@ -24,6 +24,7 @@ namespace {
     const cl::Expected<std::uint64_t> expectedInteger{
       cl::s2n<std::uint64_t>(string)};
 
+    // On error: throw exception.
     if (!expectedInteger.has_value()) { expectedInteger.error().raise(); }
 
     result[i] = *expectedInteger;

@@ -1,6 +1,7 @@
 #include <ostream>
 
 #include <pl/algo/ranged_algorithms.hpp>
+#include <pl/inline.hpp>
 #include <pl/unreachable.hpp>
 
 #include "imu.hpp"
@@ -12,7 +13,7 @@ namespace {
  * \param inputCharacter The ASCII character get the lower case variant for.
  * \return The lower case ASCII character of `inputCharacter`.
  **/
-char toLower(char inputCharacter)
+PL_ALWAYS_INLINE char toLower(char inputCharacter)
 {
   unsigned char character{static_cast<unsigned char>(inputCharacter)};
   character |= 0b0010'0000; /* Make it lower case */

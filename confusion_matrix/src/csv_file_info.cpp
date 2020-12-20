@@ -35,6 +35,7 @@ CsvFileInfo::CsvFileInfo(const cl::fs::Path& csvFilePath)
         const cl::Expected<std::uint64_t> expectedHardwareTimestamp{
           cl::s2n<std::uint64_t>(hardwareTimestampString)};
 
+        // On error: throw exception.
         if (!expectedHardwareTimestamp.has_value()) {
           expectedHardwareTimestamp.error().raise();
         }

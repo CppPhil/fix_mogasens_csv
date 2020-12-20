@@ -383,6 +383,7 @@ Configuration::importSegmentationPoints() const
     std::vector<std::uint64_t> segmentationPoints{};
     for (const std::string& string : segmentationPointsAsStrings) {
       const auto exp{cl::s2n<std::uint64_t>(string)};
+      // On error: throw exception.
       if (!exp.has_value()) { exp.error().raise(); }
       segmentationPoints.push_back(*exp);
     }

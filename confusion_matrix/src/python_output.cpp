@@ -53,6 +53,7 @@ std::string pythonOutput(
   cl::Expected<cl::Process> expectedProcess{
     cl::Process::create(command, readMode)};
 
+  // On error: throw exception.
   if (!expectedProcess.has_value()) { expectedProcess.error().raise(); }
 
   std::string buffer{};

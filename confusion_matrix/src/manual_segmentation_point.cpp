@@ -46,6 +46,7 @@ namespace {
     // Convert the string to an integer.
     const cl::Expected<std::uint32_t> expected{cl::s2n<std::uint32_t>(buffer)};
 
+    // On error: throw exception.
     if (!expected.has_value()) { expected.error().raise(); }
 
     return *expected;
@@ -112,6 +113,7 @@ struct TimePoint {
     const cl::Expected<std::uint32_t> expectedFrame{
       cl::s2n<std::uint32_t>(frameString)};
 
+    // On error: throw exception.
     if (!expectedFrame.has_value()) { expectedFrame.error().raise(); }
 
     const std::uint32_t frame{*expectedFrame};
