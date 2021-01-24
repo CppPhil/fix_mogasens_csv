@@ -1,4 +1,0 @@
-Have a way to visualize a segmentation result in Python so that both
-the found (actual) segmentation points are visualized as well as the
-manuel ones.
-
