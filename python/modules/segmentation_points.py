@@ -31,10 +31,6 @@ def segmentation_points_impl(data, window_size, skip_window,
           is_local_minimum = False
       if is_local_minimum:
         extremum_indices.append(current_index)
-      if skip_window:
-        current_index = window_end + 1
-      else:
-        current_index = current_index + 1
     if segmentation_kind & SegmentationKind.LOCAL_MAXIMA:
       is_local_maximum = True
       for i in range(window_begin, window_end + 1):
@@ -42,8 +38,8 @@ def segmentation_points_impl(data, window_size, skip_window,
           is_local_maximum = False
       if is_local_maximum:
         extremum_indices.append(current_index)
-      if skip_window:
-        current_index = window_end + 1
-      else:
-        current_index = current_index + 1
+    if skip_window:
+      current_index = window_end + 1
+    else:
+      current_index = current_index + 1
   return extremum_indices
