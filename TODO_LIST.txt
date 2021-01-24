@@ -1,0 +1,4 @@
+Ensure that the log files are the same for
+ -> segmentation_comparison
+ -> confusion_matrix
+
