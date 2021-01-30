@@ -13,7 +13,12 @@
 
 namespace cl {
 namespace {
-inline pl::string_view kind_to_string(Error::Kind kind)
+/*!
+ * \brief Converts a kind enumerator to a string_view.
+ * \param kind The kind enumerator to convert.
+ * \return The resulting string_view.
+ **/
+inline pl::string_view kindToString(Error::Kind kind)
 {
   switch (kind) {
 #define CL_ERROR_KIND_X(kind) \
@@ -22,7 +27,7 @@ inline pl::string_view kind_to_string(Error::Kind kind)
 #undef CL_ERROR_KIND_X
   }
 
-  assert(false && "Unhandled enumerator in error.cpp:kind_to_string, this should never happen!");
+  assert(false && "Unhandled enumerator in error.cpp:kindToString, this should never happen!");
   return "ERROR_FAILURE_TO_SERIALIZE";
 }
 } // namespace
@@ -36,7 +41,7 @@ std::ostream& operator<<(std::ostream& os, const Error& error)
   "function": "{}",
   "line": {},
   "message": "{}"}})",
-           kind_to_string(error.kind()),
+           kindToString(error.kind()),
            error.file(),
            error.function(),
            error.line(),
