@@ -86,6 +86,7 @@ std::vector<cl::fs::Path> interpolatedDataSetPaths()
     return cl::fs::Path{relativeInterpolatedPath + "/" + path.str()};
   });
 
+  // We need to use the revised Jan 1 rather than the original.
   append(paths, revisedJan1());
   return paths;
 }

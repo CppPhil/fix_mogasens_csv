@@ -12,6 +12,7 @@ std::uint64_t closestOne(
   std::uint64_t                     algorithmicallyDeterminedSegmentationPoint,
   const std::vector<std::uint64_t>& manualSegmentationPoints)
 {
+  /* Dummy values by default */
   std::uint64_t               smallestDistance{UINT64_MAX};
   tl::optional<std::uint64_t> closest{tl::nullopt};
 
@@ -19,6 +20,7 @@ std::uint64_t closestOne(
     const std::uint64_t dist{distance(
       algorithmicallyDeterminedSegmentationPoint, manualSegmentationPoint)};
 
+    /* Update */
     if (dist < smallestDistance) {
       smallestDistance = dist;
       closest          = manualSegmentationPoint;

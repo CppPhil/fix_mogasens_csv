@@ -7,7 +7,7 @@
 
 namespace cs {
 /*!
- * \brief The segmentation kind.
+ * \brief The segmentation kind (bitflag type)
  **/
 enum class SegmentationKind : pl::byte {
   Minima = 0b0000'0001,    /*!< Segmentation by local minima */
@@ -15,6 +15,7 @@ enum class SegmentationKind : pl::byte {
   Both   = Minima | Maxima /*!< Segmentation by both local extrema */
 };
 
+// Generate the bitwise operators.
 PL_ENABLE_BITMASK_OPERATORS(SegmentationKind)
 
 /*!

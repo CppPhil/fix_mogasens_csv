@@ -5,6 +5,14 @@
 #include "cl/sensor.hpp"
 
 namespace ctg {
+/*!
+ * \brief Returns half of the maximum for the given sensor, channel and data
+ *        set.
+ * \param sensor The sensor.
+ * \param channel The channel.
+ * \param dataSet The data set.
+ * \return Half of the maximum.
+ **/
 long double halfMaximumComparisonValueCalculator(
   cl::Sensor         sensor,
   cl::Channel        channel,

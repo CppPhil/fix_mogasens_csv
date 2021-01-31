@@ -12,6 +12,15 @@
 #include "cl/error.hpp"
 
 namespace cl {
+/*!
+ * \brief Converts a string to an integer type.
+ * \tparam Integer The integer type to convert to.
+ * \param str The string to convert.
+ * \param pos Address of an integer to store the number of characters processed
+ *            (may be nullptr).
+ * \param base The base to use (not used for floating point types).
+ * \result The resulting number or on error.
+ **/
 template<typename Integer>
 inline Expected<Integer> s2n(
   const std::string&   str,

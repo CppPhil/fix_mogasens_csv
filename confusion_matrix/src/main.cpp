@@ -23,6 +23,7 @@
 namespace {
 /*!
  * \brief Constant for the output file to write to.
+ * \note The 'output' of this application will be written to this file.
  **/
 constexpr char outfile[] = "output.txt";
 
@@ -50,6 +51,11 @@ decltype(auto) print(Args&&... args)
  * \param argc Argument count.
  * \param argv Argument values.
  * \return EXIT_SUCCESS on success; otherwise EXIT_FAILURE.
+ *
+ * This confusion_matrix_app C++ application generates the confusion matrices of
+ * the different configurations of the Python segmentation algorithm and
+ * compares them. The comparison is based on the (inaccurate) ground truth that
+ * has been manually extracted from the video recordings of the exercises.
  **/
 int main(int argc, char* argv[])
 {
@@ -57,9 +63,7 @@ int main(int argc, char* argv[])
   cl::useUnbufferedIo();
   fmt::print("{}: Starting.\n", argv[0]);
 
-  try { // TODO: HERE
-    // TODO: This is just experimental.
-
+  try {
     // Manual ones as offsets from video start
     const std::unordered_map<
       cm::DataSetIdentifier,
@@ -118,6 +122,7 @@ int main(int argc, char* argv[])
       "\nBest configuration (disregardTrueNegativesSorter): {}\n",
       bestConfigs.front());
 
+    // This 'addTrueSubtractFalseSorter' seems to work the best.
     pl::algo::stable_sort(bestConfigs, cm::addTrueSubtractFalseSorter);
     print("addTrueSubtractFalse\n");
     for (const cm::ConfigWithTotalConfusionMatrix& cur : bestConfigs) {

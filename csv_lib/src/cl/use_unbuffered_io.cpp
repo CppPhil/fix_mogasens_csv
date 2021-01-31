@@ -8,8 +8,11 @@
 namespace cl {
 void useUnbufferedIo()
 {
+  // No buffers for C output streams.
   std::setbuf(stdout, nullptr);
   std::setbuf(stderr, nullptr);
+
+  // No buffers for C++ output streams.
   std::cout << std::unitbuf;
   std::cerr << std::unitbuf;
   std::wcout << std::unitbuf;

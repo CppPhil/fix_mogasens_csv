@@ -21,6 +21,11 @@
 #include "is_relevant.hpp"
 #include "run_above_threshold.hpp"
 
+/*!
+ * \brief This application counts the amount of data points above / below the
+ *        maximum / minimum allowed values. And determines which channels
+ *        are not revelant for which sensors in which data sets.
+ **/
 int main(int argc, char* argv[])
 {
   constexpr int         minimumArgumentCount{2};

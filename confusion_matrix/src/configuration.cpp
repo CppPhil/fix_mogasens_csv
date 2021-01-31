@@ -145,6 +145,8 @@ Configuration Configuration::Builder::build() const
     *m_filterKind};
 }
 
+// These static constants of the different options can be edited to
+// disable / enable some. Obviously that requires rebuilding and running.
 const std::deque<bool>& Configuration::skipWindowOptions() noexcept
 {
   static const std::deque<bool> options{false, true};
@@ -172,12 +174,14 @@ const std::vector<Imu>& Configuration::imuOptions() noexcept
 const std::vector<std::string>&
 Configuration::segmentationKindOptions() noexcept
 {
+  /* Only "both", "max", "min" strings are acceptable */
   static const std::vector<std::string> values{"both", "max", "min"};
   return values;
 }
 
 const std::vector<std::size_t>& Configuration::windowSizeOptions() noexcept
 {
+  /* These sizes have to be odd numbers and must be >= 3 */
   static const std::vector<std::size_t> values{
     3,   51,  101, 151, 201, 251, 301, 351, 401, 451,
     501, 551, 601, 651, 701, 751, 801, 851, 901, 951};
@@ -186,6 +190,7 @@ const std::vector<std::size_t>& Configuration::windowSizeOptions() noexcept
 
 const std::vector<std::string>& Configuration::filterKindOptions() noexcept
 {
+  /* Available filters: "average" and "butterworth" */
   static const std::vector<std::string> values{"average", "butterworth"};
   return values;
 }

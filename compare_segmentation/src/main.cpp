@@ -25,6 +25,23 @@
 #include "mode.hpp"
 #include "paths.hpp"
 
+/*!
+ * \brief The entry point.
+ * \param argc The count of command line arguments.
+ * \param argv The command line arguments.
+ * \return EXIT_SUCCESS on success or EXIT_FAILURE on failure.
+ * \note The command line arguments will include this application os the 0th
+ *       argument.
+ *
+ * This compare_segmentation_app will compare the different configurations
+ * of the Python segmentation algorithm by comparing the amount of
+ * segmentation points found. The amounts of segmentation points found
+ * are compared with the expected amount.
+ * Note that the placement of the segmentation points found is not
+ * considered at all, merely the count of them is considered.
+ * See https://git.csti.haw-hamburg.de/mogasens/dataanalyzer for Andre's MATLAB
+ * application that preprocesses the raw CSV files.
+ **/
 int main(int argc, char* argv[])
 {
   constexpr int thisApplicationIndex{0};
@@ -44,6 +61,7 @@ int main(int argc, char* argv[])
     return EXIT_FAILURE;
   }
 
+  // Parse the mode that we're supposed to use.
   const cl::Expected<cs::Mode> expectedMode{cs::parseMode(argv[modeIndex])};
 
   if (!expectedMode.has_value()) {
@@ -67,8 +85,12 @@ int main(int argc, char* argv[])
   }
 
   const std::vector<cl::fs::Path>&              logs{*expectedLogs};
-  const cl::Expected<std::vector<cl::fs::Path>> expectedOldLogs{
-    cs::logFiles(cs::oldLogPath)};
+  const cl::Expected<std::vector<cl::fs::Path>> expectedOldLogs{cs::logFiles(
+    cs::oldLogPath)}; /* These 'old' logs are not really used anymore, they're
+                       * the old logs of the old .csv files that were generated
+                       * using the fix_csv C++ application rather than Andre's
+                       * MATLAB application
+                       */
 
   if (!expectedOldLogs.has_value()) {
     fmt::print(
@@ -85,6 +107,7 @@ int main(int argc, char* argv[])
   constexpr char csvFilePath[]
     = "segmentation_comparison" CL_FS_SEPARATOR "out.csv";
 
+  // Try to open the file.
   std::ofstream ofs{csvFilePath, std::ios_base::out | std::ios_base::trunc};
 
   if (!ofs) {
@@ -94,7 +117,7 @@ int main(int argc, char* argv[])
 
   auto csvWriter = csv::make_csv_writer(ofs);
 
-  // Add column headers.
+  // Add column headers. (Write them to the file)
   csvWriter << std::vector<std::string>{
     "skip_window?",
     "delete too close?",
@@ -119,7 +142,7 @@ int main(int argc, char* argv[])
 
   std::vector<LogInfoDistancePair> logInfoDistancePairVector{};
 
-  // PREPROCESSED
+  // PREPROCESSED (generated using Andre's MATLAB application)
   for (const cl::fs::Path& preprocessedPath : logs) {
     const cl::Expected<cs::LogInfo> expectedLogInfo{
       cs::LogInfo::create(preprocessedPath)};
@@ -257,7 +280,8 @@ int main(int argc, char* argv[])
     bestOne,
     bestTotalDistance);
 
-  // OLD
+  // OLD (generated using the old fix_csv C++ application, not really used
+  // anymore)
   for (const cl::fs::Path& oldPath : oldLogs) {
     const cl::Expected<cs::LogInfo> expectedLogInfo{
       cs::LogInfo::create(oldPath)};

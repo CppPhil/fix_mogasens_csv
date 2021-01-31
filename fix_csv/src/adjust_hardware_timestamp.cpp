@@ -18,6 +18,7 @@ void adjustHardwareTimestamp(
   const std::string& nextRowHardwareTimestamp,
   std::uint64_t*     overflowCount)
 {
+  // convert to unsigned long long
   const auto cellValueExpected{cl::s2n<unsigned long long>(*cellContent)};
 
   if (!cellValueExpected.has_value()) {

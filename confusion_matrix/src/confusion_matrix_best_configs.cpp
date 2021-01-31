@@ -57,7 +57,7 @@ template<typename Container>
     "confusion_matrix_best_configs.cpp did not have std::uint64_t as its "
     "value_type.");
 
-  // TODO: This delta might need to change.
+  // TODO: This delta might need to change. (450 milliseconds seems to be OK)
   static constexpr std::uint64_t deltaMs{450}; /* milliseconds */
 
   return pl::algo::any_of(container, [value](std::uint64_t element) {
@@ -70,8 +70,9 @@ std::ostream& operator<<(
   std::ostream&                         os,
   const ConfigWithTotalConfusionMatrix& obj)
 {
-  const auto& mat{obj.matrix};
+  const auto& mat{obj.matrix}; /* matrix */
 
+  // Lambda to calculate the percentages.
   const auto percent = [&mat](std::uint64_t val) {
     return static_cast<long double>(val) / mat.totalCount() * 100.0L;
   };
@@ -108,6 +109,7 @@ std::vector<ConfigWithTotalConfusionMatrix> confusionMatrixBestConfigs(
     const ConfigWithTotalConfusionMatrix&,
     const ConfigWithTotalConfusionMatrix&)>& sorter)
 {
+  // A std::function may be in a 'null' state.
   if (!sorter) { CL_THROW("sorter did not contain a valid target!"); }
 
   // std::thread::hardware_concurrency returns 0 on error, in that case we just
@@ -116,7 +118,8 @@ std::vector<ConfigWithTotalConfusionMatrix> confusionMatrixBestConfigs(
     std::max(std::thread::hardware_concurrency(), 4U)};
   std::vector<std::future<ConfigWithTotalConfusionMatrix>> futures{};
 
-  std::atomic_size_t i{0};
+  std::atomic_size_t i{
+    0}; // Atomic counter for the number of the current configuration.
   for (const std::pair<
          const Configuration,
          std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>& pair :

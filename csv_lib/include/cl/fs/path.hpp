@@ -82,9 +82,11 @@ private:
   std::string m_path;
 };
 
+// Make it comparable.
 PL_TOTAL_ORDER(Path)
 } // namespace cl::fs
 
+// Make it hashable.
 namespace std {
 template<>
 struct hash<::cl::fs::Path> {

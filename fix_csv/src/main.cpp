@@ -23,6 +23,9 @@
 #include "restore_from_backup.hpp"
 #include "write_file.hpp"
 
+/*!
+ * \brief Ye olde fix_csv C++ application.
+ **/
 int main(int argc, char* argv[])
 {
   constexpr int         expectedArgumentCount{2};

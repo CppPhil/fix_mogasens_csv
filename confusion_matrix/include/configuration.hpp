@@ -291,14 +291,17 @@ private:
   bool        m_isInitialized;
 };
 
+// Generate the other comparison operators. (Requires operator== and operator<)
 PL_TOTAL_ORDER(Configuration)
 } // namespace cm
 
+// Make the type hashable.
 namespace std {
 template<>
 struct hash<::cm::Configuration> {
   size_t operator()(const ::cm::Configuration& configuration) const
   {
+    // The classic hash combine.
     return ::pl::hash(
       configuration.m_skipWindow,
       configuration.m_deleteTooClose,

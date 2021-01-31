@@ -13,11 +13,25 @@
 
 namespace cm {
 namespace {
+/*!
+ * \brief Calculates what percentage `x` is of `y`.
+ * \param x The first argument.
+ * \param y The second argument.
+ * \return The percentage that `x` is of `y`.
+ *
+ * Calculates what percentage `x` is of `y`.
+ * E.g., if `x` is 2 and `y` is 6 the return value will be 33.333333333, because
+ * `x` is one third of `y`.
+ **/
 [[nodiscard]] long double percentageOf(std::size_t x, std::size_t y)
 {
   return (static_cast<long double>(x) / static_cast<long double>(y)) * 100.0L;
 }
 
+/*!
+ * \brief Returns the amount of hardware threads.
+ * \return The amount of hardware threads.
+ **/
 [[nodiscard]] unsigned hardwareThreads()
 {
   unsigned result{std::thread::hardware_concurrency()};
@@ -25,6 +39,11 @@ namespace {
   return result;
 }
 
+/*!
+ * \brief Creates dots.
+ * \param i How many dots to create.
+ * \return Maps `i` to the corresponding amount of dots.
+ **/
 [[nodiscard]] std::string makeDots(std::size_t i)
 {
   switch (i % 3U) {
@@ -46,8 +65,14 @@ createSegmentationResults()
     std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>
     segmentationResults{};
 
+  // We use a custom vector of strings for the segmentation kinds
+  // rather than the one defined by `Configuration`, because
+  // we only want to consider configurations using "both" as the
+  // segmentation kind as the ground truth is based on that
+  // same segmentation kind as well.
   const std::vector<std::string> segmentationKinds{"both"};
 
+  // The total count of configurations.
   const std::size_t totalCount{
     Configuration::skipWindowOptions().size()
     * Configuration::deleteTooCloseOptions().size()
@@ -55,7 +80,7 @@ createSegmentationResults()
     * Configuration::imuOptions().size() * segmentationKinds.size()
     * Configuration::windowSizeOptions().size()
     * Configuration::filterKindOptions().size()};
-  std::size_t i{0};
+  std::size_t i{0}; // Counter for the current configuration.
 
   fmt::print(
     "Importing segmentation points from Python. Configuration {} "
@@ -90,16 +115,20 @@ createSegmentationResults()
                     .filterKind(filterKindOption)
                     .build()};
 
+                // If the file exists we just read the cached result from it.
                 if (configuration.createFilePath().isFile()) {
                   std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>
                     fromFile{configuration.importSegmentationPoints()};
                   segmentationResults[configuration] = std::move(fromFile);
                 }
                 else {
+                  // Otherwise we have to generate the result.
                   futures.push_back(
                     std::async(std::launch::async, [configuration] {
-                      auto map{segment(configuration)};
+                      auto map{segment(
+                        configuration)}; /* Invoke the Python segmentor */
 
+                      // Try to write the result to the file.
                       if (!configuration.serializeSegmentationPoints(map)) {
                         CL_THROW_FMT(
                           "Could not serialize to \"{}\"!",
@@ -109,6 +138,7 @@ createSegmentationResults()
                       return std::make_pair(configuration, std::move(map));
                     }));
 
+                  // For each batch of hardwareThreads count, join the futures.
                   if ((i % hardwareThreads()) == 0U) {
                     for (std::future<std::pair<
                            Configuration,
@@ -138,6 +168,7 @@ createSegmentationResults()
     }
   }
 
+  // Join any remaining futures.
   for (std::future<std::pair<
          Configuration,
          std::unordered_map<cl::fs::Path, std::vector<std::uint64_t>>>>&

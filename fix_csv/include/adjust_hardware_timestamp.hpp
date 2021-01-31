@@ -5,6 +5,13 @@
 #include <string>
 
 namespace fmc {
+/*!
+ * \brief Adjust the hardware timestamp.
+ * \param cellContent Pointer to the string of a cell containing a hardware
+ *                    timestamp.
+ * \param nextRowHardwareTimestamp The harware timestamp in the next row.
+ * \param overflowCount Pointer to the uint64_t that counts the overflows.
+ **/
 void adjustHardwareTimestamp(
   std::string*       cellContent,
   const std::string& nextRowHardwareTimestamp,

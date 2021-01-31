@@ -12,6 +12,9 @@
 #include "data_set_identifier.hpp"
 
 namespace cm {
+/* This old distance score based approach for the confusion matrices didn't work
+ * too well and was discarded.
+ */
 struct ConfigWithDistanceScore {
   ConfigWithDistanceScore(Configuration p_config, std::uint64_t p_distScore);
 

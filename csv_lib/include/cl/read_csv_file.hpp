@@ -8,8 +8,23 @@
 #include "cl/error.hpp"
 
 namespace cl {
-enum class CsvFileKind { Raw, Fixed };
+/*!
+ * \brief Scoped enum for the CSV file kinds.
+ **/
+enum class CsvFileKind {
+  Raw,  /*!< A raw CSV file */
+  Fixed /*!< A CSV file that's been fixed by the fix_csv application */
+};
 
+/*!
+ * \brief Reads a CSV file.
+ * \param csvFilePath The path to the CSV file.
+ * \param columnNames An output pointer to write the column names (headers)
+ *                    into. Can be nullptr if the column names should not be
+ *                    extracted.
+ * \param csvFileKind The kind of CSV file.
+ * \return The resulting matrix or an error.
+ **/
 [[nodiscard]] Expected<std::vector<std::vector<std::string>>> readCsvFile(
   pl::string_view           csvFilePath,
   std::vector<std::string>* columnNames = nullptr,

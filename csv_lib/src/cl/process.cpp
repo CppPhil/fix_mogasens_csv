@@ -35,6 +35,8 @@ namespace {
 
 Expected<Process> Process::create(pl::string_view command, pl::string_view mode)
 {
+// For Microsoft Windows we replace any forward slashes in command with
+// backslashes.
 #if PL_OS == PL_OS_WINDOWS
   std::string copy{command.to_string()};
   pl::algo::replace(copy, '/', '\\');

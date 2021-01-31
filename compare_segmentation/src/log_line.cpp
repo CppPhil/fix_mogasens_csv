@@ -32,6 +32,8 @@ cl::Expected<LogLine> LogLine::parse(const std::string& line)
 {
   const bool isOld{isOldPath(line)};
 
+  // C++ uses the ECMAScript regex syntax by default, see:
+  // http://www.cplusplus.com/reference/regex/ECMAScript/
   static constexpr char regularExpressionString[]
     = R"~(^.*\.py:\s(\d+)\ssegmentation\spoints\sfound\sin\s"(resources/[[:graph:]]+\.csv)"\.$)~";
 
@@ -85,7 +87,7 @@ cl::Expected<LogLine> LogLine::parse(const std::string& line)
     return LogLine{segmentationPointCountValue, filePathString, invalidSensor};
   }
   else {
-    // preprocessed
+    // preprocessed (generated using MATLAB)
 
     // Lambda to check if filePathString ends with a given string.
     const auto endsWith = [&filePathString](pl::string_view needle) {
@@ -96,6 +98,9 @@ cl::Expected<LogLine> LogLine::parse(const std::string& line)
     using namespace pl::literals::string_view_literals;
     std::uint64_t sensorValue{invalidSensor};
 
+    // Map them to the sensor values.
+    // These sensor values correspond the the ExtractIDs in the original CSV
+    // files.
     if (endsWith("Belly.csv"_sv)) { sensorValue = 770; }
     else if (endsWith("Chest.csv"_sv)) {
       sensorValue = 772;

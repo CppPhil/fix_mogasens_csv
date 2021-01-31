@@ -120,6 +120,7 @@ inline constexpr struct {
  * \brief Sorter to sort `ConfigWithTotalConfusionMatrix` objects by the
  *        sum of true positives and true negatives minus the false positives
  *        minus the false negatives.
+ * \note This one works the best.
  **/
 inline constexpr struct {
   [[nodiscard]] bool operator()(

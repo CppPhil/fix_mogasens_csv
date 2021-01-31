@@ -5,6 +5,11 @@
 #include "cl/data_set.hpp"
 
 namespace ctg {
+/*!
+ * \brief Routine to find the aboe threshold values.
+ * \param aboveThresholdLogOutputFileStream The stream to write to.
+ * \param dataSet The data set.
+ **/
 void runAboveThreshold(
   std::ostream&      aboveThresholdLogOutputFileStream,
   const cl::DataSet& dataSet);

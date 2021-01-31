@@ -35,6 +35,10 @@ std::string pythonOutput(
 {
   constexpr pl::string_view readMode{"r"};
 
+  // Using 2>&1 > /dev/null
+  // we redirect stderr to stdout and redirect the original stdout to /dev/null.
+  // This silences the original stdout and allows us to read the original stderr
+  // from stdout using cl::Process.
   const std::string command{fmt::format(
     CM_SEGMENTOR
     " --skip_window={} --delete_too_close={} "
@@ -58,7 +62,7 @@ std::string pythonOutput(
 
   std::string buffer{};
 
-  // Read
+  // Read from stdout of the process
   for (int c{EOF}; (c = std::fgetc(expectedProcess->file())) != EOF;) {
     buffer.push_back(static_cast<char>(c));
   }
