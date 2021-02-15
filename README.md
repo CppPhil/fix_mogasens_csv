@@ -4,7 +4,14 @@ This git repository contains the source code developed for my bachelor's thesis 
 TODO: TABLE OF CONTENTS
 
 ## Introduction
-TODO: HERE
+The goal was to devise an algorithm of low runtime complexity that can segment accelerometer signals
+of repetitive sports exercises such as push-ups.
+The algorithm was written in Python and is located in `python/modules/segmentation_points.py`.
+Several other utilities were written to evaluate the results as well as for other research purposes.
+Most of these utilities were writen in C++.
+The code that was written is stored in this git repository.
+Bash scripts serve as entry points to the command line applications developed.
+A substantial amount of so called glue code is written in Ruby, stored in the `ruby` directory.
 
 ## Supported operating systems
 * GNU/Linux
