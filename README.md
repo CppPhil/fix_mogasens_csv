@@ -25,6 +25,7 @@ This git repository contains the source code developed for my bachelor's thesis 
   - [Generating images including segmentation points](#generating-images-including-segmentation-points)
   - [MATLAB](#matlab)
   - [Directories and files of interest](#directories-and-files-of-interest)
+  - [Test person naming](#test-person-naming)
   - [Unit tests](#unit-tests)
 
 ## Introduction
@@ -282,6 +283,19 @@ The git repository is at <https://git.csti.haw-hamburg.de/mogasens/dataanalyzer>
 | resources/preprocessed/Interpolated-Revised                         | A revision of the first data set of push-ups of test person 4, this should be used instead of the Jan\_liegestuetzen1 files in resources/preprocessed/Interpolated |
 | segmentation\_comparison                                            | The out.csv and out.txt files contain the output of the compare\_segmentation application. Line 530 shows the optimal configuration according to the distance score. |
 | segmentatio\_comparison/logs                                        | Contains log files containing the counts of segmentation points that were algorithmically determined using the segmentation algorithm written in Python. The log files are named according to the configuration that was used to generate them. |
+
+## Test person naming
+The test persons are referred to numerically in the thesis text.
+The table below shows the corresponding mapping.
+
+| Numeric name  | Name                                  |
+|---------------|---------------------------------------|
+| Test person 1 | Felix                                 |
+| Test person 2 | Mike                                  |
+| Test person 3 | Marcelle (sometimes spelled as Marsi) |
+| Test person 4 | Jan                                   |
+| Test person 5 | André (sometimes spelled as Andre)    |
+| Test person 6 | Lucas (sometimes spelled as Lukas)    |
 
 
 ## Unit tests
