@@ -229,8 +229,24 @@ To do so remove the `#` characters that comment out lines 370 to 378 in `python/
 lines 273 to 289 in `python/segment.py`.
 Then re-run a script that generates segmentation points (e.g., `segment_all.sh --skip_existing=false`).
 
-TODO: Note about the MATLAB stuff and how it has created the preprocessed data sets.
+## MATLAB
+The preprocessed data sets (i.e., the CSV files in the subdirectories of the resources/preprocessed directory)
+were created using a MATLAB application that was developed by André Jeworutzki.
+The git repository is at https://git.csti.haw-hamburg.de/mogasens/dataanalyzer (not publicly available as of the 16th of February 2021)
 
-TODO: Overview of files / directories etc. (all the stuff, what's interesting, what files to look at etc.)
+## Directories and files of interest
+
+| Item                                                                | Description |
+|-------------------------------------------------                    |-------------|
+| confusion\_matrix/data/segmentation\_points\_imported\_from\_python | Contains log files of the segmentation points that were algorithmically determined in hardware timestamps. The log files are named according to the configuration that was used.
+| confusion\_matrix/data/manual\_segmentation.csv                     | Contains the manually determined segmentation points created by examining the videos that were recorded. |
+| output.txt                                                          | Output of the confusion\_matrix application. Line 12815 contains the optimal configuration used in the thesis according to the confusion matrices created. |
+| count\_comparison                                                   | Directory containing text files of the output of running compare\_counts.sh. The files show which data points are above / below the allowable thresholds and which channels are not relevant, depending on the filter sample count setting of the moving average filter used. |
+| documentation                                                       | contains Doxygen generated documentation of the C++ source code. |
+| segmentation\_comparison                                            | The out.csv and out.txt files contain the output of the compare\_segmentation application. Line 530 shows the optimal configuration according to the distance score. |
+| segmentatio\_comparison/logs                                        | Contains log files containing the counts of segmentation points that were algorithmically determined using the segmentation algorithm written in Python. The log files are named according to the configuration that was used to generate them. |
+
 
 TODO: Unit tests
+
+TODO: URLs ???
