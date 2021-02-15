@@ -241,8 +241,14 @@ The git repository is at https://git.csti.haw-hamburg.de/mogasens/dataanalyzer (
 | confusion\_matrix/data/segmentation\_points\_imported\_from\_python | Contains log files of the segmentation points that were algorithmically determined in hardware timestamps. The log files are named according to the configuration that was used.
 | confusion\_matrix/data/manual\_segmentation.csv                     | Contains the manually determined segmentation points created by examining the videos that were recorded. |
 | output.txt                                                          | Output of the confusion\_matrix application. Line 12815 contains the optimal configuration used in the thesis according to the confusion matrices created. |
+| compare_segmentation/include/data\_set\_info.hpp                    | Contains the repetitions as counted by the thesis author. |
 | count\_comparison                                                   | Directory containing text files of the output of running compare\_counts.sh. The files show which data points are above / below the allowable thresholds and which channels are not relevant, depending on the filter sample count setting of the moving average filter used. |
 | documentation                                                       | contains Doxygen generated documentation of the C++ source code. |
+| resources/Felix                                                     | The raw CSV files of test person 1 |
+| resources/Marcelle                                                  | The raw CSV files of test person 3 |
+| resources/Mike                                                      | The raw CSV files of test person 2 |
+| resources/preprocessed/Interpolated                                 | The CSV files that have been preprocessed using MATLAB. |
+| resources/preprocessed/Interpolated-Revised                         | A revision of the first data set of push-ups of test person 4, this should be used instead of the Jan\_liegestuetzen1 files in resources/preprocessed/Interpolated |
 | segmentation\_comparison                                            | The out.csv and out.txt files contain the output of the compare\_segmentation application. Line 530 shows the optimal configuration according to the distance score. |
 | segmentatio\_comparison/logs                                        | Contains log files containing the counts of segmentation points that were algorithmically determined using the segmentation algorithm written in Python. The log files are named according to the configuration that was used to generate them. |
 
