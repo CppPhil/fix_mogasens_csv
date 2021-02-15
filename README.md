@@ -44,7 +44,7 @@ cd cmake-$version.$build/
 make -j$(nproc)
 sudo make install
 ```
-(Source: https://askubuntu.com/a/865294)
+(Source: <https://askubuntu.com/a/865294>)
 Newer releases of CMake should also work.
 
 
@@ -232,7 +232,7 @@ Then re-run a script that generates segmentation points (e.g., `segment_all.sh -
 ## MATLAB
 The preprocessed data sets (i.e., the CSV files in the subdirectories of the resources/preprocessed directory)
 were created using a MATLAB application that was developed by André Jeworutzki.
-The git repository is at https://git.csti.haw-hamburg.de/mogasens/dataanalyzer (not publicly available as of the 16th of February 2021)
+The git repository is at <https://git.csti.haw-hamburg.de/mogasens/dataanalyzer> (not publicly available as of the 16th of February 2021)
 
 ## Directories and files of interest
 
@@ -253,6 +253,5 @@ The git repository is at https://git.csti.haw-hamburg.de/mogasens/dataanalyzer (
 | segmentatio\_comparison/logs                                        | Contains log files containing the counts of segmentation points that were algorithmically determined using the segmentation algorithm written in Python. The log files are named according to the configuration that was used to generate them. |
 
 
-TODO: Unit tests
-
-TODO: URLs ???
+## Unit tests
+The unit tests can be run using `./test.sh`.
