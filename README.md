@@ -1,7 +1,31 @@
 # mogasens_csv
 This git repository contains the source code developed for my bachelor's thesis called "Algorithmic activity detection based on motion and position sensors."
 
-TODO: TABLE OF CONTENTS
+## Table of contents
+- [mogasens_csv](#mogasens_csv)
+  - [Table of contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Supported operating systems](#supported-operating-systems)
+  - [Prerequisites](#prerequisites)
+    - [apt-get packages](#apt-get-packages)
+    - [Pip3 packages](#pip3-packages)
+    - [CMake 3.19.5](#cmake-3195)
+  - [Cloning](#cloning)
+  - [Building](#building)
+  - [Bash scripts](#bash-scripts)
+    - [compare_segmentation.sh](#compare_segmentationsh)
+    - [confusion_matrix.sh](#confusion_matrixsh)
+    - [count.sh](#countsh)
+    - [filter.sh](#filtersh)
+    - [fix_csvs.sh](#fix_csvssh)
+    - [generate_images.sh](#generate_imagessh)
+    - [preprocessed_segment.sh](#preprocessed_segmentsh)
+    - [segment_all.sh](#segment_allsh)
+    - [segment.sh](#segmentsh)
+  - [Generating images including segmentation points](#generating-images-including-segmentation-points)
+  - [MATLAB](#matlab)
+  - [Directories and files of interest](#directories-and-files-of-interest)
+  - [Unit tests](#unit-tests)
 
 ## Introduction
 The goal was to devise an algorithm of low runtime complexity that can segment accelerometer signals
