@@ -52,7 +52,7 @@ Building and running the project's executables has several prerequisites on Ubun
 ### apt-get packages
 The following command installs the required apt-get packages.
 ```text
-sudo apt-get install -y gcc make perl build-essential dkms dpkg-dev fakeroot g++ g++-9 libalgorithm-diff-perl libalgorithm-diff-xs-perl libalgorithm-merge-perl libdouble-conversion3 libfakeroot libgsoap-2.8.91 liblzf1 libpcre2-16-0 libstdc++-9-dev git libssl-dev ruby-full python3 python3-pip
+sudo apt-get install -y gcc make perl build-essential dkms dpkg-dev g++ g++-9 libalgorithm-diff-perl libalgorithm-diff-xs-perl libdouble-conversion3 libgsoap-2.8.91 liblzf1 libpcre2-16-0 libstdc++-9-dev git libssl-dev ruby-full python3 python3-pip
 ```
 
 ### Pip3 packages
