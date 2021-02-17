@@ -42,7 +42,8 @@ template<typename Container, typename Value>
  * \tparam Container The type of `container`.
  * \param container A container of uint64_t objects.
  * \param value The value to find in `container` within a delta.
- * return true if `value` exists in `container` within a delte; false otherwise.
+ * \return true if `value` exists in `container` within a delte;
+ *         false otherwise.
  **/
 template<typename Container>
 [[nodiscard]] bool existsWithinDelta(
