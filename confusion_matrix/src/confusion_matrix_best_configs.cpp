@@ -119,6 +119,9 @@ std::vector<ConfigWithTotalConfusionMatrix> confusionMatrixBestConfigs(
     std::max(std::thread::hardware_concurrency(), 4U)};
   std::vector<std::future<ConfigWithTotalConfusionMatrix>> futures{};
 
+  fmt::print(
+    "Starting to create confusion matrices, this may take a long time...\n");
+
   std::atomic_size_t i{
     0}; // Atomic counter for the number of the current configuration.
   for (const std::pair<

@@ -3,11 +3,8 @@
 
 #include "gtest/gtest.h"
 
-#include <pl/os.hpp>
-
 #include "segment.hpp"
 
-#if PL_OS == PL_OS_LINUX
 TEST(segment, shouldGetExpectedSegmentationPointsFromPython)
 {
   cm::Configuration::Builder builder{};
@@ -2010,10 +2007,3 @@ TEST(segment, shouldGetExpectedSegmentationPointsFromPython)
     81331,
     83095);
 }
-#elif PL_OS == PL_OS_WINDOWS
-TEST(segmentWindowsDummyTest, shouldSucceedOnWindowsBecauseItDoesNothing)
-{
-  const volatile bool b{true};
-  EXPECT_TRUE(b);
-}
-#endif

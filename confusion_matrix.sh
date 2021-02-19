@@ -12,9 +12,11 @@ readonly DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 readonly PREV_DIR=$(pwd)
 
+readonly GOTO_RUBY="$DIR/external/goto-ruby/goto-ruby.sh"
+
 cd "$DIR"
 
-./build/confusion_matrix/confusion_matrix_app
+"$GOTO_RUBY" "$DIR/ruby/confusion_matrix.rb" "$@"
 
 cd "$PREV_DIR"
 exit 0
