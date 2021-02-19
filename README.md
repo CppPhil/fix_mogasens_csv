@@ -259,7 +259,7 @@ The following table shows the mapping of these ExtractIDs to their sensor names.
 In order to generate images that include segmentation points one can edit the `python/preprocessed_segment.py` file for the preprocessed CSV files or the `python/segment.py` file.
 To do so remove the `#` characters that comment out lines 370 to 378 in `python/preprocessed_segment.py` or
 lines 273 to 289 in `python/segment.py`.
-Then re-run a script that generates segmentation points (e.g., `segment_all.sh --skip_existing=false`).
+Then re-run a script that generates segmentation points (e.g., `./preprocessed_segment.sh --skip_window=false --delete_too_close=false --delete_low_variance=false --image_format=svg --csv_file_path=resources/preprocessed/Interpolated-Revised/Jan_liegestuetzen1_13_10_2020_edited_Belly.csv --imu=accelerometer --segmentation_kind=max --window_size=451 --filter=butterworth`).
 
 ## MATLAB
 The preprocessed data sets (i.e., the CSV files in the subdirectories of the resources/preprocessed directory)
