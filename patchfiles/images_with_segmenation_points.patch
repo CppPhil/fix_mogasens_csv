@@ -1,0 +1,29 @@
+diff --git a/python/preprocessed_segment.py b/python/preprocessed_segment.py
+index 456192a..141fb62 100755
+--- a/python/preprocessed_segment.py
++++ b/python/preprocessed_segment.py
+@@ -367,15 +367,15 @@ def main(arguments):
+       f"{file_name}_with_repetition_ids{file_extension}")
+ 
+   # TODO: HERE This stuff is commented out temporarily.
+-  #  imus = [accelerometer_string(), gyroscope_string()]
+-
+-  #  for imu in imus:
+-  #    modules.preprocessed_plotter.main(
+-  #        image_format=args.image_format,
+-  #        is_time_based_split_enabled=True,
+-  #        csv_file_path=csv_file_path,
+-  #        imu=imu,
+-  #        segmenting_hwstamps=segmenting_hardware_timestamps)
++  imus = [accelerometer_string(), gyroscope_string()]
++
++  for imu in imus:
++    modules.preprocessed_plotter.main(
++        image_format=args.image_format,
++        is_time_based_split_enabled=True,
++        csv_file_path=csv_file_path,
++        imu=imu,
++        segmenting_hwstamps=segmenting_hardware_timestamps)
+ 
+   sys.exit(0)
+ 
