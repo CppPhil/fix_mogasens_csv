@@ -110,7 +110,7 @@ Most scripts will output usage instructions given the `--help` flag (e.g., `./sc
 | Bash script             | Description | Notes |
 |-------------------------|-------------|-------|
 | compare_segmentation.sh | Reads the log files from segmentation\_comparison/logs and compares the number of segmentation points found for the preprocessed CSV files with the number of expected segmentation results. The results are written to segmentation\_comparison/out.csv and segmentation\_comparison/out.txt | Requires that segment\_all.sh has been run before.      |
-| confusion_matrix.sh     | Creates confusion matrices for various algorithm configurations to determine the accuracy of the segmentation algorithm given the different configurations by comparing the segmentation points that were algorithmically determined with a ground truth.            | Does not support any command line parameters      |
+| confusion_matrix.sh     | Creates confusion matrices for various algorithm configurations to determine the accuracy of the segmentation algorithm given the different configurations by comparing the segmentation points that were algorithmically determined with a ground truth.            | N/A      |
 | count.sh                | Determines the number of data points above / below the IMU thresholds. Also determines which channels are not relevant for which sensors in which data sets.            | If the `--filter_sample_count` option is omitted, no moving average filter will be used. Requires that fix\_csvs.sh has been run before.     |
 | filter.sh               | Applies a moving average filter to the CSV data sets. The resulting data sets are written to the Felix, Marcelle, and Mike subdirectories of the resources directory.           | Requires that fix\_csvs.sh has been run before.       |
 | fix_csvs.sh             | Preprocesses the raw CSV files.            | The results are written to the Felix, Marcelle, and Mike subdirectories of the resources directory.      |
@@ -139,7 +139,13 @@ The compare\_segmentation application is written in C++ and the source code is l
 Results are written to the segmentation\_comparison directory.
 
 ### confusion_matrix.sh
-This application does not support any command line arguments.
+```text
+Usage: confusion_matrix [options]
+        --build_type=BUILD_TYPE      Debug | Release
+        --compiler=COMPILER          MinGW | MSVC
+    -h, --help                       Show this message
+```
+The confusion\_matrix application's command line parameters are unused on GNU/Linux.
 It is written in C++ and the source code is located in the confusion\_matrix directory.
 The result that's written to stdout is also written to `output.txt`.
 
