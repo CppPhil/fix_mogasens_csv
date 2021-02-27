@@ -1,5 +1,5 @@
 # mogasens_csv
-This git repository contains the source code developed for my bachelor's thesis called "Algorithmic activity detection based on motion and position sensors."
+This git repository contains the source code developed for my bachelor's thesis called "Algorithmic activity detection based on motion and position sensors." (Available at <https://users.informatik.haw-hamburg.de/~ubicomp/arbeiten/bachelor/schackier.pdf>)
 
 ## Table of contents
 - [mogasens_csv](#mogasens_csv)
